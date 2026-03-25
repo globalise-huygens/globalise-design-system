@@ -1,0 +1,17 @@
+# Source
+src/
+
+# Playground
+playground/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+eslint.config.js
+components.json
+.prettierrc
+
+# Development
+.git/
+.gitignore
+node_modules/

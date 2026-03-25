@@ -1,0 +1,144 @@
+/*
+ * Globalise Design System — Design Tokens
+ *
+ * Extracted from Figma: GLOBALISE-collection
+ * Fonts: Noto Sans (UI/body), Noto Serif (headers/editorial)
+ *
+ * Brand Colours (Figma source):
+ *   Archive Black: #262626
+ *   Paper White: #FFFFFF
+ *   Parchment: #B99B7F
+ *   Vermilion: #FF543D
+ *   Turquoise: #29BFCC
+ *   Mint: #36C6A7
+ *
+ * Typography:
+ *   Headers     — Noto Serif Medium, tracking -0.03em
+ *   Body        — Noto Sans Regular, tracking -0.02em
+ */
+
+@layer base {
+  :root {
+    /* ── Brand colours (hex) ───────────────────────── */
+    --brand-black: #262626; /* text: white */
+    --brand-white: #ffffff; /* text: black */
+    --brand-parchment: #b99b7f; /* text: black */
+    --brand-vermilion: #ff543d; /* text: black */
+    --brand-turquoise: #29bfcc; /* text: black */
+    --brand-mint: #36c6a7; /* text: black */
+
+    /* ── Supporting colour scales ──────────────────── */
+
+    /* Neutral */
+    --neutral-50: #f2f2f2; /* text: black */
+    --neutral-100: #e6e6e6; /* text: black */
+    --neutral-200: #cccccc; /* text: black */
+    --neutral-300: #b3b3b3; /* text: black */
+    --neutral-400: #999999; /* text: black */
+    --neutral-500: #808080; /* text: white */
+    --neutral-600: #666666; /* text: white */
+    --neutral-700: #4d4d4d; /* text: white */
+    --neutral-800: #363636; /* text: white */
+    --neutral-900: #262626; /* text: white */
+
+    /* Parchment */
+    --parchment-50: #f8f5f2; /* text: black */
+    --parchment-100: #f0ebe5; /* text: black */
+    --parchment-200: #e1d6cb; /* text: black */
+    --parchment-300: #d2c1b1; /* text: black */
+    --parchment-400: #c3ac98; /* text: black */
+    --parchment-500: #b99b7f; /* text: black */
+    --parchment-600: #a07b5f; /* text: white */
+    --parchment-700: #7e6149; /* text: white */
+    --parchment-800: #5d4736; /* text: white */
+    --parchment-900: #4e4135; /* text: white */
+
+    /* Vermilion */
+    --vermilion-50: #ffeeec; /* text: black */
+    --vermilion-100: #ffddd8; /* text: black */
+    --vermilion-200: #ffbab1; /* text: black */
+    --vermilion-300: #ff988b; /* text: black */
+    --vermilion-400: #ff7664; /* text: black */
+    --vermilion-500: #ff543d; /* text: white */
+    --vermilion-600: #e63b26; /* text: white */
+    --vermilion-700: #b32d1d; /* text: white */
+    --vermilion-800: #802013; /* text: white */
+    --vermilion-900: #6b231a; /* text: white */
+
+    /* Turquoise */
+    --turquoise-50: #eaf9fa; /* text: black */
+    --turquoise-100: #d5f3f6; /* text: black */
+    --turquoise-200: #abe7ec; /* text: black */
+    --turquoise-300: #80dbe3; /* text: black */
+    --turquoise-400: #56cfd9; /* text: black */
+    --turquoise-500: #29bfcc; /* text: black */
+    --turquoise-600: #21a0ab; /* text: white */
+    --turquoise-700: #197f87; /* text: white */
+    --turquoise-800: #125e64; /* text: white */
+    --turquoise-900: #115056; /* text: white */
+
+    /* Mint */
+    --mint-50: #ebf9f6; /* text: black */
+    --mint-100: #d6f4ec; /* text: black */
+    --mint-200: #ade8d9; /* text: black */
+    --mint-300: #84ddc7; /* text: black */
+    --mint-400: #5bd1b4; /* text: black */
+    --mint-500: #36c6a7; /* text: black */
+    --mint-600: #2ba586; /* text: white */
+    --mint-700: #218068; /* text: white */
+    --mint-800: #185c4b; /* text: white */
+    --mint-900: #175346; /* text: white */
+
+    /* ── Core surfaces ─────────────────────────────── */
+    --background: 0 0% 15%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 18%;
+    --popover-foreground: 0 0% 100%;
+
+    /* ── Semantic tokens ───────────────────────────── */
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 15%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 64%;
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 11 100% 62%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 100% / 0.2;
+    --input: 0 0% 100% / 0.1;
+    --ring: 0 0% 100%;
+
+    --radius: 0.25rem;
+
+    /* ── Navigation ────────────────────────────────── */
+    --nav-bg: 0 0% 15%;
+    --nav-foreground: 0 0% 100%;
+
+    /* ── Font families ─────────────────────────────── */
+    --font-sans: "Noto Sans", sans-serif;
+    --font-serif: "Noto Serif", serif;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: var(--brand-black);
+    color: var(--brand-white);
+    font-family: var(--font-sans);
+  }
+}
