@@ -18,10 +18,10 @@ const typographyVariants = cva("", {
       small: "font-sans text-sm font-medium leading-5 tracking-[-0.02em]",
       /** De-emphasized text */
       muted:
-        "font-sans text-sm text-[hsl(var(--muted-foreground))] leading-5 tracking-[-0.02em]",
+        "font-sans text-sm text-[var(--muted-foreground)] leading-5 tracking-[-0.02em]",
       blockquote:
         "font-serif font-light text-4xl leading-10 tracking-[-0.02em]",
-      code: "relative rounded bg-[hsl(var(--muted))] px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      code: "relative rounded bg-[var(--muted)] px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
       /** Uppercased caption */
       label:
         "font-sans text-xs font-normal uppercase opacity-60 leading-4 tracking-[-0.02em]",

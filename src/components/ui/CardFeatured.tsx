@@ -50,7 +50,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
             return (
               <ExpandedWrapper
                 key={index}
-                className="flex-1 relative flex flex-col justify-end p-6 overflow-hidden cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]"
+                className="flex-1 relative flex flex-col justify-end p-6 overflow-hidden cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
                 {...expandedWrapperProps}
               >
                 {/* Background: image or solid color */}
@@ -104,7 +104,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
             <button
               key={index}
               type="button"
-              className="w-full lg:w-[120px] p-3 flex flex-col items-start gap-2 cursor-pointer transition-all duration-500 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]"
+              className="w-full lg:w-30 p-3 flex flex-col items-start gap-2 cursor-pointer transition-all duration-500 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
               style={{ backgroundColor: item.color }}
               onClick={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}

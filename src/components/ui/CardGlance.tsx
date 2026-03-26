@@ -1,10 +1,8 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { Button } from "./Button";
 import { IconArrowRight } from "../icons/IconArrowRight";
+import { Button } from "./Button";
 
 const cardGlanceVariants = cva(
   "flex flex-col justify-between p-6 overflow-hidden",
@@ -71,7 +69,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cn(
-            "group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+            "group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
             cardGlanceVariants({ color }),
             className,
           )}

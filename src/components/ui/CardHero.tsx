@@ -34,7 +34,7 @@ export interface CardHeroProps
 const CardHero = React.forwardRef<HTMLElement, CardHeroProps>(
   ({ className, hoverColor, label, title, href, children, ...props }, ref) => {
     const sharedClassName = cn(
-      "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+      "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
       className,
     );
 

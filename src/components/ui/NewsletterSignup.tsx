@@ -56,7 +56,7 @@ const NewsletterSignup = React.forwardRef<
         className={cn("flex flex-col gap-12", className)}
         {...props}
       >
-        <div className="max-w-[720px] flex flex-col gap-6">
+        <div className="max-w-180 flex flex-col gap-6">
           <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-black">
             {heading}
           </h3>
@@ -65,13 +65,13 @@ const NewsletterSignup = React.forwardRef<
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row overflow-hidden h-auto sm:h-[337px]">
+        <div className="flex flex-col sm:flex-row overflow-hidden h-auto sm:h-84.25">
           {image && (
-            <div className="relative w-full sm:w-[479px] h-48 sm:h-full shrink-0">
+            <div className="relative w-full sm:w-119.75 h-48 sm:h-full shrink-0">
               {image}
             </div>
           )}
-          <div className="flex-1 px-8 py-12 sm:px-12 sm:py-16 bg-[var(--brand-turquoise)] flex flex-col gap-16">
+          <div className="flex-1 px-8 py-12 sm:px-12 sm:py-16 bg-brand-turquoise flex flex-col gap-16">
             <div className="h-4" />
             <div className="py-3 border-b border-black flex justify-between items-center gap-4">
               <label htmlFor={inputId} className="sr-only">
@@ -88,7 +88,7 @@ const NewsletterSignup = React.forwardRef<
               />
               <button
                 type="submit"
-                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-turquoise)]"
+                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
                 {...submitButtonProps}
               >
                 {submitLabel}

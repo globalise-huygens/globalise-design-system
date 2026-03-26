@@ -1,9 +1,7 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import * as React from "react";
-import { Button } from "./Button";
 import { IconArrowRight } from "../icons/IconArrowRight";
+import { Button } from "./Button";
 
 export interface CardArticleProps extends React.HTMLAttributes<HTMLElement> {
   /** Category label (e.g. "Article", "News") */
@@ -27,7 +25,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
           <span className="text-xs font-sans leading-[1.35] opacity-60">
             {label}
           </span>
-          <span className="text-lg font-normal font-serif leading-[1.25] tracking-[-0.36px]">
+          <span className="text-lg font-normal font-serif leading-tight tracking-[-0.36px]">
             {title}
           </span>
         </div>
@@ -46,7 +44,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cn(
-            "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+            "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
             className,
           )}
           {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}

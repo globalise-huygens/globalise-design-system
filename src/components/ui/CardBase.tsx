@@ -3,11 +3,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const cardBaseVariants = cva(
-  "flex flex-col overflow-hidden text-[hsl(var(--card-foreground))]",
+  "flex flex-col overflow-hidden text-[var(--card-foreground)]",
   {
     variants: {
       variant: {
-        default: "bg-[hsl(var(--card))]",
+        default: "bg-[var(--card)]",
         teal: "bg-[var(--brand-turquoise)] text-black",
         red: "bg-[var(--brand-vermilion)] text-[var(--brand-white)]",
         emerald: "bg-[var(--brand-mint)] text-black",
@@ -71,7 +71,7 @@ const CardBaseDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-[hsl(var(--muted-foreground))]", className)}
+    className={cn("text-sm text-[var(--muted-foreground)]", className)}
     {...props}
   />
 ));
