@@ -1,9 +1,6 @@
 # Source
 src/
 
-# Playground
-playground/
-
 # Config files
 tsconfig.json
 tsup.config.ts

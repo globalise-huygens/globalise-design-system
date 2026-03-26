@@ -20,7 +20,7 @@ type ContainerStory = StoryObj<typeof containerMeta>;
 export const Default: ContainerStory = {
   render: () => (
     <Container className="py-8">
-      <div className="bg-(--brand-turquoise)/20 p-6 text-white font-sans text-sm">
+      <div className="bg-brand-turquoise/20 p-6 text-white font-sans text-sm">
         Content inside Container — max-width 1440px with responsive padding
       </div>
     </Container>
@@ -54,7 +54,7 @@ export const GridStory: ContainerStory = {
         {Array.from({ length: 12 }, (_, i) => (
           <div
             key={i}
-            className="col-span-1 bg-(--brand-turquoise)/20 p-4 text-center text-white text-xs font-sans"
+            className="col-span-1 bg-brand-turquoise/20 p-4 text-center text-white text-xs font-sans"
           >
             {i + 1}
           </div>

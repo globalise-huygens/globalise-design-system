@@ -263,14 +263,14 @@ import searchIcon from "@globalise/design-system/assets/icons/search.svg";
 
 ## Brand colours
 
-| Name          | CSS Variable           | Hex       | Usage              |
-| ------------- | ---------------------- | --------- | ------------------ |
-| Archive Black | `--brand-black`        | `#262626` | Primary background |
-| Paper White   | `--brand-white`        | `#FFFFFF` | Primary text       |
-| Parchment     | `--brand-parchment`    | `#B99B7F` | Secondary / muted  |
-| Vermilion     | `--brand-vermilion`    | `#FF543D` | Accent             |
-| Turquoise     | `--brand-turquoise`    | `#29BFCC` | Accent             |
-| Mint          | `--brand-mint`         | `#36C6A7` | Accent             |
+| Name          | CSS Variable        | Hex       | Usage              |
+| ------------- | ------------------- | --------- | ------------------ |
+| Archive Black | `--brand-black`     | `#262626` | Primary background |
+| Paper White   | `--brand-white`     | `#FFFFFF` | Primary text       |
+| Parchment     | `--brand-parchment` | `#B99B7F` | Secondary / muted  |
+| Vermilion     | `--brand-vermilion` | `#FF543D` | Accent             |
+| Turquoise     | `--brand-turquoise` | `#29BFCC` | Accent             |
+| Mint          | `--brand-mint`      | `#36C6A7` | Accent             |
 
 ## Adding more shadcn/ui components
 
@@ -283,21 +283,15 @@ npx shadcn@latest add <component-name>
 ## Development
 
 ```bash
-npm run dev       # watch mode (rebuilds on changes)
-npm run build     # production build
-npm run typecheck # type check
-npm run lint      # lint
-npm run format    # format code
-```
-
-### Playground
-
-A Next.js app in `playground/` consumes the library via `link:..` for visual testing:
-
-```bash
-cd playground && pnpm dev
+npm run dev             # watch mode (rebuilds on changes)
+npm run build           # production build
+npm run typecheck       # type check
+npm run lint            # lint
+npm run format          # format code
+npm run storybook       # start Storybook on http://localhost:6006
+npm run build-storybook # build static Storybook site
 ```
 
 ## License
 
-MIT
+-
