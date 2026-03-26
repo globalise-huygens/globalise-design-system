@@ -8,7 +8,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     <div
       ref={ref}
       className={cn(
-        "grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-5",
+        "grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12",
         className,
       )}
       {...props}

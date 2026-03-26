@@ -44,7 +44,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cn(
-            "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+            "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)",
             className,
           )}
           {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}

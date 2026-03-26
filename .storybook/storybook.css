@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+@import "../src/styles/globals.css";
+
+/* Let Tailwind detect classes used in component source */
+@source "../src";
+
+@theme inline {
+  --color-background: var(--brand-black);
+  --color-foreground: var(--brand-white);
+  --font-sans: "Noto Sans", sans-serif;
+  --font-serif: "Noto Serif", serif;
+
+  /* Brand colours */
+  --color-brand-black: var(--brand-black);
+  --color-brand-white: var(--brand-white);
+  --color-brand-parchment: var(--brand-parchment);
+  --color-brand-vermilion: var(--brand-vermilion);
+  --color-brand-turquoise: var(--brand-turquoise);
+  --color-brand-mint: var(--brand-mint);
+
+  /* Neutral scale */
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  /* Parchment scale */
+  --color-parchment-50: var(--parchment-50);
+  --color-parchment-100: var(--parchment-100);
+  --color-parchment-200: var(--parchment-200);
+  --color-parchment-300: var(--parchment-300);
+  --color-parchment-400: var(--parchment-400);
+  --color-parchment-500: var(--parchment-500);
+  --color-parchment-600: var(--parchment-600);
+  --color-parchment-700: var(--parchment-700);
+  --color-parchment-800: var(--parchment-800);
+  --color-parchment-900: var(--parchment-900);
+
+  /* Vermilion scale */
+  --color-vermilion-50: var(--vermilion-50);
+  --color-vermilion-100: var(--vermilion-100);
+  --color-vermilion-200: var(--vermilion-200);
+  --color-vermilion-300: var(--vermilion-300);
+  --color-vermilion-400: var(--vermilion-400);
+  --color-vermilion-500: var(--vermilion-500);
+  --color-vermilion-600: var(--vermilion-600);
+  --color-vermilion-700: var(--vermilion-700);
+  --color-vermilion-800: var(--vermilion-800);
+  --color-vermilion-900: var(--vermilion-900);
+
+  /* Turquoise scale */
+  --color-turquoise-50: var(--turquoise-50);
+  --color-turquoise-100: var(--turquoise-100);
+  --color-turquoise-200: var(--turquoise-200);
+  --color-turquoise-300: var(--turquoise-300);
+  --color-turquoise-400: var(--turquoise-400);
+  --color-turquoise-500: var(--turquoise-500);
+  --color-turquoise-600: var(--turquoise-600);
+  --color-turquoise-700: var(--turquoise-700);
+  --color-turquoise-800: var(--turquoise-800);
+  --color-turquoise-900: var(--turquoise-900);
+
+  /* Mint scale */
+  --color-mint-50: var(--mint-50);
+  --color-mint-100: var(--mint-100);
+  --color-mint-200: var(--mint-200);
+  --color-mint-300: var(--mint-300);
+  --color-mint-400: var(--mint-400);
+  --color-mint-500: var(--mint-500);
+  --color-mint-600: var(--mint-600);
+  --color-mint-700: var(--mint-700);
+  --color-mint-800: var(--mint-800);
+  --color-mint-900: var(--mint-900);
+}
+
+body {
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-sans);
+}

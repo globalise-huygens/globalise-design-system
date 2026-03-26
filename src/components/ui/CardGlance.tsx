@@ -69,7 +69,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cn(
-            "group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+            "group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)",
             cardGlanceVariants({ color }),
             className,
           )}

@@ -57,7 +57,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
                 {item.image ? (
                   <>
                     {item.image}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-black/50" />
+                    <div className="absolute inset-0 bg-linear-to-b from-transparent from-45% to-black/50" />
                   </>
                 ) : (
                   <div

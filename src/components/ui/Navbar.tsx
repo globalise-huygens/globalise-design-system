@@ -20,7 +20,7 @@ const NavSearchBar = React.forwardRef<HTMLInputElement, NavSearchBarProps>(
       <div
         className={cn(
           "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "hidden sm:flex h-12 w-full max-w-96 items-center gap-2.5 rounded bg-[var(--brand-white)]/10 px-4 backdrop-blur-[20px]",
+          "hidden sm:flex h-12 w-full max-w-96 items-center gap-2.5 rounded bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
           className,
         )}
       >
@@ -28,7 +28,7 @@ const NavSearchBar = React.forwardRef<HTMLInputElement, NavSearchBarProps>(
           {ariaLabel}
         </label>
         <IconSearch
-          className="h-5 w-5 shrink-0 text-[var(--brand-white)]"
+          className="h-5 w-5 shrink-0 text-(--brand-white)"
           aria-hidden="true"
         />
         <input
@@ -37,7 +37,7 @@ const NavSearchBar = React.forwardRef<HTMLInputElement, NavSearchBarProps>(
           type="search"
           placeholder={placeholder}
           aria-label={ariaLabel}
-          className="w-full bg-transparent text-sm font-medium text-[var(--brand-white)] font-serif leading-3 opacity-50 placeholder:text-[var(--brand-white)] placeholder:opacity-50 focus:opacity-100 focus:outline-none"
+          className="w-full bg-transparent text-sm font-medium text-(--brand-white) font-serif leading-3 opacity-50 placeholder:text-(--brand-white) placeholder:opacity-50 focus:opacity-100 focus:outline-none"
           {...props}
         />
       </div>
@@ -57,7 +57,7 @@ const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
     <a
       ref={ref}
       className={cn(
-        "text-sm font-medium leading-5 text-[var(--brand-white)] transition-opacity hover:opacity-80",
+        "text-sm font-medium leading-5 text-(--brand-white) transition-opacity hover:opacity-80",
         className,
       )}
       {...props}
@@ -113,7 +113,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           {logo && <div className="shrink-0">{logo}</div>}
           <button
             type="button"
-            className="sm:hidden flex h-10 w-10 items-center justify-center text-[var(--brand-white)]"
+            className="sm:hidden flex h-10 w-10 items-center justify-center text-(--brand-white)"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
