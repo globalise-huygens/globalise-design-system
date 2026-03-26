@@ -13,7 +13,7 @@ const meta: Meta<typeof CardGlance> = {
   },
   decorators: [
     (Story) => (
-      <div className="max-w-xs">
+      <div className="max-w-sm">
         <Story />
       </div>
     ),
@@ -80,6 +80,13 @@ export const WithLink: Story = {
 };
 
 export const AllColors: StoryObj = {
+  decorators: [
+    (Story) => (
+      <div className="w-full">
+        <Story />
+      </div>
+    ),
+  ],
   render: () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       <CardGlance
@@ -113,11 +120,4 @@ export const AllColors: StoryObj = {
     </div>
   ),
   parameters: { layout: "fullscreen" },
-  decorators: [
-    (Story) => (
-      <div className="w-full">
-        <Story />
-      </div>
-    ),
-  ],
 };

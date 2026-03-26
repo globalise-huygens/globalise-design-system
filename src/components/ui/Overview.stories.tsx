@@ -132,81 +132,93 @@ export const AllComponents: StoryObj = {
       </Section>
 
       {/* ── Glance Cards ──────────────────────── */}
-      <Typography variant="h2" className="text-white px-6 pt-16 pb-4">
-        CardGlance
-      </Typography>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <CardGlance
-          color="parchment"
-          heading="2020"
-          subtitle="Project initiated"
-          description="Globalise was launched as a long-term research initiative."
-          cta="Learn about the project"
-        />
-        <CardGlance
-          color="vermilion"
-          heading="Archives"
-          subtitle="Core collections"
-          description="The platform brings together large-scale archival material."
-          cta="Explore the collections"
-        />
-        <CardGlance
-          color="turquoise"
-          heading="Research"
-          subtitle="Digital innovation"
-          description="Globalise develops tools for enriched metadata and entity linking."
-          cta="How the platform works"
-        />
-        <CardGlance
-          color="mint"
-          heading="Access"
-          subtitle="Global audiences"
-          description="Designed for scholars, educators and wider publics."
-          cta="Start exploring"
-        />
-      </div>
-
-      {/* ── Article Cards ──────────────────────── */}
-      <Section background="dark">
+      <Section background="dark" spacing="large">
         <Container>
           <Typography variant="h2" className="text-white mb-8">
-            CardArticle
+            CardGlance
           </Typography>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                label: "Article",
-                title:
-                  "Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities",
-                image: "/images/article-1.png",
-              },
-              {
-                label: "News",
-                title:
-                  "Looking Back and Ahead: Access and Research in a Changing Archive",
-                image: "/images/article-2.png",
-              },
-              {
-                label: "Article",
-                title: "Looking back on a successful kickoff meeting",
-                image: "/images/article-3.png",
-              },
-            ].map((article) => (
-              <CardArticle
-                key={article.title}
-                label={article.label}
-                title={article.title}
-                href="#"
-                className="text-white"
-                image={
-                  <img
-                    src={article.image}
-                    alt=""
-                    className="w-full h-full object-cover"
+        </Container>
+        <div className="mx-[calc(100%/12)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <CardGlance
+            color="parchment"
+            heading="2020"
+            subtitle="Project initiated"
+            description="Globalise was launched as a long-term research initiative."
+            cta="Learn about the project"
+          />
+          <CardGlance
+            color="vermilion"
+            heading="Archives"
+            subtitle="Core collections"
+            description="The platform brings together large-scale archival material."
+            cta="Explore the collections"
+          />
+          <CardGlance
+            color="turquoise"
+            heading="Research"
+            subtitle="Digital innovation"
+            description="Globalise develops tools for enriched metadata and entity linking."
+            cta="How the platform works"
+          />
+          <CardGlance
+            color="mint"
+            heading="Access"
+            subtitle="Global audiences"
+            description="Designed for scholars, educators and wider publics."
+            cta="Start exploring"
+          />
+        </div>
+      </Section>
+
+      {/* ── Article Cards ──────────────────────── */}
+      <Section background="light" spacing="large">
+        <Container>
+          <div className="flex flex-col gap-6">
+            <Typography variant="h4" className="text-black">
+              Latest from Globalise
+            </Typography>
+            <div className="h-px bg-black/40" />
+            <div className="flex flex-col lg:flex-row gap-6">
+              {[
+                {
+                  image: "/images/article-1.png",
+                  title:
+                    "Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities",
+                },
+                {
+                  image: "/images/article-2.png",
+                  title:
+                    "Looking Back and Ahead: Access and Research in a Changing Archive",
+                },
+                {
+                  image: "/images/article-3.png",
+                  title: "Looking back on a successful kickoff meeting",
+                },
+                {
+                  image: "/images/article-1.png",
+                  title: "Thesaurus Treasures: Creating a Hierarchical Lexicon",
+                },
+              ].map((article, i) => (
+                <div key={i} className="flex flex-1 gap-6">
+                  <CardArticle
+                    label="Article"
+                    title={article.title}
+                    href="#"
+                    className="flex-1 text-black"
+                    image={
+                      <img
+                        src={article.image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    }
                   />
-                }
-              />
-            ))}
+                  {i < 3 && (
+                    <div className="hidden lg:block w-px bg-black/40 self-stretch" />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </Section>
@@ -279,21 +291,19 @@ export const AllComponents: StoryObj = {
 
       {/* ── Layout: Grid ────────────────────────── */}
       <Section background="dark">
-        <Container>
-          <Typography variant="h2" className="text-white mb-8">
-            Grid (12-column, zero gutter)
-          </Typography>
-          <Grid>
-            {Array.from({ length: 12 }, (_, i) => (
-              <div
-                key={i}
-                className="col-span-1 bg-brand-turquoise/20 p-4 text-center text-white text-xs font-sans border border-white/10"
-              >
-                {i + 1}
-              </div>
-            ))}
-          </Grid>
-        </Container>
+        <Typography variant="h2" className="text-white mb-8 px-6">
+          Grid (12-column, zero gutter)
+        </Typography>
+        <Grid>
+          {Array.from({ length: 12 }, (_, i) => (
+            <div
+              key={i}
+              className="col-span-1 bg-brand-turquoise/20 p-4 text-center text-white text-xs font-sans border border-white/10"
+            >
+              {i + 1}
+            </div>
+          ))}
+        </Grid>
       </Section>
 
       <Divider className="my-12" />
@@ -430,86 +440,93 @@ export const CardsOverview: StoryObj = {
       </Section>
 
       {/* Glance */}
-      <Typography variant="h3" className="text-white px-6 pt-16 pb-4">
-        CardGlance — stat/info at a glance
-      </Typography>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <CardGlance
-          color="parchment"
-          heading="2020"
-          subtitle="Project initiated"
-          description="Globalise was launched as a long-term research initiative."
-          cta="Learn about the project"
-        />
-        <CardGlance
-          color="vermilion"
-          heading="Archives"
-          subtitle="Core collections"
-          description="The platform brings together large-scale archival material."
-          cta="Explore the collections"
-        />
-        <CardGlance
-          color="turquoise"
-          heading="Research"
-          subtitle="Digital innovation"
-          description="Globalise develops tools for enriched metadata and entity linking."
-          cta="How the platform works"
-        />
-        <CardGlance
-          color="mint"
-          heading="Access"
-          subtitle="Global audiences"
-          description="Designed for scholars, educators and wider publics."
-          cta="Start exploring"
-        />
-      </div>
-
-      {/* Article */}
-      <Section background="dark">
+      <Section background="dark" spacing="large">
         <Container>
           <Typography variant="h3" className="text-white mb-6">
-            CardArticle — editorial content cards
+            CardGlance — stat/info at a glance
           </Typography>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <CardArticle
-              label="Article"
-              title="Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities"
-              href="#"
-              className="text-white"
-              image={
-                <img
-                  src="/images/article-1.png"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              }
-            />
-            <CardArticle
-              label="News"
-              title="Looking Back and Ahead: Access and Research in a Changing Archive"
-              href="#"
-              className="text-white"
-              image={
-                <img
-                  src="/images/article-2.png"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              }
-            />
-            <CardArticle
-              label="Article"
-              title="Looking back on a successful kickoff meeting"
-              href="#"
-              className="text-white"
-              image={
-                <img
-                  src="/images/article-3.png"
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              }
-            />
+        </Container>
+        <div className="mx-[calc(100%/12)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <CardGlance
+            color="parchment"
+            heading="2020"
+            subtitle="Project initiated"
+            description="Globalise was launched as a long-term research initiative."
+            cta="Learn about the project"
+          />
+          <CardGlance
+            color="vermilion"
+            heading="Archives"
+            subtitle="Core collections"
+            description="The platform brings together large-scale archival material."
+            cta="Explore the collections"
+          />
+          <CardGlance
+            color="turquoise"
+            heading="Research"
+            subtitle="Digital innovation"
+            description="Globalise develops tools for enriched metadata and entity linking."
+            cta="How the platform works"
+          />
+          <CardGlance
+            color="mint"
+            heading="Access"
+            subtitle="Global audiences"
+            description="Designed for scholars, educators and wider publics."
+            cta="Start exploring"
+          />
+        </div>
+      </Section>
+
+      {/* Article */}
+      <Section background="light" spacing="large">
+        <Container>
+          <div className="flex flex-col gap-6">
+            <Typography variant="h4" className="text-black">
+              Latest from Globalise
+            </Typography>
+            <div className="h-px bg-black/40" />
+            <div className="flex flex-col lg:flex-row gap-6">
+              {[
+                {
+                  image: "/images/article-1.png",
+                  title:
+                    "Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities",
+                },
+                {
+                  image: "/images/article-2.png",
+                  title:
+                    "Looking Back and Ahead: Access and Research in a Changing Archive",
+                },
+                {
+                  image: "/images/article-3.png",
+                  title: "Looking back on a successful kickoff meeting",
+                },
+                {
+                  image: "/images/article-1.png",
+                  title: "Thesaurus Treasures: Creating a Hierarchical Lexicon",
+                },
+              ].map((article, i) => (
+                <div key={i} className="flex flex-1 gap-6">
+                  <CardArticle
+                    label="Article"
+                    title={article.title}
+                    href="#"
+                    className="flex-1 text-black"
+                    image={
+                      <img
+                        src={article.image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    }
+                  />
+                  {i < 3 && (
+                    <div className="hidden lg:block w-px bg-black/40 self-stretch" />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </Section>

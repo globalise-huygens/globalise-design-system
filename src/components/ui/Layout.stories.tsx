@@ -49,7 +49,7 @@ export const DividerStory: ContainerStory = {
 export const GridStory: ContainerStory = {
   name: "Grid (12 columns)",
   render: () => (
-    <Container className="py-8">
+    <div className="py-8">
       <Grid>
         {Array.from({ length: 12 }, (_, i) => (
           <div
@@ -68,7 +68,7 @@ export const GridStory: ContainerStory = {
           8 cols
         </div>
       </Grid>
-    </Container>
+    </div>
   ),
 };
 
