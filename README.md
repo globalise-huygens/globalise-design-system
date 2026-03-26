@@ -133,14 +133,14 @@ import {
 </CardBase>;
 ```
 
-| Variant   | Background            | Text  |
-| --------- | --------------------- | ----- |
-| `default` | Dark (stone-950)      | White |
-| `teal`    | Turquoise (teal-400)  | Black |
-| `red`     | Vermilion (red-500)   | Black |
-| `emerald` | Mint (emerald-400)    | Black |
-| `stone`   | Parchment (stone-400) | Black |
-| `overlay` | Black gradient        | White |
+| Variant   | Background              | Text  |
+| --------- | ----------------------- | ----- |
+| `default` | Archive Black (#262626) | White |
+| `teal`    | Turquoise (#29BFCC)     | Black |
+| `red`     | Vermilion (#FF543D)     | White |
+| `emerald` | Mint (#36C6A7)          | Black |
+| `stone`   | Parchment (#B99B7F)     | Black |
+| `overlay` | Black gradient          | White |
 
 ### Container
 
@@ -263,14 +263,14 @@ import searchIcon from "@globalise/design-system/assets/icons/search.svg";
 
 ## Brand colours
 
-| Name          | Tailwind      | Usage              |
-| ------------- | ------------- | ------------------ |
-| Archive Black | `stone-950`   | Primary background |
-| Paper White   | `white`       | Primary text       |
-| Parchment     | `stone-400`   | Secondary / muted  |
-| Vermilion     | `red-500`     | Accent             |
-| Turquoise     | `teal-400`    | Accent             |
-| Mint          | `emerald-400` | Accent             |
+| Name          | CSS Variable           | Hex       | Usage              |
+| ------------- | ---------------------- | --------- | ------------------ |
+| Archive Black | `--brand-black`        | `#262626` | Primary background |
+| Paper White   | `--brand-white`        | `#FFFFFF` | Primary text       |
+| Parchment     | `--brand-parchment`    | `#B99B7F` | Secondary / muted  |
+| Vermilion     | `--brand-vermilion`    | `#FF543D` | Accent             |
+| Turquoise     | `--brand-turquoise`    | `#29BFCC` | Accent             |
+| Mint          | `--brand-mint`         | `#36C6A7` | Accent             |
 
 ## Adding more shadcn/ui components
 

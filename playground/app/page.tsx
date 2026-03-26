@@ -1,14 +1,14 @@
 "use client";
 
 import {
-  CardArticle,
   Button,
+  CardArticle,
   CardBase,
-  Container,
-  Divider,
   CardFeatured,
   CardGlance,
   CardHero,
+  Container,
+  Divider,
   Grid,
   IconAdd,
   IconArrowRight,
@@ -33,7 +33,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--brand-black)]">
+    <div className="relative min-h-screen overflow-hidden bg-(--brand-black)">
       {/* ── Navbar ─────────────────────────────────────── */}
       <Navbar logo={<LogoNavbar className="h-9 w-auto text-white" />}>
         <NavSearchBar placeholder="Search the archive" />
@@ -45,8 +45,8 @@ export default function Home() {
       </Navbar>
 
       {/* ── Hero ───────────────────────────────────────── */}
-      <section className="flex flex-col items-center gap-12 px-4 pt-[98px] text-center">
-        <div className="w-full max-w-[554px] flex flex-col items-center gap-6">
+      <section className="flex flex-col items-center gap-12 px-4 pt-24.5 text-center">
+        <div className="w-full max-w-138.5 flex flex-col items-center gap-6">
           <Typography variant="h1" className="text-white text-center">
             Discover the VOC archives
           </Typography>
@@ -152,7 +152,7 @@ export default function Home() {
             Featured
           </Typography>
           <CardFeatured
-            className="lg:h-[487px]"
+            className="lg:h-121.75"
             items={[
               {
                 color: "var(--brand-mint)",
@@ -216,7 +216,7 @@ export default function Home() {
                   and events, helping users understand the relationships and
                   structures that shaped the colonial world.
                 </Typography>
-                <Typography variant="p" className="text-white !mt-0">
+                <Typography variant="p" className="text-white mt-0!">
                   Built as public research infrastructure, Globalise supports
                   both specialised scholarship and broader societal exploration.
                   Through multilingual access, thematic entry points and
@@ -252,7 +252,7 @@ export default function Home() {
                   and events, helping users understand the relationships and
                   structures that shaped the colonial world.
                 </Typography>
-                <Typography variant="p" className="text-white !mt-0">
+                <Typography variant="p" className="text-white mt-0!">
                   Built as public research infrastructure, Globalise supports
                   both specialised scholarship and broader societal exploration.
                   Through multilingual access, thematic entry points and
@@ -275,7 +275,7 @@ export default function Home() {
           <Typography variant="small" className="text-white">
             Globalise at a glance
           </Typography>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 h-auto lg:h-[360px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 h-auto lg:h-90">
             <CardGlance
               color="parchment"
               heading="2020"
@@ -366,7 +366,7 @@ export default function Home() {
         </Container>
 
         {/* Newsletter */}
-        <Container className="mt-16 sm:mt-20 lg:mt-[120px]">
+        <Container className="mt-16 sm:mt-20 lg:mt-30">
           <NewsletterSignup
             heading="Subscribe to our Newsletter"
             description="Sign up to discover new research pathways, featured collections, and reflections on how historical records continue to shape our understanding of global connections."
@@ -526,7 +526,7 @@ export default function Home() {
                 Expandable accordion - click a collapsed strip to expand it
               </Typography>
               <CardFeatured
-                className="lg:h-[360px]"
+                className="lg:h-90"
                 items={[
                   {
                     color: "var(--brand-turquoise)",
@@ -555,7 +555,7 @@ export default function Home() {
                 With image background - first item uses a dark-background image
               </Typography>
               <CardFeatured
-                className="lg:h-[360px]"
+                className="lg:h-90"
                 defaultExpanded={0}
                 items={[
                   {
@@ -795,7 +795,7 @@ export default function Home() {
                     key={name}
                     className="group flex flex-col items-center gap-2"
                   >
-                    <div className="flex h-14 w-14 items-center justify-center bg-[var(--brand-white)]/10 transition-colors group-hover:bg-[var(--brand-white)]/20">
+                    <div className="flex h-14 w-14 items-center justify-center bg-(--brand-white)/10 transition-colors group-hover:bg-(--brand-white)/20">
                       <Icon className="h-6 w-6 text-white" aria-hidden="true" />
                     </div>
                     <Typography
