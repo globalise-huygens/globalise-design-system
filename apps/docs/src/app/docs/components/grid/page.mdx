@@ -1,0 +1,116 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Grid, Container } from "@globalise/design-system";
+
+# Grid
+
+The page-level layout grid following the Figma grid specification: **12 columns, stretch, auto width, 0 margin, 0 gutter**. At a max-width of 1440px each column is exactly 120px wide.
+
+Most content is placed in **columns 2–11** (use `Container` for this). Full-bleed elements span all 12 columns. Items placed in column 1 or 12 sit at the very edge of the page.
+
+## Preview
+
+<ComponentPreview>
+  <Grid className="w-full max-w-360">
+    {Array.from({ length: 12 }).map((_, i) => (
+      <div
+        key={i}
+        className={`h-20 flex items-center justify-center text-xs font-mono ${
+          i === 0 || i === 11
+            ? "bg-white/5 text-white/30"
+            : "bg-brand-turquoise/20 text-white/50"
+        }`}
+      >
+        {i + 1}
+      </div>
+    ))}
+  </Grid>
+</ComponentPreview>
+
+Columns 1 and 12 (dimmed) are the edge columns. Columns 2–11 (highlighted) are the standard content area, equivalent to using `Container`.
+
+## Usage
+
+<CodeBlock code={`import { Grid, Container } from "@globalise/design-system";
+
+{/* Content area (columns 2-11) via Container */}
+
+<Container>
+  <p>Content is inset by 1 column on each side.</p>
+</Container>
+
+{/* Explicit column placement */}
+
+<Grid className="max-w-360 mx-auto">
+  <div className="col-span-12">Full bleed (all 12 columns)</div>
+  <div className="col-start-2 col-span-10">Columns 2–11 (same as Container)</div>
+  <div className="col-start-2 col-span-5">Left half of content area</div>
+  <div className="col-start-7 col-span-5">Right half of content area</div>
+</Grid>`} />
+
+## Column placement
+
+Use Tailwind's `col-start-*` and `col-span-*` to place children within the 12-column grid.
+
+<ComponentPreview>
+  <Grid className="w-full max-w-360">
+    <div className="col-span-12 h-12 bg-white/5 flex items-center justify-center text-xs font-mono text-white/30">
+      col-span-12 (full bleed)
+    </div>
+    <div className="col-start-2 col-span-10 h-12 bg-brand-turquoise/20 flex items-center justify-center text-xs font-mono text-white/50">
+      col-start-2 col-span-10 (standard content)
+    </div>
+    <div className="col-start-2 col-span-5 h-12 bg-brand-vermilion/20 flex items-center justify-center text-xs font-mono text-white/50">
+      col-start-2 col-span-5
+    </div>
+    <div className="col-start-7 col-span-5 h-12 bg-brand-mint/20 flex items-center justify-center text-xs font-mono text-white/50">
+      col-start-7 col-span-5
+    </div>
+  </Grid>
+</ComponentPreview>
+
+## Grid specification
+
+| Property               | Value   |
+| ---------------------- | ------- |
+| Columns                | 12      |
+| Type                   | Stretch |
+| Width                  | Auto    |
+| Margin                 | 0       |
+| Gutter                 | 0       |
+| Max width              | 1440px  |
+| Column width at 1440px | 120px   |
+
+## Responsive behaviour
+
+The grid is always 12 columns. On smaller screens, items span more columns to stack:
+
+<CodeBlock
+  code={`<Grid>
+  {/* Full width on mobile, half on tablet, quarter on desktop */}
+  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
+  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
+  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
+  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
+</Grid>`}
+/>
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description:
+        "Additional CSS classes for overrides (e.g. max-w-[1440px], mx-auto)",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Grid items positioned with col-start-* and col-span-*",
+      required: true,
+    },
+  ]}
+/>

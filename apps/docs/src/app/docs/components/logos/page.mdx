@@ -1,0 +1,119 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import {
+  LogoLockup,
+  LogoNavbar,
+  Logomark,
+  Logotype,
+} from "@globalise/design-system";
+
+# Logos
+
+Brand logo components rendered as inline SVGs. They inherit `currentColor` and accept standard `<svg>` element props.
+
+## Gallery
+
+<ComponentPreview>
+  <div className="flex flex-col gap-10 items-center text-white w-full">
+    <div className="flex flex-col items-center gap-2">
+      <Logomark className="h-16" />
+      <span className="text-xs text-white/40">Logomark</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <Logotype className="h-8" />
+      <span className="text-xs text-white/40">Logotype</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <LogoLockup className="h-12" />
+      <span className="text-xs text-white/40">LogoLockup</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <LogoNavbar className="h-6" />
+      <span className="text-xs text-white/40">LogoNavbar</span>
+    </div>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { LogoNavbar, Logomark } from "@globalise/design-system";
+
+<LogoNavbar className="h-6 text-white" />
+<Logomark className="h-16 text-brand-turquoise" />`} />
+
+## Variants
+
+### Logomark
+
+The Globalise symbol mark on its own.
+
+<ComponentPreview>
+  <Logomark className="h-20 text-white" />
+</ComponentPreview>
+
+### Logotype
+
+The word "Globalise" in the brand typeface.
+
+<ComponentPreview>
+  <Logotype className="h-8 text-white" />
+</ComponentPreview>
+
+### LogoLockup
+
+Symbol + word mark combined.
+
+<ComponentPreview>
+  <LogoLockup className="h-14 text-white" />
+</ComponentPreview>
+
+### LogoNavbar
+
+Compact horizontal logo sized for navigation bars.
+
+<ComponentPreview>
+  <LogoNavbar className="h-6 text-white" />
+</ComponentPreview>
+
+## Colour
+
+Logos use `currentColor`. Change colour via `className` or parent text colour.
+
+<ComponentPreview>
+  <div className="flex gap-8 items-center">
+    <Logomark className="h-12 text-brand-turquoise" />
+    <Logomark className="h-12 text-brand-vermilion" />
+    <Logomark className="h-12 text-brand-mint" />
+    <Logomark className="h-12 text-white" />
+  </div>
+</ComponentPreview>
+
+## Available Logos
+
+<PropsTable
+  props={[
+    {
+      name: "Logomark",
+      type: "SVGSVGElement",
+      description: "Symbol mark only.",
+    },
+    {
+      name: "Logotype",
+      type: "SVGSVGElement",
+      description: "Word mark only.",
+    },
+    {
+      name: "LogoLockup",
+      type: "SVGSVGElement",
+      description: "Combined symbol + word mark.",
+    },
+    {
+      name: "LogoNavbar",
+      type: "SVGSVGElement",
+      description: "Compact logo for navigation bars.",
+    },
+  ]}
+/>
+
+All logo components accept standard `React.SVGProps<SVGSVGElement>` and forward refs.

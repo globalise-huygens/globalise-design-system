@@ -1,0 +1,67 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Container, Grid } from "@globalise/design-system";
+
+# Container
+
+Places content in **columns 2 to 11** of the 12-column layout grid. Constrains to 1440px max-width, centers itself, and applies 1-column padding on each side at desktop. The outer columns stay free for full-bleed elements.
+
+## Preview
+
+<ComponentPreview>
+  <div className="w-full relative">
+    <Grid className="w-full absolute inset-0 pointer-events-none">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <div
+          key={i}
+          className={`h-full ${i === 0 || i === 11 ? "bg-white/5" : "bg-white/2"}`}
+        />
+      ))}
+    </Grid>
+    <Container className="py-6 w-full relative">
+      <div className="h-12 bg-brand-turquoise/20 flex items-center justify-center text-sm font-mono text-white/50">
+        Content in columns 2–11
+      </div>
+    </Container>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Container } from "@globalise/design-system";
+
+<Container>
+  <h1>Page content here</h1>
+  <p>Automatically inset by 1 column on each side at desktop.</p>
+</Container>`} />
+
+## Responsive padding
+
+On smaller screens the grid padding scales down proportionally:
+
+| Breakpoint     | Padding         | Equivalent    |
+| -------------- | --------------- | ------------- |
+| Default        | `16px`          | `px-4`        |
+| `sm` (640px)   | `32px`          | `px-8`        |
+| `lg` (1024px+) | `1/12 of width` | 1 grid column |
+
+At 1440px viewport, `1/12 = 120px` padding on each side → 1200px content area (10 columns).
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Content placed in columns 2–11",
+      required: true,
+    },
+  ]}
+/>

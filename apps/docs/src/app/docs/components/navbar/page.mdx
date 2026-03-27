@@ -1,0 +1,88 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { NavbarDemo } from "./NavbarDemo";
+
+# Navbar
+
+A responsive navigation bar with logo, search bar, and navigation links. Includes a mobile hamburger menu that collapses on small screens.
+
+## Preview
+
+<ComponentPreview className="p-0! min-h-0!">
+  <NavbarDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Navbar, NavLink, NavLinks, NavSearchBar } from "@globalise/design-system";
+import { LogoNavbar } from "@globalise/design-system";
+
+<Navbar logo={<LogoNavbar className="h-5 w-auto" />}>
+  <NavSearchBar placeholder="Search the archive" />
+  <NavLinks>
+    <NavLink href="/about">About</NavLink>
+    <NavLink href="/archive">Archive</NavLink>
+    <NavLink href="/contact">Contact</NavLink>
+  </NavLinks>
+</Navbar>`} />
+
+## Sub-components
+
+The Navbar is composed of several sub-components:
+
+- **`Navbar`**: the main navigation container
+- **`NavSearchBar`**: a centered search input, hidden on mobile but visible in the mobile menu
+- **`NavLinks`**: wraps navigation links, same visibility behaviour
+- **`NavLink`**: individual navigation link
+
+## Props
+
+### Navbar
+
+<PropsTable
+  props={[
+    {
+      name: "logo",
+      type: "ReactNode",
+      description: "Logo element rendered on the left",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "NavSearchBar and NavLinks components",
+    },
+  ]}
+/>
+
+### NavSearchBar
+
+<PropsTable
+  props={[
+    {
+      name: "placeholder",
+      type: "string",
+      default: '"Search the archive"',
+      description: "Input placeholder text",
+    },
+  ]}
+/>
+
+### NavLink
+
+<PropsTable
+  props={[
+    {
+      name: "href",
+      type: "string",
+      description: "Link destination",
+      required: true,
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Link text",
+      required: true,
+    },
+  ]}
+/>

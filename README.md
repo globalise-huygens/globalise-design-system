@@ -2,6 +2,18 @@
 
 React component library for the [Globalise](https://globalise.huygens.knaw.nl/) project, built with [shadcn/ui](https://ui.shadcn.com/) and [Tailwind CSS v4](https://tailwindcss.com/).
 
+**[Documentation site →](https://globalise-huygens.github.io/globalise-design-system/)**
+
+## Repository structure
+
+This is a pnpm monorepo:
+
+```
+├── packages/ui      # @globalise/design-system — the component library
+├── apps/docs        # Next.js documentation & demo site
+└── pnpm-workspace.yaml
+```
+
 ## Installation
 
 ```bash
@@ -32,7 +44,7 @@ Add the design system styles and Tailwind source scanning to your global CSS:
 
 ### 2. Configure fonts
 
-The design system uses **Noto Sans** (body/UI) and **Noto Serif** (headings/editorial). Set them up via your framework's font loading (e.g. `next/font/google`) and map the CSS variables:
+The design system uses **Noto Sans** (body/UI) and **Noto Serif** (headings/editorial). Set them up via your framework's font loading (e.g. `next/font/google`) or a `<link>` tag and map the CSS variables:
 
 ```css
 @theme inline {
@@ -58,9 +70,44 @@ export function Page() {
 
 ## Components
 
-### Button
+### Layout
 
-Pill-shaped action buttons with brand variants.
+| Component        | Description                                          |
+| ---------------- | ---------------------------------------------------- |
+| `Container`      | Responsive max-width wrapper with horizontal padding |
+| `Grid`           | 12-column CSS grid                                   |
+| `Section`        | Full-width band with background and spacing variants |
+| `SectionDivider` | Convenience divider inside a Container               |
+| `Divider`        | Semantic `<hr>` styled as a subtle white line        |
+
+### Navigation
+
+| Component      | Description                                 |
+| -------------- | ------------------------------------------- |
+| `Navbar`       | Top navigation bar with logo, search, links |
+| `NavSearchBar` | Search input for the navbar                 |
+| `NavLinks`     | Link group wrapper                          |
+| `NavLink`      | Individual navigation link                  |
+
+### Cards
+
+| Component      | Description                                   |
+| -------------- | --------------------------------------------- |
+| `CardBase`     | Low-level card primitive with colour variants |
+| `CardArticle`  | Article card with image, label, title, CTA    |
+| `CardHero`     | Full-bleed hero card with overlay             |
+| `CardFeatured` | Featured content card with tabbed items       |
+| `CardGlance`   | Stats/at-a-glance card with colour accent     |
+
+### Content
+
+| Component          | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| `Button`           | Pill-shaped button with brand variants                  |
+| `Typography`       | Semantic text component with variant-to-element mapping |
+| `NewsletterSignup` | Email signup form block                                 |
+
+### Button
 
 ```tsx
 import { Button } from "@globalise/design-system";
@@ -70,10 +117,6 @@ import { Button } from "@globalise/design-system";
 <Button variant="link">Text CTA →</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="nav">Nav</Button>
-
-<Button size="sm">Small</Button>
-<Button size="lg">Large</Button>
-<Button size="icon">★</Button>
 ```
 
 | Prop      | Type                                                   | Default     |
@@ -84,14 +127,11 @@ import { Button } from "@globalise/design-system";
 
 ### Typography
 
-Semantic text component with variant-to-element mapping.
-
 ```tsx
 import { Typography } from "@globalise/design-system";
 
 <Typography variant="h1">Heading 1</Typography>
 <Typography variant="p">Body text</Typography>
-<Typography variant="blockquote">Quoted text</Typography>
 <Typography variant="label">Label</Typography>
 ```
 
@@ -113,7 +153,7 @@ import { Typography } from "@globalise/design-system";
 
 ### CardBase
 
-Flat cards with brand color variants (no rounded corners, no shadows).
+Flat cards with brand colour variants (no rounded corners, no shadows).
 
 ```tsx
 import {
@@ -142,29 +182,28 @@ import {
 | `stone`   | Parchment (#B99B7F)     | Black |
 | `overlay` | Black gradient          | White |
 
-### Container
+### Section
 
-Layout wrapper with responsive max-width and padding.
-
-```tsx
-import { Container } from "@globalise/design-system";
-
-<Container>{/* max-w-[1440px], responsive horizontal padding */}</Container>;
-```
-
-### Divider
-
-Semantic horizontal rule styled as a subtle white line.
+Full-width layout band with background and spacing control.
 
 ```tsx
-import { Divider } from "@globalise/design-system";
+import { Section, Container, Typography } from "@globalise/design-system";
 
-<Divider />;
+<Section background="dark" spacing="large">
+  <Container>
+    <Typography variant="h1" className="text-white">
+      Hero
+    </Typography>
+  </Container>
+</Section>;
 ```
+
+| Prop         | Type                   | Default     |
+| ------------ | ---------------------- | ----------- |
+| `background` | `"dark" \| "light"`    | `"dark"`    |
+| `spacing`    | `"default" \| "large"` | `"default"` |
 
 ### Navbar
-
-Navigation bar with centred search and right-aligned links.
 
 ```tsx
 import {
@@ -180,36 +219,8 @@ import {
   <NavLinks>
     <NavLink href="/archive">Archive</NavLink>
     <NavLink href="/explore">Explore</NavLink>
-    <NavLink href="/about">About</NavLink>
   </NavLinks>
 </Navbar>;
-```
-
-### Dialog
-
-Modal dialog built on Radix UI, styled with dark background.
-
-```tsx
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@globalise/design-system";
-
-<Dialog>
-  <DialogTrigger asChild>
-    <Button>Open</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Title</DialogTitle>
-      <DialogDescription>Description</DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>;
 ```
 
 ## Icons
@@ -253,14 +264,6 @@ import {
 | `LogoLockup` | Full brand (symbol + wordmark) |
 | `LogoNavbar` | Compact navbar variant         |
 
-### Raw SVG assets
-
-```ts
-// Import paths for non-React usage
-import logoBlack from "@globalise/design-system/assets/logo/lockup-black.svg";
-import searchIcon from "@globalise/design-system/assets/icons/search.svg";
-```
-
 ## Brand colours
 
 | Name          | CSS Variable        | Hex       | Usage              |
@@ -272,26 +275,38 @@ import searchIcon from "@globalise/design-system/assets/icons/search.svg";
 | Turquoise     | `--brand-turquoise` | `#29BFCC` | Accent             |
 | Mint          | `--brand-mint`      | `#36C6A7` | Accent             |
 
+Full colour scales (50–900) are available for Neutral, Parchment, Vermilion, Turquoise, and Mint.
+
 ## Adding more shadcn/ui components
 
-This project has a `components.json` for the shadcn CLI. To add new components:
+This project has a `components.json` for the shadcn CLI. Run from the `packages/ui` directory:
 
 ```bash
+cd packages/ui
 npx shadcn@latest add <component-name>
 ```
 
 ## Development
 
 ```bash
-npm run dev             # watch mode (rebuilds on changes)
-npm run build           # production build
-npm run typecheck       # type check
-npm run lint            # lint
-npm run format          # format code
-npm run storybook       # start Storybook on http://localhost:6006
-npm run build-storybook # build static Storybook site
+# Prerequisites: pnpm >= 10, Node >= 22
+
+pnpm install             # install all dependencies
+
+# Design system (packages/ui)
+pnpm build               # production build (tsup → dist/)
+pnpm dev                 # watch mode (rebuilds on changes)
+pnpm lint                # lint all packages
+pnpm typecheck           # type-check all packages
+pnpm format              # format all files
+
+# Documentation site (apps/docs)
+pnpm dev:docs            # build UI + start Next.js dev server (localhost:3000)
+pnpm build:docs          # full production build (UI + static export)
 ```
+
+The docs site is deployed to GitHub Pages automatically on push via GitHub Actions.
 
 ## License
 
--
+MIT

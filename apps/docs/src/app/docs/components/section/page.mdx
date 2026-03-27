@@ -1,0 +1,161 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import {
+  Section,
+  SectionDivider,
+  Container,
+  Typography,
+} from "@globalise/design-system";
+
+# Section & SectionDivider
+
+Layout primitives for dividing pages into background‑coloured bands with consistent vertical spacing, and inserting a styled divider between them.
+
+## Preview
+
+<ComponentPreview>
+  <div className="w-full overflow-hidden border border-white/10">
+    <Section background="dark" spacing="default">
+      <Container>
+        <Typography variant="h3" className="text-white">
+          Dark section (default spacing)
+        </Typography>
+        <Typography variant="p" className="text-white/60">
+          Background: brand‑black
+        </Typography>
+      </Container>
+    </Section>
+    <Section background="light" spacing="default">
+      <Container>
+        <Typography variant="h3">Light section</Typography>
+        <Typography variant="p" className="text-black/60">
+          Background: white
+        </Typography>
+      </Container>
+    </Section>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Section, SectionDivider, Container, Typography } from "@globalise/design-system";
+
+<Section background="dark" spacing="large">
+  <Container>
+    <Typography variant="h1" className="text-white">
+      Hero
+    </Typography>
+  </Container>
+</Section>
+
+<SectionDivider />
+
+<Section background="dark">
+  <Container>
+    <Typography variant="h2" className="text-white">Content</Typography>
+  </Container>
+</Section>`} />
+
+## Section Variants
+
+### Background
+
+<ComponentPreview>
+  <div className="w-full grid gap-4">
+    <Section background="dark" className="border border-white/10">
+      <Container>
+        <Typography variant="p" className="text-white">
+          background=&quot;dark&quot;
+        </Typography>
+      </Container>
+    </Section>
+    <Section background="light" className="border border-black/10">
+      <Container>
+        <Typography variant="p">background=&quot;light&quot;</Typography>
+      </Container>
+    </Section>
+  </div>
+</ComponentPreview>
+
+### Spacing
+
+<ComponentPreview>
+  <div className="w-full grid gap-4">
+    <Section
+      background="dark"
+      spacing="default"
+      className="border border-white/10"
+    >
+      <Container>
+        <Typography variant="p" className="text-white">
+          spacing=&quot;default&quot;
+        </Typography>
+      </Container>
+    </Section>
+    <Section
+      background="dark"
+      spacing="large"
+      className="border border-white/10"
+    >
+      <Container>
+        <Typography variant="p" className="text-white">
+          spacing=&quot;large&quot;
+        </Typography>
+      </Container>
+    </Section>
+  </div>
+</ComponentPreview>
+
+## SectionDivider
+
+A convenience component that renders a `Container` wrapping a `Divider` with vertical margin.
+
+<ComponentPreview>
+  <div className="w-full">
+    <SectionDivider />
+  </div>
+</ComponentPreview>
+
+## Props
+
+### Section
+
+<PropsTable
+  props={[
+    {
+      name: "background",
+      type: '"dark" | "light"',
+      default: '"dark"',
+      description: "Background colour.",
+    },
+    {
+      name: "spacing",
+      type: '"default" | "large"',
+      default: '"default"',
+      description: "Vertical padding scale.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Section content.",
+    },
+  ]}
+/>
+
+### SectionDivider
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes on the wrapping Container.",
+    },
+  ]}
+/>

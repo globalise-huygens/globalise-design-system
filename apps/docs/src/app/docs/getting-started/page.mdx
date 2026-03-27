@@ -1,0 +1,77 @@
+# Getting Started
+
+The Globalise Design System is a React component library built with [shadcn/ui](https://ui.shadcn.com) and Tailwind CSS v4. It provides the UI building blocks for the Globalise project ecosystem.
+
+## Installation
+
+Install the package from npm:
+
+```bash
+pnpm add @globalise/design-system
+```
+
+## Setup
+
+### 1. Import the styles
+
+Add the design system stylesheet to your app's root layout or global CSS:
+
+```tsx
+import "@globalise/design-system/styles.css";
+```
+
+Or in your CSS file:
+
+```css
+@import "@globalise/design-system/styles.css";
+```
+
+### 2. Install fonts
+
+The design system uses **Noto Sans** (UI/body text) and **Noto Serif** (headings/editorial). Load them via Google Fonts:
+
+```html
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+### 3. Use components
+
+Import and use components directly:
+
+```tsx
+import { Button, Typography, Container } from "@globalise/design-system";
+
+export default function Page() {
+  return (
+    <Container>
+      <Typography variant="h1">Hello, Globalise</Typography>
+      <Button>Get started</Button>
+    </Container>
+  );
+}
+```
+
+## Next.js setup
+
+For Next.js projects, add `transpilePackages` to your `next.config.ts`:
+
+```ts
+const nextConfig = {
+  transpilePackages: ["@globalise/design-system"],
+};
+```
+
+## Tailwind CSS
+
+The design system uses Tailwind CSS v4 with CSS-based configuration. The design tokens (colors, fonts, spacing) are defined as CSS custom properties and registered with Tailwind via `@theme`. Importing `@globalise/design-system/styles.css` automatically makes all tokens available as Tailwind utilities (e.g. `bg-brand-turquoise`, `font-serif`).
+
+## What's included
+
+- **20+ components** including buttons, cards, navigation, typography, and layout primitives
+- **6 icon components** as purpose-built SVGs
+- **4 logo variants**: logomark, logotype, lockup, and navbar
+- **Design tokens** for brand colours, colour scales, typography, and spacing
+- **Full TypeScript support** with exported types for every component

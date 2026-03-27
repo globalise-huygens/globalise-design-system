@@ -1,0 +1,72 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { CardHeroDemo } from "./CardHeroDemo";
+
+# Card Hero
+
+An interactive card that reveals a branded color panel with label, title, and arrow on hover. Used for hero-level navigation or featured content grids.
+
+## Preview
+
+<ComponentPreview className="min-h-75!">
+  <CardHeroDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { CardHero } from "@globalise/design-system";
+
+<CardHero
+  label="Archive"
+  title="Explore the VOC\\nCorrespondence"
+  hoverColor="turquoise"
+  href="/archive"
+>
+  <img src="/hero.jpg" alt="" className="object-cover w-full h-full" />
+</CardHero>`} />
+
+## Hover Colors
+
+The `hoverColor` prop sets the background on hover:
+
+- `turquoise` (default)
+- `vermilion`
+- `mint`
+- `parchment`
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "label",
+      type: "string",
+      description: "Category label shown on hover",
+      required: true,
+    },
+    {
+      name: "title",
+      type: "string",
+      description: "Title text (supports \\n for newlines)",
+      required: true,
+    },
+    {
+      name: "href",
+      type: "string",
+      description: "URL. When set, the card renders as a link",
+    },
+    {
+      name: "hoverColor",
+      type: '"turquoise" | "vermilion" | "mint" | "parchment"',
+      default: '"turquoise"',
+      description: "Background color on hover",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Default state content (typically an image)",
+      required: true,
+    },
+  ]}
+/>

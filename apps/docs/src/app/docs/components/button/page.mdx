@@ -1,0 +1,114 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Button } from "@globalise/design-system";
+
+# Button
+
+A versatile button component with multiple visual variants and sizes, built on Radix UI's `Slot` primitive for `asChild` composition.
+
+## Preview
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-4">
+    <Button>Default</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="link" className="text-white">
+      Link CTA →
+    </Button>
+    <Button variant="ghost" className="text-white">
+      Ghost
+    </Button>
+    <Button variant="nav">Nav</Button>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Button } from "@globalise/design-system";
+
+<Button variant="default">Get Started</Button>
+<Button variant="outline">Learn More</Button>
+<Button variant="link">Read article →</Button>`} />
+
+## Variants
+
+### Default (White Pill)
+
+<ComponentPreview>
+  <Button>White Pill Button</Button>
+</ComponentPreview>
+
+### Outline
+
+<ComponentPreview>
+  <Button variant="outline">Outline Pill</Button>
+</ComponentPreview>
+
+### Link
+
+<ComponentPreview>
+  <Button variant="link" className="text-white">
+    Text CTA →
+  </Button>
+</ComponentPreview>
+
+### Ghost
+
+<ComponentPreview>
+  <Button variant="ghost" className="text-white">
+    Ghost
+  </Button>
+</ComponentPreview>
+
+## Sizes
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-4">
+    <Button size="sm">Small</Button>
+    <Button size="default">Default</Button>
+    <Button size="lg">Large</Button>
+    <Button size="icon">★</Button>
+  </div>
+</ComponentPreview>
+
+## As Child
+
+Use `asChild` to render the button styles on a different element (e.g. a link):
+
+<CodeBlock
+  code={`<Button asChild>
+  <a href="/archive">Browse Archive</a>
+</Button>`}
+/>
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "variant",
+      type: '"default" | "outline" | "link" | "ghost" | "nav"',
+      default: '"default"',
+      description: "Visual style variant",
+    },
+    {
+      name: "size",
+      type: '"default" | "sm" | "lg" | "icon"',
+      default: '"default"',
+      description: "Button size",
+    },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "Render as child element using Radix Slot",
+    },
+    {
+      name: "disabled",
+      type: "boolean",
+      default: "false",
+      description: "Disable the button",
+    },
+  ]}
+/>

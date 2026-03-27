@@ -1,0 +1,169 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import {
+  CardBase,
+  CardBaseHeader,
+  CardBaseTitle,
+  CardBaseDescription,
+  CardBaseContent,
+  CardBaseFooter,
+  Button,
+  Typography,
+} from "@globalise/design-system";
+
+# Card Base
+
+A composable, low‑level card primitive with colour variants. Use it to build custom card layouts with `CardBaseHeader`, `CardBaseTitle`, `CardBaseDescription`, `CardBaseContent`, and `CardBaseFooter`.
+
+## Preview
+
+<ComponentPreview>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+    <CardBase>
+      <CardBaseHeader>
+        <CardBaseTitle>Default Card</CardBaseTitle>
+        <CardBaseDescription>
+          A standard card with header, content and footer.
+        </CardBaseDescription>
+      </CardBaseHeader>
+      <CardBaseContent>
+        <span className="text-sm text-white/60">Body content goes here.</span>
+      </CardBaseContent>
+      <CardBaseFooter>
+        <Button variant="outline" size="sm">
+          Action
+        </Button>
+      </CardBaseFooter>
+    </CardBase>
+    <CardBase variant="teal">
+      <CardBaseHeader>
+        <CardBaseTitle>Teal Variant</CardBaseTitle>
+        <CardBaseDescription>
+          Branded background with dark foreground.
+        </CardBaseDescription>
+      </CardBaseHeader>
+      <CardBaseContent>
+        <span className="text-sm">Teal‑tinted content area.</span>
+      </CardBaseContent>
+    </CardBase>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import {
+  CardBase,
+  CardBaseHeader,
+  CardBaseTitle,
+  CardBaseDescription,
+  CardBaseContent,
+  CardBaseFooter,
+} from "@globalise/design-system";
+
+<CardBase variant="teal">
+  <CardBaseHeader>
+    <CardBaseTitle>Hello</CardBaseTitle>
+    <CardBaseDescription>Subtitle</CardBaseDescription>
+  </CardBaseHeader>
+  <CardBaseContent>Body</CardBaseContent>
+  <CardBaseFooter>Footer</CardBaseFooter>
+</CardBase>`} />
+
+## Variants
+
+### Default
+
+<ComponentPreview>
+  <CardBase className="max-w-sm w-full">
+    <CardBaseHeader>
+      <CardBaseTitle>Default</CardBaseTitle>
+    </CardBaseHeader>
+    <CardBaseContent>
+      <span className="text-sm text-white/60 block">
+        Uses the default card background token.
+      </span>
+    </CardBaseContent>
+  </CardBase>
+</ComponentPreview>
+
+### Teal
+
+<ComponentPreview>
+  <CardBase variant="teal" className="max-w-sm w-full">
+    <CardBaseHeader>
+      <CardBaseTitle>Turquoise</CardBaseTitle>
+    </CardBaseHeader>
+    <CardBaseContent>
+      <span className="text-sm">Brand turquoise background.</span>
+    </CardBaseContent>
+  </CardBase>
+</ComponentPreview>
+
+### Red
+
+<ComponentPreview>
+  <CardBase variant="red" className="max-w-sm w-full">
+    <CardBaseHeader>
+      <CardBaseTitle>Vermilion</CardBaseTitle>
+    </CardBaseHeader>
+    <CardBaseContent>
+      <span className="text-sm">Brand vermilion background.</span>
+    </CardBaseContent>
+  </CardBase>
+</ComponentPreview>
+
+### Emerald
+
+<ComponentPreview>
+  <CardBase variant="emerald" className="max-w-sm w-full">
+    <CardBaseHeader>
+      <CardBaseTitle>Mint</CardBaseTitle>
+    </CardBaseHeader>
+    <CardBaseContent>
+      <span className="text-sm">Brand mint background.</span>
+    </CardBaseContent>
+  </CardBase>
+</ComponentPreview>
+
+### Stone
+
+<ComponentPreview>
+  <CardBase variant="stone" className="max-w-sm w-full">
+    <CardBaseHeader>
+      <CardBaseTitle>Parchment</CardBaseTitle>
+    </CardBaseHeader>
+    <CardBaseContent>
+      <span className="text-sm">Brand parchment background.</span>
+    </CardBaseContent>
+  </CardBase>
+</ComponentPreview>
+
+## Props
+
+### CardBase
+
+<PropsTable
+  props={[
+    {
+      name: "variant",
+      type: '"default" | "teal" | "red" | "emerald" | "stone" | "overlay"',
+      default: '"default"',
+      description: "Visual colour variant.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Card content (Header, Content, Footer, etc.).",
+    },
+  ]}
+/>
+
+### Sub‑components
+
+`CardBaseHeader`, `CardBaseTitle`, `CardBaseDescription`, `CardBaseContent`, and `CardBaseFooter` accept standard `HTMLDivElement` props (`className`, `children`, etc.) and forward refs.

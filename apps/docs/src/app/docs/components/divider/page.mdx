@@ -1,0 +1,58 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Divider, SectionDivider } from "@globalise/design-system";
+
+# Divider
+
+A horizontal rule component with the brand's semi-transparent white styling. `SectionDivider` wraps `Divider` inside a `Container` with vertical spacing.
+
+## Divider Preview
+
+<ComponentPreview>
+  <div className="w-full">
+    <Divider />
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Divider, SectionDivider } from "@globalise/design-system";
+
+{/* Simple divider */}
+
+<Divider />
+
+{/* Full-width section divider with container + spacing */}
+
+<SectionDivider />`} />
+
+## SectionDivider
+
+`SectionDivider` combines a `Container` with a `Divider` and adds `my-[100px]` vertical margin. Use it between major page sections.
+
+## Props
+
+### Divider
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes",
+    },
+  ]}
+/>
+
+### SectionDivider
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes (applied to Container wrapper)",
+    },
+  ]}
+/>

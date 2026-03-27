@@ -1,0 +1,73 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { CardGlanceDemo } from "./CardGlanceDemo";
+
+# Card Glance
+
+A branded info card with heading, subtitle, description, and call-to-action. Uses brand colors as background.
+
+## Preview
+
+<ComponentPreview>
+  <CardGlanceDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { CardGlance } from "@globalise/design-system";
+
+<CardGlance
+  heading="2020"
+  subtitle="Project launch"
+  description="GLOBALISE started unlocking VOC archives."
+  cta="Read more"
+  color="turquoise"
+  href="/about"
+/>`} />
+
+## Colors
+
+Available `color` variants: `turquoise` (default), `vermilion`, `mint`, `parchment`.
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "heading",
+      type: "string",
+      description: "Large heading text",
+      required: true,
+    },
+    {
+      name: "subtitle",
+      type: "string",
+      description: "Subtitle below heading",
+      required: true,
+    },
+    {
+      name: "description",
+      type: "string",
+      description: "Description text",
+      required: true,
+    },
+    {
+      name: "cta",
+      type: "string",
+      description: "Call-to-action link text",
+      required: true,
+    },
+    {
+      name: "href",
+      type: "string",
+      description: "URL: renders as <a> when provided",
+    },
+    {
+      name: "color",
+      type: '"turquoise" | "vermilion" | "mint" | "parchment"',
+      default: '"turquoise"',
+      description: "Background color",
+    },
+  ]}
+/>

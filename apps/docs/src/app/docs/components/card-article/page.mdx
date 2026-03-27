@@ -1,0 +1,60 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { CardArticle } from "@globalise/design-system";
+
+# Card Article
+
+A content card for news and articles with an optional image, label, title, and "Read more" call-to-action. Renders as a link when `href` is provided.
+
+## Preview
+
+<ComponentPreview>
+  <div className="max-w-sm text-white">
+    <CardArticle
+      label="Article"
+      title="VOC Archives Reveal New Maritime Trade Routes"
+      image={<div className="w-full h-full bg-parchment-600" />}
+    />
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { CardArticle } from "@globalise/design-system";
+
+<CardArticle
+  label="News"
+  title="New Handwritten Text Recognition models released"
+  href="/news/htr-models"
+  image={<img src="/article-image.jpg" alt="" className="object-cover w-full h-full" />}
+/>`} />
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "label",
+      type: "string",
+      description: "Category label (e.g. 'Article', 'News')",
+      required: true,
+    },
+    {
+      name: "title",
+      type: "string",
+      description: "Card title",
+      required: true,
+    },
+    {
+      name: "href",
+      type: "string",
+      description: "URL: renders as <a> when provided",
+    },
+    {
+      name: "image",
+      type: "ReactNode",
+      description: "Image element rendered at the top of the card",
+    },
+  ]}
+/>

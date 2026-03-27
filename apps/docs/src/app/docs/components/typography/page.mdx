@@ -1,0 +1,75 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Typography } from "@globalise/design-system";
+
+# Typography
+
+A polymorphic typography component that automatically renders the correct HTML element based on the selected variant. Uses Noto Serif for headings and Noto Sans for body text.
+
+## Preview
+
+<ComponentPreview>
+  <div className="flex flex-col gap-4 text-white w-full">
+    <Typography variant="h1">Heading 1</Typography>
+    <Typography variant="h2">Heading 2</Typography>
+    <Typography variant="h3">Heading 3</Typography>
+    <Typography variant="h4">Heading 4</Typography>
+    <Typography variant="p">
+      Body paragraph text with standard tracking and leading.
+    </Typography>
+    <Typography variant="lead">Lead / intro text for subtitles.</Typography>
+    <Typography variant="small">Small text for secondary content.</Typography>
+    <Typography variant="muted">
+      Muted text for de-emphasized content.
+    </Typography>
+    <Typography variant="label">Label text</Typography>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { Typography } from "@globalise/design-system";
+
+<Typography variant="h1">Page Title</Typography>
+<Typography variant="p">Body paragraph with standard styling.</Typography>
+<Typography variant="lead">An introductory subtitle.</Typography>
+<Typography variant="label">Category Label</Typography>`} />
+
+## All Variants
+
+| Variant      | Element        | Font       | Usage               |
+| ------------ | -------------- | ---------- | ------------------- |
+| `h1`         | `<h1>`         | Noto Serif | Page titles         |
+| `h2`         | `<h2>`         | Noto Serif | Section headings    |
+| `h3`         | `<h3>`         | Noto Serif | Subsections         |
+| `h4`         | `<h4>`         | Noto Serif | Minor headings      |
+| `p`          | `<p>`          | Noto Sans  | Body text           |
+| `lead`       | `<p>`          | Noto Sans  | Intro/subtitle text |
+| `large`      | `<div>`        | Noto Sans  | Emphasized body     |
+| `small`      | `<small>`      | Noto Sans  | Secondary text      |
+| `muted`      | `<p>`          | Noto Sans  | De-emphasized text  |
+| `blockquote` | `<blockquote>` | Noto Serif | Pull quotes         |
+| `code`       | `<code>`       | Mono       | Inline code         |
+| `label`      | `<span>`       | Noto Sans  | Uppercase captions  |
+| `subtitle`   | `<p>`          | Noto Serif | Subtitles           |
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "variant",
+      type: '"h1" | "h2" | "h3" | "h4" | "p" | "lead" | "large" | "small" | "muted" | "blockquote" | "code" | "label" | "subtitle"',
+      default: '"p"',
+      description:
+        "Which variant to render, controls the HTML element and styling",
+    },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "Render as child element using Radix Slot",
+    },
+  ]}
+/>
