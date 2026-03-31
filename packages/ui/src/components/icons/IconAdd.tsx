@@ -9,10 +9,7 @@ const IconAdd = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path
-        d="M9.16663 10.8333H4.16663V9.16663H9.16663V4.16663H10.8333V9.16663H15.8333V10.8333H10.8333V15.8333H9.16663V10.8333Z"
-        fill="currentColor"
-      />
+      <path d="M9.16663 10.8333H4.16663V9.16663H9.16663V4.16663H10.8333V9.16663H15.8333V10.8333H10.8333V15.8333H9.16663V10.8333Z" fill="currentColor"/>
     </svg>
   ),
 );

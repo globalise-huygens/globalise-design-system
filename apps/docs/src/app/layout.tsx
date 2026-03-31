@@ -28,7 +28,8 @@ export default function RootLayout({
         <footer className="bg-brand-black py-8">
           <Container>
             <p className="text-sm text-white/50 font-sans">
-              &copy; {new Date().getFullYear()} Globalise / Huygens ING.
+              &copy; {new Date().getFullYear()} Globalise / Huygens Institute /
+              KNAW
             </p>
           </Container>
         </footer>
