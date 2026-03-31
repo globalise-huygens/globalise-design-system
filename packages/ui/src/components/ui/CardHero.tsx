@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
 const cardHeroVariants = cva("", {
@@ -65,26 +66,23 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>(
 
     if (href) {
       return (
-        <a
+        <AriaLink
           href={href}
           ref={ref as React.RefObject<HTMLAnchorElement>}
           className={sharedClassName}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {content}
-        </a>
+        </AriaLink>
       );
     }
 
     return (
-      <button
-        type="button"
+      <AriaButton
         ref={ref as React.RefObject<HTMLButtonElement>}
         className={cn(sharedClassName, "cursor-pointer text-left")}
-        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </button>
+      </AriaButton>
     );
   },
 );

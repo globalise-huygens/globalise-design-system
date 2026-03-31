@@ -4,43 +4,53 @@ import { IconClose } from "@/components/icons/IconClose";
 import { IconSearch } from "@/components/icons/IconSearch";
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import {
+  Button as AriaButton,
+  Input as AriaInput,
+  Label as AriaLabel,
+  Link as AriaLink,
+  SearchField as AriaSearchField,
+  type LinkProps as AriaLinkProps,
+  type SearchFieldProps as AriaSearchFieldProps,
+} from "react-aria-components";
 
 /* -------------------------------------------------------------------------- */
 /*  NavSearchBar                                                               */
 /* -------------------------------------------------------------------------- */
 
-export interface NavSearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface NavSearchBarProps extends Omit<
+  AriaSearchFieldProps,
+  "className" | "style"
+> {
+  className?: string;
+  placeholder?: string;
+}
 
-const NavSearchBar = React.forwardRef<HTMLInputElement, NavSearchBarProps>(
+const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
   ({ className, placeholder = "Search the archive", ...props }, ref) => {
-    const inputId = React.useId();
     const ariaLabel = props["aria-label"] ?? placeholder;
 
     return (
-      <div
+      <AriaSearchField
+        ref={ref}
+        aria-label={ariaLabel}
         className={cn(
           "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
           "hidden sm:flex h-12 w-full max-w-96 items-center gap-2.5 bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
           className,
         )}
+        {...props}
       >
-        <label htmlFor={inputId} className="sr-only">
-          {ariaLabel}
-        </label>
+        <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
         <IconSearch
           className="h-5 w-5 shrink-0 text-(--brand-white)"
           aria-hidden="true"
         />
-        <input
-          id={inputId}
-          ref={ref}
-          type="search"
+        <AriaInput
           placeholder={placeholder}
-          aria-label={ariaLabel}
           className="w-full bg-transparent text-sm font-medium text-(--brand-white) font-serif leading-3 opacity-50 placeholder:text-(--brand-white) placeholder:opacity-50 focus:opacity-100 focus:outline-none"
-          {...props}
         />
-      </div>
+      </AriaSearchField>
     );
   },
 );
@@ -50,11 +60,16 @@ NavSearchBar.displayName = "NavSearchBar";
 /*  NavLink                                                                    */
 /* -------------------------------------------------------------------------- */
 
-export interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+export interface NavLinkProps extends Omit<
+  AriaLinkProps,
+  "className" | "style"
+> {
+  className?: string;
+}
 
 const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
   ({ className, ...props }, ref) => (
-    <a
+    <AriaLink
       ref={ref}
       className={cn(
         "text-sm font-medium leading-5 text-(--brand-white) transition-opacity hover:opacity-80",
@@ -111,10 +126,9 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         {/* Top bar: logo + mobile toggle */}
         <div className="flex w-full sm:w-auto items-center justify-between">
           {logo && <div className="shrink-0">{logo}</div>}
-          <button
-            type="button"
+          <AriaButton
             className="sm:hidden flex h-10 w-10 items-center justify-center text-(--brand-white)"
-            onClick={() => setMobileOpen((o) => !o)}
+            onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? (
@@ -134,7 +148,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                 />
               </svg>
             )}
-          </button>
+          </AriaButton>
         </div>
 
         {/* Desktop: center + right content */}

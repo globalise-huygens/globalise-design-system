@@ -5,7 +5,7 @@ import { Button } from "@globalise/design-system";
 
 # Button
 
-A versatile button component with multiple visual variants and sizes, built on Radix UI's `Slot` primitive for `asChild` composition.
+A versatile button component with multiple visual variants and sizes. Supports polymorphic rendering via the `as` prop.
 
 ## Preview
 
@@ -72,15 +72,11 @@ A versatile button component with multiple visual variants and sizes, built on R
   </div>
 </ComponentPreview>
 
-## As Child
+## Polymorphic Rendering
 
-Use `asChild` to render the button styles on a different element (e.g. a link):
+Use `as` to render the button styles on a different element (e.g. a link):
 
-<CodeBlock
-  code={`<Button asChild>
-  <a href="/archive">Browse Archive</a>
-</Button>`}
-/>
+<CodeBlock code={`<Button as="a" href="/archive">Browse Archive</Button>`} />
 
 ## Props
 
@@ -99,10 +95,11 @@ Use `asChild` to render the button styles on a different element (e.g. a link):
       description: "Button size",
     },
     {
-      name: "asChild",
-      type: "boolean",
-      default: "false",
-      description: "Render as child element using Radix Slot",
+      name: "as",
+      type: "React.ElementType",
+      default: '"button"',
+      description:
+        'Render as a different element or component (e.g. "a" or a router Link)',
     },
     {
       name: "disabled",

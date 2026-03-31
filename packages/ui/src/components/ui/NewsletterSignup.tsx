@@ -1,10 +1,19 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import {
+  Button as AriaButton,
+  Form as AriaForm,
+  Input as AriaInput,
+  Label as AriaLabel,
+  TextField as AriaTextField,
+  type FormProps as AriaFormProps,
+} from "react-aria-components";
 
 export interface NewsletterSignupProps extends Omit<
-  React.FormHTMLAttributes<HTMLFormElement>,
-  "children"
+  AriaFormProps,
+  "children" | "className" | "style"
 > {
+  className?: string;
   /** Image element (e.g. next/image) rendered on the left side */
   image?: React.ReactNode;
   /** Heading text */
@@ -19,13 +28,6 @@ export interface NewsletterSignupProps extends Omit<
   privacyText?: React.ReactNode;
   /** Name used for the email field */
   inputName?: string;
-  /** Additional props passed to the email input */
-  inputProps?: Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    "type" | "name" | "placeholder"
-  >;
-  /** Additional props passed to the submit button */
-  submitButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
 const NewsletterSignup = React.forwardRef<
@@ -42,16 +44,12 @@ const NewsletterSignup = React.forwardRef<
       submitLabel = "Subscribe",
       privacyText,
       inputName = "email",
-      inputProps,
-      submitButtonProps,
       ...props
     },
     ref,
   ) => {
-    const inputId = React.useId();
-
     return (
-      <form
+      <AriaForm
         ref={ref}
         className={cn("flex flex-col gap-12", className)}
         {...props}
@@ -73,27 +71,25 @@ const NewsletterSignup = React.forwardRef<
           )}
           <div className="flex-1 px-8 py-12 sm:px-12 sm:py-16 bg-brand-turquoise flex flex-col gap-16">
             <div className="h-4" />
-            <div className="py-3 border-b border-black flex justify-between items-center gap-4">
-              <label htmlFor={inputId} className="sr-only">
-                Email address
-              </label>
-              <input
-                id={inputId}
-                type="email"
-                name={inputName}
+            <AriaTextField
+              name={inputName}
+              type="email"
+              isRequired
+              autoComplete="email"
+              className="py-3 border-b border-black flex justify-between items-center gap-4"
+            >
+              <AriaLabel className="sr-only">Email address</AriaLabel>
+              <AriaInput
                 placeholder={inputPlaceholder}
                 className="min-w-0 flex-1 bg-transparent text-black text-lg font-medium font-sans leading-6 placeholder:text-black/80 focus:outline-none"
-                autoComplete="email"
-                {...inputProps}
               />
-              <button
+              <AriaButton
                 type="submit"
-                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--ring) focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
-                {...submitButtonProps}
+                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
               >
                 {submitLabel}
-              </button>
-            </div>
+              </AriaButton>
+            </AriaTextField>
             {privacyText && (
               <span className="text-black text-sm font-normal font-sans leading-5">
                 {privacyText}
@@ -101,7 +97,7 @@ const NewsletterSignup = React.forwardRef<
             )}
           </div>
         </div>
-      </form>
+      </AriaForm>
     );
   },
 );

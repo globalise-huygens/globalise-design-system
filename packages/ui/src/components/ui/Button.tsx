@@ -1,7 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import {
+  Button as AriaButton,
+  Link as AriaLink,
+  type ButtonProps as AriaButtonProps,
+  type LinkProps as AriaLinkProps,
+} from "react-aria-components";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--ring)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
@@ -32,16 +37,34 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    Omit<AriaButtonProps, "className" | "style">,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
+  className?: string;
+  /** Render as a different element or component (e.g. `"span"`) */
+  as?: React.ElementType;
+}
+
+export interface ButtonLinkProps
+  extends
+    Omit<AriaLinkProps, "className" | "style">,
+    VariantProps<typeof buttonVariants> {
+  className?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+  ({ className, variant, size, as, ...props }, ref) => {
+    if (as) {
+      const Comp = as;
+      return (
+        <Comp
+          className={cn(buttonVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        />
+      );
+    }
     return (
-      <Comp
+      <AriaButton
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
@@ -51,4 +74,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  ({ className, variant, size, ...props }, ref) => (
+    <AriaLink
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props}
+    />
+  ),
+);
+ButtonLink.displayName = "ButtonLink";
+
+export { Button, ButtonLink, buttonVariants };

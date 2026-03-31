@@ -1,6 +1,6 @@
 // Components
-export { Button, buttonVariants } from "./components/ui/Button";
-export type { ButtonProps } from "./components/ui/Button";
+export { Button, ButtonLink, buttonVariants } from "./components/ui/Button";
+export type { ButtonProps, ButtonLinkProps } from "./components/ui/Button";
 
 export { CardArticle } from "./components/ui/CardArticle";
 export type { CardArticleProps } from "./components/ui/CardArticle";

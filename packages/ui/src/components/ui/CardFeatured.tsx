@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { IconAdd } from "../icons/IconAdd";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
@@ -44,15 +45,11 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
           const textColor = item.darkBackground ? "text-white" : "text-black";
 
           if (isExpanded) {
-            const ExpandedWrapper = item.href ? "a" : "div";
-            const expandedWrapperProps = item.href ? { href: item.href } : {};
+            const expandedClassName =
+              "flex-1 relative flex flex-col justify-end p-6 overflow-hidden cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)";
 
-            return (
-              <ExpandedWrapper
-                key={index}
-                className="flex-1 relative flex flex-col justify-end p-6 overflow-hidden cursor-pointer transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
-                {...expandedWrapperProps}
-              >
+            const expandedContent = (
+              <>
                 {/* Background: image or solid color */}
                 {item.image ? (
                   <>
@@ -96,24 +93,41 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
                     <IconArrowRight className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
-              </ExpandedWrapper>
+              </>
+            );
+
+            if (item.href) {
+              return (
+                <AriaLink
+                  key={index}
+                  href={item.href}
+                  className={expandedClassName}
+                >
+                  {expandedContent}
+                </AriaLink>
+              );
+            }
+
+            return (
+              <div key={index} className={expandedClassName}>
+                {expandedContent}
+              </div>
             );
           }
 
           return (
-            <button
+            <AriaButton
               key={index}
-              type="button"
               className="w-full lg:w-30 p-3 flex flex-col items-start gap-2 cursor-pointer transition-all duration-500 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
               style={{ backgroundColor: item.color }}
-              onClick={() => setExpandedIndex(index)}
+              onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}
             >
               <IconAdd className="h-5 w-5 text-black" aria-hidden="true" />
               <span className="font-serif font-medium text-[15px] leading-[1.3] tracking-[-0.3px] text-black">
                 {item.title.replace(/\n/g, " ")}
               </span>
-            </button>
+            </AriaButton>
           );
         })}
       </div>

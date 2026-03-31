@@ -66,10 +66,10 @@ A polymorphic typography component that automatically renders the correct HTML e
         "Which variant to render, controls the HTML element and styling",
     },
     {
-      name: "asChild",
-      type: "boolean",
-      default: "false",
-      description: "Render as child element using Radix Slot",
+      name: "as",
+      type: "React.ElementType",
+      default: "(auto from variant)",
+      description: "Override the default HTML element for the selected variant",
     },
   ]}
 />

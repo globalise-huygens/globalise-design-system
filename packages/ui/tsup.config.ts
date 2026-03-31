@@ -9,8 +9,14 @@ export default defineConfig({
   external: ["react", "react-dom"],
   treeshake: true,
   async onSuccess() {
-    const { cpSync } = await import("fs");
+    const { cpSync, readFileSync, writeFileSync } = await import("fs");
     cpSync("src/styles/globals.css", "dist/styles.css");
     cpSync("src/assets", "dist/assets", { recursive: true });
+
+    // Prepend "use client" directive for React Server Components compatibility
+    for (const file of ["dist/index.js", "dist/index.cjs"]) {
+      const content = readFileSync(file, "utf-8");
+      writeFileSync(file, `"use client";\n${content}`);
+    }
   },
 });

@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import { Link as AriaLink } from "react-aria-components";
 import { IconArrowRight } from "../icons/IconArrowRight";
 import { Button } from "./Button";
 
@@ -54,10 +55,8 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
           <span className="text-sm font-sans leading-5">{description}</span>
         </div>
         <div className="mt-6">
-          <Button variant="link" asChild className="p-0 h-auto">
-            <span>
-              {cta} <IconArrowRight className="h-5 w-5" aria-hidden="true" />
-            </span>
+          <Button variant="link" as="span" className="p-0 h-auto">
+            {cta} <IconArrowRight className="h-5 w-5" aria-hidden="true" />
           </Button>
         </div>
       </>
@@ -65,7 +64,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
 
     if (href) {
       return (
-        <a
+        <AriaLink
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
           className={cn(
@@ -73,10 +72,9 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
             cardGlanceVariants({ color }),
             className,
           )}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {content}
-        </a>
+        </AriaLink>
       );
     }
 

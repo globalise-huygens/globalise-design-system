@@ -1,6 +1,10 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
+import {
+  Separator as AriaSeparator,
+  type SeparatorProps as AriaSeparatorProps,
+} from "react-aria-components";
 
 const dividerVariants = cva(
   "border-0 outline outline-1 outline-offset-[-0.50px]",
@@ -24,13 +28,16 @@ const dividerVariants = cva(
 
 export interface DividerProps
   extends
-    Omit<React.ComponentPropsWithRef<"hr">, "color">,
-    VariantProps<typeof dividerVariants> {}
+    Omit<AriaSeparatorProps, "className" | "style" | "orientation">,
+    VariantProps<typeof dividerVariants> {
+  className?: string;
+}
 
 const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
-  ({ className, orientation, color, ...props }, ref) => (
-    <hr
+  ({ className, orientation = "horizontal", color, ...props }, ref) => (
+    <AriaSeparator
       ref={ref}
+      orientation={orientation ?? "horizontal"}
       className={cn(dividerVariants({ orientation, color }), className)}
       {...props}
     />

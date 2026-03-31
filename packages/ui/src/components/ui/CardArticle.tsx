@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import { Link as AriaLink } from "react-aria-components";
 import { IconEast } from "../icons/IconEast";
 
 export interface CardArticleProps extends React.HTMLAttributes<HTMLElement> {
@@ -34,17 +35,16 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
 
     if (href) {
       return (
-        <a
+        <AriaLink
           href={href}
           ref={ref as React.RefObject<HTMLAnchorElement>}
           className={cn(
             "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             className,
           )}
-          {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {content}
-        </a>
+        </AriaLink>
       );
     }
 

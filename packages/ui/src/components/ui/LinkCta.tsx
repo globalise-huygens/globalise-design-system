@@ -1,12 +1,21 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import {
+  Link as AriaLink,
+  type LinkProps as AriaLinkProps,
+} from "react-aria-components";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
-export interface LinkCtaProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+export interface LinkCtaProps extends Omit<
+  AriaLinkProps,
+  "className" | "style"
+> {
+  className?: string;
+}
 
 const LinkCta = React.forwardRef<HTMLAnchorElement, LinkCtaProps>(
   ({ className, children, ...props }, ref) => (
-    <a
+    <AriaLink
       ref={ref}
       className={cn(
         "inline-flex items-center gap-2.5 text-sm font-medium font-sans",
@@ -14,9 +23,11 @@ const LinkCta = React.forwardRef<HTMLAnchorElement, LinkCtaProps>(
       )}
       {...props}
     >
-      {children}
-      <IconArrowRight className="h-5 w-5" aria-hidden="true" />
-    </a>
+      <>
+        {children}
+        <IconArrowRight className="h-5 w-5" aria-hidden="true" />
+      </>
+    </AriaLink>
   ),
 );
 LinkCta.displayName = "LinkCta";
