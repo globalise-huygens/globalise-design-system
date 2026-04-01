@@ -62,9 +62,6 @@ export type { SectionDividerProps } from "./components/ui/SectionDivider";
 export { NewsletterSignup } from "./components/ui/NewsletterSignup";
 export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
-export { LinkCta } from "./components/ui/LinkCta";
-export type { LinkCtaProps } from "./components/ui/LinkCta";
-
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
 export type { SearchBarProps } from "./components/ui/SearchBar";
 

@@ -1,7 +1,7 @@
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
-import { Button, LinkCta } from "@globalise/design-system";
+import { Button, ButtonLink } from "@globalise/design-system";
 
 # Button
 
@@ -14,7 +14,7 @@ A versatile button component with multiple visual variants and sizes. Built on R
     <Button>Default</Button>
     <Button variant="outline">Outline</Button>
     <Button variant="link" className="text-white">
-      Link CTA →
+      Link CTA
     </Button>
     <Button variant="ghost" className="text-white">
       Ghost
@@ -29,7 +29,7 @@ A versatile button component with multiple visual variants and sizes. Built on R
 
 <Button variant="default">Get Started</Button>
 <Button variant="outline">Learn More</Button>
-<Button variant="link">Read article →</Button>`} />
+<Button variant="link">Read article</Button>`} />
 
 ## Variants
 
@@ -49,7 +49,7 @@ A versatile button component with multiple visual variants and sizes. Built on R
 
 <ComponentPreview>
   <Button variant="link" className="text-white">
-    Text CTA →
+    Text CTA
   </Button>
 </ComponentPreview>
 
@@ -72,7 +72,7 @@ All variants support a disabled state via `isDisabled`. Disabled buttons are vis
       Outline
     </Button>
     <Button variant="link" isDisabled className="text-white">
-      Link CTA →
+      Link CTA
     </Button>
     <Button variant="ghost" isDisabled className="text-white">
       Ghost
@@ -96,24 +96,24 @@ All variants support a disabled state via `isDisabled`. Disabled buttons are vis
   </div>
 </ComponentPreview>
 
-## LinkCta
+## Link Variant as CTA
 
-For call-to-action links with an arrow icon, use `LinkCta`. It renders a React Aria `Link` with a trailing `IconArrowRight`.
+The `link` variant automatically includes a trailing arrow icon (`IconArrowRight`), making it the standard call-to-action link. Use `ButtonLink` with `variant="link"` for navigation links:
 
 <ComponentPreview>
   <div className="flex flex-col gap-4">
-    <LinkCta href="#" className="text-white">
+    <ButtonLink variant="link" href="#" className="text-white">
       About the project
-    </LinkCta>
-    <LinkCta href="#" className="text-brand-turquoise">
+    </ButtonLink>
+    <ButtonLink variant="link" href="#" className="text-brand-turquoise">
       Explore the archive
-    </LinkCta>
+    </ButtonLink>
   </div>
 </ComponentPreview>
 
-<CodeBlock code={`import { LinkCta } from "@globalise/design-system";
+<CodeBlock code={`import { ButtonLink } from "@globalise/design-system";
 
-<LinkCta href="/about">About the project</LinkCta>`} />
+<ButtonLink variant="link" href="/about">About the project</ButtonLink>`} />
 
 ## Polymorphic Rendering
 

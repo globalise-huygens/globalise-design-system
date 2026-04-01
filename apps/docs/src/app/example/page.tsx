@@ -1,12 +1,12 @@
 import {
   ArticleRow,
+  ButtonLink,
   CardArticle,
   CardGlance,
   CardHero,
   Container,
   Divider,
   Grid,
-  LinkCta,
   NewsletterSignup,
   Section,
   Typography,
@@ -27,9 +27,9 @@ export default function HomePage() {
               Globalise opens access to early modern colonial archives through
               research-driven digital infrastructure.
             </Typography>
-            <LinkCta href="#" className="text-white">
+            <ButtonLink variant="link" href="#" className="text-white">
               About the project
-            </LinkCta>
+            </ButtonLink>
           </div>
         </Container>
       </Section>
@@ -81,9 +81,9 @@ export default function HomePage() {
                 Globalise connects documents, people, and places to make
                 colonial history researchable at scale.
               </Typography>
-              <LinkCta href="#" className="text-white">
+              <ButtonLink variant="link" href="#" className="text-white">
                 Meet the team
-              </LinkCta>
+              </ButtonLink>
             </div>
           </div>
         </Container>
@@ -221,9 +221,9 @@ export default function HomePage() {
             <Typography variant="lead" className="text-white/80">
               Built for researchers, educators and curious audiences worldwide.
             </Typography>
-            <LinkCta href="#" className="text-white">
+            <ButtonLink variant="link" href="#" className="text-white">
               Learn &amp; get started
-            </LinkCta>
+            </ButtonLink>
           </div>
 
           {/* Card strip */}

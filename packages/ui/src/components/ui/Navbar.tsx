@@ -137,7 +137,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={ref}
         className={cn(
-          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center px-4 sm:px-8 lg:px-[60px] py-4 sm:py-0",
+          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center px-4 sm:px-8 py-4 sm:py-0",
           className,
         )}
         {...props}
