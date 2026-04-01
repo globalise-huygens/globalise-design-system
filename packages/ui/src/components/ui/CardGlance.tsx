@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Link as AriaLink } from "react-aria-components";
-import { IconArrowRight } from "../icons/IconArrowRight";
 import { Button } from "./Button";
 
 const cardGlanceVariants = cva(
@@ -62,7 +61,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
         </div>
         <div className="mt-6">
           <Button variant="link" as="span" className="p-0 h-auto">
-            {cta} <IconArrowRight className="h-5 w-5" aria-hidden="true" />
+            {cta}
           </Button>
         </div>
       </>

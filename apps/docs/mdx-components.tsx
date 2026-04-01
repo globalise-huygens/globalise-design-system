@@ -1,28 +1,19 @@
+import { Divider, Typography } from "@globalise/design-system";
 import type { MDXComponents } from "mdx/types";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    h1: (props) => (
-      <h1
-        className="scroll-m-20 font-serif font-medium text-5xl leading-tight tracking-[-0.03em] mb-6"
-        {...props}
-      />
-    ),
+    h1: (props) => <Typography variant="h3" className="mb-6" {...props} />,
     h2: (props) => (
-      <h2
-        className="scroll-m-20 font-serif font-medium text-3xl leading-tight tracking-[-0.03em] mt-12 mb-4 first:mt-0"
-        {...props}
-      />
+      <Typography variant="h4" className="mt-12 mb-4 first:mt-0" {...props} />
     ),
     h3: (props) => (
-      <h3
-        className="scroll-m-20 font-serif font-medium text-2xl leading-tight tracking-[-0.03em] mt-8 mb-3"
-        {...props}
-      />
+      <Typography variant="subtitle" as="h3" className="mt-8 mb-3" {...props} />
     ),
     p: (props) => (
-      <p
-        className="font-sans text-base font-normal leading-7 tracking-[-0.02em] text-white/80 not-first:child:mt-4"
+      <Typography
+        variant="p"
+        className="leading-7 text-white/80 not-first:mt-4"
         {...props}
       />
     ),
@@ -43,8 +34,10 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       />
     ),
     code: (props) => (
-      <code
-        className="relative bg-white/10 px-[0.4rem] py-[0.2rem] font-mono text-sm text-brand-turquoise"
+      <Typography
+        variant="code"
+        as="code"
+        className="bg-white/10 px-[0.4rem] py-[0.2rem] text-brand-turquoise rounded-none"
         {...props}
       />
     ),
@@ -54,7 +47,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {...props}
       />
     ),
-    hr: () => <hr className="my-8 border-white/10" />,
+    hr: () => <Divider className="my-8" />,
     blockquote: (props) => (
       <blockquote
         className="mt-6 border-l-2 border-brand-turquoise pl-6 italic text-white/70 font-serif"

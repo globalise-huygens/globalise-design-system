@@ -1,5 +1,5 @@
 import { DocsSidebar } from "@/components/DocsSidebar";
-import { Container } from "@globalise/design-system";
+import { Grid } from "@globalise/design-system";
 
 export default function DocsLayout({
   children,
@@ -7,11 +7,13 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Container className="py-12 lg:py-16">
-      <div className="flex gap-12">
+    <Grid className="mx-auto max-w-360 py-12 lg:py-16">
+      <div className="col-span-12 px-4 sm:px-0 lg:col-start-2 lg:col-span-3">
         <DocsSidebar />
-        <article className="min-w-0 flex-1 max-w-3xl">{children}</article>
       </div>
-    </Container>
+      <article className="col-span-12 px-4 sm:px-0 lg:col-start-5 lg:col-span-7 min-w-0">
+        {children}
+      </article>
+    </Grid>
   );
 }

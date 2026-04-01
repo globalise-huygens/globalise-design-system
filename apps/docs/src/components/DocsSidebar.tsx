@@ -3,7 +3,7 @@
 import { cn, IconClose, IconMenu } from "@globalise/design-system";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const navigation = [
   {
