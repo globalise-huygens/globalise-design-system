@@ -74,9 +74,18 @@ A versatile button component with multiple visual variants and sizes. Supports p
 
 ## Polymorphic Rendering
 
-Use `as` to render the button styles on a different element (e.g. a link):
+Use `as` to render the button styles on a different element (e.g. a span):
 
-<CodeBlock code={`<Button as="a" href="/archive">Browse Archive</Button>`} />
+<CodeBlock code={`<Button as="span">Styled as span</Button>`} />
+
+## ButtonLink
+
+For link-styled buttons that navigate, use `ButtonLink`. It renders an accessible `<a>` element with React Aria's Link primitive:
+
+<CodeBlock code={`import { ButtonLink } from "@globalise/design-system";
+
+<ButtonLink href="/archive" variant="default">Browse Archive</ButtonLink>
+<ButtonLink href="/about" variant="outline">Learn More</ButtonLink>`} />
 
 ## Props
 

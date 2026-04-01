@@ -35,6 +35,9 @@ importers:
       react:
         specifier: ^19.2.4
         version: 19.2.4
+      react-aria-components:
+        specifier: ^1.16.0
+        version: 1.16.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
@@ -60,6 +63,9 @@ importers:
       tailwindcss:
         specifier: ^4.2.2
         version: 4.2.2
+      tailwindcss-react-aria-components:
+        specifier: ^2.0.1
+        version: 2.0.1(tailwindcss@4.2.2)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -78,6 +84,9 @@ importers:
       tailwind-merge:
         specifier: ^3.5.0
         version: 3.5.0
+      tailwindcss-react-aria-components:
+        specifier: ^2.0.1
+        version: 2.0.1(tailwindcss@4.2.2)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.4
@@ -2557,6 +2566,11 @@ packages:
 
   tailwind-merge@3.5.0:
     resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
+
+  tailwindcss-react-aria-components@2.0.1:
+    resolution: {integrity: sha512-yTAfYv9BE/gKczS+b8UiFMqxnrEYKKNE6Y4vAWzGadkHGb4Yuawp0SHbZKkZJQgFvK0KjO3JpCq/0kzR5jJ9tw==}
+    peerDependencies:
+      tailwindcss: ^4.0.0
 
   tailwindcss@4.2.2:
     resolution: {integrity: sha512-KWBIxs1Xb6NoLdMVqhbhgwZf2PGBpPEiwOqgI4pFIYbNTfBXiKYyWoTsXgBQ9WFg/OlhnvHaY+AEpW7wSmFo2Q==}
@@ -5885,6 +5899,10 @@ snapshots:
       has-flag: 4.0.0
 
   tailwind-merge@3.5.0: {}
+
+  tailwindcss-react-aria-components@2.0.1(tailwindcss@4.2.2):
+    dependencies:
+      tailwindcss: 4.2.2
 
   tailwindcss@4.2.2: {}
 

@@ -103,6 +103,8 @@
   }
 }
 
+@plugin "tailwindcss-react-aria-components";
+
 /* ── Tailwind theme registration ──────────────────
    Maps CSS variables to Tailwind utilities so consumers
    get classes like bg-brand-turquoise, text-neutral-500, etc.

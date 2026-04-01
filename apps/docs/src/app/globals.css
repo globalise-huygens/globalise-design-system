@@ -1,3 +1,4 @@
 @import "tailwindcss";
 @import "@globalise/design-system/styles.css";
+@plugin "tailwindcss-react-aria-components";
 @source "../../../../packages/ui/src";

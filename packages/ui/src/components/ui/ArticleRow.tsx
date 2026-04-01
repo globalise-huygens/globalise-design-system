@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import { Separator as AriaSeparator } from "react-aria-components";
 
 export interface ArticleRowProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -18,7 +19,10 @@ const ArticleRow = React.forwardRef<HTMLDivElement, ArticleRowProps>(
         {items.map((child, index) => (
           <React.Fragment key={index}>
             {index > 0 && (
-              <hr className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-black/40" />
+              <AriaSeparator
+                orientation="vertical"
+                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-black/40"
+              />
             )}
             <div className="flex-1 min-w-0">{child}</div>
           </React.Fragment>
