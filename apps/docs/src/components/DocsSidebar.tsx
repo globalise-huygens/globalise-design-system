@@ -23,6 +23,7 @@ const navigation = [
       { title: "Divider", href: "/docs/components/divider" },
       { title: "Section", href: "/docs/components/section" },
       { title: "Navbar", href: "/docs/components/navbar" },
+      { title: "Search Bar", href: "/docs/components/search-bar" },
       { title: "Card Base", href: "/docs/components/card-base" },
       { title: "Card Article", href: "/docs/components/card-article" },
       { title: "Card Hero", href: "/docs/components/card-hero" },

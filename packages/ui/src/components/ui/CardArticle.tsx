@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { Link as AriaLink } from "react-aria-components";
-import { IconEast } from "../icons/IconEast";
+import { IconArrowRight } from "../icons/IconArrowRight";
 
 interface CardArticleBaseProps {
   /** Category label (e.g. "Article", "News") */
@@ -39,7 +39,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
             {title}
           </span>
         </div>
-        <IconEast className="h-[18px] w-[18px]" aria-hidden="true" />
+        <IconArrowRight className="h-[18px] w-[18px]" aria-hidden="true" />
       </>
     );
 

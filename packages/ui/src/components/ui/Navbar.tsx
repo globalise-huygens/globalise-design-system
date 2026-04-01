@@ -50,8 +50,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "hidden sm:flex h-12 w-full max-w-96 items-center gap-2.5 bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
+          "hidden sm:flex flex-1 mx-4 lg:mx-8 h-12 max-w-96 items-center gap-2.5 bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
           className,
         )}
         {...props}
@@ -138,13 +137,13 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={ref}
         className={cn(
-          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center justify-between px-4 sm:px-8 lg:px-[60px] py-4 sm:py-0",
+          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center px-4 sm:px-8 lg:px-[60px] py-4 sm:py-0",
           className,
         )}
         {...props}
       >
         {/* Top bar: logo + mobile toggle */}
-        <div className="flex w-full sm:w-auto items-center justify-between">
+        <div className="flex w-full sm:w-auto items-center justify-between shrink-0">
           {logo && <div className="shrink-0">{logo}</div>}
           <AriaButton
             className="sm:hidden flex h-10 w-10 items-center justify-center text-(--brand-white)"
@@ -186,7 +185,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                   child as React.ReactElement<{ className?: string }>,
                   {
                     className: cn(
-                      "relative flex left-auto top-auto translate-x-0 translate-y-0 w-full max-w-none",
+                      "flex w-full max-w-none mx-0",
                       (child as React.ReactElement<{ className?: string }>)
                         .props.className,
                     ),

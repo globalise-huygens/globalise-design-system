@@ -11,7 +11,7 @@ import {
 export function NavbarDemo() {
   return (
     <div className="w-full bg-brand-black">
-      <Navbar logo={<LogoNavbar className="h-5 w-auto" />}>
+      <Navbar logo={<LogoNavbar className="h-9 w-auto" />}>
         <NavSearchBar placeholder="Search the archive" />
         <NavLinks>
           <NavLink href="#">About</NavLink>

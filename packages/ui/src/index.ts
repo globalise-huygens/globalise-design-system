@@ -65,6 +65,9 @@ export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 export { LinkCta } from "./components/ui/LinkCta";
 export type { LinkCtaProps } from "./components/ui/LinkCta";
 
+export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
+export type { SearchBarProps } from "./components/ui/SearchBar";
+
 export { ArticleRow } from "./components/ui/ArticleRow";
 export type { ArticleRowProps } from "./components/ui/ArticleRow";
 
@@ -73,7 +76,6 @@ export { IconAdd } from "./components/icons/IconAdd";
 export { IconArrowRight } from "./components/icons/IconArrowRight";
 export { IconChevronDown } from "./components/icons/IconChevronDown";
 export { IconClose } from "./components/icons/IconClose";
-export { IconEast } from "./components/icons/IconEast";
 export { IconMenu } from "./components/icons/IconMenu";
 export { IconSearch } from "./components/icons/IconSearch";
 

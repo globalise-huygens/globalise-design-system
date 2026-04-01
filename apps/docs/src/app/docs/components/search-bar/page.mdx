@@ -1,0 +1,107 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { SearchBar } from "@globalise/design-system";
+
+# SearchBar
+
+A search input field built with React Aria's `SearchField`. Supports multiple visual variants and sizes.
+
+## Preview
+
+<ComponentPreview>
+  <div className="flex flex-col gap-4 w-full max-w-md">
+    <SearchBar placeholder="Search the archive" />
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { SearchBar } from "@globalise/design-system";
+
+<SearchBar placeholder="Search the archive" />`} />
+
+## Variants
+
+### Default
+
+<ComponentPreview>
+  <SearchBar placeholder="Search the archive" className="w-full max-w-md" />
+</ComponentPreview>
+
+### Subtle
+
+<ComponentPreview>
+  <SearchBar
+    variant="subtle"
+    placeholder="Search…"
+    className="w-full max-w-md"
+  />
+</ComponentPreview>
+
+### Solid
+
+<ComponentPreview>
+  <SearchBar
+    variant="solid"
+    placeholder="Search collections"
+    className="w-full max-w-md"
+  />
+</ComponentPreview>
+
+## Sizes
+
+<ComponentPreview>
+  <div className="flex flex-col gap-4 w-full max-w-md">
+    <SearchBar size="sm" placeholder="Small" />
+    <SearchBar size="default" placeholder="Default" />
+    <SearchBar size="lg" placeholder="Large" />
+  </div>
+</ComponentPreview>
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "variant",
+      type: '"default" | "subtle" | "solid"',
+      default: '"default"',
+      description: "Visual style variant",
+    },
+    {
+      name: "size",
+      type: '"default" | "sm" | "lg"',
+      default: '"default"',
+      description: "Height of the search input",
+    },
+    {
+      name: "placeholder",
+      type: "string",
+      default: '"Search…"',
+      description: "Placeholder text for the input",
+    },
+    {
+      name: "aria-label",
+      type: "string",
+      description: "Accessible label (defaults to placeholder value)",
+    },
+    {
+      name: "onSubmit",
+      type: "(value: string) => void",
+      description: "Called when the user submits the search",
+    },
+    {
+      name: "onChange",
+      type: "(value: string) => void",
+      description: "Called when the input value changes",
+    },
+    {
+      name: "onClear",
+      type: "() => void",
+      description: "Called when the search is cleared",
+    },
+  ]}
+/>
+
+The SearchBar is built on React Aria's `SearchField` and supports all its accessibility features, including keyboard navigation and screen reader announcements.

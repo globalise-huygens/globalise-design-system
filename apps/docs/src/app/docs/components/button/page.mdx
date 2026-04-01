@@ -1,11 +1,11 @@
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
-import { Button } from "@globalise/design-system";
+import { Button, LinkCta } from "@globalise/design-system";
 
 # Button
 
-A versatile button component with multiple visual variants and sizes. Supports polymorphic rendering via the `as` prop.
+A versatile button component with multiple visual variants and sizes. Built on React Aria's `Button` primitive with full keyboard, focus, and accessibility support.
 
 ## Preview
 
@@ -61,6 +61,30 @@ A versatile button component with multiple visual variants and sizes. Supports p
   </Button>
 </ComponentPreview>
 
+## Disabled State
+
+All variants support a disabled state via `isDisabled`. Disabled buttons are visually dimmed and non-interactive.
+
+<ComponentPreview>
+  <div className="flex flex-wrap items-center gap-4">
+    <Button isDisabled>Default</Button>
+    <Button variant="outline" isDisabled>
+      Outline
+    </Button>
+    <Button variant="link" isDisabled className="text-white">
+      Link CTA →
+    </Button>
+    <Button variant="ghost" isDisabled className="text-white">
+      Ghost
+    </Button>
+  </div>
+</ComponentPreview>
+
+<CodeBlock
+  code={`<Button isDisabled>Disabled</Button>
+<Button variant="outline" isDisabled>Disabled Outline</Button>`}
+/>
+
 ## Sizes
 
 <ComponentPreview>
@@ -71,6 +95,25 @@ A versatile button component with multiple visual variants and sizes. Supports p
     <Button size="icon">★</Button>
   </div>
 </ComponentPreview>
+
+## LinkCta
+
+For call-to-action links with an arrow icon, use `LinkCta`. It renders a React Aria `Link` with a trailing `IconArrowRight`.
+
+<ComponentPreview>
+  <div className="flex flex-col gap-4">
+    <LinkCta href="#" className="text-white">
+      About the project
+    </LinkCta>
+    <LinkCta href="#" className="text-brand-turquoise">
+      Explore the archive
+    </LinkCta>
+  </div>
+</ComponentPreview>
+
+<CodeBlock code={`import { LinkCta } from "@globalise/design-system";
+
+<LinkCta href="/about">About the project</LinkCta>`} />
 
 ## Polymorphic Rendering
 
@@ -86,6 +129,15 @@ For link-styled buttons that navigate, use `ButtonLink`. It renders an accessibl
 
 <ButtonLink href="/archive" variant="default">Browse Archive</ButtonLink>
 <ButtonLink href="/about" variant="outline">Learn More</ButtonLink>`} />
+
+## Interactive States
+
+All button variants respond to hover, press, and focus states via React Aria:
+
+- **Hover** — subtle color/opacity shift
+- **Pressed** — stronger color/opacity shift to confirm interaction
+- **Focus** — visible focus ring for keyboard navigation
+- **Disabled** — dimmed appearance, no pointer events
 
 ## Props
 
@@ -104,6 +156,13 @@ For link-styled buttons that navigate, use `ButtonLink`. It renders an accessibl
       description: "Button size",
     },
     {
+      name: "isDisabled",
+      type: "boolean",
+      default: "false",
+      description:
+        "Disables the button — dims appearance and prevents interaction",
+    },
+    {
       name: "as",
       type: "React.ElementType",
       default: '"button"',
@@ -111,10 +170,9 @@ For link-styled buttons that navigate, use `ButtonLink`. It renders an accessibl
         'Render as a different element or component (e.g. "a" or a router Link)',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Disable the button",
+      name: "onPress",
+      type: "(e: PressEvent) => void",
+      description: "Called when the button is pressed (click, Enter, or Space)",
     },
   ]}
 />
