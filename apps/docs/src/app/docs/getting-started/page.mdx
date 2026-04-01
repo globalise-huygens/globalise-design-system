@@ -2,19 +2,34 @@
 
 The Globalise Design System is a React component library built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and Tailwind CSS v4. It provides the UI building blocks for the Globalise project ecosystem.
 
-## Installation
+> **Status:** This package is in active development (`v0.1.0`) and is **not yet published to npm**. It is currently only available within this monorepo. The instructions below describe the intended setup for when the package is released.
 
-Install the package from npm:
+## Current development setup
+
+If you're working within the monorepo, the docs app already consumes the design system via the pnpm workspace. No installation is needed — just run:
+
+```bash
+pnpm install
+pnpm dev:docs
+```
+
+The example page at `/example` demonstrates all components in a realistic page layout.
+
+---
+
+## Future installation (once published)
+
+The following instructions will apply once the package is published to npm.
+
+### 1. Install the package
 
 ```bash
 pnpm add @globalise/design-system
 ```
 
-## Setup
+### 2. Import the styles
 
-### 1. Import the styles
-
-Add the design system stylesheet to your app's root layout or global CSS:
+Add the design system stylesheet to your app's root layout or global CSS. This provides the design tokens (colours, fonts, spacing) as CSS custom properties:
 
 ```tsx
 import "@globalise/design-system/styles.css";
@@ -26,7 +41,9 @@ Or in your CSS file:
 @import "@globalise/design-system/styles.css";
 ```
 
-### 2. Install fonts
+> **Note:** The stylesheet provides design tokens only. Your project must have its own Tailwind CSS v4 setup — the component classes are not pre-compiled.
+
+### 3. Install fonts
 
 The design system uses **Noto Sans** (UI/body text) and **Noto Serif** (headings/editorial). Load them via Google Fonts:
 
@@ -37,7 +54,7 @@ The design system uses **Noto Sans** (UI/body text) and **Noto Serif** (headings
 />
 ```
 
-### 3. Use components
+### 4. Use components
 
 Import and use components directly:
 
@@ -54,7 +71,7 @@ export default function Page() {
 }
 ```
 
-## Next.js setup
+### Next.js setup
 
 For Next.js projects, add `transpilePackages` to your `next.config.ts`:
 
@@ -64,14 +81,29 @@ const nextConfig = {
 };
 ```
 
-## Tailwind CSS
+## Requirements
 
-The design system uses Tailwind CSS v4 with CSS-based configuration. The design tokens (colors, fonts, spacing) are defined as CSS custom properties and registered with Tailwind via `@theme`. Importing `@globalise/design-system/styles.css` automatically makes all tokens available as Tailwind utilities (e.g. `bg-brand-turquoise`, `font-serif`).
+| Dependency   | Version  |
+| ------------ | -------- |
+| React        | ≥ 18.0.0 |
+| React DOM    | ≥ 18.0.0 |
+| Tailwind CSS | ≥ 4.0.0  |
 
 ## What's included
 
-- **20+ components** including buttons, cards, navigation, typography, and layout primitives
-- **6 icon components** as purpose-built SVGs
-- **4 logo variants**: logomark, logotype, lockup, and navbar
+- **Layout primitives**: `Grid`, `Container`, `Section`, `Divider`
+- **Cards**: `CardHero`, `CardFeatured`, `CardGlance`, `CardArticle`, `CardBase`
+- **Navigation**: `Navbar`, `NavLink`, `NavLinks`, `NavSearchBar`
+- **Content**: `Typography`, `Button`, `NewsletterSignup`, `SearchBar`, `ArticleRow`
+- **Icons**: `IconAdd`, `IconArrowRight`, `IconChevronDown`, `IconClose`, `IconMenu`, `IconSearch`
+- **Logos**: `Logomark`, `Logotype`, `LogoLockup`, `LogoNavbar`
+- **Dev tools**: `GridGuide` (12-column overlay for alignment checking)
 - **Design tokens** for brand colours, colour scales, typography, and spacing
 - **Full TypeScript support** with exported types for every component
+
+## What's not ready yet
+
+- npm publishing and release workflow
+- Versioning and changelog automation
+- Per-component CSS (currently ships raw tokens — your app compiles Tailwind)
+- Comprehensive test coverage

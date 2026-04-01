@@ -1,6 +1,6 @@
 // Components
 export { Button, ButtonLink, buttonVariants } from "./components/ui/Button";
-export type { ButtonProps, ButtonLinkProps } from "./components/ui/Button";
+export type { ButtonLinkProps, ButtonProps } from "./components/ui/Button";
 
 export { CardArticle } from "./components/ui/CardArticle";
 export type { CardArticleProps } from "./components/ui/CardArticle";
@@ -37,8 +37,8 @@ export type { DividerProps } from "./components/ui/Divider";
 
 export { CardFeatured } from "./components/ui/CardFeatured";
 export type {
-  CardFeaturedProps,
   CardFeaturedItem,
+  CardFeaturedProps,
 } from "./components/ui/CardFeatured";
 
 export { CardGlance, cardGlanceVariants } from "./components/ui/CardGlance";
@@ -55,6 +55,9 @@ export type { SectionProps } from "./components/ui/Section";
 
 export { Grid } from "./components/ui/Grid";
 export type { GridProps } from "./components/ui/Grid";
+
+export { GridGuide } from "./components/ui/GridGuide";
+export type { GridGuideProps } from "./components/ui/GridGuide";
 
 export { SectionDivider } from "./components/ui/SectionDivider";
 export type { SectionDividerProps } from "./components/ui/SectionDivider";

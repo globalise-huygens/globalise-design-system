@@ -7,7 +7,7 @@ import { Grid, Container } from "@globalise/design-system";
 
 The page-level layout grid following the Figma grid specification: **12 columns, stretch, auto width, 0 margin, 0 gutter**. At a max-width of 1440px each column is exactly 120px wide.
 
-Most content is placed in **columns 2–11** (use `Container` for this). Full-bleed elements span all 12 columns. Items placed in column 1 or 12 sit at the very edge of the page.
+Most content is placed in **columns 2–11** (use `col-start-2 col-span-10` or `Container` for this). Full-bleed elements span all 12 columns. Items placed in column 1 or 12 sit at the very edge of the page.
 
 ## Preview
 
@@ -32,21 +32,32 @@ Columns 1 and 12 (dimmed) are the edge columns. Columns 2–11 (highlighted) are
 
 ## Usage
 
-<CodeBlock code={`import { Grid, Container } from "@globalise/design-system";
+<CodeBlock code={`import { Grid } from "@globalise/design-system";
 
-{/* Content area (columns 2-11) via Container */}
+{/* Page-level grid with max-width */}
 
-<Container>
-  <p>Content is inset by 1 column on each side.</p>
-</Container>
+<Grid className="mx-auto max-w-360">
+  {/* Standard content area (columns 2–11) */}
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+    <p>Content sits in the standard 10-column content area.</p>
+  </div>
+</Grid>
 
-{/* Explicit column placement */}
+{/* Full bleed */}
 
-<Grid className="max-w-360 mx-auto">
-  <div className="col-span-12">Full bleed (all 12 columns)</div>
-  <div className="col-start-2 col-span-10">Columns 2–11 (same as Container)</div>
-  <div className="col-start-2 col-span-5">Left half of content area</div>
-  <div className="col-start-7 col-span-5">Right half of content area</div>
+<Grid className="mx-auto max-w-360">
+  <div className="col-span-12">Full-width element</div>
+</Grid>
+
+{/* Two-column layout within the content area */}
+
+<Grid className="mx-auto max-w-360">
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-5 sm:px-0">
+    Left column
+  </div>
+  <div className="col-span-12 px-4 sm:col-start-7 sm:col-span-5 sm:px-0">
+    Right column
+  </div>
 </Grid>`} />
 
 ## Column placement
@@ -82,19 +93,125 @@ Use Tailwind's `col-start-*` and `col-span-*` to place children within the 12-co
 | Max width              | 1440px  |
 | Column width at 1440px | 120px   |
 
-## Responsive behaviour
+## Responsive breakpoints
 
-The grid is always 12 columns. On smaller screens, items span more columns to stack:
+The grid is always 12 columns at every viewport width. Responsive behaviour is achieved by changing `col-span-*` and `col-start-*` on child elements at each breakpoint.
+
+| Breakpoint | Width    | Typical layout               | Mobile padding   |
+| ---------- | -------- | ---------------------------- | ---------------- |
+| Default    | < 640px  | Single column, `col-span-12` | `px-4` (16px)    |
+| `sm`       | ≥ 640px  | Content area cols 2–11       | none (grid cols) |
+| `md`       | ≥ 768px  | Content area cols 2–11       | none             |
+| `lg`       | ≥ 1024px | Multi-column layouts         | none             |
+| `xl`       | ≥ 1280px | Full 12-column grid          | none             |
+
+### Mobile-first column pattern
+
+On mobile, children span all 12 columns with padding. At `sm` and up, they snap into named grid columns:
 
 <CodeBlock
-  code={`<Grid>
-  {/* Full width on mobile, half on tablet, quarter on desktop */}
-  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
-  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
-  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
-  <div className="col-span-12 sm:col-span-6 lg:col-span-3">Card</div>
+  code={`{/* Standard content area — mobile-safe */}
+<Grid className="mx-auto max-w-360">
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+    Content here
+  </div>
 </Grid>`}
 />
+
+### Responsive multi-column example
+
+<CodeBlock
+  code={`<Grid className="mx-auto max-w-360">
+  {/* Stacked on mobile, side-by-side on desktop */}
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-2 lg:col-span-5">
+    Left column (cols 2–6 on desktop)
+  </div>
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-8 lg:col-span-4">
+    Right column (cols 8–11 on desktop)
+  </div>
+</Grid>`}
+/>
+
+## Component placement map
+
+How each component in the design system should sit within the 12-column grid:
+
+### Full-bleed components (cols 1–12)
+
+| Component        | Grid placement   | Notes                                                              |
+| ---------------- | ---------------- | ------------------------------------------------------------------ |
+| `Navbar`         | `col-span-12`    | Full width, internally constrains to `max-w-[1440px]`              |
+| `Section`        | Not a grid child | Wraps the `Grid` — provides background colour and vertical spacing |
+| `CardHero` strip | `col-span-12`    | Horizontally scrollable, edge-to-edge                              |
+
+### Standard content area (cols 2–11)
+
+| Component           | Desktop grid placement                  | Tablet (sm)               | Mobile             |
+| ------------------- | --------------------------------------- | ------------------------- | ------------------ |
+| `Container`         | Equivalent to `col-start-2 col-span-10` | Same                      | `col-span-12 px-4` |
+| `CardFeatured`      | `col-start-2 col-span-10`               | Same                      | `col-span-12 px-4` |
+| `ArticleRow`        | `col-start-2 col-span-10`               | Same, cards stack         | `col-span-12 px-4` |
+| `NewsletterSignup`  | `col-start-2 col-span-10`               | Same                      | `col-span-12 px-4` |
+| `Divider`           | `col-start-2 col-span-10`               | Same                      | `col-span-12 px-4` |
+| `Typography` (hero) | `col-start-2 col-span-7`                | `col-start-2 col-span-10` | `col-span-12 px-4` |
+
+### Multi-column content layouts
+
+| Layout           | Left column              | Right column             | Tablet                           | Mobile                    |
+| ---------------- | ------------------------ | ------------------------ | -------------------------------- | ------------------------- |
+| Text + pullquote | `col-start-2 col-span-5` | `col-start-8 col-span-4` | Both → `col-start-2 col-span-10` | Both → `col-span-12 px-4` |
+| Two equal halves | `col-start-2 col-span-5` | `col-start-7 col-span-5` | Same                             | Both → `col-span-12 px-4` |
+
+### Card grids (nested within content area)
+
+Cards that form a grid of items use a nested sub-grid within the content area:
+
+<CodeBlock
+  code={`<Grid className="mx-auto max-w-360">
+  <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+    {/* Sub-grid: 1 col → 2 cols → 4 cols */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+      <CardGlance ... />
+      <CardGlance ... />
+      <CardGlance ... />
+      <CardGlance ... />
+    </div>
+  </div>
+</Grid>`}
+/>
+
+| Card component     | Desktop                          | Tablet (sm)       | Mobile            |
+| ------------------ | -------------------------------- | ----------------- | ----------------- |
+| `CardGlance` (×4)  | 4 across in content area         | 2 × 2             | Stacked           |
+| `CardArticle` (×4) | 4 across via `ArticleRow`        | 4 across          | Stacked           |
+| `CardHero` strip   | Horizontal scroll, full bleed    | Horizontal scroll | Horizontal scroll |
+| `CardFeatured`     | Accordion/expand in content area | Same              | Same, stacked     |
+
+## GridGuide overlay
+
+Use the `GridGuide` component during development to visualise the 12-column grid. It renders a fixed full-viewport overlay with tinted columns:
+
+<CodeBlock
+  code={`import { GridGuide } from "@globalise/design-system";
+
+// Toggle with a state variable or keyboard shortcut
+
+<GridGuide visible={showGrid} />`}
+/>
+
+## Grid vs Container
+
+`Grid` and `Container` serve complementary roles:
+
+|              | `Grid`                                                  | `Container`                                        |
+| ------------ | ------------------------------------------------------- | -------------------------------------------------- |
+| **Purpose**  | 12-column placement system                              | Quick content-area wrapper                         |
+| **Output**   | `grid grid-cols-12`                                     | `max-w-[1440px]` + padding                         |
+| **Columns**  | Explicit via `col-start-*` / `col-span-*`               | Implicit (cols 2–11 via padding)                   |
+| **Use when** | You need multi-column layout or explicit column control | Single-column content in the standard content area |
+| **Nesting**  | Can nest sub-grids for card layouts                     | Can contain `Grid` for sub-layouts                 |
+
+For the example site, `Grid` is used as the primary layout mechanism in every section, replacing `Container` at the page level. `Container` remains useful for simpler layouts where explicit column control isn't needed.
 
 ## Props
 
@@ -104,7 +221,7 @@ The grid is always 12 columns. On smaller screens, items span more columns to st
       name: "className",
       type: "string",
       description:
-        "Additional CSS classes for overrides (e.g. max-w-[1440px], mx-auto)",
+        'Additional CSS classes. Add "mx-auto max-w-[1440px]" for page-level grid.',
     },
     {
       name: "children",
