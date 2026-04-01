@@ -22,10 +22,7 @@ const cardGlanceVariants = cva(
   },
 );
 
-export interface CardGlanceProps
-  extends
-    Omit<React.HTMLAttributes<HTMLElement>, "color">,
-    VariantProps<typeof cardGlanceVariants> {
+interface CardGlanceBaseProps extends VariantProps<typeof cardGlanceVariants> {
   /** Large heading (e.g. "2020", "Archives") */
   heading: string;
   /** Subtitle below heading */
@@ -34,15 +31,24 @@ export interface CardGlanceProps
   description: string;
   /** Call-to-action text */
   cta: string;
-  /** URL the card links to */
-  href?: string;
+  className?: string;
 }
 
+export type CardGlanceProps =
+  | (CardGlanceBaseProps & { href: string } & Omit<
+        React.AnchorHTMLAttributes<HTMLAnchorElement>,
+        "color"
+      >)
+  | (CardGlanceBaseProps & { href?: never } & Omit<
+        React.HTMLAttributes<HTMLDivElement>,
+        "color"
+      >);
+
 const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
-  (
-    { className, color, heading, subtitle, description, cta, href, ...props },
-    ref,
-  ) => {
+  (props, ref) => {
+    const { className, color, heading, subtitle, description, cta, ...rest } =
+      props;
+    const href = "href" in props ? props.href : undefined;
     const content = (
       <>
         <div className="flex flex-col gap-2">
@@ -82,7 +88,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
       <div
         ref={ref as React.Ref<HTMLDivElement>}
         className={cn("group", cardGlanceVariants({ color }), className)}
-        {...(props as React.HTMLAttributes<HTMLDivElement>)}
+        {...(rest as React.HTMLAttributes<HTMLDivElement>)}
       >
         {content}
       </div>

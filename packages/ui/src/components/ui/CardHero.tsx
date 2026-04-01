@@ -18,74 +18,81 @@ const cardHeroVariants = cva("", {
   },
 });
 
-export interface CardHeroProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardHeroVariants> {
+interface CardHeroBaseProps extends VariantProps<typeof cardHeroVariants> {
   /** Label shown on hover (e.g. "Archive", "Video") */
   label: string;
   /** Title text shown on hover — supports newlines via \n */
   title: string;
-  /** URL the card links to */
-  href?: string;
+  className?: string;
+  children?: React.ReactNode;
 }
 
-const CardHero = React.forwardRef<HTMLElement, CardHeroProps>(
-  ({ className, hoverColor, label, title, href, children, ...props }, ref) => {
-    const sharedClassName = cn(
-      "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
-      className,
-    );
+export type CardHeroProps =
+  | (CardHeroBaseProps & { href: string } & Omit<
+        React.AnchorHTMLAttributes<HTMLAnchorElement>,
+        "color"
+      >)
+  | (CardHeroBaseProps & { href?: never } & Omit<
+        React.HTMLAttributes<HTMLDivElement>,
+        "color"
+      >);
 
-    const content = (
-      <>
-        {/* Default state: children (typically an image) */}
-        <div className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0">
-          {children}
+const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
+  const { className, hoverColor, label, title, children, ...rest } = props;
+  const href = "href" in props ? props.href : undefined;
+  const sharedClassName = cn(
+    "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+    className,
+  );
+
+  const content = (
+    <>
+      {/* Default state: children (typically an image) */}
+      <div className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0">
+        {children}
+      </div>
+
+      {/* Hover state: brand color panel */}
+      <div
+        className={cn(
+          "absolute inset-0 p-3 flex flex-col justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
+          cardHeroVariants({ hoverColor }),
+        )}
+      >
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-black/60 leading-tight font-sans">
+            {label}
+          </span>
+          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-black whitespace-pre-line">
+            {title}
+          </span>
         </div>
+        <IconArrowRight className="h-5 w-5 text-black" aria-hidden="true" />
+      </div>
+    </>
+  );
 
-        {/* Hover state: brand color panel */}
-        <div
-          className={cn(
-            "absolute inset-0 p-3 flex flex-col justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
-            cardHeroVariants({ hoverColor }),
-          )}
-        >
-          <div className="flex flex-col gap-2">
-            <span className="text-xs text-black/60 leading-tight font-sans">
-              {label}
-            </span>
-            <span className="font-serif font-medium text-lg leading-tight tracking-tight text-black whitespace-pre-line">
-              {title}
-            </span>
-          </div>
-          <IconArrowRight className="h-5 w-5 text-black" aria-hidden="true" />
-        </div>
-      </>
-    );
-
-    if (href) {
-      return (
-        <AriaLink
-          href={href}
-          ref={ref as React.RefObject<HTMLAnchorElement>}
-          className={sharedClassName}
-        >
-          {content}
-        </AriaLink>
-      );
-    }
-
+  if (href) {
     return (
-      <AriaButton
-        ref={ref as React.RefObject<HTMLButtonElement>}
-        className={cn(sharedClassName, "cursor-pointer text-left")}
+      <AriaLink
+        href={href}
+        ref={ref as React.RefObject<HTMLAnchorElement>}
+        className={sharedClassName}
       >
         {content}
-      </AriaButton>
+      </AriaLink>
     );
-  },
-);
+  }
+
+  return (
+    <AriaButton
+      ref={ref as React.RefObject<HTMLButtonElement>}
+      className={cn(sharedClassName, "cursor-pointer text-left")}
+    >
+      {content}
+    </AriaButton>
+  );
+});
 CardHero.displayName = "CardHero";
 
 export { CardHero, cardHeroVariants };

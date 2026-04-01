@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, IconClose } from "@globalise/design-system";
+import { cn, IconClose, IconMenu } from "@globalise/design-system";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -107,13 +107,7 @@ export function DocsSidebar() {
         className="lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-black shadow-lg"
         aria-label="Open navigation"
       >
-        <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-          <path
-            fillRule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <IconMenu className="w-4 h-4" />
         Menu
       </button>
 

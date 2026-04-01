@@ -1,6 +1,7 @@
 "use client";
 
 import { IconClose } from "@/components/icons/IconClose";
+import { IconMenu } from "@/components/icons/IconMenu";
 import { IconSearch } from "@/components/icons/IconSearch";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -13,6 +14,20 @@ import {
   type LinkProps as AriaLinkProps,
   type SearchFieldProps as AriaSearchFieldProps,
 } from "react-aria-components";
+
+/* -------------------------------------------------------------------------- */
+/*  Internal type marker for mobile layout detection                          */
+/* -------------------------------------------------------------------------- */
+
+type NavComponentType = "NavSearchBar" | "NavLink" | "NavLinks";
+
+function getNavType(child: React.ReactElement): NavComponentType | undefined {
+  const type = child.type as React.FC & {
+    displayName?: string;
+    __navType?: NavComponentType;
+  };
+  return type.__navType ?? (type.displayName as NavComponentType | undefined);
+}
 
 /* -------------------------------------------------------------------------- */
 /*  NavSearchBar                                                               */
@@ -55,6 +70,8 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
   },
 );
 NavSearchBar.displayName = "NavSearchBar";
+(NavSearchBar as React.FC & { __navType?: NavComponentType }).__navType =
+  "NavSearchBar";
 
 /* -------------------------------------------------------------------------- */
 /*  NavLink                                                                    */
@@ -80,6 +97,7 @@ const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
   ),
 );
 NavLink.displayName = "NavLink";
+(NavLink as React.FC & { __navType?: NavComponentType }).__navType = "NavLink";
 
 /* -------------------------------------------------------------------------- */
 /*  NavLinks container                                                         */
@@ -100,6 +118,8 @@ const NavLinks = React.forwardRef<HTMLDivElement, NavLinksProps>(
   ),
 );
 NavLinks.displayName = "NavLinks";
+(NavLinks as React.FC & { __navType?: NavComponentType }).__navType =
+  "NavLinks";
 
 /* -------------------------------------------------------------------------- */
 /*  Navbar                                                                     */
@@ -134,19 +154,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             {mobileOpen ? (
               <IconClose className="h-5 w-5" />
             ) : (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              <IconMenu className="h-5 w-5" />
             )}
           </AriaButton>
         </div>
@@ -159,11 +167,8 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
           <div className="sm:hidden flex w-full flex-col gap-4 pt-4 pb-2">
             {React.Children.map(children, (child) => {
               if (!React.isValidElement(child)) return null;
-              if (
-                child.type === NavLinks ||
-                (child.type as React.FC & { displayName?: string })
-                  ?.displayName === "NavLinks"
-              ) {
+              const navType = getNavType(child);
+              if (navType === "NavLinks") {
                 return (
                   <div className="flex flex-col gap-3">
                     {
@@ -176,11 +181,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                   </div>
                 );
               }
-              if (
-                child.type === NavSearchBar ||
-                (child.type as React.FC & { displayName?: string })
-                  ?.displayName === "NavSearchBar"
-              ) {
+              if (navType === "NavSearchBar") {
                 return React.cloneElement(
                   child as React.ReactElement<{ className?: string }>,
                   {

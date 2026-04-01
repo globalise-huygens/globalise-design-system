@@ -3,19 +3,29 @@ import * as React from "react";
 import { Link as AriaLink } from "react-aria-components";
 import { IconEast } from "../icons/IconEast";
 
-export interface CardArticleProps extends React.HTMLAttributes<HTMLElement> {
+interface CardArticleBaseProps {
   /** Category label (e.g. "Article", "News") */
   label: string;
   /** Card title */
   title: string;
-  /** URL the card links to */
-  href?: string;
   /** Image element (typically Next.js Image) */
   image?: React.ReactNode;
+  className?: string;
 }
 
+export type CardArticleProps =
+  | (CardArticleBaseProps & { href: string } & Omit<
+        React.AnchorHTMLAttributes<HTMLAnchorElement>,
+        "color"
+      >)
+  | (CardArticleBaseProps & {
+      href?: never;
+    } & React.HTMLAttributes<HTMLDivElement>);
+
 const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
-  ({ className, label, title, href, image, ...props }, ref) => {
+  ({ className, label, title, image, ...props }, ref) => {
+    const href = "href" in props ? props.href : undefined;
+
     const content = (
       <>
         {image && (

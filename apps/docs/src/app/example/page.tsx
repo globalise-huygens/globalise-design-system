@@ -23,10 +23,7 @@ export default function HomePage() {
       <Section background="dark" className="pt-32 pb-0 lg:pt-48 lg:pb-0">
         <Container>
           <div className="flex flex-col gap-10 max-w-181">
-            <Typography
-              variant="h4"
-              className="text-white text-[28px]! lg:text-[40px]! leading-[1.1]! tracking-[-0.03em]!"
-            >
+            <Typography variant="hero" className="text-white">
               Globalise opens access to early modern colonial archives through
               research-driven digital infrastructure.
             </Typography>
@@ -157,7 +154,7 @@ export default function HomePage() {
       </Section>
 
       {/* ── Latest from Globalise (white section) ─────────────── */}
-      <Section background="light" spacing="large" className="lg:py-30!">
+      <Section background="light" spacing="large">
         <Container>
           <div className="flex flex-col gap-6">
             <Typography variant="h2" className="text-black">
@@ -215,13 +212,10 @@ export default function HomePage() {
       </Section>
 
       {/* ── Footer CTA ────────────────────────────────────────── */}
-      <Section background="dark" spacing="large" className="lg:py-30!">
+      <Section background="dark" spacing="large">
         <div className="flex flex-col items-center gap-12 lg:gap-22 text-center">
           <div className="flex flex-col items-center gap-6 max-w-138.5 px-4">
-            <Typography
-              variant="h1"
-              className="text-white text-5xl! lg:text-[80px]! leading-[0.95]! tracking-[-0.03em]!"
-            >
+            <Typography variant="display" className="text-white">
               Discover the VOC archives
             </Typography>
             <Typography variant="lead" className="text-white/80">

@@ -23,6 +23,7 @@ const LinkCta = React.forwardRef<HTMLAnchorElement, LinkCtaProps>(
       )}
       {...props}
     >
+      {/* Fragment required: RAC Link children is ChildrenOrFunction<LinkRenderProps> */}
       <>
         {children}
         <IconArrowRight className="h-5 w-5" aria-hidden="true" />

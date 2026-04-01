@@ -74,6 +74,7 @@ export { IconArrowRight } from "./components/icons/IconArrowRight";
 export { IconChevronDown } from "./components/icons/IconChevronDown";
 export { IconClose } from "./components/icons/IconClose";
 export { IconEast } from "./components/icons/IconEast";
+export { IconMenu } from "./components/icons/IconMenu";
 export { IconSearch } from "./components/icons/IconSearch";
 
 // Logos
