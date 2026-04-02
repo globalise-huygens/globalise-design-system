@@ -5,7 +5,7 @@ import { Link as AriaLink } from "react-aria-components";
 import { Button } from "./Button";
 
 const cardGlanceVariants = cva(
-  "flex flex-col justify-between p-6 overflow-hidden",
+  "flex flex-col justify-between p-6 flex-1 min-w-0",
   {
     variants: {
       color: {
@@ -22,13 +22,9 @@ const cardGlanceVariants = cva(
 );
 
 interface CardGlanceBaseProps extends VariantProps<typeof cardGlanceVariants> {
-  /** Large heading (e.g. "2020", "Archives") */
   heading: string;
-  /** Subtitle below heading */
   subtitle: string;
-  /** Description text */
   description: string;
-  /** Call-to-action text */
   cta: string;
   className?: string;
 }
@@ -50,17 +46,25 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
     const href = "href" in props ? props.href : undefined;
     const content = (
       <>
-        <div className="flex flex-col gap-2">
-          <span className="font-serif font-medium text-3xl leading-8 tracking-[-0.03em]">
+        <div className="flex flex-col gap-2 min-h-[6rem]">
+          <span className="font-serif font-medium text-3xl sm:text-4xl leading-tight">
             {heading}
           </span>
-          <span className="text-sm font-sans opacity-80">{subtitle}</span>
+          <span className="text-base sm:text-lg font-medium font-serif leading-6">
+            {subtitle}
+          </span>
         </div>
-        <div className="mt-6 lg:mt-0">
-          <span className="text-sm font-sans leading-5">{description}</span>
+        <div className="flex-1 mt-6">
+          <span className="text-xs font-medium font-sans leading-4">
+            {description}
+          </span>
         </div>
         <div className="mt-6">
-          <Button variant="link" as="span" className="p-0 h-auto">
+          <Button
+            variant="link"
+            as="span"
+            className="p-0 h-auto justify-start items-end whitespace-normal text-xs sm:text-sm"
+          >
             {cta}
           </Button>
         </div>

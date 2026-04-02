@@ -7,9 +7,8 @@ import { IconAdd } from "../icons/IconAdd";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
 export interface CardFeaturedItem {
-  /** Brand color CSS variable (e.g. "var(--brand-turquoise)") */
   color: string;
-  /** Short category label (e.g. "Collection") */
+  /** Short category label (e.g. "Collection"), will be displayed above the title */
   label: string;
   /** Title text — supports newlines via \n */
   title: string;
@@ -118,7 +117,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
           return (
             <AriaButton
               key={index}
-              className="w-full lg:w-30 p-3 flex flex-col items-start gap-2 cursor-pointer transition-all duration-500 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
+              className="w-full lg:w-30 p-3 flex flex-col items-start gap-2 cursor-pointer transition-all duration-50 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)"
               style={{ backgroundColor: item.color }}
               onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}

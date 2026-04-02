@@ -118,7 +118,7 @@ export default function HomePage() {
               </Typography>
             </div>
             {/* Sub-grid: 1 col mobile → 2 cols tablet → 4 cols desktop */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-row lg:min-h-96">
               <CardGlance
                 heading="2020"
                 subtitle="Project initiated"
@@ -126,7 +126,6 @@ export default function HomePage() {
                 cta="Learn about the project"
                 color="parchment"
                 href="#"
-                className="h-full"
               />
               <CardGlance
                 heading="Archives"
@@ -135,7 +134,6 @@ export default function HomePage() {
                 cta="Explore the collections"
                 color="vermilion"
                 href="#"
-                className="h-full"
               />
               <CardGlance
                 heading="Research"
@@ -144,7 +142,6 @@ export default function HomePage() {
                 cta="How the platform works"
                 color="turquoise"
                 href="#"
-                className="h-full"
               />
               <CardGlance
                 heading="Access"
@@ -153,7 +150,6 @@ export default function HomePage() {
                 cta="Start exploring"
                 color="mint"
                 href="#"
-                className="h-full"
               />
             </div>
           </div>
