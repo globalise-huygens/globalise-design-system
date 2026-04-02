@@ -16,9 +16,6 @@ A button component with multiple variants and sizes. Built on React Aria's `Butt
     <Button variant="link" className="text-white">
       Link CTA
     </Button>
-    <Button variant="ghost" className="text-white">
-      Ghost
-    </Button>
     <Button variant="nav">Nav</Button>
   </div>
 </ComponentPreview>
@@ -53,14 +50,6 @@ A button component with multiple variants and sizes. Built on React Aria's `Butt
   </Button>
 </ComponentPreview>
 
-### Ghost
-
-<ComponentPreview>
-  <Button variant="ghost" className="text-white">
-    Ghost
-  </Button>
-</ComponentPreview>
-
 ## Disabled State
 
 All variants support a disabled state via `isDisabled`. Disabled buttons are dimmed and non-interactive.
@@ -73,9 +62,6 @@ All variants support a disabled state via `isDisabled`. Disabled buttons are dim
     </Button>
     <Button variant="link" isDisabled className="text-white">
       Link CTA
-    </Button>
-    <Button variant="ghost" isDisabled className="text-white">
-      Ghost
     </Button>
   </div>
 </ComponentPreview>
@@ -132,12 +118,7 @@ For link-styled buttons that navigate, use `ButtonLink`. It renders an accessibl
 
 ## Interactive States
 
-All button variants respond to hover, press, and focus states via React Aria:
-
-- **Hover** — subtle color/opacity shift
-- **Pressed** — stronger color/opacity shift to confirm interaction
-- **Focus** — visible focus ring for keyboard navigation
-- **Disabled** — dimmed appearance, no pointer events
+All button variants respond to hover, press, and focus states via React Aria.
 
 ## Props
 
@@ -145,7 +126,7 @@ All button variants respond to hover, press, and focus states via React Aria:
   props={[
     {
       name: "variant",
-      type: '"default" | "outline" | "link" | "ghost" | "nav"',
+      type: '"default" | "outline" | "link" | "nav"',
       default: '"default"',
       description: "Visual style variant",
     },
@@ -160,7 +141,7 @@ All button variants respond to hover, press, and focus states via React Aria:
       type: "boolean",
       default: "false",
       description:
-        "Disables the button — dims appearance and prevents interaction",
+        "Disables the button",
     },
     {
       name: "as",

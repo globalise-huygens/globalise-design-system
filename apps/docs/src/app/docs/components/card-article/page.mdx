@@ -5,7 +5,7 @@ import { CardArticle } from "@globalise/design-system";
 
 # Card Article
 
-A content card for news and articles with an optional image, label, title, and "Read more" call-to-action. Renders as a link when `href` is provided.
+A content card for news and articles with an optional image, label, title, and "Read more" call-to-action. Renders as a link when `href` is provided, and does not include any hovering animation over the image/coloured background. Planned to be used in the content pages only.
 
 ## Preview
 
@@ -54,7 +54,8 @@ A content card for news and articles with an optional image, label, title, and "
     {
       name: "image",
       type: "ReactNode",
-      description: "Image element rendered at the top of the card",
+      description:
+        "Image element rendered at the top of the card, otherwise colourful background is used",
     },
   ]}
 />

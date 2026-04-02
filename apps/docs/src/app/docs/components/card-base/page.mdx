@@ -14,7 +14,7 @@ import {
 
 # Card Base
 
-A composable, low‑level card primitive with colour variants. Use it to build custom card layouts with `CardBaseHeader`, `CardBaseTitle`, `CardBaseDescription`, `CardBaseContent`, and `CardBaseFooter`.
+A composable, low‑level card primitive with colour variants. Used in regards to build custom card layouts with `CardBaseHeader`, `CardBaseTitle`, `CardBaseDescription`, `CardBaseContent`, and `CardBaseFooter`.
 
 ## Preview
 
@@ -28,7 +28,7 @@ A composable, low‑level card primitive with colour variants. Use it to build c
         </CardBaseDescription>
       </CardBaseHeader>
       <CardBaseContent>
-        <span className="text-sm text-white/60">Body content goes here.</span>
+        <span className="text-sm text-white">Body content goes here.</span>
       </CardBaseContent>
       <CardBaseFooter>
         <Button variant="outline" size="sm">
@@ -80,17 +80,17 @@ A composable, low‑level card primitive with colour variants. Use it to build c
       <CardBaseTitle>Default</CardBaseTitle>
     </CardBaseHeader>
     <CardBaseContent>
-      <span className="text-sm text-white/60 block">
+      <span className="text-sm text-white block">
         Uses the default card background token.
       </span>
     </CardBaseContent>
   </CardBase>
 </ComponentPreview>
 
-### Teal
+### Turquoise
 
 <ComponentPreview>
-  <CardBase variant="teal" className="max-w-sm w-full">
+  <CardBase variant="turquoise" className="max-w-sm w-full">
     <CardBaseHeader>
       <CardBaseTitle>Turquoise</CardBaseTitle>
     </CardBaseHeader>
@@ -100,10 +100,10 @@ A composable, low‑level card primitive with colour variants. Use it to build c
   </CardBase>
 </ComponentPreview>
 
-### Red
+### Vermilion
 
 <ComponentPreview>
-  <CardBase variant="red" className="max-w-sm w-full">
+  <CardBase variant="vermilion" className="max-w-sm w-full">
     <CardBaseHeader>
       <CardBaseTitle>Vermilion</CardBaseTitle>
     </CardBaseHeader>
@@ -113,10 +113,10 @@ A composable, low‑level card primitive with colour variants. Use it to build c
   </CardBase>
 </ComponentPreview>
 
-### Emerald
+### Mint
 
 <ComponentPreview>
-  <CardBase variant="emerald" className="max-w-sm w-full">
+  <CardBase variant="mint" className="max-w-sm w-full">
     <CardBaseHeader>
       <CardBaseTitle>Mint</CardBaseTitle>
     </CardBaseHeader>
@@ -126,10 +126,10 @@ A composable, low‑level card primitive with colour variants. Use it to build c
   </CardBase>
 </ComponentPreview>
 
-### Stone
+### Parchment
 
 <ComponentPreview>
-  <CardBase variant="stone" className="max-w-sm w-full">
+  <CardBase variant="parchment" className="max-w-sm w-full">
     <CardBaseHeader>
       <CardBaseTitle>Parchment</CardBaseTitle>
     </CardBaseHeader>
@@ -147,7 +147,7 @@ A composable, low‑level card primitive with colour variants. Use it to build c
   props={[
     {
       name: "variant",
-      type: '"default" | "teal" | "red" | "emerald" | "stone" | "overlay"',
+      type: '"default" | "turquoise" | "vermilion" | "mint" | "parchment" | "overlay"',
       default: '"default"',
       description: "Visual colour variant.",
     },

@@ -19,7 +19,7 @@ The example page at `/example` demonstrates all components in a realistic page l
 
 ## Future installation (once published)
 
-The following instructions will apply once the package is published to npm.
+The following instructions will only apply once the package is published to npm.
 
 ### 1. Install the package
 
@@ -29,7 +29,7 @@ pnpm add @globalise/design-system
 
 ### 2. Import the styles
 
-Add the design system stylesheet to your app's root layout or global CSS. This provides the design tokens (colours, fonts, spacing) as CSS custom properties:
+Add the design system stylesheet to the app's root layout or global CSS. This provides the design tokens (colours, fonts, spacing) as CSS custom properties:
 
 ```tsx
 import "@globalise/design-system/styles.css";
@@ -41,7 +41,7 @@ Or in your CSS file:
 @import "@globalise/design-system/styles.css";
 ```
 
-> **Note:** The stylesheet provides design tokens only. Your project must have its own Tailwind CSS v4 setup — the component classes are not pre-compiled.
+> The stylesheet provides design tokens only. The project itself must have its own Tailwind CSS v4 setup as the component classes are not pre-compiled.
 
 ### 3. Install fonts
 
@@ -89,21 +89,14 @@ const nextConfig = {
 | React DOM    | ≥ 18.0.0 |
 | Tailwind CSS | ≥ 4.0.0  |
 
-## What's included
+## What is currently included (updates will follow)
 
-- **Layout primitives**: `Grid`, `Container`, `Section`, `Divider`
-- **Cards**: `CardHero`, `CardFeatured`, `CardGlance`, `CardArticle`, `CardBase`
-- **Navigation**: `Navbar`, `NavLink`, `NavLinks`, `NavSearchBar`
-- **Content**: `Typography`, `Button`, `NewsletterSignup`, `SearchBar`, `ArticleRow`
-- **Icons**: `IconAdd`, `IconArrowRight`, `IconChevronDown`, `IconClose`, `IconMenu`, `IconSearch`
-- **Logos**: `Logomark`, `Logotype`, `LogoLockup`, `LogoNavbar`
-- **Dev tools**: `GridGuide` (12-column overlay for alignment checking)
-- **Design tokens** for brand colours, colour scales, typography, and spacing
-- **Full TypeScript support** with exported types for every component
-
-## What's not ready yet
-
-- npm publishing and release workflow
-- Versioning and changelog automation
-- Per-component CSS (currently ships raw tokens — your app compiles Tailwind)
-- Comprehensive test coverage
+- Layout primitives: `Grid`, `Container`, `Section`, `Divider`
+- Cards: `CardHero`, `CardFeatured`, `CardGlance`, `CardArticle`, `CardBase`
+- Navigation: `Navbar`, `NavLink`, `NavLinks`, `NavSearchBar`
+- Content: `Typography`, `Button`, `NewsletterSignup`, `SearchBar`, `ArticleRow`
+- Icons: `IconAdd`, `IconArrowRight`, `IconChevronDown`, `IconClose`, `IconMenu`, `IconSearch`
+- Logos: `Logomark`, `Logotype`, `LogoLockup`, `LogoNavbar`
+- Dev tools: `GridGuide` (12-column overlay for alignment checking)
+- Design tokens for brand colours, colour scales, typography, and spacing
+- Full TypeScript support with exported types for every component

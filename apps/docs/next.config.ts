@@ -1,5 +1,6 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
+import remarkGfm from "remark-gfm";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -13,6 +14,10 @@ const nextConfig: NextConfig = {
   transpilePackages: ["@globalise/design-system"],
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm],
+  },
+});
 
 export default withMDX(nextConfig);

@@ -4,8 +4,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
   Button as AriaButton,
-  Link as AriaLink,
   type ButtonProps as AriaButtonProps,
+  Link as AriaLink,
   type LinkProps as AriaLinkProps,
 } from "react-aria-components";
 
@@ -19,8 +19,6 @@ const buttonVariants = cva(
         outline:
           "h-12 px-14 rounded-[999px] outline outline-2 outline-offset-[-2px] outline-(--brand-white)/50 text-(--brand-white) leading-4 data-[hovered]:outline-(--brand-white)/80 data-[pressed]:outline-(--brand-white) data-[pressed]:bg-(--brand-white)/5",
         link: "font-normal leading-5 text-current gap-2.5 [&_svg]:size-5 data-[hovered]:opacity-80 data-[pressed]:opacity-60",
-        ghost:
-          "rounded data-[hovered]:bg-[var(--brand-white)]/10 data-[pressed]:bg-[var(--brand-white)]/15",
         nav: "text-[var(--brand-white)] leading-5 data-[hovered]:opacity-80 data-[pressed]:opacity-60",
       },
       size: {
@@ -42,7 +40,6 @@ export interface ButtonProps
     Omit<AriaButtonProps, "className" | "style">,
     VariantProps<typeof buttonVariants> {
   className?: string;
-  /** Render as a different element or component (e.g. `"span"`) */
   as?: React.ElementType;
 }
 
