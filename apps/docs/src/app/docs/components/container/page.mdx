@@ -15,12 +15,12 @@ Places content in **columns 2 to 11** of the 12-column layout grid. Constrains t
       {Array.from({ length: 12 }).map((_, i) => (
         <div
           key={i}
-          className={`h-full ${i === 0 || i === 11 ? "bg-white/5" : "bg-white/2"}`}
+          className={`h-full ${i === 0 || i === 11 ? "bg-neutral-600" : "bg-neutral-300"}`}
         />
       ))}
     </Grid>
     <Container className="py-6 w-full relative">
-      <div className="h-12 bg-brand-turquoise/20 flex items-center justify-center text-sm font-mono text-white/50">
+      <div className="h-12 bg-brand-turquoise flex items-center justify-center text-sm font-mono text-brand-black">
         Content in columns 2–11
       </div>
     </Container>
