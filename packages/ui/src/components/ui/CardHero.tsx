@@ -19,9 +19,7 @@ const cardHeroVariants = cva("", {
 });
 
 interface CardHeroBaseProps extends VariantProps<typeof cardHeroVariants> {
-  /** Label shown on hover (e.g. "Archive", "Video") */
   label: string;
-  /** Title text shown on hover — supports newlines via \n */
   title: string;
   className?: string;
   children?: React.ReactNode;
@@ -38,24 +36,32 @@ export type CardHeroProps =
       >);
 
 const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
-  const { className, hoverColor, label, title, children, ...rest } = props;
+  const { className, hoverColor, label, title, children } = props;
   const href = "href" in props ? props.href : undefined;
+  const [touched, setTouched] = React.useState(false);
   const sharedClassName = cn(
     "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
     className,
   );
 
+  const handleTouchStart = () => setTouched(true);
+  const handleTouchEnd = () => setTouched(false);
+
   const content = (
     <>
-      {/* Default state: children (typically an image) */}
-      <div className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0">
+      <div
+        className={cn(
+          "absolute inset-0 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0",
+          touched && "opacity-0",
+        )}
+      >
         {children}
       </div>
 
-      {/* Hover state: brand color panel */}
       <div
         className={cn(
           "absolute inset-0 p-3 flex flex-col justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
+          touched && "opacity-100",
           cardHeroVariants({ hoverColor }),
         )}
       >
@@ -78,6 +84,8 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
         href={href}
         ref={ref as React.RefObject<HTMLAnchorElement>}
         className={sharedClassName}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {content}
       </AriaLink>
@@ -88,6 +96,8 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
     <AriaButton
       ref={ref as React.RefObject<HTMLButtonElement>}
       className={cn(sharedClassName, "cursor-pointer text-left")}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {content}
     </AriaButton>
