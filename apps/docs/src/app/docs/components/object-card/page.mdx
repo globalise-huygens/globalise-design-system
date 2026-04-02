@@ -1,0 +1,268 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { ObjectCardDemo } from "./ObjectCardDemo";
+
+# Object Card
+
+A composable, two-panel card for displaying entity detail overlays (Ship, Person, Concept, Voyage, Letter). The left panel shows structured properties, the right panel shows references. Overlay/modal positioning is the consumer's responsibility — this component renders only the card itself.
+
+## Preview
+
+<ComponentPreview className="min-h-[700px]! p-4! items-start!">
+  <ObjectCardDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import {
+  ObjectCard,
+  ObjectCardBadge,
+  ObjectCardBody,
+  ObjectCardExternalLink,
+  ObjectCardFooter,
+  ObjectCardFooterAction,
+  ObjectCardHeader,
+  ObjectCardListItem,
+  ObjectCardPanel,
+  ObjectCardProperty,
+  ObjectCardPropertyList,
+  ObjectCardReferenceItem,
+  ObjectCardSection,
+  ObjectCardStat,
+  ObjectCardStats,
+  ObjectCardTitle,
+  ObjectCardViewMore,
+  IconCopy,
+  IconDownload,
+} from "@globalise/design-system";
+
+<ObjectCard>
+  <ObjectCardHeader onClose={() => {}}>
+    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+    <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
+    <ObjectCardStats>
+      <ObjectCardStat>7 Voyages</ObjectCardStat>
+      <ObjectCardStat>1,234 References</ObjectCardStat>
+    </ObjectCardStats>
+  </ObjectCardHeader>
+
+  <ObjectCardBody className="h-[600px]">
+    <ObjectCardPanel side="left" className="gap-12">
+      <ObjectCardSection title="General Properties">
+        <ObjectCardPropertyList>
+          <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+          <ObjectCardProperty label="Weight" value="874 tons" />
+        </ObjectCardPropertyList>
+      </ObjectCardSection>
+
+      <ObjectCardSection title="External Identifiers">
+        <div className="flex flex-col gap-3">
+          <ObjectCardExternalLink href="https://example.com">
+            DAS ship1203
+          </ObjectCardExternalLink>
+        </div>
+      </ObjectCardSection>
+
+      <ObjectCardFooter>
+        <ObjectCardFooterAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+          Copy URI
+        </ObjectCardFooterAction>
+      </ObjectCardFooter>
+    </ObjectCardPanel>
+
+    <ObjectCardPanel side="right">
+      <span className="font-sans text-sm text-zinc-400">
+        References (1,234)
+      </span>
+      <ObjectCardReferenceItem
+        title="p.264"
+        snippet="in 't geheel p:r de prins Eugenius..."
+        archiveId="NL-HaNA 1.04.02 · 10070_0054 · 264"
+        href="#"
+      />
+    </ObjectCardPanel>
+
+  </ObjectCardBody>
+</ObjectCard>`} />
+
+## Badge Variants
+
+The `ObjectCardBadge` supports entity types via CVA variants:
+
+<ComponentPreview>
+  <div className="flex flex-wrap gap-3">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-blue-950 text-blue-200 outline-cyan-800">
+      Ship
+    </span>
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-emerald-950 text-emerald-200 outline-emerald-700">
+      Concept
+    </span>
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-amber-950 text-amber-200 outline-amber-700">
+      Voyage
+    </span>
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-violet-950 text-violet-200 outline-violet-700">
+      Letter
+    </span>
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-rose-950 text-rose-200 outline-rose-700">
+      Person
+    </span>
+  </div>
+</ComponentPreview>
+
+## Sub‑components
+
+### ObjectCard
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "ObjectCardHeader + ObjectCardBody.",
+    },
+  ]}
+/>
+
+### ObjectCardHeader
+
+<PropsTable
+  props={[
+    {
+      name: "onClose",
+      type: "() => void",
+      description:
+        "Close button callback. If omitted, no close button is rendered.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Badge, title, stats.",
+    },
+  ]}
+/>
+
+### ObjectCardBadge
+
+<PropsTable
+  props={[
+    {
+      name: "type",
+      type: '"ship" | "concept" | "voyage" | "letter" | "person"',
+      default: '"ship"',
+      description: "Entity type, determines badge color.",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description: "Optional icon rendered before the label.",
+    },
+  ]}
+/>
+
+### ObjectCardPanel
+
+<PropsTable
+  props={[
+    {
+      name: "side",
+      type: '"left" | "right"',
+      default: '"left"',
+      description:
+        'Panel position. "left" has solid bg + border; "right" has transparent bg.',
+    },
+  ]}
+/>
+
+### ObjectCardProperty
+
+<PropsTable
+  props={[
+    {
+      name: "label",
+      type: "string",
+      required: true,
+      description: "Uppercased property label (left side).",
+    },
+    {
+      name: "value",
+      type: "ReactNode",
+      required: true,
+      description: "Property value (right side).",
+    },
+  ]}
+/>
+
+### ObjectCardReferenceItem
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      required: true,
+      description: "Reference title (e.g. page number).",
+    },
+    {
+      name: "image",
+      type: "ReactNode",
+      description: "Thumbnail image element.",
+    },
+    {
+      name: "snippet",
+      type: "ReactNode",
+      description: "Text excerpt with optional highlighting.",
+    },
+    {
+      name: "archiveId",
+      type: "string",
+      description: "Archive identifier string.",
+    },
+    {
+      name: "href",
+      type: "string",
+      description: "Link to external reference. Renders an arrow icon.",
+    },
+  ]}
+/>
+
+### ObjectCardExternalLink
+
+<PropsTable
+  props={[
+    {
+      name: "href",
+      type: "string",
+      required: true,
+      description: "External URL.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Link label text.",
+    },
+  ]}
+/>
+
+### ObjectCardSection
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      required: true,
+      description: "Section heading text.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Section content.",
+    },
+  ]}
+/>

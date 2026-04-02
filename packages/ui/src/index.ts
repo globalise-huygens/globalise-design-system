@@ -65,6 +65,46 @@ export type { SectionDividerProps } from "./components/ui/SectionDivider";
 export { NewsletterSignup } from "./components/ui/NewsletterSignup";
 export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
+export {
+  ObjectCard,
+  ObjectCardBadge,
+  objectCardBadgeVariants,
+  ObjectCardBody,
+  ObjectCardExternalLink,
+  ObjectCardFooter,
+  ObjectCardFooterAction,
+  ObjectCardHeader,
+  ObjectCardListItem,
+  ObjectCardPanel,
+  objectCardPanelVariants,
+  ObjectCardProperty,
+  ObjectCardPropertyList,
+  ObjectCardReferenceItem,
+  ObjectCardSection,
+  ObjectCardStat,
+  ObjectCardStats,
+  ObjectCardTitle,
+  ObjectCardViewMore,
+} from "./components/ui/ObjectCard";
+export type {
+  ObjectCardBadgeProps,
+  ObjectCardBodyProps,
+  ObjectCardExternalLinkProps,
+  ObjectCardFooterActionProps,
+  ObjectCardFooterProps,
+  ObjectCardHeaderProps,
+  ObjectCardListItemProps,
+  ObjectCardPanelProps,
+  ObjectCardPropertyListProps,
+  ObjectCardPropertyProps,
+  ObjectCardProps,
+  ObjectCardReferenceItemProps,
+  ObjectCardSectionProps,
+  ObjectCardStatsProps,
+  ObjectCardTitleProps,
+  ObjectCardViewMoreProps,
+} from "./components/ui/ObjectCard";
+
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
 export type { SearchBarProps } from "./components/ui/SearchBar";
 
@@ -76,6 +116,9 @@ export { IconAdd } from "./components/icons/IconAdd";
 export { IconArrowRight } from "./components/icons/IconArrowRight";
 export { IconChevronDown } from "./components/icons/IconChevronDown";
 export { IconClose } from "./components/icons/IconClose";
+export { IconCopy } from "./components/icons/IconCopy";
+export { IconDownload } from "./components/icons/IconDownload";
+export { IconExternalLink } from "./components/icons/IconExternalLink";
 export { IconMenu } from "./components/icons/IconMenu";
 export { IconSearch } from "./components/icons/IconSearch";
 

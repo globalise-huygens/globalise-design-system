@@ -29,6 +29,7 @@ const navigation = [
       { title: "Card Hero", href: "/docs/components/card-hero" },
       { title: "Card Featured", href: "/docs/components/card-featured" },
       { title: "Card Glance", href: "/docs/components/card-glance" },
+      { title: "Object Card", href: "/docs/components/object-card" },
       {
         title: "Newsletter Signup",
         href: "/docs/components/newsletter-signup",
