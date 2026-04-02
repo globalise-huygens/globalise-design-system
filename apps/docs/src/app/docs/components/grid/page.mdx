@@ -18,8 +18,8 @@ Most content is placed in **columns 2–11** (use `col-start-2 col-span-10` or `
         key={i}
         className={`h-20 flex items-center justify-center text-xs font-mono ${
           i === 0 || i === 11
-            ? "bg-white/5 text-white/30"
-            : "bg-brand-turquoise/20 text-white/50"
+            ? "bg-brand-white text-brand-black"
+            : "bg-brand-turquoise text-brand-black"
         }`}
       >
         {i + 1}
@@ -66,17 +66,17 @@ Use Tailwind's `col-start-*` and `col-span-*` to place children within the 12-co
 
 <ComponentPreview>
   <Grid className="w-full max-w-360">
-    <div className="col-span-12 h-12 bg-white/5 flex items-center justify-center text-xs font-mono text-white/30">
-      col-span-12 (full bleed)
+    <div className="col-span-12 h-12 bg-brand-white flex items-center justify-center text-xs text-brand-black">
+      <span>col-span-12 (full bleed)</span>
     </div>
-    <div className="col-start-2 col-span-10 h-12 bg-brand-turquoise/20 flex items-center justify-center text-xs font-mono text-white/50">
-      col-start-2 col-span-10 (standard content)
+    <div className="col-start-2 col-span-10 h-12 bg-brand-turquoise flex items-center justify-center text-xs text-brand-black">
+      <span>col-start-2 col-span-10 (standard content)</span>
     </div>
-    <div className="col-start-2 col-span-5 h-12 bg-brand-vermilion/20 flex items-center justify-center text-xs font-mono text-white/50">
-      col-start-2 col-span-5
+    <div className="col-start-2 col-span-5 h-12 bg-brand-vermilion flex items-center justify-center text-xs text-brand-black">
+      <span>col-start-2 col-span-5</span>
     </div>
-    <div className="col-start-7 col-span-5 h-12 bg-brand-mint/20 flex items-center justify-center text-xs font-mono text-white/50">
-      col-start-7 col-span-5
+    <div className="col-start-7 col-span-5 h-12 bg-brand-mint flex items-center justify-center text-xs text-brand-black">
+      <span>col-start-7 col-span-5</span>
     </div>
   </Grid>
 </ComponentPreview>

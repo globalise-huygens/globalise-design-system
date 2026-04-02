@@ -1,3 +1,6 @@
+@source "../../../../packages/ui/src";
+@source "../**/*.mdx";
+
 /*
  * Globalise Design System — Design Tokens
  *
