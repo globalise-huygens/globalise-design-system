@@ -16,7 +16,7 @@ const dividerVariants = cva(
       },
       color: {
         light: "outline-[var(--brand-white)]/50",
-        dark: "outline-black/40",
+        dark: "outline-[var(--brand-black)]/50",
       },
     },
     defaultVariants: {
