@@ -104,7 +104,7 @@ const ObjectCardHeader = React.forwardRef<
       <AriaButton
         onPress={onClose}
         aria-label="Close"
-        className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:right-8 lg:top-8"
+        className="absolute right-6 top-4 flex h-6 w-6 items-center justify-center text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:top-8"
       >
         <IconClose className="h-3.5 w-3.5" />
       </AriaButton>
@@ -126,7 +126,7 @@ const ObjectCardTitle = React.forwardRef<
   <h2
     ref={ref}
     className={cn(
-      "font-serif text-3xl font-medium leading-8 text-gray-100",
+      "font-serif text-[32px] font-medium leading-none tracking-[-0.03em] text-gray-100",
       className,
     )}
     {...props}
@@ -162,7 +162,10 @@ const ObjectCardStat = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <span
     ref={ref}
-    className={cn("font-sans text-sm text-zinc-400 leading-4", className)}
+    className={cn(
+      "font-sans text-sm italic leading-[1.2] tracking-[-0.02em] text-zinc-400",
+      className,
+    )}
     {...props}
   />
 ));
@@ -194,7 +197,7 @@ const objectCardPanelVariants = cva(
   {
     variants: {
       side: {
-        left: "w-full border-b border-neutral-700 bg-zinc-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8",
+        left: "w-full gap-12 border-b border-neutral-700 bg-[#242529] p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8",
         right: "flex-1 bg-zinc-800/50 p-6 lg:px-12 lg:py-10",
       },
     },
@@ -233,7 +236,7 @@ const ObjectCardSection = React.forwardRef<
   ObjectCardSectionProps
 >(({ className, title, children, ...props }, ref) => (
   <div ref={ref} className={cn("flex flex-col gap-5", className)} {...props}>
-    <h3 className="font-serif text-lg font-medium leading-5 text-white">
+    <h3 className="font-serif text-lg font-medium leading-[1.1] tracking-[-0.02em] text-white">
       {title}
     </h3>
     {children}
@@ -259,10 +262,10 @@ const ObjectCardProperty = React.forwardRef<
     className={cn("flex items-center justify-between", className)}
     {...props}
   >
-    <span className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
+    <span className="font-sans text-xs font-normal uppercase leading-[1.35] tracking-[0.02em] text-neutral-400">
       {label}
     </span>
-    <span className="w-44 font-sans text-sm font-medium leading-5 text-white">
+    <span className="w-[180px] font-sans text-sm font-medium leading-[1.35] tracking-[-0.02em] text-white">
       {value}
     </span>
   </div>
@@ -296,7 +299,7 @@ const ObjectCardListItem = React.forwardRef<
   ObjectCardListItemProps
 >(({ className, href, children, ...props }, ref) => {
   const classes = cn(
-    "flex flex-col gap-2 overflow-hidden rounded-lg border border-neutral-700 bg-zinc-800 px-3 py-4",
+    "flex flex-col gap-2 overflow-hidden rounded-lg border border-[#3d3e42] bg-[#313236] px-3 py-4",
     className,
   );
 
@@ -306,7 +309,7 @@ const ObjectCardListItem = React.forwardRef<
         href={href}
         className={cn(
           classes,
-          "group transition-colors hover:border-neutral-600",
+          "group transition-colors hover:border-neutral-500",
         )}
       >
         <div ref={ref} {...props}>
@@ -348,7 +351,7 @@ const ObjectCardReferenceItem = React.forwardRef<
       aria-label={`Open ${title}`}
       className="shrink-0 text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <IconExternalLink className="h-2.5 w-2.5" />
+      <IconExternalLink className="h-5 w-5" />
     </AriaLink>
   ) : null;
 
@@ -361,10 +364,12 @@ const ObjectCardReferenceItem = React.forwardRef<
       <div className="flex items-start gap-6">
         <div className="flex flex-1 items-center gap-6">
           {image && (
-            <div className="h-20 w-28 shrink-0 overflow-hidden">{image}</div>
+            <div className="h-20 w-[120px] shrink-0 overflow-hidden">
+              {image}
+            </div>
           )}
           <div className="flex flex-1 flex-col gap-2.5">
-            <span className="font-serif text-lg font-medium leading-5 text-white">
+            <span className="font-serif text-lg font-medium leading-[1.1] tracking-[-0.03em] text-white">
               {title}
             </span>
             <div className="flex flex-col gap-1.5">
@@ -409,7 +414,7 @@ const ObjectCardExternalLink = React.forwardRef<
   const content = (
     <>
       <span>{children}</span>
-      <IconExternalLink className="h-3 w-3 text-blue-400" />
+      <IconExternalLink className="h-4 w-4 text-blue-400" />
     </>
   );
 
@@ -497,7 +502,7 @@ const ObjectCardViewMore = React.forwardRef<
     ref={ref}
     onPress={onPress}
     className={cn(
-      "inline-flex items-center gap-3 font-sans text-sm font-normal leading-4 text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "inline-flex items-center gap-3 font-sans text-sm font-normal leading-[1.1] tracking-[-0.02em] text-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
       className,
     )}
     {...(props as Record<string, unknown>)}

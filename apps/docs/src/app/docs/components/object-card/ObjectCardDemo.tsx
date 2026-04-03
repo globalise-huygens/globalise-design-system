@@ -3,6 +3,7 @@
 import {
   IconCopy,
   IconDownload,
+  IconExternalLink,
   ObjectCard,
   ObjectCardBadge,
   ObjectCardBody,
@@ -99,9 +100,9 @@ export function ObjectCardDemo() {
         </ObjectCardStats>
       </ObjectCardHeader>
 
-      <ObjectCardBody className="h-[500px] lg:h-[600px]">
+      <ObjectCardBody className="h-[500px] lg:h-[857px]">
         {/* Left panel — properties */}
-        <ObjectCardPanel side="left" className="gap-12">
+        <ObjectCardPanel side="left">
           <ObjectCardSection title="General Properties">
             <ObjectCardPropertyList>
               <ObjectCardProperty label="Built" value="1703, Amsterdam" />
@@ -116,18 +117,19 @@ export function ObjectCardDemo() {
               {voyages.map((v, i) => (
                 <ObjectCardListItem key={i}>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-xs text-zinc-400 leading-4">
+                    <span className="font-sans text-xs italic leading-[1.2] tracking-[-0.02em] text-zinc-400">
                       {v.dates}
                     </span>
+                    <IconExternalLink className="h-4 w-4 shrink-0 text-zinc-400" />
                   </div>
-                  <span className="font-serif text-xs font-semibold leading-3 text-zinc-200">
+                  <span className="font-serif text-[13px] font-semibold leading-none tracking-[-0.03em] text-zinc-200">
                     {v.route}
                   </span>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-xs text-zinc-400 leading-3">
+                    <span className="font-sans text-[11px] leading-[1.2] text-zinc-400">
                       {v.captain}
                     </span>
-                    <span className="font-sans text-xs text-zinc-400 leading-3">
+                    <span className="font-sans text-[11px] leading-[1.2] text-zinc-400">
                       {v.crew}
                     </span>
                   </div>
@@ -149,12 +151,10 @@ export function ObjectCardDemo() {
           </ObjectCardSection>
 
           <ObjectCardFooter>
-            <ObjectCardFooterAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+            <ObjectCardFooterAction icon={<IconCopy className="h-4 w-4" />}>
               Copy URI
             </ObjectCardFooterAction>
-            <ObjectCardFooterAction
-              icon={<IconDownload className="h-2.5 w-2.5" />}
-            >
+            <ObjectCardFooterAction icon={<IconDownload className="h-4 w-4" />}>
               Export RDF/JSON-LD
             </ObjectCardFooterAction>
           </ObjectCardFooter>
@@ -162,7 +162,7 @@ export function ObjectCardDemo() {
 
         {/* Right panel — references */}
         <ObjectCardPanel side="right">
-          <span className="font-sans text-sm text-zinc-400 leading-4">
+          <span className="font-sans text-sm italic leading-[1.2] tracking-[-0.02em] text-zinc-400">
             References (1,234)
           </span>
           {references.map((r, i) => (
