@@ -67,12 +67,13 @@ export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
 export {
   ObjectCard,
+  ObjectCardAction,
+  objectCardActionVariants,
   ObjectCardBadge,
   objectCardBadgeVariants,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
-  ObjectCardFooterAction,
   ObjectCardHeader,
   ObjectCardListItem,
   ObjectCardPanel,
@@ -84,13 +85,12 @@ export {
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
-  ObjectCardViewMore,
 } from "./components/ui/ObjectCard";
 export type {
+  ObjectCardActionProps,
   ObjectCardBadgeProps,
   ObjectCardBodyProps,
   ObjectCardExternalLinkProps,
-  ObjectCardFooterActionProps,
   ObjectCardFooterProps,
   ObjectCardHeaderProps,
   ObjectCardListItemProps,
@@ -100,9 +100,9 @@ export type {
   ObjectCardProps,
   ObjectCardReferenceItemProps,
   ObjectCardSectionProps,
+  ObjectCardStatProps,
   ObjectCardStatsProps,
   ObjectCardTitleProps,
-  ObjectCardViewMoreProps,
 } from "./components/ui/ObjectCard";
 
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";

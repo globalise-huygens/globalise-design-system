@@ -5,23 +5,25 @@ import { ObjectCardDemo } from "./ObjectCardDemo";
 
 # Object Card
 
-A composable, two-panel card for displaying entity detail overlays (Ship, Person, Concept, Voyage, Letter). The left panel shows structured properties, the right panel shows references. Overlay/modal positioning is the consumer's responsibility — this component renders only the card itself.
+A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, Concept, Voyage, Letter). All sub-components are pre-styled — consumers compose them without writing any CSS.
 
 ## Preview
 
-<ComponentPreview className="min-h-[700px]! p-4! items-start!">
+<ComponentPreview className="min-h-175! p-4! items-start!">
   <ObjectCardDemo />
 </ComponentPreview>
 
 ## Usage
 
 <CodeBlock code={`import {
+  IconAdd,
+  IconCopy,
   ObjectCard,
+  ObjectCardAction,
   ObjectCardBadge,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
-  ObjectCardFooterAction,
   ObjectCardHeader,
   ObjectCardListItem,
   ObjectCardPanel,
@@ -32,9 +34,6 @@ A composable, two-panel card for displaying entity detail overlays (Ship, Person
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
-  ObjectCardViewMore,
-  IconCopy,
-  IconDownload,
 } from "@globalise/design-system";
 
 <ObjectCard>
@@ -47,7 +46,7 @@ A composable, two-panel card for displaying entity detail overlays (Ship, Person
     </ObjectCardStats>
   </ObjectCardHeader>
 
-  <ObjectCardBody className="h-[600px]">
+  <ObjectCardBody className="h-150">
     <ObjectCardPanel side="left" className="gap-12">
       <ObjectCardSection title="General Properties">
         <ObjectCardPropertyList>
@@ -56,25 +55,23 @@ A composable, two-panel card for displaying entity detail overlays (Ship, Person
         </ObjectCardPropertyList>
       </ObjectCardSection>
 
-      <ObjectCardSection title="External Identifiers">
-        <div className="flex flex-col gap-3">
-          <ObjectCardExternalLink href="https://example.com">
-            DAS ship1203
-          </ObjectCardExternalLink>
-        </div>
+      <ObjectCardSection title="Voyages (7)">
+        <ObjectCardListItem>
+          <span>19 Jan 1710 – 8 Aug 1710</span>
+        </ObjectCardListItem>
+        <ObjectCardAction variant="more" icon={<IconAdd />}>
+          View more
+        </ObjectCardAction>
       </ObjectCardSection>
 
       <ObjectCardFooter>
-        <ObjectCardFooterAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+        <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
           Copy URI
-        </ObjectCardFooterAction>
+        </ObjectCardAction>
       </ObjectCardFooter>
     </ObjectCardPanel>
 
     <ObjectCardPanel side="right">
-      <span className="font-sans text-sm text-zinc-400">
-        References (1,234)
-      </span>
       <ObjectCardReferenceItem
         title="p.264"
         snippet="in 't geheel p:r de prins Eugenius..."
@@ -92,27 +89,29 @@ The `ObjectCardBadge` supports entity types via CVA variants:
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-blue-950 text-blue-200 outline-cyan-800">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-blue-950 text-blue-200 outline-cyan-800">
       Ship
     </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-emerald-950 text-emerald-200 outline-emerald-700">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-emerald-950 text-emerald-200 outline-emerald-700">
       Concept
     </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-amber-950 text-amber-200 outline-amber-700">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-amber-950 text-amber-200 outline-amber-700">
       Voyage
     </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-violet-950 text-violet-200 outline-violet-700">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-violet-950 text-violet-200 outline-violet-700">
       Letter
     </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px] bg-rose-950 text-rose-200 outline-rose-700">
+    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-rose-950 text-rose-200 outline-rose-700">
       Person
     </span>
   </div>
 </ComponentPreview>
 
-## Sub‑components
+## Components
 
 ### ObjectCard
+
+Wraps RAC `Dialog` — provides `role="dialog"` and auto-links to `ObjectCardTitle` via `aria-labelledby`.
 
 <PropsTable
   props={[
@@ -131,18 +130,34 @@ The `ObjectCardBadge` supports entity types via CVA variants:
 
 ### ObjectCardHeader
 
+Pre-styled header with optional close button (RAC `Button`).
+
 <PropsTable
   props={[
     {
       name: "onClose",
       type: "() => void",
-      description:
-        "Close button callback. If omitted, no close button is rendered.",
+      description: "Close callback. If omitted, no close button is rendered.",
     },
     {
       name: "children",
       type: "ReactNode",
       description: "Badge, title, stats.",
+    },
+  ]}
+/>
+
+### ObjectCardTitle
+
+RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessible name.
+
+<PropsTable
+  props={[
+    {
+      name: "children",
+      type: "ReactNode",
+      required: true,
+      description: "Title text.",
     },
   ]}
 />
@@ -165,6 +180,24 @@ The `ObjectCardBadge` supports entity types via CVA variants:
   ]}
 />
 
+### ObjectCardStats / ObjectCardStat
+
+Pre-styled inline stat row. Each `ObjectCardStat` is a styled span.
+
+### ObjectCardBody
+
+Flex container that switches from column (mobile) to row (desktop). Pass a height class.
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: 'Pass height, e.g. "h-[600px]".',
+    },
+  ]}
+/>
+
 ### ObjectCardPanel
 
 <PropsTable
@@ -179,26 +212,9 @@ The `ObjectCardBadge` supports entity types via CVA variants:
   ]}
 />
 
-### ObjectCardProperty
+### ObjectCardSection
 
-<PropsTable
-  props={[
-    {
-      name: "label",
-      type: "string",
-      required: true,
-      description: "Uppercased property label (left side).",
-    },
-    {
-      name: "value",
-      type: "ReactNode",
-      required: true,
-      description: "Property value (right side).",
-    },
-  ]}
-/>
-
-### ObjectCardReferenceItem
+RAC `Group` with `aria-labelledby` linked to a level-3 heading. Screen readers announce it as a labeled group.
 
 <PropsTable
   props={[
@@ -206,7 +222,67 @@ The `ObjectCardBadge` supports entity types via CVA variants:
       name: "title",
       type: "string",
       required: true,
-      description: "Reference title (e.g. page number).",
+      description: "Section heading text.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Section content.",
+    },
+  ]}
+/>
+
+### ObjectCardProperty
+
+Renders semantic `<dt>` / `<dd>` pairs inside a `<dl>` (`ObjectCardPropertyList`).
+
+<PropsTable
+  props={[
+    {
+      name: "label",
+      type: "string",
+      required: true,
+      description: "Uppercased property label.",
+    },
+    {
+      name: "value",
+      type: "ReactNode",
+      required: true,
+      description: "Property value.",
+    },
+  ]}
+/>
+
+### ObjectCardListItem
+
+Pre-styled card for list entries (voyages, etc.). Optionally wraps in RAC `Link`.
+
+<PropsTable
+  props={[
+    {
+      name: "href",
+      type: "string",
+      description: "If provided, the item becomes a link with hover state.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Item content.",
+    },
+  ]}
+/>
+
+### ObjectCardReferenceItem
+
+Pre-styled reference row with optional image, snippet, archive ID, and external link.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      required: true,
+      description: "Reference title.",
     },
     {
       name: "image",
@@ -216,7 +292,7 @@ The `ObjectCardBadge` supports entity types via CVA variants:
     {
       name: "snippet",
       type: "ReactNode",
-      description: "Text excerpt with optional highlighting.",
+      description: "Text excerpt.",
     },
     {
       name: "archiveId",
@@ -226,12 +302,14 @@ The `ObjectCardBadge` supports entity types via CVA variants:
     {
       name: "href",
       type: "string",
-      description: "Link to external reference. Renders an arrow icon.",
+      description: "External link — renders an icon via RAC Link.",
     },
   ]}
 />
 
 ### ObjectCardExternalLink
+
+RAC `Link` — opens in a new tab with an external-link icon.
 
 <PropsTable
   props={[
@@ -249,20 +327,32 @@ The `ObjectCardBadge` supports entity types via CVA variants:
   ]}
 />
 
-### ObjectCardSection
+### ObjectCardFooter
+
+Pre-styled footer with RAC `Separator` divider line and action row.
+
+### ObjectCardAction
+
+RAC `Button` with CVA variants. Use for footer actions and "view more" buttons.
 
 <PropsTable
   props={[
     {
-      name: "title",
-      type: "string",
-      required: true,
-      description: "Section heading text.",
+      name: "variant",
+      type: '"default" | "more"',
+      default: '"default"',
+      description:
+        '"default" for small footer actions, "more" for view-more style.',
     },
     {
-      name: "children",
+      name: "icon",
       type: "ReactNode",
-      description: "Section content.",
+      description: "Icon rendered before the label.",
+    },
+    {
+      name: "onPress",
+      type: "() => void",
+      description: "Press handler (from RAC ButtonProps).",
     },
   ]}
 />

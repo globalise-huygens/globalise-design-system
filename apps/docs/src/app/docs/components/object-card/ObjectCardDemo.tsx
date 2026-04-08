@@ -1,15 +1,16 @@
 "use client";
 
 import {
+  IconAdd,
   IconCopy,
   IconDownload,
   IconExternalLink,
   ObjectCard,
+  ObjectCardAction,
   ObjectCardBadge,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
-  ObjectCardFooterAction,
   ObjectCardHeader,
   ObjectCardListItem,
   ObjectCardPanel,
@@ -20,7 +21,6 @@ import {
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
-  ObjectCardViewMore,
 } from "@globalise/design-system";
 
 const voyages = [
@@ -47,42 +47,22 @@ const voyages = [
 const references = [
   {
     title: "p.264",
-    snippet: (
-      <>
-        in &apos;t geheel p:r de <strong>prins Eugenius</strong> en de taxisboom
-        na...
-      </>
-    ),
+    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
     archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
   },
   {
     title: "p.264",
-    snippet: (
-      <>
-        in &apos;t geheel p:r de <strong>prins Eugenius</strong> en de taxisboom
-        na...
-      </>
-    ),
+    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
     archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
   },
   {
     title: "p.264",
-    snippet: (
-      <>
-        in &apos;t geheel p:r de <strong>prins Eugenius</strong> en de taxisboom
-        na...
-      </>
-    ),
+    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
     archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
   },
   {
     title: "p.264",
-    snippet: (
-      <>
-        in &apos;t geheel p:r de <strong>prins Eugenius</strong> en de taxisboom
-        na...
-      </>
-    ),
+    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
     archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
   },
 ];
@@ -100,7 +80,7 @@ export function ObjectCardDemo() {
         </ObjectCardStats>
       </ObjectCardHeader>
 
-      <ObjectCardBody className="h-[500px] lg:h-[857px]">
+      <ObjectCardBody className="h-125 lg:h-150">
         {/* Left panel — properties */}
         <ObjectCardPanel side="left">
           <ObjectCardSection title="General Properties">
@@ -116,13 +96,10 @@ export function ObjectCardDemo() {
             <div className="flex flex-col gap-2">
               {voyages.map((v, i) => (
                 <ObjectCardListItem key={i}>
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-xs italic leading-[1.2] tracking-[-0.02em] text-zinc-400">
-                      {v.dates}
-                    </span>
-                    <IconExternalLink className="h-4 w-4 shrink-0 text-zinc-400" />
-                  </div>
-                  <span className="font-serif text-[13px] font-semibold leading-none tracking-[-0.03em] text-zinc-200">
+                  <span className="font-sans text-xs text-zinc-400 leading-4">
+                    {v.dates}
+                  </span>
+                  <span className="font-serif text-xs font-semibold leading-3 text-zinc-200">
                     {v.route}
                   </span>
                   <div className="flex items-center justify-between">
@@ -136,7 +113,12 @@ export function ObjectCardDemo() {
                 </ObjectCardListItem>
               ))}
             </div>
-            <ObjectCardViewMore />
+            <ObjectCardAction
+              variant="more"
+              icon={<IconAdd className="h-3 w-3" />}
+            >
+              View more
+            </ObjectCardAction>
           </ObjectCardSection>
 
           <ObjectCardSection title="External Identifiers">
@@ -151,12 +133,12 @@ export function ObjectCardDemo() {
           </ObjectCardSection>
 
           <ObjectCardFooter>
-            <ObjectCardFooterAction icon={<IconCopy className="h-4 w-4" />}>
+            <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
               Copy URI
-            </ObjectCardFooterAction>
-            <ObjectCardFooterAction icon={<IconDownload className="h-4 w-4" />}>
+            </ObjectCardAction>
+            <ObjectCardAction icon={<IconDownload className="h-2.5 w-2.5" />}>
               Export RDF/JSON-LD
-            </ObjectCardFooterAction>
+            </ObjectCardAction>
           </ObjectCardFooter>
         </ObjectCardPanel>
 
