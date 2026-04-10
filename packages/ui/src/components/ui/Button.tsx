@@ -22,7 +22,7 @@ const buttonVariants = cva(
         nav: "text-(--brand-white) leading-5 data-hovered:opacity-80 data-pressed:opacity-60",
       },
       size: {
-        default: "",
+        default: "h-12 px-14",
         sm: "h-9 px-4 text-xs",
         lg: "h-14 px-16 text-base",
         icon: "h-12 w-12 px-0",

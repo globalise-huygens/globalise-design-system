@@ -17,10 +17,6 @@ import {
   Separator as AriaSeparator,
 } from "react-aria-components";
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCard                                                                */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardProps extends Omit<
   AriaDialogProps,
   "className" | "style"
@@ -43,12 +39,8 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
 );
 ObjectCard.displayName = "ObjectCard";
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardBadge                                                           */
-/* -------------------------------------------------------------------------- */
-
 const objectCardBadgeVariants = cva(
-  "inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px]",
+  "inline-flex h-6 w-fit items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px]",
   {
     variants: {
       type: {
@@ -94,10 +86,6 @@ function ObjectCardBadge({
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardTitle — RAC Heading slot="title"                                */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
 function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
@@ -113,10 +101,6 @@ function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
     />
   );
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardHeader                                                          */
-/* -------------------------------------------------------------------------- */
 
 export interface ObjectCardHeaderProps {
   onClose?: () => void;
@@ -149,10 +133,6 @@ function ObjectCardHeader({
     </header>
   );
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardStats                                                           */
-/* -------------------------------------------------------------------------- */
 
 export interface ObjectCardStatsProps {
   className?: string;
@@ -187,10 +167,6 @@ function ObjectCardStat({ className, children }: ObjectCardStatProps) {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardBody                                                            */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardBodyProps {
   className?: string;
   children?: React.ReactNode;
@@ -203,10 +179,6 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
     </div>
   );
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardPanel                                                           */
-/* -------------------------------------------------------------------------- */
 
 const objectCardPanelVariants = cva(
   "flex flex-col overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]",
@@ -237,10 +209,6 @@ function ObjectCardPanel({ className, side, ...props }: ObjectCardPanelProps) {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardSection — RAC Group + Heading                                   */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardSectionProps {
   title: string;
   className?: string;
@@ -270,10 +238,6 @@ function ObjectCardSection({
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardProperty                                                        */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardPropertyProps {
   label: string;
   value: React.ReactNode;
@@ -297,10 +261,6 @@ function ObjectCardProperty({
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardPropertyList — semantic <dl>                                    */
-/* -------------------------------------------------------------------------- */
-
 export type ObjectCardPropertyListProps =
   React.HTMLAttributes<HTMLDListElement>;
 
@@ -310,10 +270,6 @@ function ObjectCardPropertyList({
 }: ObjectCardPropertyListProps) {
   return <dl className={cn("flex flex-col gap-6", className)} {...props} />;
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardExternalLink — RAC Link                                         */
-/* -------------------------------------------------------------------------- */
 
 export interface ObjectCardExternalLinkProps extends Omit<
   AriaLinkProps,
@@ -351,10 +307,6 @@ const ObjectCardExternalLink = React.forwardRef<
 });
 ObjectCardExternalLink.displayName = "ObjectCardExternalLink";
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardListItem                                                        */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardListItemProps {
   href?: string;
   className?: string;
@@ -387,10 +339,6 @@ function ObjectCardListItem({
 
   return <div className={classes}>{children}</div>;
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardReferenceItem                                                   */
-/* -------------------------------------------------------------------------- */
 
 export interface ObjectCardReferenceItemProps {
   image?: React.ReactNode;
@@ -452,10 +400,6 @@ function ObjectCardReferenceItem({
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardFooter — RAC Separator + actions                                */
-/* -------------------------------------------------------------------------- */
-
 export interface ObjectCardFooterProps {
   className?: string;
   children?: React.ReactNode;
@@ -469,10 +413,6 @@ function ObjectCardFooter({ className, children }: ObjectCardFooterProps) {
     </div>
   );
 }
-
-/* -------------------------------------------------------------------------- */
-/*  ObjectCardAction — RAC Button + CVA                                       */
-/* -------------------------------------------------------------------------- */
 
 const objectCardActionVariants = cva(
   "inline-flex items-center font-sans transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -514,10 +454,6 @@ const ObjectCardAction = React.forwardRef<
   </AriaButton>
 ));
 ObjectCardAction.displayName = "ObjectCardAction";
-
-/* -------------------------------------------------------------------------- */
-/*  Exports                                                                   */
-/* -------------------------------------------------------------------------- */
 
 export {
   ObjectCard,

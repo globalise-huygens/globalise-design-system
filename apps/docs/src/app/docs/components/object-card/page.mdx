@@ -2,6 +2,7 @@ import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import { ObjectCardDemo } from "./ObjectCardDemo";
+import { ObjectCardBadge } from "@globalise/design-system";
 
 # Object Card
 
@@ -89,21 +90,11 @@ The `ObjectCardBadge` supports entity types via CVA variants:
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-blue-950 text-blue-200 outline-cyan-800">
-      Ship
-    </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-emerald-950 text-emerald-200 outline-emerald-700">
-      Concept
-    </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-amber-950 text-amber-200 outline-amber-700">
-      Voyage
-    </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-violet-950 text-violet-200 outline-violet-700">
-      Letter
-    </span>
-    <span className="inline-flex h-6 items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline-[1.2px] outline-offset-[-1.2px] bg-rose-950 text-rose-200 outline-rose-700">
-      Person
-    </span>
+    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+    <ObjectCardBadge type="concept">Concept</ObjectCardBadge>
+    <ObjectCardBadge type="voyage">Voyage</ObjectCardBadge>
+    <ObjectCardBadge type="letter">Letter</ObjectCardBadge>
+    <ObjectCardBadge type="person">Person</ObjectCardBadge>
   </div>
 </ComponentPreview>
 

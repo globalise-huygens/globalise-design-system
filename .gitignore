@@ -25,3 +25,7 @@ npm-debug.log*
 
 # Turbo
 .turbo/
+
+# Generated files
+*.tsbuildinfo
+next-env.d.ts
