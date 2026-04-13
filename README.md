@@ -1,6 +1,6 @@
 # @globalise/design-system
 
-React component library for the [Globalise](https://globalise.huygens.knaw.nl/) project, built with [shadcn/ui](https://ui.shadcn.com/) and [Tailwind CSS v4](https://tailwindcss.com/).
+React component library for the [Globalise](https://globalise.huygens.knaw.nl/) project, built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and [Tailwind CSS v4](https://tailwindcss.com/).
 
 **[Documentation site →](https://globalise-huygens.github.io/globalise-design-system/)**
 
@@ -91,13 +91,14 @@ export function Page() {
 
 ### Cards
 
-| Component      | Description                                   |
-| -------------- | --------------------------------------------- |
-| `CardBase`     | Low-level card primitive with colour variants |
-| `CardArticle`  | Article card with image, label, title, CTA    |
-| `CardHero`     | Full-bleed hero card with overlay             |
-| `CardFeatured` | Featured content card with tabbed items       |
-| `CardGlance`   | Stats/at-a-glance card with colour accent     |
+| Component      | Description                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| `CardBase`     | Low-level card primitive with colour variants                         |
+| `CardArticle`  | Article card with image, label, title, CTA                            |
+| `CardHero`     | Full-bleed hero card with overlay                                     |
+| `CardFeatured` | Featured content card with tabbed items                               |
+| `CardGlance`   | Stats/at-a-glance card with colour accent                             |
+| `ObjectCard`   | Composable entity detail card (Ship, Person, Concept, Voyage, Letter) |
 
 ### Content
 
@@ -106,6 +107,7 @@ export function Page() {
 | `Button`           | Pill-shaped button with brand variants                  |
 | `Typography`       | Semantic text component with variant-to-element mapping |
 | `NewsletterSignup` | Email signup form block                                 |
+| `ObjectCard`       | Composable two-panel entity detail overlay              |
 
 ### Button
 
@@ -223,6 +225,76 @@ import {
 </Navbar>;
 ```
 
+### ObjectCard
+
+A composable two-panel card built on React Aria Components for displaying entity detail overlays. Supports **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** entity types.
+
+```tsx
+import {
+  ObjectCard,
+  ObjectCardAction,
+  ObjectCardBadge,
+  ObjectCardBody,
+  ObjectCardExternalLink,
+  ObjectCardFooter,
+  ObjectCardHeader,
+  ObjectCardListItem,
+  ObjectCardPanel,
+  ObjectCardProperty,
+  ObjectCardPropertyList,
+  ObjectCardReferenceItem,
+  ObjectCardSection,
+  ObjectCardStat,
+  ObjectCardStats,
+  ObjectCardTitle,
+  IconCopy,
+} from "@globalise/design-system";
+
+<ObjectCard>
+  <ObjectCardHeader onClose={() => {}}>
+    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+    <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
+    <ObjectCardStats>
+      <ObjectCardStat>7 Voyages</ObjectCardStat>
+      <ObjectCardStat>1,234 References</ObjectCardStat>
+    </ObjectCardStats>
+  </ObjectCardHeader>
+
+  <ObjectCardBody className="h-[600px]">
+    <ObjectCardPanel side="left">
+      <ObjectCardSection title="General Properties">
+        <ObjectCardPropertyList>
+          <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+          <ObjectCardProperty label="Weight" value="874 tons" />
+        </ObjectCardPropertyList>
+      </ObjectCardSection>
+      <ObjectCardFooter>
+        <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+          Copy URI
+        </ObjectCardAction>
+      </ObjectCardFooter>
+    </ObjectCardPanel>
+
+    <ObjectCardPanel side="right">
+      <ObjectCardReferenceItem
+        title="p.264"
+        snippet="in 't geheel p:r de prins Eugenius..."
+        archiveId="NL-HaNA 1.04.02 · 10070_0054 · 264"
+        href="#"
+      />
+    </ObjectCardPanel>
+  </ObjectCardBody>
+</ObjectCard>;
+```
+
+| Badge type | Color scheme |
+| ---------- | ------------ |
+| `ship`     | Turquoise    |
+| `concept`  | Mint         |
+| `voyage`   | Vermilion    |
+| `letter`   | Parchment    |
+| `person`   | Neutral      |
+
 ## Icons
 
 All icons use `currentColor` and accept standard SVG props.
@@ -233,14 +305,17 @@ import { IconArrowRight, IconSearch, IconAdd } from "@globalise/design-system";
 <IconArrowRight className="h-5 w-5" />;
 ```
 
-| Icon              | Purpose            |
-| ----------------- | ------------------ |
-| `IconAdd`         | Add / plus         |
-| `IconArrowRight`  | Navigation arrow   |
-| `IconChevronDown` | Dropdown indicator |
-| `IconClose`       | Dismiss / close    |
-| `IconEast`        | Directional east   |
-| `IconSearch`      | Search             |
+| Icon               | Purpose            |
+| ------------------ | ------------------ |
+| `IconAdd`          | Add / plus         |
+| `IconArrowRight`   | Navigation arrow   |
+| `IconChevronDown`  | Dropdown indicator |
+| `IconClose`        | Dismiss / close    |
+| `IconCopy`         | Copy to clipboard  |
+| `IconDownload`     | Download           |
+| `IconExternalLink` | External link      |
+| `IconMenu`         | Hamburger menu     |
+| `IconSearch`       | Search             |
 
 ## Logos
 
@@ -279,7 +354,7 @@ Full colour scales (50–900) are available for Neutral, Parchment, Vermilion, T
 
 ## Adding more shadcn/ui components
 
-This project has a `components.json` for the shadcn CLI. Run from the `packages/ui` directory:
+This project has a `components.json` for the shadcn CLI. Interactive components (buttons, links, form fields) use [React Aria Components](https://react-spectrum.adobe.com/react-aria/) directly. Run from the `packages/ui` directory to scaffold additional shadcn primitives:
 
 ```bash
 cd packages/ui
