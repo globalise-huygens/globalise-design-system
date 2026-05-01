@@ -242,7 +242,7 @@ function ObjectCardSection({
         </AriaHeading>
       )}
       {scrollable ? (
-        <div className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]">
+        <div className="max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]">
           {children}
         </div>
       ) : (
