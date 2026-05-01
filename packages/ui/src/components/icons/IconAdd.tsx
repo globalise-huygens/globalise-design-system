@@ -1,18 +1,14 @@
-import * as React from "react";
+import { SVGProps } from "react";
 
-const IconAdd = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
-  (props, ref) => (
+export function IconAdd(props: SVGProps<SVGSVGElement>) {
+  return (
     <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 -960 960 960"
+      fill="currentColor"
       {...props}
     >
-      <path d="M9.16663 10.8333H4.16663V9.16663H9.16663V4.16663H10.8333V9.16663H15.8333V10.8333H10.8333V15.8333H9.16663V10.8333Z" fill="currentColor"/>
+      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
     </svg>
-  ),
-);
-IconAdd.displayName = "IconAdd";
-
-export { IconAdd };
+  );
+}
