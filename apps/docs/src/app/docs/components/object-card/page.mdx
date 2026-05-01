@@ -2,7 +2,17 @@ import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import { ObjectCardDemo } from "./ObjectCardDemo";
-import { ObjectCardBadge } from "@globalise/design-system";
+import {
+  ObjectCardBadge,
+  IconShip,
+  IconPerson,
+  IconPlace,
+  IconCommodity,
+  IconDimensions,
+  IconOrganisation,
+  IconDate,
+  IconDocument,
+} from "@globalise/design-system";
 
 # Object Card
 
@@ -90,11 +100,48 @@ The `ObjectCardBadge` supports entity types via CVA variants:
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
-    <ObjectCardBadge type="concept">Concept</ObjectCardBadge>
+    <ObjectCardBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+      Ship
+    </ObjectCardBadge>
+    <ObjectCardBadge
+      type="person"
+      icon={<IconPerson className="h-3.5 w-3.5" />}
+    >
+      Person
+    </ObjectCardBadge>
+    <ObjectCardBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+      Place
+    </ObjectCardBadge>
+    <ObjectCardBadge
+      type="commodity"
+      icon={<IconCommodity className="h-3.5 w-3.5" />}
+    >
+      Commodity
+    </ObjectCardBadge>
+    <ObjectCardBadge
+      type="dimensions"
+      icon={<IconDimensions className="h-3.5 w-3.5" />}
+    >
+      Dimensions
+    </ObjectCardBadge>
+    <ObjectCardBadge
+      type="organisation"
+      icon={<IconOrganisation className="h-3.5 w-3.5" />}
+    >
+      Organisation
+    </ObjectCardBadge>
+    <ObjectCardBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+      Date
+    </ObjectCardBadge>
+    <ObjectCardBadge
+      type="document"
+      icon={<IconDocument className="h-3.5 w-3.5" />}
+    >
+      Document
+    </ObjectCardBadge>
     <ObjectCardBadge type="voyage">Voyage</ObjectCardBadge>
+    <ObjectCardBadge type="concept">Concept</ObjectCardBadge>
     <ObjectCardBadge type="letter">Letter</ObjectCardBadge>
-    <ObjectCardBadge type="person">Person</ObjectCardBadge>
   </div>
 </ComponentPreview>
 
@@ -159,9 +206,9 @@ RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessi
   props={[
     {
       name: "type",
-      type: '"ship" | "concept" | "voyage" | "letter" | "person"',
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
       default: '"ship"',
-      description: "Entity type, determines badge color.",
+      description: "Entity type, determines badge color and outline style.",
     },
     {
       name: "icon",

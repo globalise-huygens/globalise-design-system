@@ -122,6 +122,13 @@ export { IconExternalLink } from "./components/icons/IconExternalLink";
 export { IconMenu } from "./components/icons/IconMenu";
 export { IconSearch } from "./components/icons/IconSearch";
 export { IconShip } from "./components/icons/IconShip";
+export { IconPerson } from "./components/icons/IconPerson";
+export { IconPlace } from "./components/icons/IconPlace";
+export { IconCommodity } from "./components/icons/IconCommodity";
+export { IconDimensions } from "./components/icons/IconDimensions";
+export { IconOrganisation } from "./components/icons/IconOrganisation";
+export { IconDate } from "./components/icons/IconDate";
+export { IconDocument } from "./components/icons/IconDocument";
 
 // Logos
 export { LogoLockup } from "./components/logo/LogoLockup";

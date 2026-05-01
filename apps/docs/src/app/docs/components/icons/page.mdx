@@ -6,8 +6,19 @@ import {
   IconArrowRight,
   IconChevronDown,
   IconClose,
+  IconCopy,
+  IconDownload,
+  IconExternalLink,
   IconMenu,
   IconSearch,
+  IconShip,
+  IconPerson,
+  IconPlace,
+  IconCommodity,
+  IconDimensions,
+  IconOrganisation,
+  IconDate,
+  IconDocument,
 } from "@globalise/design-system";
 
 # Icons
@@ -17,7 +28,7 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
 ## Gallery
 
 <ComponentPreview>
-  <div className="grid grid-cols-3 sm:grid-cols-6 gap-8 text-white w-full max-w-xl">
+  <div className="grid grid-cols-4 sm:grid-cols-6 gap-8 text-white w-full">
     <div className="flex flex-col items-center gap-2">
       <IconAdd className="w-6 h-6" />
       <span className="text-xs text-white/50">Add</span>
@@ -35,12 +46,56 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
       <span className="text-xs text-white/50">Close</span>
     </div>
     <div className="flex flex-col items-center gap-2">
+      <IconCopy className="w-6 h-6" />
+      <span className="text-xs text-white/50">Copy</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconDownload className="w-6 h-6" />
+      <span className="text-xs text-white/50">Download</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconExternalLink className="w-6 h-6" />
+      <span className="text-xs text-white/50">ExternalLink</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
       <IconMenu className="w-6 h-6" />
       <span className="text-xs text-white/50">Menu</span>
     </div>
     <div className="flex flex-col items-center gap-2">
       <IconSearch className="w-6 h-6" />
       <span className="text-xs text-white/50">Search</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconShip className="w-6 h-6" />
+      <span className="text-xs text-white/50">Ship</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconPerson className="w-6 h-6" />
+      <span className="text-xs text-white/50">Person</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconPlace className="w-6 h-6" />
+      <span className="text-xs text-white/50">Place</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconCommodity className="w-6 h-6" />
+      <span className="text-xs text-white/50">Commodity</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconDimensions className="w-6 h-6" />
+      <span className="text-xs text-white/50">Dimensions</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconOrganisation className="w-6 h-6" />
+      <span className="text-xs text-white/50">Organisation</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconDate className="w-6 h-6" />
+      <span className="text-xs text-white/50">Date</span>
+    </div>
+    <div className="flex flex-col items-center gap-2">
+      <IconDocument className="w-6 h-6" />
+      <span className="text-xs text-white/50">Document</span>
     </div>
   </div>
 </ComponentPreview>
@@ -103,6 +158,21 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
       description: "Close / dismiss.",
     },
     {
+      name: "IconCopy",
+      type: "SVGSVGElement",
+      description: "Copy to clipboard.",
+    },
+    {
+      name: "IconDownload",
+      type: "SVGSVGElement",
+      description: "Download / save.",
+    },
+    {
+      name: "IconExternalLink",
+      type: "SVGSVGElement",
+      description: "External link (open in new tab).",
+    },
+    {
       name: "IconMenu",
       type: "SVGSVGElement",
       description: "Hamburger menu icon.",
@@ -111,6 +181,46 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
       name: "IconSearch",
       type: "SVGSVGElement",
       description: "Search / magnifying glass.",
+    },
+    {
+      name: "IconShip",
+      type: "SVGSVGElement",
+      description: "Ship entity badge icon.",
+    },
+    {
+      name: "IconPerson",
+      type: "SVGSVGElement",
+      description: "Person entity badge icon.",
+    },
+    {
+      name: "IconPlace",
+      type: "SVGSVGElement",
+      description: "Place entity badge icon.",
+    },
+    {
+      name: "IconCommodity",
+      type: "SVGSVGElement",
+      description: "Commodity entity badge icon.",
+    },
+    {
+      name: "IconDimensions",
+      type: "SVGSVGElement",
+      description: "Dimensions entity badge icon.",
+    },
+    {
+      name: "IconOrganisation",
+      type: "SVGSVGElement",
+      description: "Organisation entity badge icon.",
+    },
+    {
+      name: "IconDate",
+      type: "SVGSVGElement",
+      description: "Date entity badge icon.",
+    },
+    {
+      name: "IconDocument",
+      type: "SVGSVGElement",
+      description: "Document entity badge icon.",
     },
   ]}
 />

@@ -49,7 +49,14 @@ const objectCardBadgeVariants = cva(
         concept: "bg-mint-900 text-mint-200 outline-mint-700",
         voyage: "bg-vermilion-900 text-vermilion-200 outline-vermilion-700",
         letter: "bg-parchment-900 text-parchment-200 outline-parchment-700",
-        person: "bg-neutral-800 text-neutral-200 outline-neutral-600",
+        person: "bg-vermilion-900 text-vermilion-200 outline-vermilion-700",
+        place: "bg-mint-900 text-mint-200 outline-mint-700",
+        commodity: "bg-parchment-900 text-parchment-200 outline-parchment-700",
+        dimensions: "bg-neutral-800 text-neutral-200 outline-neutral-600",
+        organisation:
+          "bg-turquoise-900 text-turquoise-200 outline-turquoise-700",
+        date: "bg-parchment-900 text-parchment-200 outline-parchment-700",
+        document: "bg-neutral-800 text-neutral-200 outline-neutral-600",
       },
     },
     defaultVariants: {
