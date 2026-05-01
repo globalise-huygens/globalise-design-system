@@ -122,7 +122,7 @@ export function ObjectCardDemo() {
         </ObjectCardStats>
       </ObjectCardHeader>
 
-      <ObjectCardBody className="h-125 lg:h-150">
+      <ObjectCardBody className="lg:h-150">
         {/* Left panel — properties */}
         <ObjectCardPanel side="left">
           <ObjectCardSection>

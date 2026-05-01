@@ -30,7 +30,7 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "inline-flex w-full max-w-[1008px] flex-col overflow-hidden outline-none",
+        "flex h-dvh w-full max-w-[1008px] flex-col overflow-y-auto outline-none lg:inline-flex lg:h-auto lg:overflow-hidden",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
       )}
@@ -124,7 +124,7 @@ function ObjectCardHeader({
   return (
     <header
       className={cn(
-        "relative flex flex-col gap-3 border-b border-brand-white/20 bg-neutral-800/50 px-8 py-6 lg:px-16 lg:py-8",
+        "sticky top-0 z-10 flex flex-col gap-3 border-b border-brand-white/20 bg-neutral-800 px-8 py-6 lg:px-16 lg:py-8",
         className,
       )}
     >
@@ -185,14 +185,16 @@ export interface ObjectCardBodyProps {
 
 function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
-    <div className={cn("flex flex-col overflow-hidden lg:flex-row", className)}>
+    <div
+      className={cn("flex flex-col lg:flex-row lg:overflow-hidden", className)}
+    >
       {children}
     </div>
   );
 }
 
 const objectCardPanelVariants = cva(
-  "flex flex-col overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]",
+  "flex flex-col lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
   {
     variants: {
       side: {
@@ -249,7 +251,7 @@ function ObjectCardSection({
         </AriaHeading>
       )}
       {scrollable ? (
-        <div className="max-h-72 overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]">
+        <div className="lg:max-h-72 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]">
           {children}
         </div>
       ) : (
