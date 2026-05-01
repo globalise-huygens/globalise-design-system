@@ -1,5 +1,6 @@
 "use client";
 
+import { IconArrowRight } from "@/components/icons/IconArrowRight";
 import { IconClose } from "@/components/icons/IconClose";
 import { IconExternalLink } from "@/components/icons/IconExternalLink";
 import { cn } from "@/lib/utils";
@@ -160,7 +161,10 @@ export interface ObjectCardStatProps {
 function ObjectCardStat({ className, children }: ObjectCardStatProps) {
   return (
     <span
-      className={cn("font-sans text-sm text-neutral-400 leading-4", className)}
+      className={cn(
+        "font-sans text-sm italic text-neutral-400 leading-4",
+        className,
+      )}
     >
       {children}
     </span>
@@ -210,30 +214,40 @@ function ObjectCardPanel({ className, side, ...props }: ObjectCardPanelProps) {
 }
 
 export interface ObjectCardSectionProps {
-  title: string;
+  title?: string;
+  scrollable?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
 
 function ObjectCardSection({
   title,
+  scrollable,
   className,
   children,
 }: ObjectCardSectionProps) {
   const headingId = React.useId();
   return (
     <Group
-      aria-labelledby={headingId}
-      className={cn("flex flex-col gap-5", className)}
+      aria-labelledby={title ? headingId : undefined}
+      className={cn("flex flex-col gap-3", className)}
     >
-      <AriaHeading
-        level={3}
-        id={headingId}
-        className="font-serif text-lg font-medium leading-5 text-brand-white"
-      >
-        {title}
-      </AriaHeading>
-      {children}
+      {title && (
+        <AriaHeading
+          level={3}
+          id={headingId}
+          className="font-serif text-lg font-medium leading-5 text-brand-white"
+        >
+          {title}
+        </AriaHeading>
+      )}
+      {scrollable ? (
+        <div className="overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]">
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </Group>
   );
 }
@@ -268,7 +282,7 @@ function ObjectCardPropertyList({
   className,
   ...props
 }: ObjectCardPropertyListProps) {
-  return <dl className={cn("flex flex-col gap-6", className)} {...props} />;
+  return <dl className={cn("flex flex-col gap-3", className)} {...props} />;
 }
 
 export interface ObjectCardExternalLinkProps extends Omit<
@@ -319,19 +333,15 @@ function ObjectCardListItem({
   children,
 }: ObjectCardListItemProps) {
   const classes = cn(
-    "flex flex-col gap-2 overflow-hidden rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-4",
+    "group relative flex flex-col gap-2 overflow-hidden rounded-lg bg-white/[0.06] px-3 py-4",
     className,
   );
 
   if (href) {
     return (
-      <AriaLink
-        href={href}
-        className={cn(
-          classes,
-          "group transition-colors hover:border-neutral-600",
-        )}
-      >
+      <AriaLink href={href} className={classes}>
+        <div className="absolute inset-0 bg-white/[0.06] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+        <IconArrowRight className="absolute right-2.5 top-2.5 h-3 w-3 text-neutral-500" />
         {children}
       </AriaLink>
     );

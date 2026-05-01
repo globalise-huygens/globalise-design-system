@@ -121,6 +121,7 @@ export { IconDownload } from "./components/icons/IconDownload";
 export { IconExternalLink } from "./components/icons/IconExternalLink";
 export { IconMenu } from "./components/icons/IconMenu";
 export { IconSearch } from "./components/icons/IconSearch";
+export { IconShip } from "./components/icons/IconShip";
 
 // Logos
 export { LogoLockup } from "./components/logo/LogoLockup";

@@ -1,6 +1,7 @@
 export { IconAdd } from "./IconAdd";
 export { IconArrowRight } from "./IconArrowRight";
 export { IconChevronDown } from "./IconChevronDown";
+export { IconShip } from "./IconShip";
 export { IconClose } from "./IconClose";
 export { IconCopy } from "./IconCopy";
 export { IconDownload } from "./IconDownload";

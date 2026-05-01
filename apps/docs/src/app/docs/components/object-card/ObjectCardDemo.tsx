@@ -4,7 +4,7 @@ import {
   IconAdd,
   IconCopy,
   IconDownload,
-  IconExternalLink,
+  IconShip,
   ObjectCard,
   ObjectCardAction,
   ObjectCardBadge,
@@ -22,6 +22,7 @@ import {
   ObjectCardStats,
   ObjectCardTitle,
 } from "@globalise/design-system";
+import { useState } from "react";
 
 const voyages = [
   {
@@ -42,7 +43,33 @@ const voyages = [
     captain: "Capt. Jan Berger",
     crew: "~230 crew",
   },
+  {
+    dates: "5 Mar 1715 – 2 Nov 1715",
+    route: "Texel (NL) → Jakarta (ID)",
+    captain: "Capt. Hendrik Mulder",
+    crew: "~215 crew",
+  },
+  {
+    dates: "12 Jun 1718 – 14 Jan 1719",
+    route: "Jakarta (ID) → Texel (NL)",
+    captain: "Capt. Willem de Vries",
+    crew: "~198 crew",
+  },
+  {
+    dates: "3 Feb 1721 – 9 Sep 1721",
+    route: "Texel (NL) → Jakarta (ID)",
+    captain: "Capt. Gerrit Jansen",
+    crew: "~221 crew",
+  },
+  {
+    dates: "7 Aug 1724 – 4 Mar 1725",
+    route: "Jakarta (ID) → Texel (NL)",
+    captain: "Capt. Thomas Bakker",
+    crew: "~205 crew",
+  },
 ];
+
+const INITIAL_VOYAGE_COUNT = 3;
 
 const references = [
   {
@@ -68,10 +95,21 @@ const references = [
 ];
 
 export function ObjectCardDemo() {
+  const [showAllVoyages, setShowAllVoyages] = useState(false);
+  const visibleVoyages = showAllVoyages
+    ? voyages
+    : voyages.slice(0, INITIAL_VOYAGE_COUNT);
+  const hiddenCount = voyages.length - INITIAL_VOYAGE_COUNT;
+
   return (
     <ObjectCard>
       <ObjectCardHeader onClose={() => {}}>
-        <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+        <ObjectCardBadge
+          type="ship"
+          icon={<IconShip className="h-3.5 w-3.5" />}
+        >
+          Ship
+        </ObjectCardBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
         <ObjectCardStats>
           <ObjectCardStat>7 Voyages</ObjectCardStat>
@@ -83,7 +121,7 @@ export function ObjectCardDemo() {
       <ObjectCardBody className="h-125 lg:h-150">
         {/* Left panel — properties */}
         <ObjectCardPanel side="left">
-          <ObjectCardSection title="General Properties">
+          <ObjectCardSection>
             <ObjectCardPropertyList>
               <ObjectCardProperty label="Built" value="1703, Amsterdam" />
               <ObjectCardProperty label="Laid up" value="1727, Batavia" />
@@ -92,11 +130,11 @@ export function ObjectCardDemo() {
             </ObjectCardPropertyList>
           </ObjectCardSection>
 
-          <ObjectCardSection title="Voyages (7)">
+          <ObjectCardSection title="Voyages (7)" scrollable>
             <div className="flex flex-col gap-2">
-              {voyages.map((v, i) => (
-                <ObjectCardListItem key={i}>
-                  <span className="font-sans text-xs text-zinc-400 leading-4">
+              {visibleVoyages.map((v, i) => (
+                <ObjectCardListItem key={i} href="#">
+                  <span className="font-sans text-xs text-zinc-400 leading-4 pr-5">
                     {v.dates}
                   </span>
                   <span className="font-serif text-xs font-semibold leading-3 text-zinc-200">
@@ -112,13 +150,14 @@ export function ObjectCardDemo() {
                   </div>
                 </ObjectCardListItem>
               ))}
+              <ObjectCardAction
+                variant="more"
+                icon={<IconAdd className="h-3 w-3" />}
+                onPress={() => setShowAllVoyages((v) => !v)}
+              >
+                {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
+              </ObjectCardAction>
             </div>
-            <ObjectCardAction
-              variant="more"
-              icon={<IconAdd className="h-3 w-3" />}
-            >
-              View more
-            </ObjectCardAction>
           </ObjectCardSection>
 
           <ObjectCardSection title="External Identifiers">
