@@ -150,15 +150,16 @@ export function ObjectCardDemo() {
                   </div>
                 </ObjectCardListItem>
               ))}
-              <ObjectCardAction
-                variant="more"
-                icon={<IconAdd className="h-3 w-3" />}
-                onPress={() => setShowAllVoyages((v) => !v)}
-              >
-                {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
-              </ObjectCardAction>
             </div>
           </ObjectCardSection>
+
+          <ObjectCardAction
+            variant="more"
+            icon={<IconAdd className="h-3 w-3" />}
+            onPress={() => setShowAllVoyages((v) => !v)}
+          >
+            {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
+          </ObjectCardAction>
 
           <ObjectCardSection title="External Identifiers">
             <div className="flex flex-col gap-3">
