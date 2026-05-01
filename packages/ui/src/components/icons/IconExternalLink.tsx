@@ -6,18 +6,12 @@ const IconExternalLink = React.forwardRef<
 >((props, ref) => (
   <svg
     ref={ref}
-    viewBox="0 0 14 14"
-    fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 -960 960 960"
+    fill="currentColor"
     {...props}
   >
-    <path
-      d="M3.5 10.5L10.5 3.5M10.5 3.5H5.25M10.5 3.5V8.75"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z" />
   </svg>
 ));
 IconExternalLink.displayName = "IconExternalLink";

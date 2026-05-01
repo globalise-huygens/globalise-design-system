@@ -402,7 +402,7 @@ function ObjectCardReferenceItem({
             aria-label={`Open ${title}`}
             className="shrink-0 text-brand-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <IconExternalLink className="h-2.5 w-2.5" />
+            <IconArrowRight className="h-2.5 w-2.5" />
           </AriaLink>
         )}
       </div>
