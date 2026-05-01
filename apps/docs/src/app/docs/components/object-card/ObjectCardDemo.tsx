@@ -73,24 +73,28 @@ const INITIAL_VOYAGE_COUNT = 3;
 
 const references = [
   {
-    title: "p.264",
-    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
-    archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+    title: "1764 · 0054 · p.264",
+    snippet:
+      "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
+    archiveId: "NL-HaNA 1.04.02 · 10070",
   },
   {
-    title: "p.264",
-    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
-    archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+    title: "1764 · 0054 · p.265",
+    snippet:
+      "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
+    archiveId: "NL-HaNA 1.04.02 · 10070",
   },
   {
-    title: "p.264",
-    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
-    archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+    title: "1764 · 0054 · p.266",
+    snippet:
+      "aangaande het schip de prins Eugenius gerapporteerd dat hetzelve in...",
+    archiveId: "NL-HaNA 1.04.02 · 10070",
   },
   {
-    title: "p.264",
-    snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na...",
-    archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+    title: "1764 · 0061 · p.14",
+    snippet:
+      "den schipper van de prins Eugenius verklaart dat het schip behouden...",
+    archiveId: "NL-HaNA 1.04.02 · 10070",
   },
 ];
 

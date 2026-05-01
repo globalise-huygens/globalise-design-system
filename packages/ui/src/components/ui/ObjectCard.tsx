@@ -197,7 +197,7 @@ const objectCardPanelVariants = cva(
     variants: {
       side: {
         left: "w-full border-b border-neutral-700 bg-neutral-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8 gap-8",
-        right: "flex-1 bg-neutral-800/50 p-6 lg:px-12 lg:py-10",
+        right: "flex-1 bg-neutral-800/50 p-6 lg:px-8 lg:py-8",
       },
     },
     defaultVariants: {
@@ -375,26 +375,26 @@ function ObjectCardReferenceItem({
   href,
 }: ObjectCardReferenceItemProps) {
   return (
-    <div className={cn("border-b border-brand-white/40 py-6", className)}>
-      <div className="flex items-start gap-6">
-        <div className="flex flex-1 items-center gap-6">
+    <div className={cn("border-b border-brand-white/20 py-3", className)}>
+      <div className="flex items-center gap-3">
+        <div className="flex flex-1 items-center gap-3">
           {image && (
-            <div className="h-20 w-28 shrink-0 overflow-hidden">{image}</div>
+            <div className="h-20 w-20 shrink-0 overflow-hidden">{image}</div>
           )}
-          <div className="flex flex-1 flex-col gap-2.5">
-            <span className="font-serif text-lg font-medium leading-5 text-brand-white">
+          <div className="flex flex-1 flex-col gap-1">
+            <span className="font-serif text-sm font-medium leading-4 text-brand-white">
               {title}
             </span>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               {snippet && (
-                <div className="rounded bg-white/[0.06] px-2.5 py-2">
+                <div className="rounded bg-white/[0.06] px-2 py-1">
                   <div className="line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200">
                     {snippet}
                   </div>
                 </div>
               )}
               {archiveId && (
-                <span className="font-sans text-xs leading-4 text-neutral-400">
+                <span className="font-sans text-[11px] leading-4 text-neutral-400">
                   {archiveId}
                 </span>
               )}
