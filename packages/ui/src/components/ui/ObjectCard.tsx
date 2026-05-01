@@ -185,7 +185,7 @@ const objectCardPanelVariants = cva(
   {
     variants: {
       side: {
-        left: "w-full border-b border-neutral-700 bg-neutral-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8",
+        left: "w-full border-b border-neutral-700 bg-neutral-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8 gap-8",
         right: "flex-1 bg-neutral-800/50 p-6 lg:px-12 lg:py-10",
       },
     },
