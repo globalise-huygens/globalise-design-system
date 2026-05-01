@@ -26,22 +26,22 @@ import { useState } from "react";
 
 const voyages = [
   {
-    dates: "19 Jan 1710 – 8 Aug 1710",
+    dates: "12 Nov 1703 – 3 Jul 1704",
     route: "Texel (NL) → Jakarta (ID)",
     captain: "Capt. Klaas Nanningsz. Sanderus",
     crew: "~230 crew",
   },
   {
-    dates: "19 Jan 1710 – 8 Aug 1710",
+    dates: "14 Sep 1706 – 18 Apr 1707",
     route: "Jakarta (ID) → Texel (NL)",
     captain: "Capt. Pieter Oosterdorp",
-    crew: "~230 crew",
+    crew: "~218 crew",
   },
   {
-    dates: "19 Jan 1710 – 8 Aug 1710",
+    dates: "8 Feb 1709 – 22 Oct 1709",
     route: "Texel (NL) → Jakarta (ID)",
     captain: "Capt. Jan Berger",
-    crew: "~230 crew",
+    crew: "~224 crew",
   },
   {
     dates: "5 Mar 1715 – 2 Nov 1715",
@@ -184,25 +184,24 @@ export function ObjectCardDemo() {
 
         {/* Right panel — references */}
         <ObjectCardPanel side="right">
-          <span className="font-sans text-sm italic leading-[1.2] tracking-[-0.02em] text-zinc-400">
-            References (1,234)
-          </span>
-          {references.map((r, i) => (
-            <ObjectCardReferenceItem
-              key={i}
-              title={r.title}
-              snippet={r.snippet}
-              archiveId={r.archiveId}
-              href="#"
-              image={
-                <img
-                  className="h-full w-full object-cover"
-                  src="https://placehold.co/120x80/404040/808080?text=scan"
-                  alt="Manuscript scan"
-                />
-              }
-            />
-          ))}
+          <ObjectCardSection title="References (1,234)">
+            {references.map((r, i) => (
+              <ObjectCardReferenceItem
+                key={i}
+                title={r.title}
+                snippet={r.snippet}
+                archiveId={r.archiveId}
+                href="#"
+                image={
+                  <img
+                    className="h-full w-full object-cover"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect width='120' height='80' fill='%23404040'/%3E%3Ctext x='60' y='44' text-anchor='middle' fill='%23808080' font-family='sans-serif' font-size='11'%3Escan%3C/text%3E%3C/svg%3E"
+                    alt="Manuscript scan"
+                  />
+                }
+              />
+            ))}
+          </ObjectCardSection>
         </ObjectCardPanel>
       </ObjectCardBody>
     </ObjectCard>

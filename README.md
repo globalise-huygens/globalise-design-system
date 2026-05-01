@@ -107,7 +107,6 @@ export function Page() {
 | `Button`           | Pill-shaped button with brand variants                  |
 | `Typography`       | Semantic text component with variant-to-element mapping |
 | `NewsletterSignup` | Email signup form block                                 |
-| `ObjectCard`       | Composable two-panel entity detail overlay              |
 
 ### Button
 

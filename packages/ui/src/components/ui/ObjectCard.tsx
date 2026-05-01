@@ -133,7 +133,7 @@ function ObjectCardHeader({
         <AriaButton
           onPress={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center text-brand-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:right-8 lg:top-8"
+          className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring lg:right-8 lg:top-8"
         >
           <IconClose className="h-3.5 w-3.5" />
         </AriaButton>
@@ -275,7 +275,7 @@ function ObjectCardProperty({
       <dt className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
         {label}
       </dt>
-      <dd className="w-44 font-sans text-sm font-medium leading-5 text-brand-white">
+      <dd className="min-w-0 flex-1 truncate text-right font-sans text-sm font-medium leading-5 text-brand-white">
         {value}
       </dd>
     </div>
@@ -317,7 +317,7 @@ const ObjectCardExternalLink = React.forwardRef<
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-between font-sans text-sm font-medium leading-5 text-brand-turquoise transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "inline-flex items-center justify-between font-sans text-sm font-medium leading-5 text-brand-turquoise transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
         className,
       )}
       {...props}
@@ -347,7 +347,7 @@ function ObjectCardListItem({
   if (href) {
     return (
       <AriaLink href={href} className={classes}>
-        <div className="absolute inset-0 bg-white/[0.06] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-white/[0.06] opacity-0 transition-opacity duration-200 group-data-hovered:opacity-100" />
         <IconArrowRight className="absolute right-2.5 top-2.5 h-3 w-3 text-neutral-500" />
         {children}
       </AriaLink>
@@ -407,7 +407,7 @@ function ObjectCardReferenceItem({
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Open ${title}`}
-            className="shrink-0 text-brand-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="shrink-0 text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
           >
             <IconArrowRight className="h-2.5 w-2.5" />
           </AriaLink>
@@ -432,7 +432,7 @@ function ObjectCardFooter({ className, children }: ObjectCardFooterProps) {
 }
 
 const objectCardActionVariants = cva(
-  "inline-flex items-center font-sans transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+  "inline-flex items-center font-sans transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
   {
     variants: {
       variant: {
