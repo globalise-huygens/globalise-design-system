@@ -40,60 +40,6 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
 );
 ObjectCard.displayName = "ObjectCard";
 
-const objectCardBadgeVariants = cva(
-  "inline-flex h-6 w-fit items-center gap-1 rounded-[999px] pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px]",
-  {
-    variants: {
-      type: {
-        ship: "bg-turquoise-900 text-turquoise-200 outline-turquoise-700",
-        concept: "bg-mint-900 text-mint-200 outline-mint-700",
-        voyage: "bg-vermilion-900 text-vermilion-200 outline-vermilion-700",
-        letter: "bg-parchment-900 text-parchment-200 outline-parchment-700",
-        person: "bg-vermilion-900 text-vermilion-200 outline-vermilion-700",
-        place: "bg-mint-900 text-mint-200 outline-mint-700",
-        commodity: "bg-parchment-900 text-parchment-200 outline-parchment-700",
-        dimensions: "bg-neutral-800 text-neutral-200 outline-neutral-600",
-        organisation:
-          "bg-turquoise-900 text-turquoise-200 outline-turquoise-700",
-        date: "bg-parchment-900 text-parchment-200 outline-parchment-700",
-        document: "bg-neutral-800 text-neutral-200 outline-neutral-600",
-      },
-    },
-    defaultVariants: {
-      type: "ship",
-    },
-  },
-);
-
-export interface ObjectCardBadgeProps
-  extends
-    React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof objectCardBadgeVariants> {
-  icon?: React.ReactNode;
-}
-
-function ObjectCardBadge({
-  className,
-  type,
-  icon,
-  children,
-  ...props
-}: ObjectCardBadgeProps) {
-  return (
-    <span
-      className={cn(objectCardBadgeVariants({ type }), className)}
-      {...props}
-    >
-      {icon && (
-        <span className="flex h-3.5 w-3.5 items-center justify-center">
-          {icon}
-        </span>
-      )}
-      <span>{children}</span>
-    </span>
-  );
-}
-
 export interface ObjectCardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
 function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
@@ -478,8 +424,6 @@ export {
   ObjectCard,
   ObjectCardAction,
   objectCardActionVariants,
-  ObjectCardBadge,
-  objectCardBadgeVariants,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,

@@ -1,13 +1,13 @@
 "use client";
 
 import {
+  EntityTag,
   IconAdd,
   IconCopy,
   IconDownload,
   IconShip,
   ObjectCard,
   ObjectCardAction,
-  ObjectCardBadge,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
@@ -108,12 +108,9 @@ export function ObjectCardDemo() {
   return (
     <ObjectCard>
       <ObjectCardHeader onClose={() => {}}>
-        <ObjectCardBadge
-          type="ship"
-          icon={<IconShip className="h-3.5 w-3.5" />}
-        >
+        <EntityTag type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
           Ship
-        </ObjectCardBadge>
+        </EntityTag>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
         <ObjectCardStats>
           <ObjectCardStat>7 Voyages</ObjectCardStat>

@@ -65,12 +65,13 @@ export type { SectionDividerProps } from "./components/ui/SectionDivider";
 export { NewsletterSignup } from "./components/ui/NewsletterSignup";
 export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
+export { EntityTag, entityTagVariants } from "./components/ui/EntityTag";
+export type { EntityTagProps } from "./components/ui/EntityTag";
+
 export {
   ObjectCard,
   ObjectCardAction,
   objectCardActionVariants,
-  ObjectCardBadge,
-  objectCardBadgeVariants,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
@@ -88,7 +89,6 @@ export {
 } from "./components/ui/ObjectCard";
 export type {
   ObjectCardActionProps,
-  ObjectCardBadgeProps,
   ObjectCardBodyProps,
   ObjectCardExternalLinkProps,
   ObjectCardFooterProps,

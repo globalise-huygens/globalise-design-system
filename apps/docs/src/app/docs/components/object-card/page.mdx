@@ -3,7 +3,7 @@ import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import { ObjectCardDemo } from "./ObjectCardDemo";
 import {
-  ObjectCardBadge,
+  EntityTag,
   IconShip,
   IconPerson,
   IconPlace,
@@ -31,7 +31,7 @@ A composable card built on React Aria Components for displaying entity detail ov
   IconCopy,
   ObjectCard,
   ObjectCardAction,
-  ObjectCardBadge,
+  EntityTag,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
@@ -49,7 +49,7 @@ A composable card built on React Aria Components for displaying entity detail ov
 
 <ObjectCard>
   <ObjectCardHeader onClose={() => {}}>
-    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+    <EntityTag type="ship">Ship</EntityTag>
     <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
     <ObjectCardStats>
       <ObjectCardStat>7 Voyages</ObjectCardStat>
@@ -96,49 +96,49 @@ A composable card built on React Aria Components for displaying entity detail ov
 
 ## Badge Variants
 
-The `ObjectCardBadge` supports entity types via CVA variants:
+The `EntityTag` supports entity types via CVA variants:
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <ObjectCardBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+    <EntityTag type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
       Ship
-    </ObjectCardBadge>
-    <ObjectCardBadge
+    </EntityTag>
+    <EntityTag
       type="person"
       icon={<IconPerson className="h-3.5 w-3.5" />}
     >
       Person
-    </ObjectCardBadge>
-    <ObjectCardBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+    </EntityTag>
+    <EntityTag type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
       Place
-    </ObjectCardBadge>
-    <ObjectCardBadge
+    </EntityTag>
+    <EntityTag
       type="commodity"
       icon={<IconCommodity className="h-3.5 w-3.5" />}
     >
       Commodity
-    </ObjectCardBadge>
-    <ObjectCardBadge
+    </EntityTag>
+    <EntityTag
       type="dimensions"
       icon={<IconDimensions className="h-3.5 w-3.5" />}
     >
       Dimensions
-    </ObjectCardBadge>
-    <ObjectCardBadge
+    </EntityTag>
+    <EntityTag
       type="organisation"
       icon={<IconOrganisation className="h-3.5 w-3.5" />}
     >
       Organisation
-    </ObjectCardBadge>
-    <ObjectCardBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+    </EntityTag>
+    <EntityTag type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
       Date
-    </ObjectCardBadge>
-    <ObjectCardBadge
+    </EntityTag>
+    <EntityTag
       type="document"
       icon={<IconDocument className="h-3.5 w-3.5" />}
     >
       Document
-    </ObjectCardBadge>
+    </EntityTag>
   </div>
 </ComponentPreview>
 
@@ -197,7 +197,7 @@ RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessi
   ]}
 />
 
-### ObjectCardBadge
+### EntityTag
 
 <PropsTable
   props={[
@@ -210,7 +210,7 @@ RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessi
     {
       name: "icon",
       type: "ReactNode",
-      description: "Optional icon rendered before the label.",
+      description: "Optional icon rendered before the label. Typically 14×14px.",
     },
   ]}
 />
