@@ -8,7 +8,7 @@
  * Fonts: Noto Sans (UI/body), Noto Serif (headers/editorial)
  *
  * Brand Colours (Figma source):
- *   Archive Black: #262626
+ *   Archive Black: #0C0A09
  *   Paper White: #FFFFFF
  *   Parchment: #B99B7F
  *   Vermilion: #FF543D
@@ -23,7 +23,7 @@
 @layer base {
   :root {
     /* ── Brand colours (hex) ───────────────────────── */
-    --brand-black: #262626; /* text: white */
+    --brand-black: #0c0a09; /* text: white */
     --brand-white: #ffffff; /* text: black */
     --brand-parchment: #b99b7f; /* text: black */
     --brand-vermilion: #ff543d; /* text: black */
