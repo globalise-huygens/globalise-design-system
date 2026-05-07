@@ -40,7 +40,7 @@ function ObjectCardReferenceItem({
             </span>
             <div className="flex flex-col gap-1">
               {snippet && (
-                <div className="bg-white/[0.06] px-2 py-1">
+                <div className="bg-neutral-700 px-2 py-1">
                   <div className="line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200">
                     {snippet}
                   </div>

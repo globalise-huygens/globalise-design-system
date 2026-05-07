@@ -30,7 +30,7 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "flex h-dvh max-h-dvh w-full max-w-[1008px] flex-col overflow-y-auto outline-none lg:inline-flex lg:h-[calc(100dvh-4rem)] lg:max-h-[calc(100dvh-4rem)] lg:overflow-hidden",
+        "isolate flex h-dvh max-h-dvh w-full max-w-[1008px] flex-col overflow-y-auto bg-neutral-800 outline-none lg:inline-flex lg:h-[calc(100dvh-4rem)] lg:max-h-[calc(100dvh-4rem)] lg:overflow-hidden",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
       )}
@@ -143,7 +143,7 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
 }
 
 const objectCardPanelVariants = cva(
-  "flex min-h-0 flex-col lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
+  "flex flex-none flex-col lg:min-h-0 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
   {
     variants: {
       side: {
@@ -291,14 +291,13 @@ function ObjectCardListItem({
   children,
 }: ObjectCardListItemProps) {
   const classes = cn(
-    "group relative flex flex-col gap-2 overflow-hidden bg-white/[0.06] px-3 py-4",
+    "group relative flex flex-col gap-2 overflow-hidden bg-neutral-700 px-3 py-4 transition-colors duration-200 group-data-hovered:bg-neutral-600",
     className,
   );
 
   if (href) {
     return (
       <AriaLink href={href} className={classes}>
-        <div className="absolute inset-0 bg-white/[0.06] opacity-0 transition-opacity duration-200 group-data-hovered:opacity-100" />
         <IconArrowRight className="absolute right-2.5 top-2.5 h-3 w-3 text-neutral-500" />
         {children}
       </AriaLink>

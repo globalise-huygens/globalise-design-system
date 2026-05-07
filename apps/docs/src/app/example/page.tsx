@@ -23,6 +23,91 @@ export default function HomePage() {
       <GridGuideToggle />
 
       {/* ── Hero ──────────────────────────────────────────────── */}
+      <Section background="dark" spacing="large">
+        <Grid className="mx-auto max-w-360">
+          {/* Centered text: cols 3–10 on desktop */}
+          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6 flex flex-col items-center gap-6 text-center">
+            <Typography variant="display" className="text-white">
+              Discover the VOC archives
+            </Typography>
+            <Typography variant="lead" className="text-white/80">
+              Built for researchers, educators and curious audiences worldwide.
+            </Typography>
+            <ButtonLink variant="link" href="#" className="text-white">
+              Learn &amp; get started
+            </ButtonLink>
+          </div>
+        </Grid>
+
+        {/* Card strip — full bleed across all 12 columns */}
+        <div className="mt-12 lg:mt-22 w-full overflow-x-auto">
+          <div className="flex gap-5 px-4 lg:px-15 items-center justify-center">
+            <CardHero
+              label="Archive"
+              title="VOC shipping records"
+              hoverColor="parchment"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-parchment-600" />
+            </CardHero>
+            <CardHero
+              label="Video"
+              title="Interview with Matthias van Rossum"
+              hoverColor="vermilion"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-vermilion-500" />
+            </CardHero>
+            <CardHero
+              label="Research"
+              title="Digital infrastructure for colonial archives"
+              hoverColor="turquoise"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-turquoise-600" />
+            </CardHero>
+            <CardHero
+              label="Collection"
+              title={"New collection:\nWomen & Family\nin Colonial Contexts"}
+              hoverColor="mint"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-mint-500" />
+            </CardHero>
+            <CardHero
+              label="Article"
+              title="Research methodology notes"
+              hoverColor="vermilion"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-neutral-700" />
+            </CardHero>
+            <CardHero
+              label="Archive"
+              title="Maritime trade documents"
+              hoverColor="parchment"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-parchment-800" />
+            </CardHero>
+            <CardHero
+              label="Collection"
+              title="Colonial correspondence"
+              hoverColor="turquoise"
+              className="shrink-0 w-51 h-54.75"
+            >
+              <div className="w-full h-full bg-neutral-600" />
+            </CardHero>
+          </div>
+        </div>
+
+        <Grid className="mx-auto max-w-360 mt-12">
+          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+            <Divider />
+          </div>
+        </Grid>
+      </Section>
+
       <Section background="dark" className="pt-32 pb-0 lg:pt-48 lg:pb-0">
         <Grid className="mx-auto max-w-360">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-span-7">
@@ -216,92 +301,6 @@ export default function HomePage() {
               }
               image={<div className="w-full h-full bg-parchment-400" />}
             />
-          </div>
-        </Grid>
-      </Section>
-
-      {/* ── Footer CTA ────────────────────────────────────────── */}
-      <Section background="dark" spacing="large">
-        <Grid className="mx-auto max-w-360">
-          {/* Centered text: cols 3–10 on desktop */}
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6 flex flex-col items-center gap-6 text-center">
-            <Typography variant="display" className="text-white">
-              Discover the VOC archives
-            </Typography>
-            <Typography variant="lead" className="text-white/80">
-              Built for researchers, educators and curious audiences worldwide.
-            </Typography>
-            <ButtonLink variant="link" href="#" className="text-white">
-              Learn &amp; get started
-            </ButtonLink>
-          </div>
-        </Grid>
-
-        {/* Card strip — full bleed across all 12 columns */}
-        <div className="mt-12 lg:mt-22 w-full overflow-x-auto">
-          <div className="flex gap-5 px-4 lg:px-15 items-center justify-center">
-            <CardHero
-              label="Archive"
-              title="VOC shipping records"
-              hoverColor="parchment"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-parchment-600" />
-            </CardHero>
-            <CardHero
-              label="Video"
-              title="Interview with Matthias van Rossum"
-              hoverColor="vermilion"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-vermilion-500" />
-            </CardHero>
-            <CardHero
-              label="Research"
-              title="Digital infrastructure for colonial archives"
-              hoverColor="turquoise"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-turquoise-600" />
-            </CardHero>
-            <CardHero
-              label="Collection"
-              title={"New collection:\nWomen & Family\nin Colonial Contexts"}
-              hoverColor="mint"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-mint-500" />
-            </CardHero>
-            <CardHero
-              label="Article"
-              title="Research methodology notes"
-              hoverColor="vermilion"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-neutral-700" />
-            </CardHero>
-            <CardHero
-              label="Archive"
-              title="Maritime trade documents"
-              hoverColor="parchment"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-parchment-800" />
-            </CardHero>
-            <CardHero
-              label="Collection"
-              title="Colonial correspondence"
-              hoverColor="turquoise"
-              className="shrink-0 w-51 h-54.75"
-            >
-              <div className="w-full h-full bg-neutral-600" />
-            </CardHero>
-          </div>
-        </div>
-
-        <Grid className="mx-auto max-w-360 mt-12">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
-            <Divider />
           </div>
         </Grid>
       </Section>
