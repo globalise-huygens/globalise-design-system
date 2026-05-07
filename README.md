@@ -91,14 +91,16 @@ export function Page() {
 
 ### Cards
 
-| Component      | Description                                                           |
-| -------------- | --------------------------------------------------------------------- |
-| `CardBase`     | Low-level card primitive with colour variants                         |
-| `CardArticle`  | Article card with image, label, title, CTA                            |
-| `CardHero`     | Full-bleed hero card with overlay                                     |
-| `CardFeatured` | Featured content card with tabbed items                               |
-| `CardGlance`   | Stats/at-a-glance card with colour accent                             |
-| `ObjectCard`   | Composable entity detail card (Ship, Person, Concept, Voyage, Letter) |
+| Component                   | Description                                                 |
+| --------------------------- | ----------------------------------------------------------- |
+| `CardBase`                  | Low-level card primitive with colour variants               |
+| `CardArticle`               | Article card with image, label, title, CTA                  |
+| `CardHero`                  | Full-bleed hero card with overlay                           |
+| `CardFeatured`              | Featured content card with tabbed items                     |
+| `CardGlance`                | Stats/at-a-glance card with colour accent                   |
+| `ObjectCardOverlay`         | Grid-aware modal overlay shell for entity detail views      |
+| `ObjectCard`                | Composable entity detail card shell for entity detail views |
+| `ObjectCardReferencesPanel` | Prebuilt references column for object card layouts          |
 
 ### Content
 
@@ -226,13 +228,13 @@ import {
 
 ### ObjectCard
 
-A composable two-panel card built on React Aria Components for displaying entity detail overlays. Supports **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** entity types.
+The Object Card family combines `ObjectCardOverlay`, `ObjectCard`, `ObjectCardReferencesPanel`, and the layout/content primitives below to build entity detail overlays for **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** records.
 
 ```tsx
 import {
+  EntityBadge,
   ObjectCard,
   ObjectCardAction,
-  ObjectCardBadge,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
@@ -241,7 +243,7 @@ import {
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferenceItem,
+  ObjectCardReferencesPanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
@@ -251,7 +253,7 @@ import {
 
 <ObjectCard>
   <ObjectCardHeader onClose={() => {}}>
-    <ObjectCardBadge type="ship">Ship</ObjectCardBadge>
+    <EntityBadge type="ship">Ship</EntityBadge>
     <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
     <ObjectCardStats>
       <ObjectCardStat>7 Voyages</ObjectCardStat>
@@ -274,17 +276,22 @@ import {
       </ObjectCardFooter>
     </ObjectCardPanel>
 
-    <ObjectCardPanel side="right">
-      <ObjectCardReferenceItem
-        title="p.264"
-        snippet="in 't geheel p:r de prins Eugenius..."
-        archiveId="NL-HaNA 1.04.02 · 10070_0054 · 264"
-        href="#"
-      />
-    </ObjectCardPanel>
+    <ObjectCardReferencesPanel
+      title="References (1,234)"
+      references={[
+        {
+          title: "p.264",
+          snippet: "in 't geheel p:r de prins Eugenius...",
+          archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+          href: "#",
+        },
+      ]}
+    />
   </ObjectCardBody>
 </ObjectCard>;
 ```
+
+Pair `ObjectCard` with `ObjectCardOverlay` when you want modal presentation aligned to the 12-column Globalise grid.
 
 | Badge type | Color scheme |
 | ---------- | ------------ |
