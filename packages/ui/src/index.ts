@@ -65,8 +65,11 @@ export type { SectionDividerProps } from "./components/ui/SectionDivider";
 export { NewsletterSignup } from "./components/ui/NewsletterSignup";
 export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
-export { EntityTag, entityTagVariants } from "./components/ui/EntityTag";
-export type { EntityTagProps } from "./components/ui/EntityTag";
+export { EntityBadge, entityBadgeVariants } from "./components/ui/EntityBadge";
+export type { EntityBadgeProps } from "./components/ui/EntityBadge";
+
+export { ObjectCardOverlay } from "./components/ui/ObjectCardOverlay";
+export type { ObjectCardOverlayProps } from "./components/ui/ObjectCardOverlay";
 
 export {
   ObjectCard,
@@ -77,13 +80,10 @@ export {
   ObjectCardFooter,
   ObjectCardHeader,
   ObjectCardListItem,
-  ObjectCardOverlay,
   ObjectCardPanel,
   objectCardPanelVariants,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferenceItem,
-  ObjectCardReferencesPanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
@@ -96,19 +96,25 @@ export type {
   ObjectCardFooterProps,
   ObjectCardHeaderProps,
   ObjectCardListItemProps,
-  ObjectCardOverlayProps,
   ObjectCardPanelProps,
   ObjectCardPropertyListProps,
   ObjectCardPropertyProps,
   ObjectCardProps,
-  ObjectCardReference,
-  ObjectCardReferenceItemProps,
-  ObjectCardReferencesPanelProps,
   ObjectCardSectionProps,
   ObjectCardStatProps,
   ObjectCardStatsProps,
   ObjectCardTitleProps,
 } from "./components/ui/ObjectCard";
+
+export {
+  ObjectCardReferenceItem,
+  ObjectCardReferencesPanel,
+} from "./components/ui/ObjectCardReferencesPanel";
+export type {
+  ObjectCardReference,
+  ObjectCardReferenceItemProps,
+  ObjectCardReferencesPanelProps,
+} from "./components/ui/ObjectCardReferencesPanel";
 
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
 export type { SearchBarProps } from "./components/ui/SearchBar";

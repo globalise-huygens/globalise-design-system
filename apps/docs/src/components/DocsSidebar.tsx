@@ -29,7 +29,16 @@ const navigation = [
       { title: "Card Hero", href: "/docs/components/card-hero" },
       { title: "Card Featured", href: "/docs/components/card-featured" },
       { title: "Card Glance", href: "/docs/components/card-glance" },
+      { title: "Entity Badge", href: "/docs/components/entity-badge" },
       { title: "Object Card", href: "/docs/components/object-card" },
+      {
+        title: "Object Card Overlay",
+        href: "/docs/components/object-card-overlay",
+      },
+      {
+        title: "Object Card References Panel",
+        href: "/docs/components/object-card-references-panel",
+      },
       {
         title: "Newsletter Signup",
         href: "/docs/components/newsletter-signup",

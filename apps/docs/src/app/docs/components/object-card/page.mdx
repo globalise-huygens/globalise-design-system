@@ -3,7 +3,7 @@ import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import { ObjectCardDemo } from "./ObjectCardDemo";
 import {
-  EntityTag,
+  EntityBadge,
   IconShip,
   IconPerson,
   IconPlace,
@@ -31,7 +31,7 @@ A composable card built on React Aria Components for displaying entity detail ov
   IconCopy,
   ObjectCard,
   ObjectCardAction,
-  EntityTag,
+  EntityBadge,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
@@ -51,7 +51,7 @@ A composable card built on React Aria Components for displaying entity detail ov
 <ObjectCardOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
   <ObjectCard>
     <ObjectCardHeader onClose={() => {}}>
-      <EntityTag type="ship">Ship</EntityTag>
+      <EntityBadge type="ship">Ship</EntityBadge>
       <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
       <ObjectCardStats>
         <ObjectCardStat>7 Voyages</ObjectCardStat>
@@ -100,72 +100,71 @@ A composable card built on React Aria Components for displaying entity detail ov
   </ObjectCard>
 </ObjectCardOverlay>`} />
 
-## Badge Variants
+## Entity Badge
 
-The `EntityTag` supports entity types via CVA variants:
+Reusable badge for marking entity types in transcription text, headers, and entity summaries.
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <EntityTag type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+    <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
       Ship
-    </EntityTag>
-    <EntityTag type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
+    </EntityBadge>
+    <EntityBadge type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
       Person
-    </EntityTag>
-    <EntityTag type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+    </EntityBadge>
+    <EntityBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
       Place
-    </EntityTag>
-    <EntityTag
+    </EntityBadge>
+    <EntityBadge
       type="commodity"
       icon={<IconCommodity className="h-3.5 w-3.5" />}
     >
       Commodity
-    </EntityTag>
-    <EntityTag
+    </EntityBadge>
+    <EntityBadge
       type="dimensions"
       icon={<IconDimensions className="h-3.5 w-3.5" />}
     >
       Dimensions
-    </EntityTag>
-    <EntityTag
+    </EntityBadge>
+    <EntityBadge
       type="organisation"
       icon={<IconOrganisation className="h-3.5 w-3.5" />}
     >
       Organisation
-    </EntityTag>
-    <EntityTag type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+    </EntityBadge>
+    <EntityBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
       Date
-    </EntityTag>
-    <EntityTag type="document" icon={<IconDocument className="h-3.5 w-3.5" />}>
+    </EntityBadge>
+    <EntityBadge
+      type="document"
+      icon={<IconDocument className="h-3.5 w-3.5" />}
+    >
       Document
-    </EntityTag>
+    </EntityBadge>
   </div>
 </ComponentPreview>
-
-## Components
-
-### ObjectCard
-
-Wraps RAC `Dialog` — provides `role="dialog"` and auto-links to `ObjectCardTitle` via `aria-labelledby`.
 
 <PropsTable
   props={[
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
+      name: "type",
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
+      default: '"ship"',
+      description: "Entity type, determines badge color and outline style.",
     },
     {
-      name: "children",
+      name: "icon",
       type: "ReactNode",
-      description: "ObjectCardHeader + ObjectCardBody.",
+      description:
+        "Optional icon rendered before the label. Typically 14×14px.",
     },
   ]}
 />
 
-### ObjectCardOverlay
+## Card Overlay
 
-Wraps RAC `ModalOverlay` and `Modal` for full-viewport ObjectCard overlays. Pass `isOpen` / `onOpenChange` for controlled overlays.
+Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside a 12-column content slot.
 
 <PropsTable
   props={[
@@ -189,6 +188,63 @@ Wraps RAC `ModalOverlay` and `Modal` for full-viewport ObjectCard overlays. Pass
       name: "modalClassName",
       type: "string",
       description: "Additional classes for the inner RAC Modal wrapper.",
+    },
+    {
+      name: "contentClassName",
+      type: "string",
+      description:
+        "Additional classes for the 12-column grid content slot. Use this for scan-viewer or page-overview layouts.",
+    },
+  ]}
+/>
+
+## References Panel
+
+Right-side panel for references today, with a custom-content path for future vertical page ToC or document overview content.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      default: '"References"',
+      description: "Panel section heading.",
+    },
+    {
+      name: "references",
+      type: "ObjectCardReference[]",
+      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Custom content rendered before mapped references.",
+    },
+    {
+      name: "emptyState",
+      type: "ReactNode",
+      description: "Content shown when no references or children are provided.",
+    },
+  ]}
+/>
+
+## Components
+
+### ObjectCard
+
+Wraps RAC `Dialog` — provides `role="dialog"` and auto-links to `ObjectCardTitle` via `aria-labelledby`.
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "ObjectCardHeader + ObjectCardBody.",
     },
   ]}
 />
@@ -223,25 +279,6 @@ RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessi
       type: "ReactNode",
       required: true,
       description: "Title text.",
-    },
-  ]}
-/>
-
-### EntityTag
-
-<PropsTable
-  props={[
-    {
-      name: "type",
-      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
-      default: '"ship"',
-      description: "Entity type, determines badge color and outline style.",
-    },
-    {
-      name: "icon",
-      type: "ReactNode",
-      description:
-        "Optional icon rendered before the label. Typically 14×14px.",
     },
   ]}
 />
@@ -369,36 +406,6 @@ Pre-styled reference row with optional image, snippet, archive ID, and external 
       name: "href",
       type: "string",
       description: "External link — renders an icon via RAC Link.",
-    },
-  ]}
-/>
-
-### ObjectCardReferencesPanel
-
-Composes the right-side `ObjectCardPanel` and references section. Pass a references array for the common case, or children for custom content.
-
-<PropsTable
-  props={[
-    {
-      name: "title",
-      type: "string",
-      default: '"References"',
-      description: "Panel section heading.",
-    },
-    {
-      name: "references",
-      type: "ObjectCardReference[]",
-      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
-    },
-    {
-      name: "children",
-      type: "ReactNode",
-      description: "Custom content rendered before mapped references.",
-    },
-    {
-      name: "emptyState",
-      type: "ReactNode",
-      description: "Content shown when no references or children are provided.",
     },
   ]}
 />

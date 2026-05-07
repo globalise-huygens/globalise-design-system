@@ -1,0 +1,91 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { ObjectCardReferencesPanel } from "@globalise/design-system";
+
+# Object Card References Panel
+
+A right-side panel for references today, with a custom-content path for future vertical page ToC or document overview content.
+
+## Preview
+
+<ComponentPreview className="p-0! items-stretch!">
+  <div className="w-full bg-neutral-900">
+    <ObjectCardReferencesPanel
+      title="References (2)"
+      references={[
+        {
+          title: "1764 · 0054 · p.264",
+          snippet:
+            "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
+          archiveId: "NL-HaNA 1.04.02 · 10070",
+          href: "#",
+        },
+        {
+          title: "1764 · 0054 · p.265",
+          snippet:
+            "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
+          archiveId: "NL-HaNA 1.04.02 · 10070",
+          href: "#",
+        },
+      ]}
+      className="min-h-96"
+    />
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { ObjectCardReferencesPanel } from "@globalise/design-system";
+
+const references = [
+{
+title: "1764 · 0054 · p.264",
+snippet: "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
+archiveId: "NL-HaNA 1.04.02 · 10070",
+href: "#",
+},
+{
+title: "1764 · 0054 · p.265",
+snippet: "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
+archiveId: "NL-HaNA 1.04.02 · 10070",
+href: "#",
+},
+];
+
+<ObjectCardReferencesPanel
+  title="References (2)"
+  references={references}
+/>`} />
+
+## Custom Content
+
+Pass `children` instead of `references` when you want to use the same panel shell for a page outline, scan metadata, or other structured overview content.
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      default: '"References"',
+      description: "Panel section heading.",
+    },
+    {
+      name: "references",
+      type: "ObjectCardReference[]",
+      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Custom content rendered before mapped references.",
+    },
+    {
+      name: "emptyState",
+      type: "ReactNode",
+      description: "Content shown when no references or children are provided.",
+    },
+  ]}
+/>
