@@ -1,5 +1,6 @@
 import { GridGuideToggle } from "@/components/GridGuideToggle";
 import { HomeFeatured } from "@/components/HomeFeatured";
+import { ObjectCardExampleOverlay } from "@/components/ObjectCardExampleOverlay";
 import {
   ArticleRow,
   ButtonLink,
@@ -47,6 +48,7 @@ export default function HomePage() {
                 Featured
               </Typography>
               <HomeFeatured />
+              <ObjectCardExampleOverlay />
             </div>
           </div>
         </Grid>

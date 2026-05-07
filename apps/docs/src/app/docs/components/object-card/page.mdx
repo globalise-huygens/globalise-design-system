@@ -37,62 +37,68 @@ A composable card built on React Aria Components for displaying entity detail ov
   ObjectCardFooter,
   ObjectCardHeader,
   ObjectCardListItem,
+  ObjectCardOverlay,
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferenceItem,
+  ObjectCardReferencesPanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
 } from "@globalise/design-system";
 
-<ObjectCard>
-  <ObjectCardHeader onClose={() => {}}>
-    <EntityTag type="ship">Ship</EntityTag>
-    <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
-    <ObjectCardStats>
-      <ObjectCardStat>7 Voyages</ObjectCardStat>
-      <ObjectCardStat>1,234 References</ObjectCardStat>
-    </ObjectCardStats>
-  </ObjectCardHeader>
+<ObjectCardOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
+  <ObjectCard>
+    <ObjectCardHeader onClose={() => {}}>
+      <EntityTag type="ship">Ship</EntityTag>
+      <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
+      <ObjectCardStats>
+        <ObjectCardStat>7 Voyages</ObjectCardStat>
+        <ObjectCardStat>1,234 References</ObjectCardStat>
+      </ObjectCardStats>
+    </ObjectCardHeader>
 
-  <ObjectCardBody className="h-150">
-    <ObjectCardPanel side="left" className="gap-12">
-      <ObjectCardSection title="General Properties">
-        <ObjectCardPropertyList>
-          <ObjectCardProperty label="Built" value="1703, Amsterdam" />
-          <ObjectCardProperty label="Weight" value="874 tons" />
-        </ObjectCardPropertyList>
-      </ObjectCardSection>
+    <ObjectCardBody>
+      <ObjectCardPanel side="left" className="gap-12">
+        <ObjectCardSection title="General Properties">
+          <ObjectCardPropertyList>
+            <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+            <ObjectCardProperty label="Weight" value="874 tons" />
+          </ObjectCardPropertyList>
+        </ObjectCardSection>
 
-      <ObjectCardSection title="Voyages (7)">
-        <ObjectCardListItem>
-          <span>19 Jan 1710 – 8 Aug 1710</span>
-        </ObjectCardListItem>
-        <ObjectCardAction variant="more" icon={<IconAdd />}>
-          View more
-        </ObjectCardAction>
-      </ObjectCardSection>
+        <ObjectCardSection title="Voyages (7)">
+          <ObjectCardListItem>
+            <span>19 Jan 1710 – 8 Aug 1710</span>
+          </ObjectCardListItem>
+          <ObjectCardAction variant="more" icon={<IconAdd />}>
+            View more
+          </ObjectCardAction>
+        </ObjectCardSection>
 
-      <ObjectCardFooter>
-        <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
-          Copy URI
-        </ObjectCardAction>
-      </ObjectCardFooter>
-    </ObjectCardPanel>
+        <ObjectCardFooter>
+          <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+            Copy URI
+          </ObjectCardAction>
+        </ObjectCardFooter>
+      </ObjectCardPanel>
 
-    <ObjectCardPanel side="right">
-      <ObjectCardReferenceItem
-        title="p.264"
-        snippet="in 't geheel p:r de prins Eugenius..."
-        archiveId="NL-HaNA 1.04.02 · 10070_0054 · 264"
-        href="#"
+      <ObjectCardReferencesPanel
+        title="References (1,234)"
+        references={[
+          {
+            title: "p.264",
+            snippet: "in 't geheel p:r de prins Eugenius...",
+            archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+            href: "#",
+          },
+        ]}
       />
-    </ObjectCardPanel>
+    </ObjectCardBody>
 
-  </ObjectCardBody>
-</ObjectCard>`} />
+  </ObjectCard>
+</ObjectCardOverlay>`} />
 
 ## Badge Variants
 
@@ -103,10 +109,7 @@ The `EntityTag` supports entity types via CVA variants:
     <EntityTag type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
       Ship
     </EntityTag>
-    <EntityTag
-      type="person"
-      icon={<IconPerson className="h-3.5 w-3.5" />}
-    >
+    <EntityTag type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
       Person
     </EntityTag>
     <EntityTag type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
@@ -133,10 +136,7 @@ The `EntityTag` supports entity types via CVA variants:
     <EntityTag type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
       Date
     </EntityTag>
-    <EntityTag
-      type="document"
-      icon={<IconDocument className="h-3.5 w-3.5" />}
-    >
+    <EntityTag type="document" icon={<IconDocument className="h-3.5 w-3.5" />}>
       Document
     </EntityTag>
   </div>
@@ -159,6 +159,36 @@ Wraps RAC `Dialog` — provides `role="dialog"` and auto-links to `ObjectCardTit
       name: "children",
       type: "ReactNode",
       description: "ObjectCardHeader + ObjectCardBody.",
+    },
+  ]}
+/>
+
+### ObjectCardOverlay
+
+Wraps RAC `ModalOverlay` and `Modal` for full-viewport ObjectCard overlays. Pass `isOpen` / `onOpenChange` for controlled overlays.
+
+<PropsTable
+  props={[
+    {
+      name: "isOpen",
+      type: "boolean",
+      description: "Controls whether the overlay is visible.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(isOpen: boolean) => void",
+      description: "Called when the overlay opens or closes.",
+    },
+    {
+      name: "isDismissable",
+      type: "boolean",
+      default: "true",
+      description: "Allows closing by pressing Escape or outside the modal.",
+    },
+    {
+      name: "modalClassName",
+      type: "string",
+      description: "Additional classes for the inner RAC Modal wrapper.",
     },
   ]}
 />
@@ -210,7 +240,8 @@ RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessi
     {
       name: "icon",
       type: "ReactNode",
-      description: "Optional icon rendered before the label. Typically 14×14px.",
+      description:
+        "Optional icon rendered before the label. Typically 14×14px.",
     },
   ]}
 />
@@ -221,14 +252,14 @@ Pre-styled inline stat row. Each `ObjectCardStat` is a styled span.
 
 ### ObjectCardBody
 
-Flex container that switches from column (mobile) to row (desktop). Pass a height class.
+Flex container that switches from column (mobile) to row (desktop). The card constrains itself to the viewport and scrolls panel content when space is tight.
 
 <PropsTable
   props={[
     {
       name: "className",
       type: "string",
-      description: 'Pass height, e.g. "h-[600px]".',
+      description: "Additional CSS classes.",
     },
   ]}
 />
@@ -242,7 +273,7 @@ Flex container that switches from column (mobile) to row (desktop). Pass a heigh
       type: '"left" | "right"',
       default: '"left"',
       description:
-        'Panel position. "left" has solid bg + border; "right" has transparent bg.',
+        'Panel position. "left" has solid bg + border; "right" has an opaque references background.',
     },
   ]}
 />
@@ -338,6 +369,36 @@ Pre-styled reference row with optional image, snippet, archive ID, and external 
       name: "href",
       type: "string",
       description: "External link — renders an icon via RAC Link.",
+    },
+  ]}
+/>
+
+### ObjectCardReferencesPanel
+
+Composes the right-side `ObjectCardPanel` and references section. Pass a references array for the common case, or children for custom content.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      default: '"References"',
+      description: "Panel section heading.",
+    },
+    {
+      name: "references",
+      type: "ObjectCardReference[]",
+      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Custom content rendered before mapped references.",
+    },
+    {
+      name: "emptyState",
+      type: "ReactNode",
+      description: "Content shown when no references or children are provided.",
     },
   ]}
 />

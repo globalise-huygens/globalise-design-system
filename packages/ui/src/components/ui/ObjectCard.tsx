@@ -15,8 +15,44 @@ import {
   Heading as AriaHeading,
   Link as AriaLink,
   type LinkProps as AriaLinkProps,
+  Modal as AriaModal,
+  ModalOverlay as AriaModalOverlay,
+  type ModalOverlayProps as AriaModalOverlayProps,
   Separator as AriaSeparator,
 } from "react-aria-components";
+
+export interface ObjectCardOverlayProps extends Omit<
+  AriaModalOverlayProps,
+  "className" | "style"
+> {
+  className?: string;
+  modalClassName?: string;
+}
+
+const ObjectCardOverlay = React.forwardRef<
+  HTMLDivElement,
+  ObjectCardOverlayProps
+>(
+  (
+    { className, modalClassName, children, isDismissable = true, ...props },
+    ref,
+  ) => (
+    <AriaModalOverlay
+      ref={ref}
+      isDismissable={isDismissable}
+      className={cn(
+        "fixed inset-0 z-50 flex items-stretch justify-center bg-brand-black/70 lg:items-center lg:p-8",
+        className,
+      )}
+      {...props}
+    >
+      <AriaModal className={cn("contents lg:block", modalClassName)}>
+        {children}
+      </AriaModal>
+    </AriaModalOverlay>
+  ),
+);
+ObjectCardOverlay.displayName = "ObjectCardOverlay";
 
 export interface ObjectCardProps extends Omit<
   AriaDialogProps,
@@ -30,7 +66,7 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "flex h-dvh w-full max-w-[1008px] flex-col overflow-y-auto outline-none lg:inline-flex lg:h-auto lg:overflow-hidden",
+        "flex h-dvh max-h-dvh w-full max-w-[1008px] flex-col overflow-y-auto outline-none lg:inline-flex lg:h-[calc(100dvh-4rem)] lg:max-h-[calc(100dvh-4rem)] lg:overflow-hidden",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
       )}
@@ -70,7 +106,7 @@ function ObjectCardHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-10 flex flex-col gap-3 border-b border-brand-white/20 bg-neutral-800 px-8 py-6 lg:px-16 lg:py-8",
+        "sticky top-0 z-10 flex shrink-0 flex-col gap-3 border-b border-brand-white/20 bg-neutral-800 px-8 py-6 lg:px-16 lg:py-8",
         className,
       )}
     >
@@ -132,7 +168,10 @@ export interface ObjectCardBodyProps {
 function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
     <div
-      className={cn("flex flex-col lg:flex-row lg:overflow-hidden", className)}
+      className={cn(
+        "flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-hidden",
+        className,
+      )}
     >
       {children}
     </div>
@@ -140,12 +179,12 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
 }
 
 const objectCardPanelVariants = cva(
-  "flex flex-col lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
+  "flex min-h-0 flex-col lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
   {
     variants: {
       side: {
         left: "w-full border-b border-neutral-700 bg-neutral-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8 gap-8",
-        right: "flex-1 bg-neutral-800/50 p-6 lg:px-8 lg:py-8",
+        right: "flex-1 bg-neutral-800 p-6 lg:px-8 lg:py-8",
       },
     },
     defaultVariants: {
@@ -288,7 +327,7 @@ function ObjectCardListItem({
   children,
 }: ObjectCardListItemProps) {
   const classes = cn(
-    "group relative flex flex-col gap-2 overflow-hidden rounded-lg bg-white/[0.06] px-3 py-4",
+    "group relative flex flex-col gap-2 overflow-hidden bg-white/[0.06] px-3 py-4",
     className,
   );
 
@@ -335,7 +374,7 @@ function ObjectCardReferenceItem({
             </span>
             <div className="flex flex-col gap-1">
               {snippet && (
-                <div className="rounded bg-white/[0.06] px-2 py-1">
+                <div className="bg-white/[0.06] px-2 py-1">
                   <div className="line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200">
                     {snippet}
                   </div>
@@ -362,6 +401,48 @@ function ObjectCardReferenceItem({
         )}
       </div>
     </div>
+  );
+}
+
+export interface ObjectCardReference {
+  image?: React.ReactNode;
+  title: string;
+  snippet?: React.ReactNode;
+  archiveId?: string;
+  href?: string;
+}
+
+export interface ObjectCardReferencesPanelProps extends Omit<
+  ObjectCardPanelProps,
+  "side" | "children"
+> {
+  title?: string;
+  references?: ObjectCardReference[];
+  children?: React.ReactNode;
+  emptyState?: React.ReactNode;
+}
+
+function ObjectCardReferencesPanel({
+  className,
+  title = "References",
+  references,
+  children,
+  emptyState,
+  ...props
+}: ObjectCardReferencesPanelProps) {
+  const hasReferences = references && references.length > 0;
+
+  return (
+    <ObjectCardPanel side="right" className={className} {...props}>
+      <ObjectCardSection title={title}>
+        {children}
+        {hasReferences
+          ? references.map((reference, index) => (
+              <ObjectCardReferenceItem key={index} {...reference} />
+            ))
+          : !children && emptyState}
+      </ObjectCardSection>
+    </ObjectCardPanel>
   );
 }
 
@@ -429,11 +510,13 @@ export {
   ObjectCardFooter,
   ObjectCardHeader,
   ObjectCardListItem,
+  ObjectCardOverlay,
   ObjectCardPanel,
   objectCardPanelVariants,
   ObjectCardProperty,
   ObjectCardPropertyList,
   ObjectCardReferenceItem,
+  ObjectCardReferencesPanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
