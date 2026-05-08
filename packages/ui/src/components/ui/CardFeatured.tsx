@@ -41,7 +41,9 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
       >
         {items.map((item, index) => {
           const isExpanded = index === expandedIndex;
-          const textColor = item.darkBackground ? "text-white" : "text-black";
+          const textColor = item.darkBackground
+            ? "text-brand-white"
+            : "text-brand-black";
 
           if (isExpanded) {
             const expandedClassName =
@@ -53,7 +55,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
                 {item.image ? (
                   <>
                     {item.image}
-                    <div className="absolute inset-0 bg-linear-to-b from-transparent from-45% to-black/50" />
+                    <div className="absolute inset-0 bg-linear-to-b from-transparent from-45% to-brand-black/50" />
                   </>
                 ) : (
                   <div
@@ -122,8 +124,11 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
               onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}
             >
-              <IconAdd className="h-5 w-5 text-black" aria-hidden="true" />
-              <span className="font-serif font-medium text-[15px] leading-[1.3] tracking-[-0.3px] text-black">
+              <IconAdd
+                className="h-5 w-5 text-brand-black"
+                aria-hidden="true"
+              />
+              <span className="font-serif font-medium text-[15px] leading-[1.3] tracking-[-0.3px] text-brand-black">
                 {item.title.replace(/\n/g, " ")}
               </span>
             </AriaButton>

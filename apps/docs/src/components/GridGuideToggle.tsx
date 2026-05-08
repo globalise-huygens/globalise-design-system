@@ -23,7 +23,7 @@ export function GridGuideToggle() {
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        className="fixed bottom-4 right-4 z-10000 bg-brand-turquoise px-3 py-1.5 text-xs font-mono font-medium text-black shadow-lg transition-opacity hover:opacity-80"
+        className="fixed bottom-4 right-4 z-10000 bg-brand-turquoise px-3 py-1.5 text-xs font-mono font-medium text-brand-black shadow-lg transition-opacity hover:opacity-80"
         aria-label="Toggle grid guide"
       >
         {visible ? "Hide grid" : "Show grid"}

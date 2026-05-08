@@ -30,7 +30,7 @@ export default function RootLayout({
           <main>{children}</main>
           <footer className="bg-brand-black py-8">
             <Container>
-              <p className="text-sm text-white/50 font-sans">
+              <p className="text-sm text-brand-white/50 font-sans">
                 &copy; {new Date().getFullYear()} Globalise / Huygens Institute
                 / KNAW
               </p>

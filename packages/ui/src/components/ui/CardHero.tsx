@@ -66,14 +66,17 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
         )}
       >
         <div className="flex flex-col gap-2">
-          <span className="text-xs text-black/60 leading-tight font-sans">
+          <span className="text-xs text-brand-black/60 leading-tight font-sans">
             {label}
           </span>
-          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-black whitespace-pre-line">
+          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-brand-black whitespace-pre-line">
             {title}
           </span>
         </div>
-        <IconArrowRight className="h-5 w-5 text-black" aria-hidden="true" />
+        <IconArrowRight
+          className="h-5 w-5 text-brand-black"
+          aria-hidden="true"
+        />
       </div>
     </>
   );

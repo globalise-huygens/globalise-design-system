@@ -159,17 +159,17 @@ export function PrinsEugeniusObjectCard({
             <div className="flex flex-col gap-2">
               {visibleVoyages.map((voyage, index) => (
                 <ObjectCardListItem key={index} href="#">
-                  <span className="font-sans text-xs text-zinc-400 leading-4 pr-5">
+                  <span className="font-sans text-xs text-neutral-400 leading-4 pr-5">
                     {voyage.dates}
                   </span>
-                  <span className="font-serif text-xs font-semibold leading-3 text-zinc-200">
+                  <span className="font-serif text-xs font-semibold leading-3 text-neutral-200">
                     {voyage.route}
                   </span>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-[11px] leading-[1.2] text-zinc-400">
+                    <span className="font-sans text-[11px] leading-[1.2] text-neutral-400">
                       {voyage.captain}
                     </span>
-                    <span className="font-sans text-[11px] leading-[1.2] text-zinc-400">
+                    <span className="font-sans text-[11px] leading-[1.2] text-neutral-400">
                       {voyage.crew}
                     </span>
                   </div>

@@ -154,6 +154,39 @@ The design system uses two font families.
 
 <FontPreview />
 
+## Semantic Tokens
+
+Brand tokens define the palette. Semantic tokens define how that palette is applied to surfaces and text.
+
+<ColorSwatch
+  colors={[
+    {
+      name: "Surface Dark",
+      variable: "--surface-dark",
+      hex: "#0C0A09",
+      textLight: true,
+    },
+    {
+      name: "Surface Light",
+      variable: "--surface-light",
+      hex: "#FFFFFF",
+      textLight: false,
+    },
+    {
+      name: "Text on Dark",
+      variable: "--text-on-dark",
+      hex: "#FFFFFF",
+      textLight: false,
+    },
+    {
+      name: "Text on Light",
+      variable: "--text-on-light",
+      hex: "#0C0A09",
+      textLight: true,
+    },
+  ]}
+/>
+
 ## Tailwind Utilities
 
 All tokens are registered with Tailwind CSS v4 via `@theme`, so you can use them as utility classes:
@@ -161,6 +194,8 @@ All tokens are registered with Tailwind CSS v4 via `@theme`, so you can use them
 ```css
 /* Colors */
 bg-brand-turquoise
+bg-surface-dark
+text-text-on-dark
 text-neutral-500
 border-vermilion-600
 
@@ -175,6 +210,7 @@ You can also use the CSS custom properties directly:
 
 ```css
 color: var(--brand-vermilion);
+background-color: var(--surface-dark);
 background-color: var(--turquoise-200);
 font-family: var(--font-serif);
 ```

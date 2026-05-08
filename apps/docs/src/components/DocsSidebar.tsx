@@ -66,8 +66,8 @@ function SidebarLink({
       href={href}
       onClick={onClick}
       className={cn(
-        "block py-1.5 text-sm font-sans transition-colors hover:text-white",
-        isActive ? "text-brand-turquoise font-medium" : "text-white/50",
+        "block py-1.5 text-sm font-sans transition-colors hover:text-brand-white",
+        isActive ? "text-brand-turquoise font-medium" : "text-brand-white/50",
       )}
     >
       {children}
@@ -80,7 +80,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
     <nav className="flex flex-col gap-6">
       {navigation.map((group) => (
         <div key={group.title}>
-          <h4 className="mb-2 text-xs font-sans font-semibold uppercase tracking-wider text-white/30">
+          <h4 className="mb-2 text-xs font-sans font-semibold uppercase tracking-wider text-brand-white/30">
             {group.title}
           </h4>
           <div className="flex flex-col">
@@ -115,7 +115,7 @@ export function DocsSidebar() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-black shadow-lg"
+        className="lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-brand-black shadow-lg"
         aria-label="Open navigation"
       >
         <IconMenu className="w-4 h-4" />
@@ -126,18 +126,18 @@ export function DocsSidebar() {
       {open && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-brand-black/60"
             onClick={() => setOpen(false)}
           />
-          <aside className="absolute inset-y-0 left-0 w-72 bg-neutral-950 border-r border-white/10 overflow-y-auto p-6">
+          <aside className="absolute inset-y-0 left-0 w-72 bg-brand-black border-r border-brand-white/10 overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-white/50">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-brand-white/50">
                 Documentation
               </span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-white/50 hover:text-white"
+                className="text-brand-white/50 hover:text-brand-white"
                 aria-label="Close navigation"
               >
                 <IconClose className="w-5 h-5" />

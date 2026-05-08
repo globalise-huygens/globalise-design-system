@@ -21,7 +21,7 @@ const ArticleRow = React.forwardRef<HTMLDivElement, ArticleRowProps>(
             {index > 0 && (
               <AriaSeparator
                 orientation="vertical"
-                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-black/40"
+                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-brand-black/40"
               />
             )}
             <div className="flex-1 min-w-0">{child}</div>

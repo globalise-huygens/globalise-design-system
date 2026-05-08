@@ -8,10 +8,10 @@ const cardBaseVariants = cva(
     variants: {
       variant: {
         default: "bg-[var(--card)]",
-        turquoise: "bg-[var(--brand-turquoise)] text-black",
-        vermilion: "bg-[var(--brand-vermilion)] text-black",
-        mint: "bg-[var(--brand-mint)] text-black",
-        parchment: "bg-[var(--brand-parchment)] text-black",
+        turquoise: "bg-[var(--brand-turquoise)] text-brand-black",
+        vermilion: "bg-[var(--brand-vermilion)] text-brand-black",
+        mint: "bg-[var(--brand-mint)] text-brand-black",
+        parchment: "bg-[var(--brand-parchment)] text-brand-black",
         overlay:
           "relative bg-gradient-to-b from-[var(--brand-black)]/0 to-[var(--brand-black)]/50 text-[var(--brand-white)]",
       },

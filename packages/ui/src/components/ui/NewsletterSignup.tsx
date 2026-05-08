@@ -55,10 +55,10 @@ const NewsletterSignup = React.forwardRef<
         {...props}
       >
         <div className="max-w-180 flex flex-col gap-6">
-          <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-black">
+          <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-brand-black">
             {heading}
           </h3>
-          <p className="font-sans text-base font-normal leading-6 tracking-[-0.02em] text-black">
+          <p className="font-sans text-base font-normal leading-6 tracking-[-0.02em] text-brand-black">
             {description}
           </p>
         </div>
@@ -76,22 +76,22 @@ const NewsletterSignup = React.forwardRef<
               type="email"
               isRequired
               autoComplete="email"
-              className="py-3 border-b border-black flex justify-between items-center gap-4"
+              className="py-3 border-b border-brand-black flex justify-between items-center gap-4"
             >
               <AriaLabel className="sr-only">Email address</AriaLabel>
               <AriaInput
                 placeholder={inputPlaceholder}
-                className="min-w-0 flex-1 bg-transparent text-black text-lg font-medium font-sans leading-6 placeholder:text-black/80 focus:outline-none"
+                className="min-w-0 flex-1 bg-transparent text-brand-black text-lg font-medium font-sans leading-6 placeholder:text-brand-black/80 focus:outline-none"
               />
               <AriaButton
                 type="submit"
-                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
+                className="shrink-0 text-brand-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
               >
                 {submitLabel}
               </AriaButton>
             </AriaTextField>
             {privacyText && (
-              <span className="text-black text-sm font-normal font-sans leading-5">
+              <span className="text-brand-black text-sm font-normal font-sans leading-5">
                 {privacyText}
               </span>
             )}

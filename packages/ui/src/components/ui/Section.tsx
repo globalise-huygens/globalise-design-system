@@ -5,8 +5,8 @@ import * as React from "react";
 const sectionVariants = cva("py-16 sm:py-20", {
   variants: {
     background: {
-      dark: "bg-[var(--brand-black)] text-[var(--brand-white)]",
-      light: "bg-[var(--brand-white)] text-[var(--brand-black)]",
+      dark: "bg-[var(--surface-dark)] text-[var(--text-on-dark)]",
+      light: "bg-[var(--surface-light)] text-[var(--text-on-light)]",
     },
     spacing: {
       default: "lg:py-28",

@@ -27,13 +27,13 @@ export default function HomePage() {
         <Grid className="mx-auto max-w-360">
           {/* Centered text: cols 3–10 on desktop */}
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6 flex flex-col items-center gap-6 text-center">
-            <Typography variant="display" className="text-white">
+            <Typography variant="display" className="text-brand-white">
               Discover the VOC archives
             </Typography>
-            <Typography variant="lead" className="text-white/80">
+            <Typography variant="lead" className="text-brand-white/80">
               Built for researchers, educators and curious audiences worldwide.
             </Typography>
-            <ButtonLink variant="link" href="#" className="text-white">
+            <ButtonLink variant="link" href="#" className="text-brand-white">
               Learn &amp; get started
             </ButtonLink>
           </div>
@@ -112,11 +112,11 @@ export default function HomePage() {
         <Grid className="mx-auto max-w-360">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-span-7">
             <div className="flex flex-col gap-10">
-              <Typography variant="hero" className="text-white">
+              <Typography variant="hero" className="text-brand-white">
                 Globalise opens access to early modern colonial archives through
                 research-driven digital infrastructure.
               </Typography>
-              <ButtonLink variant="link" href="#" className="text-white">
+              <ButtonLink variant="link" href="#" className="text-brand-white">
                 About the project
               </ButtonLink>
             </div>
@@ -129,7 +129,7 @@ export default function HomePage() {
         <Grid className="mx-auto max-w-360">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <div className="flex flex-col gap-5">
-              <Typography variant="label" className="text-white">
+              <Typography variant="label" className="text-brand-white">
                 Featured
               </Typography>
               <HomeFeatured />
@@ -154,7 +154,7 @@ export default function HomePage() {
           {/* Left column: cols 2–6 on desktop, full width on mobile */}
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-2 lg:col-span-5">
             <div className="flex flex-col gap-6">
-              <Typography variant="p" className="text-white/80">
+              <Typography variant="p" className="text-brand-white/80">
                 Globalise is an international research programme that opens up
                 Dutch colonial-era archives for new forms of historical inquiry.
                 By combining digital infrastructure with humanities research,
@@ -162,7 +162,7 @@ export default function HomePage() {
                 of the Dutch East India Company (VOC) accessible, searchable,
                 and analysable.
               </Typography>
-              <Typography variant="p" className="text-white/80">
+              <Typography variant="p" className="text-brand-white/80">
                 The project brings together archival science, digital methods,
                 and critical historical scholarship to create a platform that
                 serves researchers, educators, and broader public audiences
@@ -174,11 +174,11 @@ export default function HomePage() {
           {/* Right column: cols 8–11 on desktop, full width on mobile */}
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-8 lg:col-span-4">
             <div className="flex flex-col gap-10">
-              <Typography variant="blockquote" className="text-white">
+              <Typography variant="blockquote" className="text-brand-white">
                 Globalise connects documents, people, and places to make
                 colonial history researchable at scale.
               </Typography>
-              <ButtonLink variant="link" href="#" className="text-white">
+              <ButtonLink variant="link" href="#" className="text-brand-white">
                 Meet the team
               </ButtonLink>
             </div>
@@ -200,7 +200,7 @@ export default function HomePage() {
         <Grid className="mx-auto max-w-360">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <div className="flex flex-col gap-5 mb-10">
-              <Typography variant="label" className="text-white">
+              <Typography variant="label" className="text-brand-white">
                 Globalise at a glance
               </Typography>
             </div>
@@ -248,7 +248,7 @@ export default function HomePage() {
         <Grid className="mx-auto max-w-360">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <div className="flex flex-col gap-6">
-              <Typography variant="h2" className="text-black">
+              <Typography variant="h2" className="text-brand-black">
                 Latest from Globalise
               </Typography>
               <Divider color="dark" />
@@ -256,25 +256,25 @@ export default function HomePage() {
                 <CardArticle
                   label="Article"
                   title="Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities"
-                  className="text-black"
+                  className="text-brand-black"
                   image={<div className="w-full h-full bg-parchment-400" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Looking Back and Ahead: Access and Research in a Changing Archive"
-                  className="text-black"
+                  className="text-brand-black"
                   image={<div className="w-full h-full bg-neutral-300" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Looking back on a successful kickoff meeting: International Institute of Social History"
-                  className="text-black"
+                  className="text-brand-black"
                   image={<div className="w-full h-full bg-turquoise-200" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities"
-                  className="text-black"
+                  className="text-brand-black"
                   image={<div className="w-full h-full bg-parchment-400" />}
                 />
               </ArticleRow>

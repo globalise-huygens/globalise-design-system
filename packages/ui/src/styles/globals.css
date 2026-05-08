@@ -93,8 +93,12 @@
     --mint-900: #175346; /* text: white */
 
     /* ── Semantic tokens ───────────────────────────── */
-    --card: #262626;
-    --card-foreground: #ffffff;
+    --surface-dark: var(--brand-black);
+    --surface-light: var(--brand-white);
+    --text-on-dark: var(--brand-white);
+    --text-on-light: var(--brand-black);
+    --card: var(--surface-dark);
+    --card-foreground: var(--text-on-dark);
     --muted: #333333;
     --muted-foreground: #a3a3a3;
     --ring: #ffffff;
@@ -187,6 +191,10 @@
   --color-mint-900: var(--mint-900);
 
   /* Semantic tokens */
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-light: var(--surface-light);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-on-light: var(--text-on-light);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-muted: var(--muted);

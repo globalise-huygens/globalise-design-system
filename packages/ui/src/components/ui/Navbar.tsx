@@ -50,19 +50,19 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "hidden sm:flex flex-1 mx-4 lg:mx-8 h-12 max-w-96 items-center gap-2.5 bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
+          "hidden sm:flex flex-1 mx-4 lg:mx-8 h-12 max-w-96 items-center gap-2.5 bg-brand-white/10 px-4 backdrop-blur-[20px]",
           className,
         )}
         {...props}
       >
         <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
         <IconSearch
-          className="h-5 w-5 shrink-0 text-(--brand-white)"
+          className="h-5 w-5 shrink-0 text-brand-white"
           aria-hidden="true"
         />
         <AriaInput
           placeholder={placeholder}
-          className="w-full bg-transparent text-sm font-medium text-(--brand-white) font-serif leading-3 opacity-50 placeholder:text-(--brand-white) placeholder:opacity-50 focus:opacity-100 focus:outline-none"
+          className="w-full bg-transparent text-sm font-medium text-brand-white font-serif leading-3 opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none"
         />
       </AriaSearchField>
     );
@@ -88,7 +88,7 @@ const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
     <AriaLink
       ref={ref}
       className={cn(
-        "text-sm font-medium leading-5 text-(--brand-white) transition-opacity hover:opacity-80",
+        "text-sm font-medium leading-5 text-brand-white transition-opacity hover:opacity-80",
         className,
       )}
       {...props}
@@ -146,7 +146,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         <div className="flex w-full sm:w-auto items-center justify-between shrink-0">
           {logo && <div className="shrink-0">{logo}</div>}
           <AriaButton
-            className="sm:hidden flex h-10 w-10 items-center justify-center text-(--brand-white)"
+            className="sm:hidden flex h-10 w-10 items-center justify-center text-brand-white"
             onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >

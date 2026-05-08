@@ -34,10 +34,8 @@ const GridGuide = React.forwardRef<HTMLDivElement, GridGuideProps>(
           <div
             key={i}
             className={cn(
-              "h-full border-x border-white/[0.06]",
-              i === 0 || i === 11
-                ? "bg-white/[0.02]"
-                : "bg-brand-turquoise/4",
+              "h-full border-x border-brand-white/6",
+              i === 0 || i === 11 ? "bg-brand-white/2" : "bg-brand-turquoise/4",
             )}
           />
         ))}
