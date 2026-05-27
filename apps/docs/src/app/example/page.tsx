@@ -24,9 +24,9 @@ export default function HomePage() {
 
       {/* ── Hero ──────────────────────────────────────────────── */}
       <Section background="dark" spacing="large">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           {/* Centered text: cols 3–10 on desktop */}
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6 flex flex-col items-center gap-6 text-center">
+          <div className="col-span-12 flex flex-col items-center gap-6 px-4 text-center sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6">
             <Typography variant="display" className="text-brand-white">
               Discover the VOC archives
             </Typography>
@@ -40,76 +40,76 @@ export default function HomePage() {
         </Grid>
 
         {/* Card strip — full bleed across all 12 columns */}
-        <div className="mt-12 lg:mt-22 w-full overflow-x-auto">
-          <div className="flex gap-5 px-4 lg:px-15 items-center justify-center">
+        <div className="mt-12 w-full overflow-x-auto lg:mt-22">
+          <div className="flex items-center justify-center gap-5 px-4 lg:px-15">
             <CardHero
               label="Archive"
               title="VOC shipping records"
               hoverColor="parchment"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-parchment-600" />
+              <div className="h-full w-full bg-parchment-600" />
             </CardHero>
             <CardHero
               label="Video"
               title="Interview with Matthias van Rossum"
               hoverColor="vermilion"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-vermilion-500" />
+              <div className="h-full w-full bg-vermilion-500" />
             </CardHero>
             <CardHero
               label="Research"
               title="Digital infrastructure for colonial archives"
               hoverColor="turquoise"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-turquoise-600" />
+              <div className="h-full w-full bg-turquoise-600" />
             </CardHero>
             <CardHero
               label="Collection"
               title={"New collection:\nWomen & Family\nin Colonial Contexts"}
               hoverColor="mint"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-mint-500" />
+              <div className="h-full w-full bg-mint-500" />
             </CardHero>
             <CardHero
               label="Article"
               title="Research methodology notes"
               hoverColor="vermilion"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-neutral-700" />
+              <div className="h-full w-full bg-neutral-700" />
             </CardHero>
             <CardHero
               label="Archive"
               title="Maritime trade documents"
               hoverColor="parchment"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-parchment-800" />
+              <div className="h-full w-full bg-parchment-800" />
             </CardHero>
             <CardHero
               label="Collection"
               title="Colonial correspondence"
               hoverColor="turquoise"
-              className="shrink-0 w-51 h-54.75"
+              className="h-54.75 w-12.75 shrink-0"
             >
-              <div className="w-full h-full bg-neutral-600" />
+              <div className="h-full w-full bg-neutral-600" />
             </CardHero>
           </div>
         </div>
 
-        <Grid className="mx-auto max-w-360 mt-12">
+        <Grid className="mx-auto mt-12 w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <Divider />
           </div>
         </Grid>
       </Section>
 
-      <Section background="dark" className="pt-32 pb-0 lg:pt-48 lg:pb-0">
-        <Grid className="mx-auto max-w-360">
+      <Section background="dark" className="pb-0 pt-32 lg:pb-0 lg:pt-48">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-span-7">
             <div className="flex flex-col gap-10">
               <Typography variant="hero" className="text-brand-white">
@@ -126,7 +126,7 @@ export default function HomePage() {
 
       {/* ── Featured ──────────────────────────────────────────── */}
       <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <div className="flex flex-col gap-5">
               <Typography variant="label" className="text-brand-white">
@@ -141,7 +141,7 @@ export default function HomePage() {
 
       {/* ── Divider ───────────────────────────────────────────── */}
       <div className="bg-brand-black">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <Divider />
           </div>
@@ -150,7 +150,7 @@ export default function HomePage() {
 
       {/* ── Mission ───────────────────────────────────────────── */}
       <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           {/* Left column: cols 2–6 on desktop, full width on mobile */}
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-2 lg:col-span-5">
             <div className="flex flex-col gap-6">
@@ -188,7 +188,7 @@ export default function HomePage() {
 
       {/* ── Divider ───────────────────────────────────────────── */}
       <div className="bg-brand-black">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <Divider />
           </div>
@@ -197,9 +197,9 @@ export default function HomePage() {
 
       {/* ── At a Glance ───────────────────────────────────────── */}
       <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
-            <div className="flex flex-col gap-5 mb-10">
+            <div className="mb-10 flex flex-col gap-5">
               <Typography variant="label" className="text-brand-white">
                 Globalise at a glance
               </Typography>
@@ -245,7 +245,7 @@ export default function HomePage() {
 
       {/* ── Latest from Globalise (white section) ─────────────── */}
       <Section background="light" spacing="large">
-        <Grid className="mx-auto max-w-360">
+        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <div className="flex flex-col gap-6">
               <Typography variant="h2" className="text-brand-black">
@@ -257,25 +257,25 @@ export default function HomePage() {
                   label="Article"
                   title="Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities"
                   className="text-brand-black"
-                  image={<div className="w-full h-full bg-parchment-400" />}
+                  image={<div className="h-full w-full bg-parchment-400" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Looking Back and Ahead: Access and Research in a Changing Archive"
                   className="text-brand-black"
-                  image={<div className="w-full h-full bg-neutral-300" />}
+                  image={<div className="h-full w-full bg-neutral-300" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Looking back on a successful kickoff meeting: International Institute of Social History"
                   className="text-brand-black"
-                  image={<div className="w-full h-full bg-turquoise-200" />}
+                  image={<div className="h-full w-full bg-turquoise-200" />}
                 />
                 <CardArticle
                   label="Article"
                   title="Thesaurus Treasures: Why We're Creating a Hierarchical Lexicon of Commodities"
                   className="text-brand-black"
-                  image={<div className="w-full h-full bg-parchment-400" />}
+                  image={<div className="h-full w-full bg-parchment-400" />}
                 />
               </ArticleRow>
             </div>
@@ -283,7 +283,7 @@ export default function HomePage() {
         </Grid>
 
         {/* ── Newsletter ────────────────────────────────────── */}
-        <Grid className="mx-auto max-w-360 mt-16 lg:mt-30">
+        <Grid className="mx-auto mt-16 w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:mt-30 lg:px-layout-page-margin">
           <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
             <NewsletterSignup
               heading="Subscribe to our Newsletter"
@@ -299,7 +299,7 @@ export default function HomePage() {
                   .
                 </>
               }
-              image={<div className="w-full h-full bg-parchment-400" />}
+              image={<div className="h-full w-full bg-parchment-400" />}
             />
           </div>
         </Grid>

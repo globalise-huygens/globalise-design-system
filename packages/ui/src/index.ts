@@ -116,6 +116,27 @@ export type {
   ObjectCardReferencesPanelProps,
 } from "./components/ui/ObjectCardReferencesPanel";
 
+export {
+  DocumentDetailBody,
+  DocumentDetailBottomBar,
+  DocumentDetailIconRail,
+  DocumentDetailOverlay,
+  DocumentDetailSidePanel,
+  DocumentDetailTopBar,
+  DocumentDetailViewer,
+  DocumentDetailViewerPane,
+} from "./components/ui/DocumentDetailOverlay";
+export type {
+  DocumentDetailBodyProps,
+  DocumentDetailBottomBarProps,
+  DocumentDetailIconRailProps,
+  DocumentDetailOverlayProps,
+  DocumentDetailSidePanelProps,
+  DocumentDetailTopBarProps,
+  DocumentDetailViewerPaneProps,
+  DocumentDetailViewerProps,
+} from "./components/ui/DocumentDetailOverlay";
+
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
 export type { SearchBarProps } from "./components/ui/SearchBar";
 

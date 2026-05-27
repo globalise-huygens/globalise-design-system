@@ -17,7 +17,7 @@ export function SiteNavbar() {
     <Navbar
       logo={
         <a href={basePath || "/"}>
-          <LogoNavbar className="h-9 w-auto" />
+          <LogoNavbar className="h-8 w-auto" />
         </a>
       }
     >

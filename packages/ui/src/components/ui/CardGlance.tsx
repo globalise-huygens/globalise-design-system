@@ -9,10 +9,10 @@ const cardGlanceVariants = cva(
   {
     variants: {
       color: {
-        turquoise: "bg-[var(--brand-turquoise)] text-brand-black",
-        vermilion: "bg-[var(--brand-vermilion)] text-brand-black",
-        mint: "bg-[var(--brand-mint)] text-brand-black",
-        parchment: "bg-[var(--brand-parchment)] text-brand-black",
+        turquoise: "bg-brand-turquoise text-brand-black",
+        vermilion: "bg-brand-vermilion text-brand-black",
+        mint: "bg-brand-mint text-brand-black",
+        parchment: "bg-brand-parchment text-brand-black",
       },
     },
     defaultVariants: {

@@ -2,7 +2,22 @@ import "@/app/globals.css";
 import { SiteNavbar } from "@/components/SiteNavbar";
 import { Container } from "@globalise/design-system";
 import type { Metadata } from "next";
+import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { ClientProviders } from "./provider";
+
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const notoSerif = Noto_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Globalise Design System",
@@ -19,12 +34,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className="bg-brand-black text-brand-white min-h-screen font-sans antialiased">
+      <body
+        className={`${notoSans.variable} ${notoSerif.variable} bg-brand-black text-brand-white min-h-screen font-sans antialiased`}
+      >
         <ClientProviders>
           <SiteNavbar />
           <main>{children}</main>

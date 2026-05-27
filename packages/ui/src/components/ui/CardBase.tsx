@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const cardBaseVariants = cva(
-  "flex flex-col overflow-hidden text-[var(--card-foreground)]",
+  "flex flex-col overflow-hidden text-card-foreground",
   {
     variants: {
       variant: {
-        default: "bg-[var(--card)]",
-        turquoise: "bg-[var(--brand-turquoise)] text-brand-black",
-        vermilion: "bg-[var(--brand-vermilion)] text-brand-black",
-        mint: "bg-[var(--brand-mint)] text-brand-black",
-        parchment: "bg-[var(--brand-parchment)] text-brand-black",
+        default: "bg-card",
+        turquoise: "bg-brand-turquoise text-brand-black",
+        vermilion: "bg-brand-vermilion text-brand-black",
+        mint: "bg-brand-mint text-brand-black",
+        parchment: "bg-brand-parchment text-brand-black",
         overlay:
-          "relative bg-gradient-to-b from-[var(--brand-black)]/0 to-[var(--brand-black)]/50 text-[var(--brand-white)]",
+          "relative bg-gradient-to-b from-brand-black/0 to-brand-black/50 text-brand-white",
       },
     },
     defaultVariants: {

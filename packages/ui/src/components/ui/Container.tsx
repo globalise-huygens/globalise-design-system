@@ -8,7 +8,7 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
     <div
       ref={ref}
       className={cn(
-        "mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-[calc(100%/12)]",
+        "mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin",
         className,
       )}
       {...props}

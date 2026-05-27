@@ -104,6 +104,63 @@
     --ring: #ffffff;
     --radius: 0;
 
+    /* ── Layout system ────────────────────────────── */
+    --layout-grid-columns: 16;
+    --layout-page-max-width: 1440px;
+
+    /* Combined spacing and shell scale */
+    --layout-size-micro: 4px;
+    --layout-size-tight: 8px;
+    --layout-size-row: 12px;
+    --layout-size-default: 16px;
+    --layout-size-section: 24px;
+    --layout-size-large: 32px;
+    --layout-size-control: 40px;
+    --layout-size-toolbar: 44px;
+    --layout-size-structural: 48px;
+    --layout-size-nav: 56px;
+    --layout-size-header-footer: 64px;
+
+    /* Shared layout defaults */
+    --layout-page-margin-mobile: var(--layout-size-default);
+    --layout-page-margin: var(--layout-size-large);
+    --layout-grid-gutter: var(--layout-size-default);
+    --layout-panel-padding: var(--layout-size-section);
+    --layout-viewer-padding: var(--layout-size-default);
+    --layout-section-gap: var(--layout-size-section);
+    --layout-row-gap: var(--layout-size-row);
+    --layout-shell-icon-button: var(--layout-size-control);
+    --layout-shell-toolbar-height: var(--layout-size-toolbar);
+    --layout-shell-rail-width: var(--layout-size-structural);
+    --layout-shell-nav-height: var(--layout-size-nav);
+    --layout-shell-footer-height: var(--layout-size-header-footer);
+    --layout-overlay-inset: var(--layout-page-margin);
+    --layout-ddp-top-bar-height: var(--layout-size-structural);
+    --layout-ddp-bottom-bar-height: var(--layout-size-control);
+    --layout-ddp-toolbar-height: var(--layout-size-control);
+    --layout-ddp-rail-width: var(--layout-size-structural);
+    --layout-ddp-sidebar-width: var(--layout-sidebar-width);
+    --layout-ddp-sidebar-padding: var(--layout-panel-padding);
+    --layout-ddp-viewer-padding: var(--layout-viewer-padding);
+
+    /* Derived dimensions */
+    --layout-grid-inner-width: calc(
+      var(--layout-page-max-width) - (var(--layout-page-margin) * 2)
+    );
+    --layout-grid-track-width: calc(
+      (
+          var(--layout-grid-inner-width) -
+            (var(--layout-grid-gutter) * (var(--layout-grid-columns) - 1))
+        ) /
+        var(--layout-grid-columns)
+    );
+    --layout-sidebar-width: calc(
+      (var(--layout-grid-track-width) * 4) + (var(--layout-grid-gutter) * 3)
+    );
+    --layout-object-card-max-width: calc(
+      (var(--layout-grid-track-width) * 12) + (var(--layout-grid-gutter) * 11)
+    );
+
     /* ── Font families ─────────────────────────────── */
     --font-sans: "Noto Sans", sans-serif;
     --font-serif: "Noto Serif", serif;
@@ -200,6 +257,42 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-ring: var(--ring);
+
+  /* Layout tokens */
+  --spacing-layout-micro: var(--layout-size-micro);
+  --spacing-layout-tight: var(--layout-size-tight);
+  --spacing-layout-row: var(--layout-size-row);
+  --spacing-layout-default: var(--layout-size-default);
+  --spacing-layout-section: var(--layout-size-section);
+  --spacing-layout-large: var(--layout-size-large);
+  --spacing-layout-control: var(--layout-size-control);
+  --spacing-layout-toolbar: var(--layout-size-toolbar);
+  --spacing-layout-structural: var(--layout-size-structural);
+  --spacing-layout-nav: var(--layout-size-nav);
+  --spacing-layout-header-footer: var(--layout-size-header-footer);
+  --spacing-layout-page-max-width: var(--layout-page-max-width);
+  --spacing-layout-page-margin-mobile: var(--layout-page-margin-mobile);
+  --spacing-layout-page-margin: var(--layout-page-margin);
+  --spacing-layout-grid-gutter: var(--layout-grid-gutter);
+  --spacing-layout-panel-padding: var(--layout-panel-padding);
+  --spacing-layout-viewer-padding: var(--layout-viewer-padding);
+  --spacing-layout-section-gap: var(--layout-section-gap);
+  --spacing-layout-row-gap: var(--layout-row-gap);
+  --spacing-layout-shell-icon-button: var(--layout-shell-icon-button);
+  --spacing-layout-shell-toolbar-height: var(--layout-shell-toolbar-height);
+  --spacing-layout-shell-rail-width: var(--layout-shell-rail-width);
+  --spacing-layout-shell-nav-height: var(--layout-shell-nav-height);
+  --spacing-layout-shell-footer-height: var(--layout-shell-footer-height);
+  --spacing-layout-overlay-inset: var(--layout-overlay-inset);
+  --spacing-layout-ddp-top-bar-height: var(--layout-ddp-top-bar-height);
+  --spacing-layout-ddp-bottom-bar-height: var(--layout-ddp-bottom-bar-height);
+  --spacing-layout-ddp-toolbar-height: var(--layout-ddp-toolbar-height);
+  --spacing-layout-ddp-rail-width: var(--layout-ddp-rail-width);
+  --spacing-layout-ddp-sidebar-width: var(--layout-ddp-sidebar-width);
+  --spacing-layout-ddp-sidebar-padding: var(--layout-ddp-sidebar-padding);
+  --spacing-layout-ddp-viewer-padding: var(--layout-ddp-viewer-padding);
+  --spacing-layout-sidebar-width: var(--layout-sidebar-width);
+  --spacing-layout-object-card-max-width: var(--layout-object-card-max-width);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

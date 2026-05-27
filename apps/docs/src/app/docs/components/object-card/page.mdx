@@ -20,7 +20,7 @@ A composable card built on React Aria Components for displaying entity detail ov
 
 ## Preview
 
-<ComponentPreview className="min-h-175! p-4! items-start!">
+<ComponentPreview className="!min-h-[43.75rem] !p-4 !items-start">
   <ObjectCardDemo />
 </ComponentPreview>
 
@@ -164,7 +164,7 @@ Reusable badge for marking entity types in transcription text, headers, and enti
 
 ## Card Overlay
 
-Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside a 12-column content slot.
+Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid.
 
 <PropsTable
   props={[
@@ -193,7 +193,7 @@ Grid-aware overlay shell for ObjectCard and future document scan/page viewer lay
       name: "contentClassName",
       type: "string",
       description:
-        "Additional classes for the 12-column grid content slot. Use this for scan-viewer or page-overview layouts.",
+        "Additional classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
     },
   ]}
 />

@@ -23,6 +23,7 @@ import {
   ObjectCardStats,
   ObjectCardTitle,
 } from "@globalise/design-system";
+import Image from "next/image";
 import { useState } from "react";
 
 const voyages = [
@@ -74,10 +75,12 @@ const INITIAL_VOYAGE_COUNT = 3;
 
 function ManuscriptScan() {
   return (
-    <img
+    <Image
       className="h-full w-full object-cover"
       src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80'%3E%3Crect width='120' height='80' fill='%23404040'/%3E%3Ctext x='60' y='44' text-anchor='middle' fill='%23808080' font-family='sans-serif' font-size='11'%3Escan%3C/text%3E%3C/svg%3E"
       alt="Manuscript scan"
+      width={120}
+      height={80}
     />
   );
 }
@@ -119,10 +122,12 @@ const references: ObjectCardReference[] = [
 
 export interface PrinsEugeniusObjectCardProps {
   onClose?: () => void;
+  className?: string;
 }
 
 export function PrinsEugeniusObjectCard({
   onClose,
+  className,
 }: PrinsEugeniusObjectCardProps) {
   const [showAllVoyages, setShowAllVoyages] = useState(false);
   const visibleVoyages = showAllVoyages
@@ -131,7 +136,7 @@ export function PrinsEugeniusObjectCard({
   const hiddenCount = voyages.length - INITIAL_VOYAGE_COUNT;
 
   return (
-    <ObjectCard>
+    <ObjectCard className={className}>
       <ObjectCardHeader onClose={onClose}>
         <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
           Ship

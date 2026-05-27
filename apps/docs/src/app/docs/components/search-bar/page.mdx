@@ -5,7 +5,7 @@ import { SearchBar } from "@globalise/design-system";
 
 # SearchBar
 
-A search input field built with React Aria's `SearchField`. Supports multiple visual variants and sizes.
+A search input field built with React Aria's `SearchField`. Supports multiple visual variants and shell-aligned sizes.
 
 ## Preview
 
@@ -59,6 +59,12 @@ A search input field built with React Aria's `SearchField`. Supports multiple vi
   </div>
 </ComponentPreview>
 
+The shared sizing scale is:
+
+- `sm`: `40px`
+- `default`: `48px`
+- `lg`: `56px`
+
 ## Props
 
 <PropsTable
@@ -73,7 +79,8 @@ A search input field built with React Aria's `SearchField`. Supports multiple vi
       name: "size",
       type: '"default" | "sm" | "lg"',
       default: '"default"',
-      description: "Height of the search input",
+      description:
+        "Height of the search input on the shared 40 / 48 / 56 shell scale",
     },
     {
       name: "placeholder",

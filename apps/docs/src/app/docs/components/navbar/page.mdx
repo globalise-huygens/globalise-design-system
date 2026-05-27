@@ -18,7 +18,7 @@ A responsive navigation bar with logo, search bar, and navigation links. Include
 <CodeBlock code={`import { Navbar, NavLink, NavLinks, NavSearchBar } from "@globalise/design-system";
 import { LogoNavbar } from "@globalise/design-system";
 
-<Navbar logo={<LogoNavbar className="h-5 w-auto" />}>
+<Navbar logo={<LogoNavbar className="h-8 w-auto" />}>
   <NavSearchBar placeholder="Search the archive" />
   <NavLinks>
     <NavLink href="/about">About</NavLink>
@@ -32,9 +32,11 @@ import { LogoNavbar } from "@globalise/design-system";
 The Navbar is composed of several sub-components:
 
 - **`Navbar`**: the main navigation container
-- **`NavSearchBar`**: a centered search input, hidden on mobile but visible in the mobile menu
+- **`NavSearchBar`**: a 40px shell search input, hidden on mobile but visible in the mobile menu
 - **`NavLinks`**: wraps navigation links, same visibility behaviour
 - **`NavLink`**: individual navigation link
+
+Desktop Navbar height follows the shared shell token at `56px`.
 
 ## Props
 

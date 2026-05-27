@@ -115,22 +115,22 @@ export function DocsSidebar() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-brand-black shadow-lg"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-brand-black shadow-lg lg:hidden"
         aria-label="Open navigation"
       >
-        <IconMenu className="w-4 h-4" />
+        <IconMenu className="h-4 w-4" />
         Menu
       </button>
 
       {/* Mobile overlay */}
       {open && (
-        <div className="lg:hidden fixed inset-0 z-50">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div
             className="absolute inset-0 bg-brand-black/60"
             onClick={() => setOpen(false)}
           />
-          <aside className="absolute inset-y-0 left-0 w-72 bg-brand-black border-r border-brand-white/10 overflow-y-auto p-6">
-            <div className="flex items-center justify-between mb-6">
+          <aside className="absolute inset-y-0 left-0 w-72 overflow-y-auto border-r border-brand-white/10 bg-brand-black p-6">
+            <div className="mb-6 flex items-center justify-between">
               <span className="text-xs font-sans font-semibold uppercase tracking-wider text-brand-white/50">
                 Documentation
               </span>
@@ -140,7 +140,7 @@ export function DocsSidebar() {
                 className="text-brand-white/50 hover:text-brand-white"
                 aria-label="Close navigation"
               >
-                <IconClose className="w-5 h-5" />
+                <IconClose className="h-5 w-5" />
               </button>
             </div>
             <SidebarNav onNavigate={() => setOpen(false)} />
@@ -149,7 +149,7 @@ export function DocsSidebar() {
       )}
 
       {/* Desktop sidebar */}
-      <aside className="sticky top-20 hidden lg:block w-64 shrink-0 h-[calc(100vh-5rem)] overflow-y-auto pb-12 pr-8">
+      <aside className="sticky top-[calc(var(--layout-shell-nav-height)+var(--layout-section-gap))] hidden w-full max-h-[calc(100dvh-var(--layout-shell-nav-height)-var(--layout-section-gap)-var(--layout-size-large))] overflow-y-auto pb-12 pr-layout-section-gap lg:block">
         <SidebarNav />
       </aside>
     </>

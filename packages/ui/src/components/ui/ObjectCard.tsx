@@ -30,7 +30,8 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "isolate flex h-dvh max-h-dvh w-full max-w-[1008px] flex-col overflow-y-auto bg-neutral-800 outline-none lg:inline-flex lg:h-[calc(100dvh-4rem)] lg:max-h-[calc(100dvh-4rem)] lg:overflow-hidden",
+        "isolate flex min-h-0 w-full max-w-layout-object-card-max-width flex-col overflow-hidden bg-neutral-800 outline-none",
+        "h-auto max-h-none lg:inline-flex",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
       )}
@@ -70,7 +71,7 @@ function ObjectCardHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-10 flex shrink-0 flex-col gap-3 border-b border-brand-white/20 bg-neutral-800 px-8 py-6 lg:px-16 lg:py-8",
+        "sticky top-0 z-10 flex shrink-0 flex-col gap-layout-row-gap border-b border-brand-white/20 bg-neutral-800 px-layout-panel-padding py-layout-panel-padding",
         className,
       )}
     >
@@ -79,7 +80,7 @@ function ObjectCardHeader({
         <AriaButton
           onPress={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring lg:right-8 lg:top-8"
+          className="absolute right-layout-panel-padding top-layout-panel-padding flex h-layout-shell-icon-button w-layout-shell-icon-button items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
         >
           <IconClose className="h-3.5 w-3.5" />
         </AriaButton>
@@ -115,7 +116,7 @@ function ObjectCardStat({ className, children }: ObjectCardStatProps) {
   return (
     <span
       className={cn(
-        "font-sans text-sm italic text-neutral-400 leading-4",
+        "font-sans text-sm leading-4 italic text-neutral-400",
         className,
       )}
     >
@@ -133,7 +134,7 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
     <div
       className={cn(
-        "flex min-h-0 flex-1 flex-col lg:flex-row lg:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden",
         className,
       )}
     >
@@ -147,8 +148,9 @@ const objectCardPanelVariants = cva(
   {
     variants: {
       side: {
-        left: "w-full border-b border-neutral-700 bg-neutral-800 p-6 lg:w-1/2 lg:border-b-0 lg:border-r lg:p-8 gap-8",
-        right: "flex-1 bg-neutral-800 p-6 lg:px-8 lg:py-8",
+        left: "w-full gap-layout-section border-b border-neutral-700 bg-neutral-800 p-layout-panel-padding lg:w-1/2 lg:border-b-0 lg:border-r lg:overflow-y-auto",
+        right:
+          "flex-1 bg-neutral-800 p-layout-panel-padding lg:overflow-y-auto",
       },
     },
     defaultVariants: {
@@ -188,7 +190,7 @@ function ObjectCardSection({
   return (
     <Group
       aria-labelledby={title ? headingId : undefined}
-      className={cn("flex flex-col gap-3", className)}
+      className={cn("flex flex-col gap-layout-row-gap", className)}
     >
       {title && (
         <AriaHeading
@@ -240,7 +242,12 @@ function ObjectCardPropertyList({
   className,
   ...props
 }: ObjectCardPropertyListProps) {
-  return <dl className={cn("flex flex-col gap-3", className)} {...props} />;
+  return (
+    <dl
+      className={cn("flex flex-col gap-layout-row-gap", className)}
+      {...props}
+    />
+  );
 }
 
 export interface ObjectCardExternalLinkProps extends Omit<
@@ -314,9 +321,9 @@ export interface ObjectCardFooterProps {
 
 function ObjectCardFooter({ className, children }: ObjectCardFooterProps) {
   return (
-    <div className={cn("flex flex-col gap-8", className)}>
-      <AriaSeparator className="border-0 outline outline-offset-[-0.50px] outline-neutral-700" />
-      <div className="flex items-start gap-8">{children}</div>
+    <div className={cn("flex flex-col gap-layout-section", className)}>
+      <AriaSeparator className="border-0 outline outline-neutral-700 outline-offset-[-0.50px]" />
+      <div className="flex items-start gap-layout-section">{children}</div>
     </div>
   );
 }

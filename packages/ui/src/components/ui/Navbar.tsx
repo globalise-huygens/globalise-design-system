@@ -10,8 +10,8 @@ import {
   Input as AriaInput,
   Label as AriaLabel,
   Link as AriaLink,
-  SearchField as AriaSearchField,
   type LinkProps as AriaLinkProps,
+  SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps,
 } from "react-aria-components";
 
@@ -50,7 +50,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "hidden sm:flex flex-1 mx-4 lg:mx-8 h-12 max-w-96 items-center gap-2.5 bg-brand-white/10 px-4 backdrop-blur-[20px]",
+          "hidden h-layout-shell-icon-button max-w-[28rem] flex-1 items-center gap-layout-tight bg-brand-white/10 px-layout-default backdrop-blur-[20px] sm:mx-layout-default sm:flex lg:mx-layout-panel-padding",
           className,
         )}
         {...props}
@@ -62,7 +62,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         />
         <AriaInput
           placeholder={placeholder}
-          className="w-full bg-transparent text-sm font-medium text-brand-white font-serif leading-3 opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none"
+          className="w-full bg-transparent font-serif text-sm leading-3 text-brand-white opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none"
         />
       </AriaSearchField>
     );
@@ -109,7 +109,7 @@ const NavLinks = React.forwardRef<HTMLDivElement, NavLinksProps>(
     <div
       ref={ref}
       className={cn(
-        "hidden sm:flex shrink-0 items-center justify-end gap-4 sm:gap-10",
+        "hidden shrink-0 items-center justify-end gap-4 sm:flex sm:gap-10",
         className,
       )}
       {...props}
@@ -137,16 +137,16 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={ref}
         className={cn(
-          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center px-4 sm:px-8 py-4 sm:py-0",
+          "relative mx-auto flex h-auto w-full max-w-layout-page-max-width flex-wrap items-center px-layout-page-margin-mobile py-layout-default sm:h-layout-shell-nav-height sm:px-layout-page-margin sm:py-0",
           className,
         )}
         {...props}
       >
         {/* Top bar: logo + mobile toggle */}
-        <div className="flex w-full sm:w-auto items-center justify-between shrink-0">
+        <div className="flex w-full shrink-0 items-center justify-between sm:w-auto">
           {logo && <div className="shrink-0">{logo}</div>}
           <AriaButton
-            className="sm:hidden flex h-10 w-10 items-center justify-center text-brand-white"
+            className="flex h-layout-shell-icon-button w-layout-shell-icon-button items-center justify-center text-brand-white sm:hidden"
             onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -163,13 +163,13 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
         {/* Mobile expanded panel */}
         {mobileOpen && (
-          <div className="sm:hidden flex w-full flex-col gap-4 pt-4 pb-2">
+          <div className="flex w-full flex-col gap-layout-row-gap pb-layout-tight pt-layout-row-gap sm:hidden">
             {React.Children.map(children, (child) => {
               if (!React.isValidElement(child)) return null;
               const navType = getNavType(child);
               if (navType === "NavLinks") {
                 return (
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-layout-row-gap">
                     {
                       (
                         child as React.ReactElement<{
@@ -185,7 +185,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                   child as React.ReactElement<{ className?: string }>,
                   {
                     className: cn(
-                      "flex w-full max-w-none mx-0",
+                      "mx-0 flex w-full max-w-none",
                       (child as React.ReactElement<{ className?: string }>)
                         .props.className,
                     ),

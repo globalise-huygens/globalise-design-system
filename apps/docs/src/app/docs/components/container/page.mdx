@@ -5,23 +5,23 @@ import { Container, Grid } from "@globalise/design-system";
 
 # Container
 
-Places content in **columns 2 to 11** of the 12-column layout grid. Constrains to 1440px max-width, centers itself, and applies 1-column padding on each side at desktop. The outer columns stay free for full-bleed elements.
+Applies the shared page width and page margins for the standard content band inside the 16-column layout shell. Use it when you want the default centered content width without explicit column placement.
 
 ## Preview
 
 <ComponentPreview>
-  <div className="w-full relative">
-    <Grid className="w-full absolute inset-0 pointer-events-none">
-      {Array.from({ length: 12 }).map((_, i) => (
+  <div className="relative w-full">
+    <Grid className="pointer-events-none absolute inset-0 w-full px-layout-page-margin-mobile lg:px-layout-page-margin">
+      {Array.from({ length: 16 }).map((_, i) => (
         <div
           key={i}
-          className={`h-full ${i === 0 || i === 11 ? "bg-neutral-600" : "bg-neutral-300"}`}
+          className={`h-full ${i < 2 || i > 13 ? "bg-neutral-600" : "bg-neutral-300"}`}
         />
       ))}
     </Grid>
-    <Container className="py-6 w-full relative">
-      <div className="h-12 bg-brand-turquoise flex items-center justify-center text-sm font-mono text-brand-black">
-        Content in columns 2–11
+    <Container className="relative w-full py-6">
+      <div className="flex h-12 items-center justify-center bg-brand-turquoise text-sm font-mono text-brand-black">
+        Standard content band
       </div>
     </Container>
   </div>
@@ -33,20 +33,19 @@ Places content in **columns 2 to 11** of the 12-column layout grid. Constrains t
 
 <Container>
   <h1>Page content here</h1>
-  <p>Automatically inset by 1 column on each side at desktop.</p>
+  <p>Automatically inset by the shared page margins.</p>
 </Container>`} />
 
 ## Responsive padding
 
-On smaller screens the grid padding scales down proportionally:
+Container uses the shared page-margin tokens:
 
-| Breakpoint     | Padding         | Equivalent    |
-| -------------- | --------------- | ------------- |
-| Default        | `16px`          | `px-4`        |
-| `sm` (640px)   | `32px`          | `px-8`        |
-| `lg` (1024px+) | `1/12 of width` | 1 grid column |
+| Breakpoint  | Padding |
+| ----------- | ------- |
+| Default     | `16px`  |
+| `lg` and up | `32px`  |
 
-At 1440px viewport, `1/12 = 120px` padding on each side → 1200px content area (10 columns).
+At the page max width, that aligns Container with the same centered content band used by the 16-column grid.
 
 ## Props
 
@@ -60,7 +59,7 @@ At 1440px viewport, `1/12 = 120px` padding on each side → 1200px content area 
     {
       name: "children",
       type: "ReactNode",
-      description: "Content placed in columns 2–11",
+      description: "Content placed inside the standard centered content band",
       required: true,
     },
   ]}
