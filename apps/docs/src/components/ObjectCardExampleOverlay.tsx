@@ -9,7 +9,7 @@ function EntityMention({ onPress }: { onPress: () => void }) {
   return (
     <AriaButton
       onPress={onPress}
-      className="inline bg-brand-turquoise px-1 py-1 font-serif text-[0.95em] font-medium italic leading-none text-brand-black transition-colors data-hovered:bg-mint-300 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-brand-black"
+      className="inline bg-brand-turquoise px-s4 py-s4 font-serif text-base font-medium italic leading-(--s16) text-brand-black transition-colors data-hovered:bg-mint-300 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-brand-black"
     >
       prins Eugenius
     </AriaButton>
@@ -26,7 +26,9 @@ export function ObjectCardExampleOverlay() {
         detail: { isOpen },
       }),
     );
+  }, [isOpen]);
 
+  useEffect(() => {
     return () => {
       window.dispatchEvent(
         new CustomEvent("object-card-overlay-open-change", {
@@ -34,7 +36,7 @@ export function ObjectCardExampleOverlay() {
         }),
       );
     };
-  }, [isOpen]);
+  }, []);
 
   return (
     <>

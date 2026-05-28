@@ -114,7 +114,10 @@ function ObjectCardReferencesPanel({
         {children}
         {hasReferences
           ? references.map((reference, index) => (
-              <ObjectCardReferenceItem key={index} {...reference} />
+              <ObjectCardReferenceItem
+                key={`${reference.archiveId ?? reference.title}-${index}`}
+                {...reference}
+              />
             ))
           : !children && emptyState}
       </section>
