@@ -49,7 +49,7 @@ function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
       slot="title"
       level={2}
       className={cn(
-        "font-serif text-3xl font-medium leading-8 text-brand-white",
+        "font-serif text-3xl font-medium leading-(--s32) text-brand-white",
         className,
       )}
       {...props}
@@ -82,7 +82,7 @@ function ObjectCardHeader({
           aria-label="Close"
           className="absolute right-panel-pad top-panel-pad flex h-control w-control items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
         >
-          <IconClose className="h-3.5 w-3.5" />
+          <IconClose className="h-s12 w-s12" />
         </AriaButton>
       )}
     </header>
@@ -98,7 +98,7 @@ function ObjectCardStats({ className, children }: ObjectCardStatsProps) {
   return (
     <div
       className={cn(
-        "inline-flex flex-wrap items-center gap-x-8 gap-y-1",
+        "inline-flex flex-wrap items-center gap-x-s32 gap-y-s4",
         className,
       )}
     >
@@ -116,7 +116,7 @@ function ObjectCardStat({ className, children }: ObjectCardStatProps) {
   return (
     <span
       className={cn(
-        "font-sans text-sm leading-4 italic text-neutral-400",
+        "font-sans text-sm italic leading-(--s16) text-neutral-400",
         className,
       )}
     >
@@ -202,7 +202,7 @@ function ObjectCardSection({
         <AriaHeading
           level={3}
           id={headingId}
-          className="font-serif text-lg font-medium leading-5 text-brand-white"
+          className="font-serif text-lg font-medium leading-[20px] text-brand-white"
         >
           {title}
         </AriaHeading>
@@ -233,7 +233,7 @@ function ObjectCardProperty({
       <dt className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
         {label}
       </dt>
-      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-5 text-brand-white">
+      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-[20px] text-brand-white">
         {value}
       </dd>
     </div>
@@ -267,7 +267,7 @@ const ObjectCardExternalLink = React.forwardRef<
   const content = (
     <>
       <span>{children}</span>
-      <IconExternalLink className="h-3 w-3 text-brand-turquoise" />
+      <IconExternalLink className="h-s12 w-s12 text-brand-turquoise" />
     </>
   );
 
@@ -277,7 +277,7 @@ const ObjectCardExternalLink = React.forwardRef<
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-between font-sans text-sm font-medium leading-5 text-brand-turquoise transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+        "inline-flex items-center justify-between font-sans text-sm font-medium leading-[20px] text-brand-turquoise transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
         className,
       )}
       {...props}
@@ -335,8 +335,8 @@ const objectCardActionVariants = cva(
   {
     variants: {
       variant: {
-        default: "gap-1.5 text-xs font-medium leading-3 text-neutral-400",
-        more: "gap-3 text-sm font-normal leading-4 text-brand-white",
+        default: "gap-s8 text-xs font-medium leading-(--s12) text-neutral-400",
+        more: "gap-s12 text-sm font-normal leading-(--s16) text-brand-white",
       },
     },
     defaultVariants: {

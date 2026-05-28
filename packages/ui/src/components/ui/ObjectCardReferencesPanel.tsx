@@ -34,19 +34,19 @@ function ObjectCardReferenceItem({
             <div className="h-s80 w-s80 shrink-0 overflow-hidden">{image}</div>
           )}
           <div className="flex flex-1 flex-col gap-s4">
-            <span className="font-serif text-sm font-medium leading-4 text-brand-white">
+            <span className="font-serif text-sm font-medium leading-(--s16) text-brand-white">
               {title}
             </span>
             <div className="flex flex-col gap-s4">
               {snippet && (
                 <div className="bg-neutral-700 px-s8 py-s4">
-                  <div className="line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200">
+                  <div className="line-clamp-2 font-serif text-xs italic leading-(--s16) text-neutral-200">
                     {snippet}
                   </div>
                 </div>
               )}
               {archiveId && (
-                <span className="font-sans text-[11px] leading-4 text-neutral-400">
+                <span className="font-sans text-xs leading-(--s16) text-neutral-400">
                   {archiveId}
                 </span>
               )}
@@ -61,7 +61,7 @@ function ObjectCardReferenceItem({
             aria-label={`Open ${title}`}
             className="shrink-0 text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
           >
-            <IconArrowRight className="h-2.5 w-2.5" />
+            <IconArrowRight className="h-s12 w-s12" />
           </AriaLink>
         )}
       </div>

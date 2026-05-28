@@ -8,9 +8,15 @@ export function GridGuideToggle() {
   const [showGrid, setShowGrid] = React.useState(false);
   const [showRhythm, setShowRhythm] = React.useState(false);
   const [showSpacing, setShowSpacing] = React.useState(false);
+  const [isObjectCardOverlayOpen, setIsObjectCardOverlayOpen] =
+    React.useState(false);
 
   React.useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      if (isObjectCardOverlayOpen) {
+        return;
+      }
+
       if ((e.metaKey || e.ctrlKey) && e.key === "g") {
         e.preventDefault();
         setShowGrid((v) => !v);
@@ -23,17 +29,54 @@ export function GridGuideToggle() {
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isObjectCardOverlayOpen]);
+
+  React.useEffect(() => {
+    function handleOverlayOpenChange(event: Event) {
+      const customEvent = event as CustomEvent<{ isOpen?: boolean }>;
+      setIsObjectCardOverlayOpen(Boolean(customEvent.detail?.isOpen));
+    }
+
+    window.addEventListener(
+      "object-card-overlay-open-change",
+      handleOverlayOpenChange as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "object-card-overlay-open-change",
+        handleOverlayOpenChange as EventListener,
+      );
+    };
   }, []);
+
+  React.useEffect(() => {
+    if (!isObjectCardOverlayOpen) {
+      return;
+    }
+
+    setShowGrid(false);
+    setShowRhythm(false);
+    setShowSpacing(false);
+  }, [isObjectCardOverlayOpen]);
+
+  const guidesVisible = !isObjectCardOverlayOpen;
 
   return (
     <>
       <GridGuide
-        visible={showGrid || showRhythm}
+        visible={guidesVisible && (showGrid || showRhythm)}
         showGrid={showGrid}
         showRhythm={showRhythm}
       />
-      <SpacingGuideOverlay visible={showSpacing} />
-      <div className="pointer-events-none fixed inset-x-0 bottom-s16 z-10000">
+      <SpacingGuideOverlay visible={guidesVisible && showSpacing} />
+      <div
+        className={
+          guidesVisible
+            ? "pointer-events-none fixed inset-x-0 bottom-s16 z-10000"
+            : "hidden"
+        }
+      >
         <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
           <div className="slot-content-band slot-mobile-pad flex justify-end gap-s8">
             <button

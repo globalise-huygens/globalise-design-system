@@ -2,7 +2,7 @@
 
 import { PrinsEugeniusObjectCard } from "@/components/PrinsEugeniusObjectCard";
 import { Divider, ObjectCardOverlay } from "@globalise/design-system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button as AriaButton } from "react-aria-components";
 
 function EntityMention({ onPress }: { onPress: () => void }) {
@@ -20,21 +20,37 @@ export function ObjectCardExampleOverlay() {
   const [isOpen, setIsOpen] = useState(false);
   const openObjectCard = () => setIsOpen(true);
 
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("object-card-overlay-open-change", {
+        detail: { isOpen },
+      }),
+    );
+
+    return () => {
+      window.dispatchEvent(
+        new CustomEvent("object-card-overlay-open-change", {
+          detail: { isOpen: false },
+        }),
+      );
+    };
+  }, [isOpen]);
+
   return (
     <>
-      <div className="flex flex-col gap-6 pt-6">
+      <div className="flex flex-col gap-s24 pt-s24">
         <Divider />
         <section
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-s16"
           aria-labelledby="transcription-heading"
         >
           <h2
             id="transcription-heading"
-            className="font-serif text-3xl font-medium leading-9 text-brand-white"
+            className="font-serif text-3xl font-medium leading-(--s32) text-brand-white"
           >
             Transcription
           </h2>
-          <div className="max-w-4xl py-1 font-serif text-lg leading-8 text-brand-white/80">
+          <div className="max-w-4xl py-s4 font-serif text-lg leading-(--s32) text-brand-white/80">
             <p className="whitespace-pre-wrap">
               grove fotassen, bengaals{"\n"}
               met de prins versonden de gevorderde. . . . . . . . . . . . . . .

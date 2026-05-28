@@ -186,7 +186,7 @@ export function PrinsEugeniusObjectCard({
   return (
     <ObjectCard className={className}>
       <ObjectCardHeader onClose={onClose}>
-        <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+        <EntityBadge type="ship" icon={<IconShip className="h-s12 w-s12" />}>
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
@@ -209,20 +209,20 @@ export function PrinsEugeniusObjectCard({
           </ObjectCardSection>
 
           <ObjectCardSection title="Voyages (7)" scrollable>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-s8">
               {visibleVoyages.map((voyage, index) => (
                 <ObjectCardListItem key={index} href="#">
-                  <span className="font-sans text-xs text-neutral-400 leading-4 pr-5">
+                  <span className="pr-s16 font-sans text-xs leading-(--s16) text-neutral-400">
                     {voyage.dates}
                   </span>
-                  <span className="font-serif text-xs font-semibold leading-3 text-neutral-200">
+                  <span className="font-serif text-xs font-semibold leading-(--s12) text-neutral-200">
                     {voyage.route}
                   </span>
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-[11px] leading-[1.2] text-neutral-400">
+                    <span className="font-sans text-xs leading-(--s12) text-neutral-400">
                       {voyage.captain}
                     </span>
-                    <span className="font-sans text-[11px] leading-[1.2] text-neutral-400">
+                    <span className="font-sans text-xs leading-(--s12) text-neutral-400">
                       {voyage.crew}
                     </span>
                   </div>
@@ -233,14 +233,14 @@ export function PrinsEugeniusObjectCard({
 
           <ObjectCardAction
             variant="more"
-            icon={<IconAdd className="h-3 w-3" />}
+            icon={<IconAdd className="h-s12 w-s12" />}
             onPress={() => setShowAllVoyages((isShowingAll) => !isShowingAll)}
           >
             {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
           </ObjectCardAction>
 
           <ObjectCardSection title="External Identifiers">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-s12">
               <ObjectCardExternalLink href="https://example.com">
                 DAS ship1203
               </ObjectCardExternalLink>
@@ -251,10 +251,10 @@ export function PrinsEugeniusObjectCard({
           </ObjectCardSection>
 
           <ObjectCardFooter>
-            <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+            <ObjectCardAction icon={<IconCopy className="h-s12 w-s12" />}>
               Copy URI
             </ObjectCardAction>
-            <ObjectCardAction icon={<IconDownload className="h-2.5 w-2.5" />}>
+            <ObjectCardAction icon={<IconDownload className="h-s12 w-s12" />}>
               Export RDF/JSON-LD
             </ObjectCardAction>
           </ObjectCardFooter>
