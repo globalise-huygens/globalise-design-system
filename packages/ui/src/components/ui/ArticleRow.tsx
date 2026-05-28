@@ -11,7 +11,7 @@ const ArticleRow = React.forwardRef<HTMLDivElement, ArticleRowProps>(
       <div
         ref={ref}
         className={cn(
-          "flex flex-col lg:flex-row gap-6 items-stretch",
+          "flex items-stretch gap-section-gap flex-col lg:flex-row",
           className,
         )}
         {...props}
@@ -21,10 +21,10 @@ const ArticleRow = React.forwardRef<HTMLDivElement, ArticleRowProps>(
             {index > 0 && (
               <AriaSeparator
                 orientation="vertical"
-                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-black/40"
+                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-brand-black/40"
               />
             )}
-            <div className="flex-1 min-w-0">{child}</div>
+            <div className="min-w-0 flex-1">{child}</div>
           </React.Fragment>
         ))}
       </div>

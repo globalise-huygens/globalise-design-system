@@ -13,7 +13,7 @@ A button component with multiple variants and sizes. Built on React Aria's `Butt
   <div className="flex flex-wrap items-center gap-4">
     <Button>Default</Button>
     <Button variant="outline">Outline</Button>
-    <Button variant="link" className="text-white">
+    <Button variant="link" className="text-brand-white">
       Link CTA
     </Button>
     <Button variant="nav">Nav</Button>
@@ -45,7 +45,7 @@ A button component with multiple variants and sizes. Built on React Aria's `Butt
 ### Link
 
 <ComponentPreview>
-  <Button variant="link" className="text-white">
+  <Button variant="link" className="text-brand-white">
     Text CTA
   </Button>
 </ComponentPreview>
@@ -60,7 +60,7 @@ All variants support a disabled state via `isDisabled`. Disabled buttons are dim
     <Button variant="outline" isDisabled>
       Outline
     </Button>
-    <Button variant="link" isDisabled className="text-white">
+    <Button variant="link" isDisabled className="text-brand-white">
       Link CTA
     </Button>
   </div>
@@ -88,7 +88,7 @@ The `link` variant automatically includes a trailing arrow icon (`IconArrowRight
 
 <ComponentPreview>
   <div className="flex flex-col gap-4">
-    <ButtonLink variant="link" href="#" className="text-white">
+    <ButtonLink variant="link" href="#" className="text-brand-white">
       About the project
     </ButtonLink>
     <ButtonLink variant="link" href="#" className="text-brand-turquoise">
@@ -140,8 +140,7 @@ All button variants respond to hover, press, and focus states via React Aria.
       name: "isDisabled",
       type: "boolean",
       default: "false",
-      description:
-        "Disables the button",
+      description: "Disables the button",
     },
     {
       name: "as",

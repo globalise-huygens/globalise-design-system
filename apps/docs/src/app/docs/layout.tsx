@@ -7,11 +7,11 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Grid className="mx-auto max-w-360 py-12 lg:py-16">
-      <div className="col-span-12 px-4 sm:px-0 lg:col-start-2 lg:col-span-3">
+    <Grid className="mx-auto w-full max-w-shell-max px-shell-margin py-12 lg:py-16">
+      <div className="slot-left-rail min-w-0">
         <DocsSidebar />
       </div>
-      <article className="col-span-12 px-4 sm:px-0 lg:col-start-5 lg:col-span-7 min-w-0">
+      <article className="slot-right-rail min-w-0 md:pl-section-gap">
         {children}
       </article>
     </Grid>

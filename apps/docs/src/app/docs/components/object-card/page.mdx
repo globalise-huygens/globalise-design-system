@@ -1,0 +1,461 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import { ObjectCardDemo } from "./ObjectCardDemo";
+import {
+  EntityBadge,
+  IconShip,
+  IconPerson,
+  IconPlace,
+  IconCommodity,
+  IconDimensions,
+  IconOrganisation,
+  IconDate,
+  IconDocument,
+} from "@globalise/design-system";
+
+# Object Card
+
+A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, etc). All sub-components are pre-styled — consumers compose them without writing any CSS.
+
+## Preview
+
+<ComponentPreview className="!min-h-[43.75rem] !p-4 !items-start">
+  <ObjectCardDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import {
+  IconAdd,
+  IconCopy,
+  ObjectCard,
+  ObjectCardAction,
+  EntityBadge,
+  ObjectCardBody,
+  ObjectCardExternalLink,
+  ObjectCardFooter,
+  ObjectCardHeader,
+  ObjectCardListItem,
+  ObjectCardOverlay,
+  ObjectCardPanel,
+  ObjectCardProperty,
+  ObjectCardPropertyList,
+  ObjectCardReferencesPanel,
+  ObjectCardSection,
+  ObjectCardStat,
+  ObjectCardStats,
+  ObjectCardTitle,
+} from "@globalise/design-system";
+
+<ObjectCardOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
+  <ObjectCard>
+    <ObjectCardHeader onClose={() => {}}>
+      <EntityBadge type="ship">Ship</EntityBadge>
+      <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
+      <ObjectCardStats>
+        <ObjectCardStat>7 Voyages</ObjectCardStat>
+        <ObjectCardStat>1,234 References</ObjectCardStat>
+      </ObjectCardStats>
+    </ObjectCardHeader>
+
+    <ObjectCardBody>
+      <ObjectCardPanel side="left" className="gap-12">
+        <ObjectCardSection title="General Properties">
+          <ObjectCardPropertyList>
+            <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+            <ObjectCardProperty label="Weight" value="874 tons" />
+          </ObjectCardPropertyList>
+        </ObjectCardSection>
+
+        <ObjectCardSection title="Voyages (7)">
+          <ObjectCardListItem>
+            <span>19 Jan 1710 – 8 Aug 1710</span>
+          </ObjectCardListItem>
+          <ObjectCardAction variant="more" icon={<IconAdd />}>
+            View more
+          </ObjectCardAction>
+        </ObjectCardSection>
+
+        <ObjectCardFooter>
+          <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+            Copy URI
+          </ObjectCardAction>
+        </ObjectCardFooter>
+      </ObjectCardPanel>
+
+      <ObjectCardReferencesPanel
+        title="References (1,234)"
+        references={[
+          {
+            title: "p.264",
+            snippet: "in 't geheel p:r de prins Eugenius...",
+            archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+            href: "#",
+          },
+        ]}
+      />
+    </ObjectCardBody>
+
+  </ObjectCard>
+</ObjectCardOverlay>`} />
+
+## Entity Badge
+
+Reusable badge for marking entity types in transcription text, headers, and entity summaries.
+
+<ComponentPreview>
+  <div className="flex flex-wrap gap-3">
+    <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+      Ship
+    </EntityBadge>
+    <EntityBadge type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
+      Person
+    </EntityBadge>
+    <EntityBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+      Place
+    </EntityBadge>
+    <EntityBadge
+      type="commodity"
+      icon={<IconCommodity className="h-3.5 w-3.5" />}
+    >
+      Commodity
+    </EntityBadge>
+    <EntityBadge
+      type="dimensions"
+      icon={<IconDimensions className="h-3.5 w-3.5" />}
+    >
+      Dimensions
+    </EntityBadge>
+    <EntityBadge
+      type="organisation"
+      icon={<IconOrganisation className="h-3.5 w-3.5" />}
+    >
+      Organisation
+    </EntityBadge>
+    <EntityBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+      Date
+    </EntityBadge>
+    <EntityBadge
+      type="document"
+      icon={<IconDocument className="h-3.5 w-3.5" />}
+    >
+      Document
+    </EntityBadge>
+  </div>
+</ComponentPreview>
+
+<PropsTable
+  props={[
+    {
+      name: "type",
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
+      default: '"ship"',
+      description: "Entity type, determines badge color and outline style.",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description:
+        "Optional icon rendered before the label. Typically 14×14px.",
+    },
+  ]}
+/>
+
+## Card Overlay
+
+Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid.
+
+<PropsTable
+  props={[
+    {
+      name: "isOpen",
+      type: "boolean",
+      description: "Controls whether the overlay is visible.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(isOpen: boolean) => void",
+      description: "Called when the overlay opens or closes.",
+    },
+    {
+      name: "isDismissable",
+      type: "boolean",
+      default: "true",
+      description: "Allows closing by pressing Escape or outside the modal.",
+    },
+    {
+      name: "modalClassName",
+      type: "string",
+      description: "Additional classes for the inner RAC Modal wrapper.",
+    },
+    {
+      name: "contentClassName",
+      type: "string",
+      description:
+        "Additional classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
+    },
+  ]}
+/>
+
+## References Panel
+
+Right-side panel for references today, with a custom-content path for future vertical page ToC or document overview content.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      default: '"References"',
+      description: "Panel section heading.",
+    },
+    {
+      name: "references",
+      type: "ObjectCardReference[]",
+      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Custom content rendered before mapped references.",
+    },
+    {
+      name: "emptyState",
+      type: "ReactNode",
+      description: "Content shown when no references or children are provided.",
+    },
+  ]}
+/>
+
+## Components
+
+### ObjectCard
+
+Wraps RAC `Dialog` — provides `role="dialog"` and auto-links to `ObjectCardTitle` via `aria-labelledby`.
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "ObjectCardHeader + ObjectCardBody.",
+    },
+  ]}
+/>
+
+### ObjectCardHeader
+
+Pre-styled header with optional close button (RAC `Button`).
+
+<PropsTable
+  props={[
+    {
+      name: "onClose",
+      type: "() => void",
+      description: "Close callback. If omitted, no close button is rendered.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Badge, title, stats.",
+    },
+  ]}
+/>
+
+### ObjectCardTitle
+
+RAC `Heading` with `slot="title"` — automatically becomes the Dialog's accessible name.
+
+<PropsTable
+  props={[
+    {
+      name: "children",
+      type: "ReactNode",
+      required: true,
+      description: "Title text.",
+    },
+  ]}
+/>
+
+### ObjectCardStats / ObjectCardStat
+
+Pre-styled inline stat row. Each `ObjectCardStat` is a styled span.
+
+### ObjectCardBody
+
+Flex container that switches from column (mobile) to row (desktop). The card constrains itself to the viewport and scrolls panel content when space is tight.
+
+<PropsTable
+  props={[
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+  ]}
+/>
+
+### ObjectCardPanel
+
+<PropsTable
+  props={[
+    {
+      name: "side",
+      type: '"left" | "right"',
+      default: '"left"',
+      description:
+        'Panel position. "left" has solid bg + border; "right" has an opaque references background.',
+    },
+  ]}
+/>
+
+### ObjectCardSection
+
+RAC `Group` with `aria-labelledby` linked to a level-3 heading. Screen readers announce it as a labeled group.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      description:
+        "Section heading text. If omitted, no heading is rendered and the group is unlabelled.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Section content.",
+    },
+  ]}
+/>
+
+### ObjectCardProperty
+
+Renders semantic `<dt>` / `<dd>` pairs inside a `<dl>` (`ObjectCardPropertyList`).
+
+<PropsTable
+  props={[
+    {
+      name: "label",
+      type: "string",
+      required: true,
+      description: "Uppercased property label.",
+    },
+    {
+      name: "value",
+      type: "ReactNode",
+      required: true,
+      description: "Property value.",
+    },
+  ]}
+/>
+
+### ObjectCardListItem
+
+Pre-styled card for list entries (voyages, etc.). Optionally wraps in RAC `Link`.
+
+<PropsTable
+  props={[
+    {
+      name: "href",
+      type: "string",
+      description: "If provided, the item becomes a link with hover state.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Item content.",
+    },
+  ]}
+/>
+
+### ObjectCardReferenceItem
+
+Pre-styled reference row with optional image, snippet, archive ID, and external link.
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "string",
+      required: true,
+      description: "Reference title.",
+    },
+    {
+      name: "image",
+      type: "ReactNode",
+      description: "Thumbnail image element.",
+    },
+    {
+      name: "snippet",
+      type: "ReactNode",
+      description: "Text excerpt.",
+    },
+    {
+      name: "archiveId",
+      type: "string",
+      description: "Archive identifier string.",
+    },
+    {
+      name: "href",
+      type: "string",
+      description: "External link — renders an icon via RAC Link.",
+    },
+  ]}
+/>
+
+### ObjectCardExternalLink
+
+RAC `Link` — opens in a new tab with an external-link icon.
+
+<PropsTable
+  props={[
+    {
+      name: "href",
+      type: "string",
+      required: true,
+      description: "External URL.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Link label text.",
+    },
+  ]}
+/>
+
+### ObjectCardFooter
+
+Pre-styled footer with RAC `Separator` divider line and action row.
+
+### ObjectCardAction
+
+RAC `Button` with CVA variants. Use for footer actions and "view more" buttons.
+
+<PropsTable
+  props={[
+    {
+      name: "variant",
+      type: '"default" | "more"',
+      default: '"default"',
+      description:
+        '"default" for small footer actions, "more" for view-more style.',
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description: "Icon rendered before the label.",
+    },
+    {
+      name: "onPress",
+      type: "() => void",
+      description: "Press handler (from RAC ButtonProps).",
+    },
+  ]}
+/>

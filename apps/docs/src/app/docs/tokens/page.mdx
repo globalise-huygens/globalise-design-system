@@ -13,7 +13,7 @@ The primary brand palette extracted from the Globalise Figma collection.
     {
       name: "Archive Black",
       variable: "--brand-black",
-      hex: "#262626",
+      hex: "#0C0A09",
       textLight: true,
     },
     {
@@ -154,6 +154,70 @@ The design system uses two font families.
 
 <FontPreview />
 
+## Spacing & Layout Tokens
+
+Spacing follows a 4px base scale with an 8px major rhythm. Use these defaults to keep pages consistent.
+
+| Token             | Value | Default use                                                            | Avoid                                 |
+| ----------------- | ----- | ---------------------------------------------------------------------- | ------------------------------------- |
+| `--s4`            | 4px   | Fine visual nudges inside components                                   | Primary layout spacing                |
+| `--s8`            | 8px   | Tight inline spacing and icon/text pairs                               | Section-level spacing                 |
+| `--s12`           | 12px  | `--row-gap` for compact rows                                           | Outer page layout rhythm              |
+| `--s16`           | 16px  | `--shell-margin`, `--shell-gutter`, compact card gutters               | Main section spacing                  |
+| `--s24`           | 24px  | `--section-gap`, `--panel-pad`, `--card-margin`, major in-section gaps | Micro spacing between inline elements |
+| `--s32`           | 32px  | Larger block transitions and overlay insets                            | Standard row spacing                  |
+| `--s48` and above | 48px+ | Hero-scale separation only                                             | Default for repeated component gaps   |
+
+### Layout spacing hierarchy
+
+| Layer                               | Token default             |
+| ----------------------------------- | ------------------------- |
+| Page horizontal inset               | `--shell-margin` (`16px`) |
+| Grid column gutter                  | `--shell-gutter` (`16px`) |
+| Section-to-section rhythm           | `--section-gap` (`24px`)  |
+| Major spacing inside sections       | `--s24`                   |
+| Tight row spacing inside components | `--row-gap` (`12px`)      |
+| Panel/card internal padding         | `--panel-pad` (`24px`)    |
+
+### Composition rule for margins and padding
+
+- Prefer `gap-*` for spacing between siblings.
+- Prefer component-owned `padding` (`--panel-pad`, card margins) for internal breathing room.
+- Add explicit `mt-s24` only when section spacing plus `gap-*` does not satisfy a transition.
+
+## Semantic Tokens
+
+Brand tokens define the palette. Semantic tokens define how that palette is applied to surfaces and text.
+
+<ColorSwatch
+  colors={[
+    {
+      name: "Surface Dark",
+      variable: "--surface-dark",
+      hex: "#0C0A09",
+      textLight: true,
+    },
+    {
+      name: "Surface Light",
+      variable: "--surface-light",
+      hex: "#FFFFFF",
+      textLight: false,
+    },
+    {
+      name: "Text on Dark",
+      variable: "--text-on-dark",
+      hex: "#FFFFFF",
+      textLight: false,
+    },
+    {
+      name: "Text on Light",
+      variable: "--text-on-light",
+      hex: "#0C0A09",
+      textLight: true,
+    },
+  ]}
+/>
+
 ## Tailwind Utilities
 
 All tokens are registered with Tailwind CSS v4 via `@theme`, so you can use them as utility classes:
@@ -161,6 +225,8 @@ All tokens are registered with Tailwind CSS v4 via `@theme`, so you can use them
 ```css
 /* Colors */
 bg-brand-turquoise
+bg-surface-dark
+text-text-on-dark
 text-neutral-500
 border-vermilion-600
 
@@ -175,6 +241,7 @@ You can also use the CSS custom properties directly:
 
 ```css
 color: var(--brand-vermilion);
+background-color: var(--surface-dark);
 background-color: var(--turquoise-200);
 font-family: var(--font-serif);
 ```

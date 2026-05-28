@@ -1,18 +1,14 @@
-import * as React from "react";
+import { SVGProps } from "react";
 
-const IconArrowRight = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>(
-  (props, ref) => (
+export function IconArrowRight(props: SVGProps<SVGSVGElement>) {
+  return (
     <svg
-      ref={ref}
-      viewBox="0 0 20 20"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 -960 960 960"
+      fill="currentColor"
       {...props}
     >
-      <path d="M11.6666 15L10.5 13.7917L13.4583 10.8333H3.33331V9.16667H13.4583L10.5 6.20833L11.6666 5L16.6666 10L11.6666 15Z" fill="currentColor"/>
+      <path d="m216-160-56-56 464-464H360v-80h400v400h-80v-264L216-160Z" />
     </svg>
-  ),
-);
-IconArrowRight.displayName = "IconArrowRight";
-
-export { IconArrowRight };
+  );
+}

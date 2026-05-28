@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 const cardBaseVariants = cva(
-  "flex flex-col overflow-hidden text-[var(--card-foreground)]",
+  "flex flex-col overflow-hidden text-card-foreground",
   {
     variants: {
       variant: {
-        default: "bg-[var(--card)]",
-        turquoise: "bg-[var(--brand-turquoise)] text-black",
-        vermilion: "bg-[var(--brand-vermilion)] text-black",
-        mint: "bg-[var(--brand-mint)] text-black",
-        parchment: "bg-[var(--brand-parchment)] text-black",
+        default: "bg-card",
+        turquoise: "bg-brand-turquoise text-brand-black",
+        vermilion: "bg-brand-vermilion text-brand-black",
+        mint: "bg-brand-mint text-brand-black",
+        parchment: "bg-brand-parchment text-brand-black",
         overlay:
-          "relative bg-gradient-to-b from-[var(--brand-black)]/0 to-[var(--brand-black)]/50 text-[var(--brand-white)]",
+          "relative bg-gradient-to-b from-brand-black/0 to-brand-black/50 text-brand-white",
       },
     },
     defaultVariants: {
@@ -44,7 +44,7 @@ const CardBaseHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col gap-2 p-6", className)}
+    className={cn("flex flex-col gap-s8 p-panel-pad", className)}
     {...props}
   />
 ));
@@ -81,7 +81,7 @@ const CardBaseContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  <div ref={ref} className={cn("p-panel-pad pt-0", className)} {...props} />
 ));
 CardBaseContent.displayName = "CardBaseContent";
 
@@ -91,7 +91,7 @@ const CardBaseFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn("flex items-center p-panel-pad pt-0", className)}
     {...props}
   />
 ));

@@ -9,8 +9,8 @@ const typographyVariants = cva("", {
       display:
         "scroll-m-20 font-serif font-medium text-5xl lg:text-[80px] leading-[0.95] tracking-[-0.03em]",
       h1: "scroll-m-20 font-serif font-medium text-7xl leading-[76px] tracking-[-0.03em]",
-      h2: "scroll-m-20 font-serif font-medium text-6xl leading-[60.80px] tracking-[-0.03em] first:mt-0",
-      h3: "scroll-m-20 font-serif font-medium text-5xl leading-[52.80px] tracking-[-0.03em]",
+      h2: "scroll-m-20 font-serif font-medium text-6xl leading-[64px] tracking-[-0.03em] first:mt-0",
+      h3: "scroll-m-20 font-serif font-medium text-5xl leading-[56px] tracking-[-0.03em]",
       h4: "scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em]",
       /** Hero intro heading — larger than h4, responsive */
       hero: "scroll-m-20 font-serif font-medium text-[28px] lg:text-[40px] leading-[1.1] tracking-[-0.03em]",
@@ -22,10 +22,10 @@ const typographyVariants = cva("", {
       small: "font-sans text-sm font-medium leading-5 tracking-[-0.02em]",
       /** De-emphasized text */
       muted:
-        "font-sans text-sm text-[var(--muted-foreground)] leading-5 tracking-[-0.02em]",
+        "font-sans text-sm text-muted-foreground leading-5 tracking-[-0.02em]",
       blockquote:
         "font-serif font-light text-4xl leading-10 tracking-[-0.02em]",
-      code: "relative rounded bg-[var(--muted)] px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      code: "relative bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
       /** Uppercased caption */
       label:
         "font-sans text-xs font-normal uppercase opacity-60 leading-4 tracking-[-0.02em]",

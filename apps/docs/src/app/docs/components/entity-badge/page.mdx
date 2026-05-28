@@ -1,0 +1,88 @@
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { CodeBlock } from "@/components/CodeBlock";
+import {
+  EntityBadge,
+  IconCommodity,
+  IconDate,
+  IconDimensions,
+  IconDocument,
+  IconOrganisation,
+  IconPerson,
+  IconPlace,
+  IconShip,
+} from "@globalise/design-system";
+
+# Entity Badge
+
+A reusable badge for marking entity types in transcription text, headers, and entity summaries.
+
+## Preview
+
+<ComponentPreview>
+  <div className="flex flex-wrap gap-3">
+    <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+      Ship
+    </EntityBadge>
+    <EntityBadge type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
+      Person
+    </EntityBadge>
+    <EntityBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+      Place
+    </EntityBadge>
+    <EntityBadge
+      type="commodity"
+      icon={<IconCommodity className="h-3.5 w-3.5" />}
+    >
+      Commodity
+    </EntityBadge>
+    <EntityBadge
+      type="dimensions"
+      icon={<IconDimensions className="h-3.5 w-3.5" />}
+    >
+      Dimensions
+    </EntityBadge>
+    <EntityBadge
+      type="organisation"
+      icon={<IconOrganisation className="h-3.5 w-3.5" />}
+    >
+      Organisation
+    </EntityBadge>
+    <EntityBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+      Date
+    </EntityBadge>
+    <EntityBadge
+      type="document"
+      icon={<IconDocument className="h-3.5 w-3.5" />}
+    >
+      Document
+    </EntityBadge>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { EntityBadge, IconShip } from "@globalise/design-system";
+
+<EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+  Ship
+</EntityBadge>`} />
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "type",
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
+      default: '"ship"',
+      description: "Entity type, determines badge color and outline style.",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description:
+        "Optional icon rendered before the label. Typically 14×14px.",
+    },
+  ]}
+/>

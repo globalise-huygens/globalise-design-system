@@ -1,6 +1,17 @@
 export { IconAdd } from "./IconAdd";
 export { IconArrowRight } from "./IconArrowRight";
 export { IconChevronDown } from "./IconChevronDown";
+export { IconShip } from "./IconShip";
 export { IconClose } from "./IconClose";
+export { IconCopy } from "./IconCopy";
+export { IconDownload } from "./IconDownload";
+export { IconExternalLink } from "./IconExternalLink";
 export { IconMenu } from "./IconMenu";
 export { IconSearch } from "./IconSearch";
+export { IconPerson } from "./IconPerson";
+export { IconPlace } from "./IconPlace";
+export { IconCommodity } from "./IconCommodity";
+export { IconDimensions } from "./IconDimensions";
+export { IconOrganisation } from "./IconOrganisation";
+export { IconDate } from "./IconDate";
+export { IconDocument } from "./IconDocument";

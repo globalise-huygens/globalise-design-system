@@ -15,8 +15,8 @@ const dividerVariants = cva(
         vertical: "w-0 self-stretch",
       },
       color: {
-        light: "outline-[var(--brand-white)]/50",
-        dark: "outline-[var(--brand-black)]/50",
+        light: "outline-brand-white/50",
+        dark: "outline-brand-black/50",
       },
     },
     defaultVariants: {

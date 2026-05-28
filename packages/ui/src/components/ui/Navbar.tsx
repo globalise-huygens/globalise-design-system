@@ -2,18 +2,16 @@
 
 import { IconClose } from "@/components/icons/IconClose";
 import { IconMenu } from "@/components/icons/IconMenu";
-import { IconSearch } from "@/components/icons/IconSearch";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import {
   Button as AriaButton,
-  Input as AriaInput,
-  Label as AriaLabel,
   Link as AriaLink,
-  SearchField as AriaSearchField,
   type LinkProps as AriaLinkProps,
+  SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps,
 } from "react-aria-components";
+import { SearchFieldContent } from "./SearchFieldContent";
 
 /* -------------------------------------------------------------------------- */
 /*  Internal type marker for mobile layout detection                          */
@@ -50,20 +48,12 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "hidden sm:flex flex-1 mx-4 lg:mx-8 h-12 max-w-96 items-center gap-2.5 bg-(--brand-white)/10 px-4 backdrop-blur-[20px]",
+          "hidden h-control max-w-[28rem] flex-1 items-center gap-s8 bg-brand-white/10 px-s16 backdrop-blur-[20px] sm:mx-s16 sm:flex lg:mx-panel-pad",
           className,
         )}
         {...props}
       >
-        <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
-        <IconSearch
-          className="h-5 w-5 shrink-0 text-(--brand-white)"
-          aria-hidden="true"
-        />
-        <AriaInput
-          placeholder={placeholder}
-          className="w-full bg-transparent text-sm font-medium text-(--brand-white) font-serif leading-3 opacity-50 placeholder:text-(--brand-white) placeholder:opacity-50 focus:opacity-100 focus:outline-none"
-        />
+        <SearchFieldContent ariaLabel={ariaLabel} placeholder={placeholder} />
       </AriaSearchField>
     );
   },
@@ -88,7 +78,7 @@ const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
     <AriaLink
       ref={ref}
       className={cn(
-        "text-sm font-medium leading-5 text-(--brand-white) transition-opacity hover:opacity-80",
+        "text-sm font-medium leading-5 text-brand-white transition-opacity hover:opacity-80",
         className,
       )}
       {...props}
@@ -109,7 +99,7 @@ const NavLinks = React.forwardRef<HTMLDivElement, NavLinksProps>(
     <div
       ref={ref}
       className={cn(
-        "hidden sm:flex shrink-0 items-center justify-end gap-4 sm:gap-10",
+        "hidden shrink-0 items-center justify-end gap-4 sm:flex sm:gap-10",
         className,
       )}
       {...props}
@@ -137,16 +127,16 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={ref}
         className={cn(
-          "relative flex flex-wrap h-auto sm:h-22 w-full max-w-[1440px] mx-auto items-center px-4 sm:px-8 py-4 sm:py-0",
+          "relative mx-auto flex h-auto w-full max-w-shell-max flex-wrap items-center px-shell-margin py-s16 sm:h-nav sm:py-0",
           className,
         )}
         {...props}
       >
         {/* Top bar: logo + mobile toggle */}
-        <div className="flex w-full sm:w-auto items-center justify-between shrink-0">
+        <div className="flex w-full shrink-0 items-center justify-between sm:w-auto">
           {logo && <div className="shrink-0">{logo}</div>}
           <AriaButton
-            className="sm:hidden flex h-10 w-10 items-center justify-center text-(--brand-white)"
+            className="flex h-control w-control items-center justify-center text-brand-white sm:hidden"
             onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -163,13 +153,13 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
         {/* Mobile expanded panel */}
         {mobileOpen && (
-          <div className="sm:hidden flex w-full flex-col gap-4 pt-4 pb-2">
+          <div className="flex w-full flex-col gap-row-gap pb-s8 pt-row-gap sm:hidden">
             {React.Children.map(children, (child) => {
               if (!React.isValidElement(child)) return null;
               const navType = getNavType(child);
               if (navType === "NavLinks") {
                 return (
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-row-gap">
                     {
                       (
                         child as React.ReactElement<{
@@ -185,7 +175,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
                   child as React.ReactElement<{ className?: string }>,
                   {
                     className: cn(
-                      "flex w-full max-w-none mx-0",
+                      "mx-0 flex w-full max-w-none",
                       (child as React.ReactElement<{ className?: string }>)
                         .props.className,
                     ),

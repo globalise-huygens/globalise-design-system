@@ -7,7 +7,7 @@ export interface SectionDividerProps extends React.HTMLAttributes<HTMLDivElement
 
 const SectionDivider = React.forwardRef<HTMLDivElement, SectionDividerProps>(
   ({ className, ...props }, ref) => (
-    <Container ref={ref} className={cn("my-[100px]", className)} {...props}>
+    <Container ref={ref} className={cn("my-[96px]", className)} {...props}>
       <Divider />
     </Container>
   ),

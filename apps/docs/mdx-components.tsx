@@ -37,7 +37,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <Typography
         variant="code"
         as="code"
-        className="bg-white/10 px-[0.4rem] py-[0.2rem] text-brand-turquoise rounded-none"
+        className="bg-white/10 px-[0.4rem] py-[0.2rem] text-brand-turquoise"
         {...props}
       />
     ),

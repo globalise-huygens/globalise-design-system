@@ -3,10 +3,10 @@ import * as React from "react";
 import {
   Button as AriaButton,
   Form as AriaForm,
+  type FormProps as AriaFormProps,
   Input as AriaInput,
   Label as AriaLabel,
   TextField as AriaTextField,
-  type FormProps as AriaFormProps,
 } from "react-aria-components";
 
 export interface NewsletterSignupProps extends Omit<
@@ -54,44 +54,51 @@ const NewsletterSignup = React.forwardRef<
         className={cn("flex flex-col gap-12", className)}
         {...props}
       >
-        <div className="max-w-180 flex flex-col gap-6">
-          <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-black">
-            {heading}
-          </h3>
-          <p className="font-sans text-base font-normal leading-6 tracking-[-0.02em] text-black">
-            {description}
-          </p>
+        <div className="grid grid-cols-1 gap-s24 md:grid-cols-10">
+          <div className="flex flex-col gap-s24 md:col-span-7 lg:col-span-6">
+            <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-brand-black">
+              {heading}
+            </h3>
+            <p className="font-sans text-base font-normal leading-6 tracking-[-0.02em] text-brand-black">
+              {description}
+            </p>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row overflow-hidden h-auto sm:h-84.25">
+        <div className="grid h-auto grid-cols-1 overflow-hidden md:grid-cols-10 md:min-h-[336px]">
           {image && (
-            <div className="relative w-full sm:w-119.75 h-48 sm:h-full shrink-0">
+            <div className="relative h-48 w-full shrink-0 md:col-span-5 md:h-full">
               {image}
             </div>
           )}
-          <div className="flex-1 px-8 py-12 sm:px-12 sm:py-16 bg-brand-turquoise flex flex-col gap-16">
-            <div className="h-4" />
+          <div
+            className={cn(
+              "bg-brand-turquoise px-8 py-12 sm:px-12 sm:py-16",
+              "grid grid-cols-12 gap-y-s32",
+              image ? "md:col-span-5" : "md:col-span-10",
+            )}
+          >
             <AriaTextField
               name={inputName}
               type="email"
               isRequired
               autoComplete="email"
-              className="py-3 border-b border-black flex justify-between items-center gap-4"
+              className="col-span-12 grid grid-cols-12 items-end gap-s16 border-b border-brand-black pb-s12"
             >
               <AriaLabel className="sr-only">Email address</AriaLabel>
               <AriaInput
                 placeholder={inputPlaceholder}
-                className="min-w-0 flex-1 bg-transparent text-black text-lg font-medium font-sans leading-6 placeholder:text-black/80 focus:outline-none"
+                className="col-span-8 min-w-0 bg-transparent text-brand-black text-lg font-medium font-sans leading-6 placeholder:text-brand-black/80 focus:outline-none"
               />
               <AriaButton
                 type="submit"
-                className="shrink-0 text-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
+                className="col-span-4 justify-self-end text-brand-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
               >
                 {submitLabel}
               </AriaButton>
             </AriaTextField>
             {privacyText && (
-              <span className="text-black text-sm font-normal font-sans leading-5">
+              <span className="col-span-12 text-brand-black text-sm font-normal font-sans leading-5 md:col-span-9">
                 {privacyText}
               </span>
             )}

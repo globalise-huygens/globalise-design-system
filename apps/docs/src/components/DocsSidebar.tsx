@@ -18,6 +18,7 @@ const navigation = [
     items: [
       { title: "Button", href: "/docs/components/button" },
       { title: "Typography", href: "/docs/components/typography" },
+      { title: "Layout Patterns", href: "/docs/components/layout-patterns" },
       { title: "Container", href: "/docs/components/container" },
       { title: "Grid", href: "/docs/components/grid" },
       { title: "Divider", href: "/docs/components/divider" },
@@ -29,6 +30,16 @@ const navigation = [
       { title: "Card Hero", href: "/docs/components/card-hero" },
       { title: "Card Featured", href: "/docs/components/card-featured" },
       { title: "Card Glance", href: "/docs/components/card-glance" },
+      { title: "Entity Badge", href: "/docs/components/entity-badge" },
+      { title: "Object Card", href: "/docs/components/object-card" },
+      {
+        title: "Object Card Overlay",
+        href: "/docs/components/object-card-overlay",
+      },
+      {
+        title: "Object Card References Panel",
+        href: "/docs/components/object-card-references-panel",
+      },
       {
         title: "Newsletter Signup",
         href: "/docs/components/newsletter-signup",
@@ -56,8 +67,8 @@ function SidebarLink({
       href={href}
       onClick={onClick}
       className={cn(
-        "block py-1.5 text-sm font-sans transition-colors hover:text-white",
-        isActive ? "text-brand-turquoise font-medium" : "text-white/50",
+        "block py-s8 text-sm font-sans transition-colors hover:text-brand-white",
+        isActive ? "text-brand-turquoise font-medium" : "text-brand-white/50",
       )}
     >
       {children}
@@ -70,7 +81,7 @@ function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
     <nav className="flex flex-col gap-6">
       {navigation.map((group) => (
         <div key={group.title}>
-          <h4 className="mb-2 text-xs font-sans font-semibold uppercase tracking-wider text-white/30">
+          <h4 className="mb-2 text-xs font-sans font-semibold uppercase tracking-wider text-brand-white/30">
             {group.title}
           </h4>
           <div className="flex flex-col">
@@ -105,32 +116,32 @@ export function DocsSidebar() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-black shadow-lg"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-s12 text-sm font-sans font-medium text-brand-black shadow-lg lg:hidden"
         aria-label="Open navigation"
       >
-        <IconMenu className="w-4 h-4" />
+        <IconMenu className="h-4 w-4" />
         Menu
       </button>
 
       {/* Mobile overlay */}
       {open && (
-        <div className="lg:hidden fixed inset-0 z-50">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-brand-black/60"
             onClick={() => setOpen(false)}
           />
-          <aside className="absolute inset-y-0 left-0 w-72 bg-neutral-950 border-r border-white/10 overflow-y-auto p-6">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-white/50">
+          <aside className="absolute inset-y-0 left-0 w-72 overflow-y-auto border-r border-brand-white/10 bg-brand-black p-6">
+            <div className="mb-6 flex items-center justify-between">
+              <span className="text-xs font-sans font-semibold uppercase tracking-wider text-brand-white/50">
                 Documentation
               </span>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="text-white/50 hover:text-white"
+                className="text-brand-white/50 hover:text-brand-white"
                 aria-label="Close navigation"
               >
-                <IconClose className="w-5 h-5" />
+                <IconClose className="h-5 w-5" />
               </button>
             </div>
             <SidebarNav onNavigate={() => setOpen(false)} />
@@ -139,7 +150,7 @@ export function DocsSidebar() {
       )}
 
       {/* Desktop sidebar */}
-      <aside className="sticky top-20 hidden lg:block w-64 shrink-0 h-[calc(100vh-5rem)] overflow-y-auto pb-12 pr-8">
+      <aside className="sticky top-[calc(var(--nav)+var(--section-gap))] hidden w-full max-h-[calc(100dvh-var(--nav)-var(--section-gap)-var(--s32))] overflow-y-auto pb-12 pr-section-gap lg:block">
         <SidebarNav />
       </aside>
     </>

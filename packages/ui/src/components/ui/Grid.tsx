@@ -4,16 +4,19 @@ import * as React from "react";
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * 12-column layout grid matching the Figma grid system:
- * 12 columns · stretch · auto width · 0 margin · 0 gutter
- *
- * At max-width 1440px each column is 120px.
- * Most content is placed in columns 2–11 (use `Container` for that).
- * Full-bleed content spans all 12 columns.
+ * Shell grid primitive using the shared responsive contract:
+ * 4 columns (mobile) → 8 (tablet) → 16 (desktop).
  */
 const Grid = React.forwardRef<HTMLDivElement, GridProps>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("grid grid-cols-12", className)} {...props} />
+    <div
+      ref={ref}
+      className={cn(
+        "grid w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] gap-x-shell-gutter",
+        className,
+      )}
+      {...props}
+    />
   ),
 );
 Grid.displayName = "Grid";

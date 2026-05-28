@@ -7,10 +7,10 @@ import { IconArrowRight } from "../icons/IconArrowRight";
 const cardHeroVariants = cva("", {
   variants: {
     hoverColor: {
-      turquoise: "bg-[var(--brand-turquoise)]",
-      vermilion: "bg-[var(--brand-vermilion)]",
-      mint: "bg-[var(--brand-mint)]",
-      parchment: "bg-[var(--brand-parchment)]",
+      turquoise: "bg-brand-turquoise",
+      vermilion: "bg-brand-vermilion",
+      mint: "bg-brand-mint",
+      parchment: "bg-brand-parchment",
     },
   },
   defaultVariants: {
@@ -40,7 +40,7 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
   const href = "href" in props ? props.href : undefined;
   const [touched, setTouched] = React.useState(false);
   const sharedClassName = cn(
-    "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-black)]",
+    "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-black",
     className,
   );
 
@@ -66,14 +66,17 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
         )}
       >
         <div className="flex flex-col gap-2">
-          <span className="text-xs text-black/60 leading-tight font-sans">
+          <span className="text-xs text-brand-black/60 leading-tight font-sans">
             {label}
           </span>
-          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-black whitespace-pre-line">
+          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-brand-black whitespace-pre-line">
             {title}
           </span>
         </div>
-        <IconArrowRight className="h-5 w-5 text-black" aria-hidden="true" />
+        <IconArrowRight
+          className="h-5 w-5 text-brand-black"
+          aria-hidden="true"
+        />
       </div>
     </>
   );
