@@ -14,9 +14,6 @@ import {
   Typography,
 } from "@globalise/design-system";
 
-const basePath =
-  process.env.NODE_ENV === "production" ? "/globalise-design-system" : "";
-
 export default function HomePage() {
   return (
     <>

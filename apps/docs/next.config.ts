@@ -7,6 +7,7 @@ const isProd = process.env.NODE_ENV === "production";
 const nextConfig: NextConfig = {
   output: "export",
   basePath: isProd ? "/globalise-design-system" : "",
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },

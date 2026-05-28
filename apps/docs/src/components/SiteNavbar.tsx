@@ -8,10 +8,8 @@ import {
   NavLinks,
   NavSearchBar,
 } from "@globalise/design-system";
+import Link from "next/link";
 import React from "react";
-
-const basePath =
-  process.env.NODE_ENV === "production" ? "/globalise-design-system" : "";
 
 export function SiteNavbar() {
   return (
@@ -21,19 +19,17 @@ export function SiteNavbar() {
           <Navbar
             className="max-w-none px-0"
             logo={
-              <a href={basePath || "/"}>
+              <Link href="/" aria-label="Globalise Design System home">
                 <LogoNavbar className="h-8 w-auto" />
-              </a>
+              </Link>
             }
           >
             <NavSearchBar placeholder="Search the archive" />
             <NavLinks>
-              <NavLink href={`${basePath}/docs/getting-started`}>Docs</NavLink>
-              <NavLink href={`${basePath}/docs/components/button`}>
-                Components
-              </NavLink>
-              <NavLink href={`${basePath}/docs/tokens`}>Tokens</NavLink>
-              <NavLink href={`${basePath}/example`}>Example</NavLink>
+              <NavLink href="/docs/getting-started">Docs</NavLink>
+              <NavLink href="/docs/components/button">Components</NavLink>
+              <NavLink href="/docs/tokens">Tokens</NavLink>
+              <NavLink href="/example">Example</NavLink>
             </NavLinks>
           </Navbar>
         </div>
