@@ -3,12 +3,11 @@
 import { IconArrowRight } from "@/components/icons/IconArrowRight";
 import { cn } from "@/lib/utils";
 import * as React from "react";
-import { Link as AriaLink } from "react-aria-components";
 import {
-  ObjectCardPanel,
-  type ObjectCardPanelProps,
-  ObjectCardSection,
-} from "./ObjectCard";
+  Heading as AriaHeading,
+  Link as AriaLink,
+} from "react-aria-components";
+import { ObjectCardPanel, type ObjectCardPanelProps } from "./ObjectCard";
 
 export interface ObjectCardReferenceItemProps {
   image?: React.ReactNode;
@@ -97,17 +96,28 @@ function ObjectCardReferencesPanel({
   ...props
 }: ObjectCardReferencesPanelProps) {
   const hasReferences = references && references.length > 0;
+  const headingId = React.useId();
 
   return (
     <ObjectCardPanel side="right" className={className} {...props}>
-      <ObjectCardSection title={title}>
+      <section
+        aria-labelledby={headingId}
+        className="flex min-h-0 flex-1 flex-col gap-row-gap"
+      >
+        <AriaHeading
+          id={headingId}
+          level={3}
+          className="sticky top-0 z-20 -mx-panel-pad -mt-panel-pad bg-neutral-800 px-panel-pad pb-row-gap pt-panel-pad font-serif text-lg font-medium leading-5 text-brand-white"
+        >
+          {title}
+        </AriaHeading>
         {children}
         {hasReferences
           ? references.map((reference, index) => (
               <ObjectCardReferenceItem key={index} {...reference} />
             ))
           : !children && emptyState}
-      </ObjectCardSection>
+      </section>
     </ObjectCardPanel>
   );
 }

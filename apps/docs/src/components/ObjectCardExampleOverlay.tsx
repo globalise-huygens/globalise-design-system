@@ -81,7 +81,10 @@ export function ObjectCardExampleOverlay() {
         onOpenChange={setIsOpen}
         contentClassName="slot-content-band"
       >
-        <PrinsEugeniusObjectCard onClose={() => setIsOpen(false)} />
+        <PrinsEugeniusObjectCard
+          className="max-w-none"
+          onClose={() => setIsOpen(false)}
+        />
       </ObjectCardOverlay>
     </>
   );

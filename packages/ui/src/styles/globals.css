@@ -189,14 +189,13 @@
     --overlay-object-card-inset-x: var(--s32);
     --overlay-object-card-inset-top: var(--s64);
     --overlay-object-card-inset-bottom: var(--s32);
-    --overlay-object-card-frame-max-width: var(--card-max);
+    --overlay-object-card-frame-max-width: var(--shell-inner);
     --overlay-object-card-frame-width: min(
       calc(100vw - (var(--overlay-object-card-inset-x) * 2)),
       var(--overlay-object-card-frame-max-width)
     );
     --overlay-object-card-frame-height: calc(
-      100vh - var(--overlay-object-card-inset-top) -
-        var(--overlay-object-card-inset-bottom)
+      100vh - var(--overlay-object-card-inset-top)
     );
 
     /* ── Font families ─────────────────────────────── */

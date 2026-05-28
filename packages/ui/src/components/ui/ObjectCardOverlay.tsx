@@ -43,25 +43,22 @@ const ObjectCardOverlay = React.forwardRef<
         isOpen={isOpen}
         isDismissable={isDismissable}
         className={cn(
-          "fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-brand-black/80 backdrop-blur-[2px]",
+          "fixed inset-0 z-50 overflow-hidden overscroll-none bg-brand-black/80 backdrop-blur-[2px]",
           className,
         )}
         {...props}
       >
         <AriaModal
           className={cn(
-            "flex min-h-full w-full items-start justify-center overflow-y-auto px-overlay-object-card-inset-x pb-overlay-object-card-inset-bottom pt-overlay-object-card-inset-top",
+            "flex h-full w-full items-end justify-center overflow-hidden px-overlay-object-card-inset-x pb-0 pt-overlay-object-card-inset-top",
             modalClassName,
           )}
         >
           <div className="flex h-overlay-object-card-frame-height w-overlay-object-card-frame-width max-w-overlay-object-card-frame-max-width min-h-0 items-stretch justify-center overflow-hidden">
-            <div
-              className={cn(
-                "grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center",
-                contentClassName,
-              )}
-            >
-              {children}
+            <div className="grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center">
+              <div className={cn("min-h-0 w-full", contentClassName)}>
+                {children}
+              </div>
             </div>
           </div>
         </AriaModal>

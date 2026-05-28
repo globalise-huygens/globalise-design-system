@@ -30,8 +30,8 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "isolate flex min-h-0 w-full max-w-card-max flex-col overflow-hidden bg-neutral-800 outline-none",
-        "h-auto max-h-none lg:inline-flex",
+        "isolate flex min-h-0 w-full max-w-full flex-col overflow-hidden bg-neutral-800 outline-none",
+        "h-full max-h-full lg:inline-flex",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
       )}
@@ -134,7 +134,7 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
     <div
       className={cn(
-        "grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-10 lg:overflow-hidden",
+        "grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-10",
         className,
       )}
     >
@@ -144,12 +144,12 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
 }
 
 const objectCardPanelVariants = cva(
-  "flex w-full flex-col lg:min-h-0 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
+  "flex min-h-0 w-full flex-col overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]",
   {
     variants: {
       side: {
-        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 p-panel-pad lg:col-span-5 lg:border-b-0 lg:border-r lg:overflow-y-auto",
-        right: "bg-neutral-800 p-panel-pad lg:col-span-5 lg:overflow-y-auto",
+        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-5 lg:border-b-0 lg:border-r",
+        right: "bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-5",
       },
     },
     defaultVariants: {
@@ -175,6 +175,7 @@ function ObjectCardPanel({ className, side, ...props }: ObjectCardPanelProps) {
 export interface ObjectCardSectionProps {
   title?: string;
   scrollable?: boolean;
+  sticky?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -182,6 +183,7 @@ export interface ObjectCardSectionProps {
 function ObjectCardSection({
   title,
   scrollable,
+  sticky,
   className,
   children,
 }: ObjectCardSectionProps) {
@@ -189,7 +191,12 @@ function ObjectCardSection({
   return (
     <Group
       aria-labelledby={title ? headingId : undefined}
-      className={cn("flex flex-col gap-row-gap", className)}
+      className={cn(
+        "flex flex-col gap-row-gap",
+        sticky &&
+          "sticky top-0 z-20 -mx-panel-pad -mt-panel-pad bg-neutral-800 px-panel-pad pb-row-gap pt-panel-pad",
+        className,
+      )}
     >
       {title && (
         <AriaHeading
@@ -200,13 +207,7 @@ function ObjectCardSection({
           {title}
         </AriaHeading>
       )}
-      {scrollable ? (
-        <div className="lg:max-h-72 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]">
-          {children}
-        </div>
-      ) : (
-        children
-      )}
+      {scrollable ? <div className="min-h-0">{children}</div> : children}
     </Group>
   );
 }
@@ -223,11 +224,16 @@ function ObjectCardProperty({
   className,
 }: ObjectCardPropertyProps) {
   return (
-    <div className={cn("flex items-center justify-between", className)}>
+    <div
+      className={cn(
+        "grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-x-s24",
+        className,
+      )}
+    >
       <dt className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
         {label}
       </dt>
-      <dd className="min-w-0 flex-1 truncate text-right font-sans text-sm font-medium leading-5 text-brand-white">
+      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-5 text-brand-white">
         {value}
       </dd>
     </div>

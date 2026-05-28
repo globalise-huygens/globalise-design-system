@@ -118,6 +118,54 @@ const references: ObjectCardReference[] = [
     href: "#",
     image: <ManuscriptScan />,
   },
+  {
+    title: "1765 · 0012 · p.91",
+    snippet:
+      "de goederen op de prins Eugenius zijn in goede staat te Batavia aangekomen...",
+    archiveId: "NL-HaNA 1.04.02 · 10071",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
+  {
+    title: "1765 · 0012 · p.92",
+    snippet:
+      "met het schip prins Eugenius zijn diverse kisten zijde overgebracht...",
+    archiveId: "NL-HaNA 1.04.02 · 10071",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
+  {
+    title: "1766 · 0027 · p.11",
+    snippet:
+      "rapport van de equipage omtrent schade aan mast en tuigage op zee...",
+    archiveId: "NL-HaNA 1.04.02 · 10073",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
+  {
+    title: "1766 · 0027 · p.12",
+    snippet:
+      "de kamer Amsterdam verzoekt nadere opgave van lading en bemanning...",
+    archiveId: "NL-HaNA 1.04.02 · 10073",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
+  {
+    title: "1767 · 0048 · p.203",
+    snippet:
+      "uittreksel betreffende de reis van Texel naar Batavia met vertraging...",
+    archiveId: "NL-HaNA 1.04.02 · 10076",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
+  {
+    title: "1767 · 0048 · p.204",
+    snippet:
+      "verklaring van de stuurman over verlies van proviand gedurende storm...",
+    archiveId: "NL-HaNA 1.04.02 · 10076",
+    href: "#",
+    image: <ManuscriptScan />,
+  },
 ];
 
 export interface PrinsEugeniusObjectCardProps {
@@ -151,7 +199,7 @@ export function PrinsEugeniusObjectCard({
 
       <ObjectCardBody>
         <ObjectCardPanel side="left">
-          <ObjectCardSection>
+          <ObjectCardSection sticky>
             <ObjectCardPropertyList>
               <ObjectCardProperty label="Built" value="1703, Amsterdam" />
               <ObjectCardProperty label="Laid up" value="1727, Batavia" />
