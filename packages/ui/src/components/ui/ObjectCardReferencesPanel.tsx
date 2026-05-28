@@ -28,19 +28,19 @@ function ObjectCardReferenceItem({
   href,
 }: ObjectCardReferenceItemProps) {
   return (
-    <div className={cn("border-b border-brand-white/20 py-3", className)}>
-      <div className="flex items-center gap-3">
-        <div className="flex flex-1 items-center gap-3">
+    <div className={cn("border-b border-brand-white/20 py-s12", className)}>
+      <div className="flex items-center gap-s12">
+        <div className="flex flex-1 items-center gap-s12">
           {image && (
-            <div className="h-20 w-20 shrink-0 overflow-hidden">{image}</div>
+            <div className="h-s80 w-s80 shrink-0 overflow-hidden">{image}</div>
           )}
-          <div className="flex flex-1 flex-col gap-1">
+          <div className="flex flex-1 flex-col gap-s4">
             <span className="font-serif text-sm font-medium leading-4 text-brand-white">
               {title}
             </span>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-s4">
               {snippet && (
-                <div className="bg-neutral-700 px-2 py-1">
+                <div className="bg-neutral-700 px-s8 py-s4">
                   <div className="line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200">
                     {snippet}
                   </div>

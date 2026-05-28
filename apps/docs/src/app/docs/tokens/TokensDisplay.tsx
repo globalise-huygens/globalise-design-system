@@ -51,7 +51,7 @@ export function ColorScale({
         {colors.map((color) => (
           <div key={color.step} className="flex-1 flex flex-col">
             <div className="h-12" style={{ backgroundColor: color.hex }} />
-            <div className="bg-neutral-900 px-1 py-1.5 text-center">
+            <div className="bg-neutral-900 px-1 py-1 text-center">
               <span className="text-[10px] font-mono text-brand-white/50 block">
                 {color.step}
               </span>

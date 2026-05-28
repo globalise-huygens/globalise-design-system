@@ -154,6 +154,37 @@ The design system uses two font families.
 
 <FontPreview />
 
+## Spacing & Layout Tokens
+
+Spacing follows a 4px base scale with an 8px major rhythm. Use these defaults to keep pages consistent.
+
+| Token             | Value | Default use                                                            | Avoid                                 |
+| ----------------- | ----- | ---------------------------------------------------------------------- | ------------------------------------- |
+| `--s4`            | 4px   | Fine visual nudges inside components                                   | Primary layout spacing                |
+| `--s8`            | 8px   | Tight inline spacing and icon/text pairs                               | Section-level spacing                 |
+| `--s12`           | 12px  | `--row-gap` for compact rows                                           | Outer page layout rhythm              |
+| `--s16`           | 16px  | `--shell-margin`, `--shell-gutter`, compact card gutters               | Main section spacing                  |
+| `--s24`           | 24px  | `--section-gap`, `--panel-pad`, `--card-margin`, major in-section gaps | Micro spacing between inline elements |
+| `--s32`           | 32px  | Larger block transitions and overlay insets                            | Standard row spacing                  |
+| `--s48` and above | 48px+ | Hero-scale separation only                                             | Default for repeated component gaps   |
+
+### Layout spacing hierarchy
+
+| Layer                               | Token default             |
+| ----------------------------------- | ------------------------- |
+| Page horizontal inset               | `--shell-margin` (`16px`) |
+| Grid column gutter                  | `--shell-gutter` (`16px`) |
+| Section-to-section rhythm           | `--section-gap` (`24px`)  |
+| Major spacing inside sections       | `--s24`                   |
+| Tight row spacing inside components | `--row-gap` (`12px`)      |
+| Panel/card internal padding         | `--panel-pad` (`24px`)    |
+
+### Composition rule for margins and padding
+
+- Prefer `gap-*` for spacing between siblings.
+- Prefer component-owned `padding` (`--panel-pad`, card margins) for internal breathing room.
+- Add explicit `mt-s24` only when section spacing plus `gap-*` does not satisfy a transition.
+
 ## Semantic Tokens
 
 Brand tokens define the palette. Semantic tokens define how that palette is applied to surfaces and text.

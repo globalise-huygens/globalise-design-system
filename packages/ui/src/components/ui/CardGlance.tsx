@@ -5,7 +5,7 @@ import { Link as AriaLink } from "react-aria-components";
 import { Button } from "./Button";
 
 const cardGlanceVariants = cva(
-  "flex flex-col justify-between p-6 flex-1 min-w-0",
+  "flex flex-1 min-w-0 flex-col justify-between p-panel-pad",
   {
     variants: {
       color: {
@@ -46,7 +46,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
     const href = "href" in props ? props.href : undefined;
     const content = (
       <>
-        <div className="flex flex-col gap-2 min-h-[6rem]">
+        <div className="flex min-h-[6rem] flex-col gap-s8">
           <span className="font-serif font-medium text-3xl sm:text-4xl leading-tight">
             {heading}
           </span>
@@ -54,12 +54,12 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
             {subtitle}
           </span>
         </div>
-        <div className="flex-1 mt-6">
+        <div className="mt-s24 flex-1">
           <span className="text-xs font-medium font-sans leading-4">
             {description}
           </span>
         </div>
-        <div className="mt-6">
+        <div className="mt-s24">
           <Button
             variant="link"
             as="span"

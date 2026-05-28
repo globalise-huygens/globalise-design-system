@@ -9,8 +9,8 @@ const typographyVariants = cva("", {
       display:
         "scroll-m-20 font-serif font-medium text-5xl lg:text-[80px] leading-[0.95] tracking-[-0.03em]",
       h1: "scroll-m-20 font-serif font-medium text-7xl leading-[76px] tracking-[-0.03em]",
-      h2: "scroll-m-20 font-serif font-medium text-6xl leading-[60.80px] tracking-[-0.03em] first:mt-0",
-      h3: "scroll-m-20 font-serif font-medium text-5xl leading-[52.80px] tracking-[-0.03em]",
+      h2: "scroll-m-20 font-serif font-medium text-6xl leading-[64px] tracking-[-0.03em] first:mt-0",
+      h3: "scroll-m-20 font-serif font-medium text-5xl leading-[56px] tracking-[-0.03em]",
       h4: "scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em]",
       /** Hero intro heading — larger than h4, responsive */
       hero: "scroll-m-20 font-serif font-medium text-[28px] lg:text-[40px] leading-[1.1] tracking-[-0.03em]",

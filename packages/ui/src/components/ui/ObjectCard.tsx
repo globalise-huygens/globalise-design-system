@@ -30,7 +30,7 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
     <AriaDialog
       ref={ref}
       className={cn(
-        "isolate flex min-h-0 w-full max-w-layout-object-card-max-width flex-col overflow-hidden bg-neutral-800 outline-none",
+        "isolate flex min-h-0 w-full max-w-card-max flex-col overflow-hidden bg-neutral-800 outline-none",
         "h-auto max-h-none lg:inline-flex",
         "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
         className,
@@ -71,7 +71,7 @@ function ObjectCardHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-10 flex shrink-0 flex-col gap-layout-row-gap border-b border-brand-white/20 bg-neutral-800 px-layout-panel-padding py-layout-panel-padding",
+        "sticky top-0 z-10 flex shrink-0 flex-col gap-row-gap border-b border-brand-white/20 bg-neutral-800 px-panel-pad py-panel-pad",
         className,
       )}
     >
@@ -80,7 +80,7 @@ function ObjectCardHeader({
         <AriaButton
           onPress={onClose}
           aria-label="Close"
-          className="absolute right-layout-panel-padding top-layout-panel-padding flex h-layout-shell-icon-button w-layout-shell-icon-button items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
+          className="absolute right-panel-pad top-panel-pad flex h-control w-control items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
         >
           <IconClose className="h-3.5 w-3.5" />
         </AriaButton>
@@ -134,7 +134,7 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
     <div
       className={cn(
-        "flex min-h-0 flex-1 flex-col overflow-y-auto lg:flex-row lg:overflow-hidden",
+        "grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:grid-cols-10 lg:overflow-hidden",
         className,
       )}
     >
@@ -144,13 +144,12 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
 }
 
 const objectCardPanelVariants = cva(
-  "flex flex-none flex-col lg:min-h-0 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
+  "flex w-full flex-col lg:min-h-0 lg:overflow-y-auto lg:[scrollbar-width:thin] lg:[scrollbar-color:var(--neutral-500)_transparent]",
   {
     variants: {
       side: {
-        left: "w-full gap-layout-section border-b border-neutral-700 bg-neutral-800 p-layout-panel-padding lg:w-1/2 lg:border-b-0 lg:border-r lg:overflow-y-auto",
-        right:
-          "flex-1 bg-neutral-800 p-layout-panel-padding lg:overflow-y-auto",
+        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 p-panel-pad lg:col-span-5 lg:border-b-0 lg:border-r lg:overflow-y-auto",
+        right: "bg-neutral-800 p-panel-pad lg:col-span-5 lg:overflow-y-auto",
       },
     },
     defaultVariants: {
@@ -190,7 +189,7 @@ function ObjectCardSection({
   return (
     <Group
       aria-labelledby={title ? headingId : undefined}
-      className={cn("flex flex-col gap-layout-row-gap", className)}
+      className={cn("flex flex-col gap-row-gap", className)}
     >
       {title && (
         <AriaHeading
@@ -243,10 +242,7 @@ function ObjectCardPropertyList({
   ...props
 }: ObjectCardPropertyListProps) {
   return (
-    <dl
-      className={cn("flex flex-col gap-layout-row-gap", className)}
-      {...props}
-    />
+    <dl className={cn("flex flex-col gap-row-gap", className)} {...props} />
   );
 }
 
@@ -298,14 +294,14 @@ function ObjectCardListItem({
   children,
 }: ObjectCardListItemProps) {
   const classes = cn(
-    "group relative flex flex-col gap-2 overflow-hidden bg-neutral-700 px-3 py-4 transition-colors duration-200 group-data-hovered:bg-neutral-600",
+    "group relative flex flex-col gap-s8 overflow-hidden bg-neutral-700 px-s12 py-s16 transition-colors duration-200 group-data-hovered:bg-neutral-600",
     className,
   );
 
   if (href) {
     return (
       <AriaLink href={href} className={classes}>
-        <IconArrowRight className="absolute right-2.5 top-2.5 h-3 w-3 text-neutral-500" />
+        <IconArrowRight className="absolute right-s8 top-s8 h-s12 w-s12 text-neutral-500" />
         {children}
       </AriaLink>
     );
@@ -321,9 +317,9 @@ export interface ObjectCardFooterProps {
 
 function ObjectCardFooter({ className, children }: ObjectCardFooterProps) {
   return (
-    <div className={cn("flex flex-col gap-layout-section", className)}>
+    <div className={cn("flex flex-col gap-section-gap", className)}>
       <AriaSeparator className="border-0 outline outline-neutral-700 outline-offset-[-0.50px]" />
-      <div className="flex items-start gap-layout-section">{children}</div>
+      <div className="flex items-start gap-section-gap">{children}</div>
     </div>
   );
 }

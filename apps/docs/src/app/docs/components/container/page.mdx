@@ -5,13 +5,15 @@ import { Container, Grid } from "@globalise/design-system";
 
 # Container
 
-Applies the shared page width and page margins for the standard content band inside the 16-column layout shell. Use it when you want the default centered content width without explicit column placement.
+Applies shared horizontal structure (max width + insets) without requiring explicit grid-column placement. Use it when you want predictable centered content quickly.
+
+You still need `Container` for simple wrappers and single-column sections. Use `Grid` when you need explicit multi-column slot placement.
 
 ## Preview
 
 <ComponentPreview>
   <div className="relative w-full">
-    <Grid className="pointer-events-none absolute inset-0 w-full px-layout-page-margin-mobile lg:px-layout-page-margin">
+    <Grid className="pointer-events-none absolute inset-0 w-full px-shell-margin">
       {Array.from({ length: 16 }).map((_, i) => (
         <div
           key={i}
@@ -36,6 +38,15 @@ Applies the shared page width and page margins for the standard content band ins
   <p>Automatically inset by the shared page margins.</p>
 </Container>`} />
 
+### Size presets
+
+<CodeBlock
+  code={`<Container size="shell">Default page shell width</Container>
+<Container size="content">Narrower content width</Container>
+<Container size="narrow">Sidebar-like narrow width</Container>
+<Container size="full" inset="none">No max width, no side inset</Container>`}
+/>
+
 ## Responsive padding
 
 Container uses the shared page-margin tokens:
@@ -47,10 +58,47 @@ Container uses the shared page-margin tokens:
 
 At the page max width, that aligns Container with the same centered content band used by the 16-column grid.
 
+## Container vs Grid decision
+
+Use this table as the default rule:
+
+| Use `Container` when...                                  | Use `Grid` when...                                                       |
+| -------------------------------------------------------- | ------------------------------------------------------------------------ |
+| You need a centered single-column wrapper                | You need explicit column placement                                       |
+| Section content is mostly linear (text, CTA, form stack) | You have multiple regions (main + side, asymmetric cards, rails)         |
+| You want width/inset consistency without slot logic      | You need named slot composition (`slot-content-band`, `slot-right-rail`) |
+
+## Interaction rules with Section and Grid
+
+| Pattern                  | Recommendation                                      |
+| ------------------------ | --------------------------------------------------- |
+| `Section` -> `Container` | Preferred for simple blocks                         |
+| `Section` -> `Grid`      | Preferred for multi-region layouts                  |
+| `Section withContainer`  | Preferred when Section should own wrapping directly |
+| `Grid` -> `Container`    | Avoid by default (double wrapping)                  |
+
+### Do / do not
+
+- Do use one outer horizontal wrapper per section (`Container` or `Grid`, not both).
+- Do keep spacing between direct children on tokens (`gap-s24` for major blocks, `gap-s12` for tight groups).
+- Do not add extra horizontal padding classes on `Container` children to compensate for layout; change `size` or `inset` instead.
+
 ## Props
 
 <PropsTable
   props={[
+    {
+      name: "size",
+      type: '"shell" | "content" | "narrow" | "full"',
+      default: '"shell"',
+      description: "Container width preset for different composition contexts.",
+    },
+    {
+      name: "inset",
+      type: '"page" | "none"',
+      default: '"page"',
+      description: "Horizontal inset behavior using shared page-margin tokens.",
+    },
     {
       name: "className",
       type: "string",

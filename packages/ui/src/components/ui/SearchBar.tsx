@@ -10,7 +10,7 @@ import {
 import { IconSearch } from "../icons/IconSearch";
 
 const searchBarVariants = cva(
-  "flex items-center gap-layout-tight px-layout-default backdrop-blur-[20px]",
+  "flex items-center gap-s8 px-s16 backdrop-blur-[20px]",
   {
     variants: {
       variant: {
@@ -19,9 +19,9 @@ const searchBarVariants = cva(
         solid: "bg-brand-white/20",
       },
       size: {
-        default: "h-layout-structural",
-        sm: "h-layout-control",
-        lg: "h-layout-nav",
+        default: "h-rail",
+        sm: "h-control",
+        lg: "h-nav",
       },
     },
     defaultVariants: {

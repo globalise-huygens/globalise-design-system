@@ -50,7 +50,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         ref={ref}
         aria-label={ariaLabel}
         className={cn(
-          "hidden h-layout-shell-icon-button max-w-[28rem] flex-1 items-center gap-layout-tight bg-brand-white/10 px-layout-default backdrop-blur-[20px] sm:mx-layout-default sm:flex lg:mx-layout-panel-padding",
+          "hidden h-control max-w-[28rem] flex-1 items-center gap-s8 bg-brand-white/10 px-s16 backdrop-blur-[20px] sm:mx-s16 sm:flex lg:mx-panel-pad",
           className,
         )}
         {...props}
@@ -137,7 +137,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
       <nav
         ref={ref}
         className={cn(
-          "relative mx-auto flex h-auto w-full max-w-layout-page-max-width flex-wrap items-center px-layout-page-margin-mobile py-layout-default sm:h-layout-shell-nav-height sm:px-layout-page-margin sm:py-0",
+          "relative mx-auto flex h-auto w-full max-w-shell-max flex-wrap items-center px-shell-margin py-s16 sm:h-nav sm:py-0",
           className,
         )}
         {...props}
@@ -146,7 +146,7 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
         <div className="flex w-full shrink-0 items-center justify-between sm:w-auto">
           {logo && <div className="shrink-0">{logo}</div>}
           <AriaButton
-            className="flex h-layout-shell-icon-button w-layout-shell-icon-button items-center justify-center text-brand-white sm:hidden"
+            className="flex h-control w-control items-center justify-center text-brand-white sm:hidden"
             onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -163,13 +163,13 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
         {/* Mobile expanded panel */}
         {mobileOpen && (
-          <div className="flex w-full flex-col gap-layout-row-gap pb-layout-tight pt-layout-row-gap sm:hidden">
+          <div className="flex w-full flex-col gap-row-gap pb-s8 pt-row-gap sm:hidden">
             {React.Children.map(children, (child) => {
               if (!React.isValidElement(child)) return null;
               const navType = getNavType(child);
               if (navType === "NavLinks") {
                 return (
-                  <div className="flex flex-col gap-layout-row-gap">
+                  <div className="flex flex-col gap-row-gap">
                     {
                       (
                         child as React.ReactElement<{

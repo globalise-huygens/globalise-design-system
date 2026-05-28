@@ -39,7 +39,7 @@ export function HomeFeatured() {
     <CardFeatured
       items={featuredItems}
       defaultExpanded={0}
-      className="min-h-75 lg:min-h-100"
+      className="min-h-76 lg:min-h-100"
     />
   );
 }

@@ -18,6 +18,7 @@ const navigation = [
     items: [
       { title: "Button", href: "/docs/components/button" },
       { title: "Typography", href: "/docs/components/typography" },
+      { title: "Layout Patterns", href: "/docs/components/layout-patterns" },
       { title: "Container", href: "/docs/components/container" },
       { title: "Grid", href: "/docs/components/grid" },
       { title: "Divider", href: "/docs/components/divider" },
@@ -66,7 +67,7 @@ function SidebarLink({
       href={href}
       onClick={onClick}
       className={cn(
-        "block py-1.5 text-sm font-sans transition-colors hover:text-brand-white",
+        "block py-s8 text-sm font-sans transition-colors hover:text-brand-white",
         isActive ? "text-brand-turquoise font-medium" : "text-brand-white/50",
       )}
     >
@@ -115,7 +116,7 @@ export function DocsSidebar() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-2.5 text-sm font-sans font-medium text-brand-black shadow-lg lg:hidden"
+        className="fixed bottom-6 right-6 z-40 flex items-center gap-2 bg-brand-turquoise px-4 py-s12 text-sm font-sans font-medium text-brand-black shadow-lg lg:hidden"
         aria-label="Open navigation"
       >
         <IconMenu className="h-4 w-4" />
@@ -149,7 +150,7 @@ export function DocsSidebar() {
       )}
 
       {/* Desktop sidebar */}
-      <aside className="sticky top-[calc(var(--layout-shell-nav-height)+var(--layout-section-gap))] hidden w-full max-h-[calc(100dvh-var(--layout-shell-nav-height)-var(--layout-section-gap)-var(--layout-size-large))] overflow-y-auto pb-12 pr-layout-section-gap lg:block">
+      <aside className="sticky top-[calc(var(--nav)+var(--section-gap))] hidden w-full max-h-[calc(100dvh-var(--nav)-var(--section-gap)-var(--s32))] overflow-y-auto pb-12 pr-section-gap lg:block">
         <SidebarNav />
       </aside>
     </>

@@ -57,6 +57,58 @@ Layout primitives for dividing pages into background‑coloured bands with consi
   </Container>
 </Section>`} />
 
+### Built-in container mode
+
+<CodeBlock
+  code={`<Section
+  background="dark"
+  spacing="default"
+  withContainer
+  containerSize="shell"
+>
+  <Typography variant="h2" className="text-brand-white">Contained by Section</Typography>
+</Section>`}
+/>
+
+### Section with Grid mode
+
+Use this mode for explicit column placement:
+
+<CodeBlock
+  code={`<Section background="dark" spacing="large">
+  <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+    <div className="slot-content-band">
+      <Typography variant="h2" className="text-brand-white">Main content</Typography>
+    </div>
+    <aside className="slot-content-right">Secondary rail</aside>
+  </Grid>
+</Section>`}
+/>
+
+## Composition rules
+
+Use one of these two patterns per section:
+
+| Pattern                       | Use for               | Default |
+| ----------------------------- | --------------------- | ------- |
+| `Section` + `withContainer`   | Linear content blocks | Yes     |
+| `Section` + `Grid` + `slot-*` | Multi-region layouts  | Yes     |
+
+Avoid mixing both wrappers in one section unless you intentionally need an inner bounded region.
+
+## Spacing policy
+
+`Section` owns vertical rhythm through `spacing` (`default` and `large`). Inside each section, use strict spacing defaults:
+
+| Context                                 | Default token/class                        |
+| --------------------------------------- | ------------------------------------------ |
+| Between major blocks in a section       | `gap-s24`                                  |
+| Between tightly related rows            | `gap-s12`                                  |
+| Internal panel/card padding             | `p-s24`                                    |
+| Extra separation between section groups | `mt-s24` on the next section content block |
+
+Use `SectionDivider` for visual transitions when separation should be semantic, not only spatial.
+
 ## Section Variants
 
 ### Background
@@ -134,6 +186,30 @@ A convenience component that renders a `Container` wrapping a `Divider` with ver
       type: '"default" | "large"',
       default: '"default"',
       description: "Vertical padding scale.",
+    },
+    {
+      name: "withContainer",
+      type: "boolean",
+      default: "false",
+      description:
+        "When true, Section wraps its children with a shared Container internally.",
+    },
+    {
+      name: "containerSize",
+      type: '"shell" | "content" | "narrow" | "full"',
+      default: '"shell"',
+      description: "Container width preset used when withContainer is true.",
+    },
+    {
+      name: "containerInset",
+      type: '"page" | "none"',
+      default: '"page"',
+      description: "Container inset preset used when withContainer is true.",
+    },
+    {
+      name: "containerClassName",
+      type: "string",
+      description: "Additional classes for the internal Container wrapper.",
     },
     {
       name: "className",

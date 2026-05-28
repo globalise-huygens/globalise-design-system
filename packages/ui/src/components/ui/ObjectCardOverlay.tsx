@@ -27,7 +27,7 @@ const ObjectCardOverlay = React.forwardRef<
     {
       className,
       modalClassName,
-      contentClassName,
+      contentClassName = "slot-content-band",
       children,
       isDismissable = true,
       isOpen,
@@ -43,18 +43,21 @@ const ObjectCardOverlay = React.forwardRef<
         isOpen={isOpen}
         isDismissable={isDismissable}
         className={cn(
-          "fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-brand-black/80 backdrop-blur-[2px] lg:py-layout-overlay-inset",
+          "fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-brand-black/80 backdrop-blur-[2px]",
           className,
         )}
         {...props}
       >
         <AriaModal
-          className={cn("h-full w-full overflow-hidden", modalClassName)}
+          className={cn(
+            "flex min-h-full w-full items-start justify-center overflow-y-auto px-overlay-object-card-inset-x pb-overlay-object-card-inset-bottom pt-overlay-object-card-inset-top",
+            modalClassName,
+          )}
         >
-          <div className="mx-auto grid h-full min-h-0 w-full max-w-layout-page-max-width grid-cols-[repeat(var(--layout-grid-columns),minmax(0,1fr))] gap-x-layout-grid-gutter overflow-hidden px-layout-page-margin-mobile lg:h-[calc(100dvh-(var(--layout-overlay-inset)*2))] lg:max-h-[calc(100dvh-(var(--layout-overlay-inset)*2))] lg:px-layout-page-margin">
+          <div className="flex h-overlay-object-card-frame-height w-overlay-object-card-frame-width max-w-overlay-object-card-frame-max-width min-h-0 items-stretch justify-center overflow-hidden">
             <div
               className={cn(
-                "col-span-16 flex min-h-0 items-stretch justify-center lg:col-span-12 lg:col-start-3 lg:items-stretch",
+                "grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center",
                 contentClassName,
               )}
             >

@@ -4,19 +4,15 @@ import * as React from "react";
 export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * Page grid matching the shared layout contract:
- * 16 columns · stretch · 1440px max width · 32px margins · 16px gutters
- *
- * Consumers are expected to add the page max-width and margins that fit the
- * surface they are composing. The grid primitive itself owns column count and
- * gutter behavior so shells and docs pages use the same track math.
+ * Shell grid primitive using the shared responsive contract:
+ * 4 columns (mobile) → 8 (tablet) → 16 (desktop).
  */
 const Grid = React.forwardRef<HTMLDivElement, GridProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "grid w-full grid-cols-[repeat(var(--layout-grid-columns),minmax(0,1fr))] gap-x-layout-grid-gutter",
+        "grid w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] gap-x-shell-gutter",
         className,
       )}
       {...props}

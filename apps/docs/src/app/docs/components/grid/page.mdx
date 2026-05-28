@@ -1,34 +1,24 @@
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
+import { ResponsiveGridPreview } from "@/components/ResponsiveGridPreview";
 import { Grid } from "@globalise/design-system";
 
 # Grid
 
-The page-level layout grid now follows the shared shell contract: **16 columns, stretch, 32px desktop margins, 16px gutters**. At a max width of 1440px, the standard content band is the centered **12-track span from columns 3–14**.
+The page-level layout grid now follows the shared shell contract: **4 columns (mobile), 8 columns (tablet), 16 columns (desktop), stretch, 1440px max width, 16px gutters**.
 
-Use the full 16-column grid for shell composition and alignment. Use the centered 12-track band for most content, cards, and overlays.
+Use `col-span-full` as the safe default at every breakpoint. Use explicit `col-start-*` and `col-span-*` at `xl` when you need placement inside the 16-column desktop shell.
 
 ## Preview
 
 <ComponentPreview>
-  <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-    {Array.from({ length: 16 }).map((_, i) => (
-      <div
-        key={i}
-        className={`flex h-20 items-center justify-center text-xs font-mono ${
-          i < 2 || i > 13
-            ? "bg-brand-white text-brand-black"
-            : "bg-brand-turquoise text-brand-black"
-        }`}
-      >
-        {i + 1}
-      </div>
-    ))}
-  </Grid>
+  <ResponsiveGridPreview />
 </ComponentPreview>
 
-Columns 1-2 and 15-16 (dimmed) are the outer shell columns. Columns 3-14 (highlighted) are the default content band, roughly equivalent to using `Container`.
+Dimmed columns are **outer shell columns**, not disabled space. On desktop this is 1-2 and 15-16; on tablet this becomes 1 and 8; on mobile all columns are in-band.
+
+Overlays and modals can still occupy the full shell when needed (`slot-full-bleed`) or stay in the content band (`slot-content-band`).
 
 ## Usage
 
@@ -36,26 +26,26 @@ Columns 1-2 and 15-16 (dimmed) are the outer shell columns. Columns 3-14 (highli
 
 {/* Page-level grid with max-width */}
 
-<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
+<Grid className="mx-auto max-w-shell-max px-shell-margin">
   {/* Standard content area (columns 3–14) */}
-  <div className="col-span-16 lg:col-start-3 lg:col-span-12">
+  <div className="col-span-full xl:col-start-3 xl:col-span-12">
     <p>Content sits in the standard 12-track content band.</p>
   </div>
 </Grid>
 
 {/* Full bleed */}
 
-<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-  <div className="col-span-16">Full-width element</div>
+<Grid className="mx-auto max-w-shell-max px-shell-margin">
+  <div className="col-span-full">Full-width element</div>
 </Grid>
 
 {/* Two-column layout within the content area */}
 
-<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-  <div className="col-span-16 lg:col-start-3 lg:col-span-6">
+<Grid className="mx-auto max-w-shell-max px-shell-margin">
+  <div className="col-span-full xl:col-start-3 xl:col-span-6">
     Left column
   </div>
-  <div className="col-span-16 lg:col-start-9 lg:col-span-6">
+  <div className="col-span-full xl:col-start-9 xl:col-span-6">
     Right column
   </div>
 </Grid>`} />
@@ -65,17 +55,17 @@ Columns 1-2 and 15-16 (dimmed) are the outer shell columns. Columns 3-14 (highli
 Use Tailwind's `col-start-*` and `col-span-*` utilities to place children within the 16-column grid.
 
 <ComponentPreview>
-  <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-    <div className="col-span-16 flex h-12 items-center justify-center bg-brand-white text-xs text-brand-black">
-      <span>col-span-16 (full bleed)</span>
+  <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+    <div className="col-span-full flex h-12 items-center justify-center bg-brand-white text-xs text-brand-black">
+      <span>col-span-full (full bleed)</span>
     </div>
-    <div className="col-span-16 flex h-12 items-center justify-center bg-brand-turquoise text-xs text-brand-black lg:col-start-3 lg:col-span-12">
+    <div className="col-span-full flex h-12 items-center justify-center bg-brand-turquoise text-xs text-brand-black xl:col-start-3 xl:col-span-12">
       <span>col-start-3 col-span-12 (standard content)</span>
     </div>
-    <div className="col-span-16 flex h-12 items-center justify-center bg-brand-vermilion text-xs text-brand-black lg:col-start-3 lg:col-span-6">
+    <div className="col-span-full flex h-12 items-center justify-center bg-brand-vermilion text-xs text-brand-black xl:col-start-3 xl:col-span-6">
       <span>col-start-3 col-span-6</span>
     </div>
-    <div className="col-span-16 flex h-12 items-center justify-center bg-brand-mint text-xs text-brand-black lg:col-start-9 lg:col-span-6">
+    <div className="col-span-full flex h-12 items-center justify-center bg-brand-mint text-xs text-brand-black xl:col-start-9 xl:col-span-6">
       <span>col-start-9 col-span-6</span>
     </div>
   </Grid>
@@ -85,7 +75,7 @@ Use Tailwind's `col-start-*` and `col-span-*` utilities to place children within
 
 | Property              | Value        |
 | --------------------- | ------------ |
-| Columns               | 16           |
+| Columns               | 4 / 8 / 16   |
 | Type                  | Stretch      |
 | Max width             | 1440px       |
 | Desktop page margin   | 32px         |
@@ -95,12 +85,12 @@ Use Tailwind's `col-start-*` and `col-span-*` utilities to place children within
 
 ## Responsive breakpoints
 
-The grid stays 16 columns across breakpoints. Responsive behavior comes from changing `col-span-*` and `col-start-*` values while the page margins and standard content band stay consistent.
+The grid is responsive by token: 4 columns at mobile, 8 at tablet, and 16 at desktop. Responsive behavior comes from using `col-span-full` by default and applying `xl:col-start-*` / `xl:col-span-*` for 16-column placement.
 
 | Breakpoint  | Typical layout                                        |
 | ----------- | ----------------------------------------------------- |
-| Default     | Full-width children using `col-span-16`               |
-| `lg` and up | Centered content band using `col-start-3 col-span-12` |
+| Default     | Full-width children using `col-span-full`             |
+| `xl` and up | Centered content band using `col-start-3 col-span-12` |
 
 ### Mobile-first column pattern
 
@@ -108,8 +98,8 @@ On smaller screens, let children span all 16 columns. At desktop, snap them into
 
 <CodeBlock
   code={`{/* Standard content area — mobile-safe */}
-<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-  <div className="col-span-16 lg:col-start-3 lg:col-span-12">
+<Grid className="mx-auto max-w-shell-max px-shell-margin">
+  <div className="col-span-full xl:col-start-3 xl:col-span-12">
     Content here
   </div>
 </Grid>`}
@@ -118,12 +108,12 @@ On smaller screens, let children span all 16 columns. At desktop, snap them into
 ### Responsive multi-column example
 
 <CodeBlock
-  code={`<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
+  code={`<Grid className="mx-auto max-w-shell-max px-shell-margin">
   {/* Stacked on mobile, side-by-side on desktop */}
-  <div className="col-span-16 lg:col-start-3 lg:col-span-6">
+  <div className="col-span-full xl:col-start-3 xl:col-span-6">
     Left column (cols 3–8 on desktop)
   </div>
-  <div className="col-span-16 lg:col-start-9 lg:col-span-6">
+  <div className="col-span-full xl:col-start-9 xl:col-span-6">
     Right column (cols 9–14 on desktop)
   </div>
 </Grid>`}
@@ -137,37 +127,37 @@ How the shared components map onto the 16-column shell:
 
 | Component        | Grid placement   | Notes                                     |
 | ---------------- | ---------------- | ----------------------------------------- |
-| `Navbar`         | `col-span-16`    | Full-width shell aligned to page margins  |
+| `Navbar`         | `col-span-full`  | Full-width shell aligned to page margins  |
 | `Section`        | Not a grid child | Wraps the `Grid` and owns vertical rhythm |
-| `CardHero` strip | `col-span-16`    | Edge-to-edge within the page shell        |
+| `CardHero` strip | `col-span-full`  | Edge-to-edge within the page shell        |
 
 ### Standard content band (cols 3-14)
 
 | Component           | Desktop grid placement                   | Mobile            |
 | ------------------- | ---------------------------------------- | ----------------- |
 | `Container`         | Equivalent to the centered 12-track band | Page margins only |
-| `CardFeatured`      | `col-start-3 col-span-12`                | `col-span-16`     |
-| `ArticleRow`        | `col-start-3 col-span-12`                | `col-span-16`     |
-| `NewsletterSignup`  | `col-start-3 col-span-12`                | `col-span-16`     |
-| `Divider`           | `col-start-3 col-span-12`                | `col-span-16`     |
-| `Typography` (hero) | `col-start-3 col-span-8`                 | `col-span-16`     |
+| `CardFeatured`      | `xl:col-start-3 xl:col-span-12`          | `col-span-full`   |
+| `ArticleRow`        | `xl:col-start-3 xl:col-span-12`          | `col-span-full`   |
+| `NewsletterSignup`  | `xl:col-start-3 xl:col-span-12`          | `col-span-full`   |
+| `Divider`           | `xl:col-start-3 xl:col-span-12`          | `col-span-full`   |
+| `Typography` (hero) | `xl:col-start-3 xl:col-span-8`           | `col-span-full`   |
 
 ### Multi-column content layouts
 
-| Layout           | Left column              | Right column              | Mobile             |
-| ---------------- | ------------------------ | ------------------------- | ------------------ |
-| Text + pullquote | `col-start-3 col-span-7` | `col-start-11 col-span-4` | Both `col-span-16` |
-| Two equal halves | `col-start-3 col-span-6` | `col-start-9 col-span-6`  | Both `col-span-16` |
+| Layout           | Left column                    | Right column                    | Mobile               |
+| ---------------- | ------------------------------ | ------------------------------- | -------------------- |
+| Text + pullquote | `xl:col-start-3 xl:col-span-7` | `xl:col-start-11 xl:col-span-4` | Both `col-span-full` |
+| Two equal halves | `xl:col-start-3 xl:col-span-6` | `xl:col-start-9 xl:col-span-6`  | Both `col-span-full` |
 
 ### Card grids (nested within content area)
 
 Cards that form a grid of items use a nested sub-grid within the content area:
 
 <CodeBlock
-  code={`<Grid className="mx-auto max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-  <div className="col-span-16 lg:col-start-3 lg:col-span-12">
+  code={`<Grid className="mx-auto max-w-shell-max px-shell-margin">
+  <div className="col-span-full xl:col-start-3 xl:col-span-12">
     {/* Sub-grid: 1 col → 2 cols → 4 cols */}
-    <div className="grid grid-cols-1 gap-layout-grid-gutter sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-shell-gutter sm:grid-cols-2 xl:grid-cols-4">
       <CardGlance ... />
       <CardGlance ... />
       <CardGlance ... />
@@ -209,6 +199,44 @@ Use the `GridGuide` component during development to visualize the 16-column shel
 | **Nesting**  | Can nest sub-grids for card layouts             | Can contain `Grid` for sub-layouts             |
 
 For the example site, `Grid` is used as the primary layout mechanism in every section, replacing `Container` at the page level. `Container` remains useful for simpler layouts where explicit column control isn't needed.
+
+## Grid + Section + Container contract
+
+Use this responsibility split across all page layouts:
+
+| Primitive   | Owns                                                  | Does not own           |
+| ----------- | ----------------------------------------------------- | ---------------------- |
+| `Section`   | Vertical rhythm (`spacing`) + background band         | Column placement       |
+| `Grid`      | Column placement and slot composition                 | Section spacing policy |
+| `Container` | Centered width + horizontal insets for simple content | Multi-column placement |
+
+### Canonical pattern
+
+Use `Section` as the outer band, then place content with `Grid` slots:
+
+<CodeBlock
+  code={`<Section background="dark" spacing="large">
+  <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+    <div className="slot-content-band">Main content</div>
+    <aside className="slot-content-right">Supporting content</aside>
+  </Grid>
+</Section>`}
+/>
+
+### Do / do not
+
+| Do                                                                                                       | Do not                                                                                     |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Use `slot-*` classes for repeatable placement (`slot-content-band`, `slot-left-rail`, `slot-right-rail`) | Mix ad-hoc `xl:col-start-*` / `xl:col-span-*` values across pages for the same layout role |
+| Keep `Section` outside `Grid`                                                                            | Put `Section` as a grid child                                                              |
+| Use `Container` for simple single-column sections                                                        | Nest `Container` inside `Grid` slots unless you intentionally need an inner width cap      |
+
+### Spacing defaults when Grid is used
+
+- Section-to-section rhythm: use adjacent `Section` blocks first; if extra space is needed, use `mt-s24` on the next section's first grid child.
+- Major in-band spacing inside a section: `gap-s24`.
+- Tight component row spacing: `gap-s12`.
+- Panel/card internal padding: `p-s24`.
 
 ## Props
 

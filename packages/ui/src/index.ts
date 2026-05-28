@@ -29,7 +29,7 @@ export type {
   NavSearchBarProps,
 } from "./components/ui/Navbar";
 
-export { Container } from "./components/ui/Container";
+export { Container, containerVariants } from "./components/ui/Container";
 export type { ContainerProps } from "./components/ui/Container";
 
 export { Divider, dividerVariants } from "./components/ui/Divider";

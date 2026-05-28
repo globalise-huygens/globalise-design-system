@@ -23,94 +23,102 @@ export default function HomePage() {
       <GridGuideToggle />
 
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <Section background="dark" spacing="large">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          {/* Centered text: cols 3–10 on desktop */}
-          <div className="col-span-12 flex flex-col items-center gap-6 px-4 text-center sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-4 lg:col-span-6">
-            <Typography variant="display" className="text-brand-white">
-              Discover the VOC archives
-            </Typography>
-            <Typography variant="lead" className="text-brand-white/80">
-              Built for researchers, educators and curious audiences worldwide.
-            </Typography>
-            <ButtonLink variant="link" href="#" className="text-brand-white">
-              Learn &amp; get started
-            </ButtonLink>
+      <Section background="dark" spacing="large" data-rhythm-block="hero">
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
+            <div className="mx-auto flex max-w-card-max flex-col items-center gap-6 text-center">
+              <Typography variant="display" className="text-brand-white">
+                Discover the VOC archives
+              </Typography>
+              <Typography variant="lead" className="text-brand-white/80">
+                Built for researchers, educators and curious audiences
+                worldwide.
+              </Typography>
+              <ButtonLink variant="link" href="#" className="text-brand-white">
+                Learn &amp; get started
+              </ButtonLink>
+            </div>
           </div>
         </Grid>
 
-        {/* Card strip — full bleed across all 12 columns */}
-        <div className="mt-12 w-full overflow-x-auto lg:mt-22">
-          <div className="flex items-center justify-center gap-5 px-4 lg:px-15">
-            <CardHero
-              label="Archive"
-              title="VOC shipping records"
-              hoverColor="parchment"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-parchment-600" />
-            </CardHero>
-            <CardHero
-              label="Video"
-              title="Interview with Matthias van Rossum"
-              hoverColor="vermilion"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-vermilion-500" />
-            </CardHero>
-            <CardHero
-              label="Research"
-              title="Digital infrastructure for colonial archives"
-              hoverColor="turquoise"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-turquoise-600" />
-            </CardHero>
-            <CardHero
-              label="Collection"
-              title={"New collection:\nWomen & Family\nin Colonial Contexts"}
-              hoverColor="mint"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-mint-500" />
-            </CardHero>
-            <CardHero
-              label="Article"
-              title="Research methodology notes"
-              hoverColor="vermilion"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-neutral-700" />
-            </CardHero>
-            <CardHero
-              label="Archive"
-              title="Maritime trade documents"
-              hoverColor="parchment"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-parchment-800" />
-            </CardHero>
-            <CardHero
-              label="Collection"
-              title="Colonial correspondence"
-              hoverColor="turquoise"
-              className="h-54.75 w-12.75 shrink-0"
-            >
-              <div className="h-full w-full bg-neutral-600" />
-            </CardHero>
+        {/* Card strip — full shell width, no scrolling */}
+        <Grid className="mx-auto mt-s48 w-full max-w-shell-max px-shell-margin lg:mt-22">
+          <div className="slot-full-bleed">
+            <div className="grid grid-cols-2 gap-shell-gutter sm:grid-cols-3 xl:grid-cols-7">
+              <CardHero
+                label="Archive"
+                title="VOC shipping records"
+                hoverColor="parchment"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-parchment-600" />
+              </CardHero>
+              <CardHero
+                label="Video"
+                title="Interview with Matthias van Rossum"
+                hoverColor="vermilion"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-vermilion-500" />
+              </CardHero>
+              <CardHero
+                label="Research"
+                title="Digital infrastructure for colonial archives"
+                hoverColor="turquoise"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-turquoise-600" />
+              </CardHero>
+              <CardHero
+                label="Collection"
+                title={"New collection:\nWomen & Family\nin Colonial Contexts"}
+                hoverColor="mint"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-mint-500" />
+              </CardHero>
+              <CardHero
+                label="Article"
+                title="Research methodology notes"
+                hoverColor="vermilion"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-neutral-700" />
+              </CardHero>
+              <CardHero
+                label="Archive"
+                title="Maritime trade documents"
+                hoverColor="parchment"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-parchment-800" />
+              </CardHero>
+              <CardHero
+                label="Collection"
+                title="Colonial correspondence"
+                hoverColor="turquoise"
+                className="aspect-square w-full"
+              >
+                <div className="h-full w-full bg-neutral-600" />
+              </CardHero>
+            </div>
           </div>
-        </div>
+        </Grid>
 
-        <Grid className="mx-auto mt-12 w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+        <Grid className="mx-auto mt-12 w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
             <Divider />
           </div>
         </Grid>
       </Section>
 
-      <Section background="dark" className="pb-0 pt-32 lg:pb-0 lg:pt-48">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-span-7">
+      <Section
+        background="dark"
+        className="pb-0 pt-32 lg:pb-0 lg:pt-48"
+        data-rhythm-block="project-intro"
+      >
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-narrow slot-mobile-pad">
             <div className="flex flex-col gap-10">
               <Typography variant="hero" className="text-brand-white">
                 Globalise opens access to early modern colonial archives through
@@ -125,10 +133,14 @@ export default function HomePage() {
       </Section>
 
       {/* ── Featured ──────────────────────────────────────────── */}
-      <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
-            <div className="flex flex-col gap-5">
+      <Section
+        background="dark"
+        className="py-12 lg:py-24"
+        data-rhythm-block="featured"
+      >
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
+            <div className="flex flex-col gap-6">
               <Typography variant="label" className="text-brand-white">
                 Featured
               </Typography>
@@ -140,19 +152,23 @@ export default function HomePage() {
       </Section>
 
       {/* ── Divider ───────────────────────────────────────────── */}
-      <div className="bg-brand-black">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+      <div className="bg-brand-black" data-rhythm-block="divider-1">
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
             <Divider />
           </div>
         </Grid>
       </div>
 
       {/* ── Mission ───────────────────────────────────────────── */}
-      <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
+      <Section
+        background="dark"
+        className="py-12 lg:py-24"
+        data-rhythm-block="mission"
+      >
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
           {/* Left column: cols 2–6 on desktop, full width on mobile */}
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-2 lg:col-span-5">
+          <div className="slot-content-left slot-mobile-pad">
             <div className="flex flex-col gap-6">
               <Typography variant="p" className="text-brand-white/80">
                 Globalise is an international research programme that opens up
@@ -172,7 +188,7 @@ export default function HomePage() {
           </div>
 
           {/* Right column: cols 8–11 on desktop, full width on mobile */}
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0 lg:col-start-8 lg:col-span-4">
+          <div className="slot-content-right slot-mobile-pad">
             <div className="flex flex-col gap-10">
               <Typography variant="blockquote" className="text-brand-white">
                 Globalise connects documents, people, and places to make
@@ -187,19 +203,23 @@ export default function HomePage() {
       </Section>
 
       {/* ── Divider ───────────────────────────────────────────── */}
-      <div className="bg-brand-black">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+      <div className="bg-brand-black" data-rhythm-block="divider-2">
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
             <Divider />
           </div>
         </Grid>
       </div>
 
       {/* ── At a Glance ───────────────────────────────────────── */}
-      <Section background="dark" className="py-12 lg:py-25">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
-            <div className="mb-10 flex flex-col gap-5">
+      <Section
+        background="dark"
+        className="py-12 lg:py-24"
+        data-rhythm-block="at-a-glance"
+      >
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
+            <div className="mb-10 flex flex-col gap-6">
               <Typography variant="label" className="text-brand-white">
                 Globalise at a glance
               </Typography>
@@ -244,9 +264,13 @@ export default function HomePage() {
       </Section>
 
       {/* ── Latest from Globalise (white section) ─────────────── */}
-      <Section background="light" spacing="large">
-        <Grid className="mx-auto w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+      <Section
+        background="light"
+        spacing="large"
+        data-rhythm-block="latest-newsletter"
+      >
+        <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
+          <div className="slot-content-band slot-mobile-pad">
             <div className="flex flex-col gap-6">
               <Typography variant="h2" className="text-brand-black">
                 Latest from Globalise
@@ -283,8 +307,8 @@ export default function HomePage() {
         </Grid>
 
         {/* ── Newsletter ────────────────────────────────────── */}
-        <Grid className="mx-auto mt-16 w-full max-w-layout-page-max-width px-layout-page-margin-mobile lg:mt-30 lg:px-layout-page-margin">
-          <div className="col-span-12 px-4 sm:col-start-2 sm:col-span-10 sm:px-0">
+        <Grid className="mx-auto mt-16 w-full max-w-shell-max px-shell-margin lg:mt-30">
+          <div className="slot-content-band slot-mobile-pad">
             <NewsletterSignup
               heading="Subscribe to our Newsletter"
               description="Sign up to discover new research pathways, featured collections, and reflections on how historical records continue to shape our understanding of global connections."

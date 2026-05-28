@@ -54,11 +54,14 @@ const DocumentDetailOverlay = React.forwardRef<
         {...props}
       >
         <AriaModal
-          className={cn("h-full w-full overflow-hidden", modalClassName)}
+          className={cn(
+            "flex min-h-full w-full items-start justify-center overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
+            modalClassName,
+          )}
         >
           <AriaDialog
             className={cn(
-              "flex h-dvh flex-col bg-brand-black outline-none",
+              "grid h-overlay-document-viewer-frame-height w-overlay-document-viewer-frame-width max-w-overlay-document-viewer-frame-max-width grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-brand-black outline-none",
               dialogClassName,
             )}
           >
@@ -84,7 +87,7 @@ function DocumentDetailTopBar({
   return (
     <header
       className={cn(
-        "flex h-layout-ddp-top-bar-height shrink-0 items-center border-b border-brand-white/10 bg-brand-black",
+        "slot-full-bleed flex h-overlay-document-viewer-top-bar-height shrink-0 items-center border-b border-brand-white/10 bg-brand-black",
         className,
       )}
       {...props}
@@ -101,7 +104,10 @@ export interface DocumentDetailBodyProps extends React.HTMLAttributes<HTMLDivEle
 function DocumentDetailBody({ className, ...props }: DocumentDetailBodyProps) {
   return (
     <div
-      className={cn("flex min-h-0 flex-1 overflow-hidden", className)}
+      className={cn(
+        "slot-full-bleed flex min-h-0 flex-1 overflow-hidden",
+        className,
+      )}
       {...props}
     />
   );
@@ -120,7 +126,7 @@ function DocumentDetailIconRail({
   return (
     <nav
       className={cn(
-        "flex w-layout-ddp-rail-width shrink-0 flex-col items-center border-r border-brand-white/10 bg-brand-black",
+        "flex w-overlay-document-viewer-rail-width shrink-0 flex-col items-center border-r border-brand-white/10 bg-brand-black",
         className,
       )}
       {...props}
@@ -141,7 +147,7 @@ function DocumentDetailSidePanel({
   return (
     <div
       className={cn(
-        "flex w-layout-ddp-sidebar-width shrink-0 flex-col gap-layout-section overflow-y-auto border-r border-brand-white/10 bg-neutral-900 px-layout-ddp-sidebar-padding py-layout-ddp-sidebar-padding [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]",
+        "flex w-overlay-document-viewer-pane-width shrink-0 flex-col gap-section-gap overflow-y-auto border-r border-brand-white/10 bg-neutral-900 px-panel-pad py-panel-pad [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]",
         className,
       )}
       {...props}
@@ -186,7 +192,7 @@ function DocumentDetailViewerPane({
       {...props}
     >
       {toolbar && (
-        <div className="flex h-layout-ddp-toolbar-height shrink-0 items-center border-b border-brand-white/10 px-layout-ddp-viewer-padding">
+        <div className="flex h-toolbar shrink-0 items-center border-b border-brand-white/10 px-viewer-pad">
           {toolbar}
         </div>
       )}
@@ -208,7 +214,7 @@ function DocumentDetailBottomBar({
   return (
     <footer
       className={cn(
-        "flex h-layout-ddp-bottom-bar-height shrink-0 items-center border-t border-brand-white/10 bg-brand-black",
+        "slot-full-bleed flex h-overlay-document-viewer-bottom-bar-height shrink-0 items-center border-t border-brand-white/10 bg-brand-black",
         className,
       )}
       {...props}
