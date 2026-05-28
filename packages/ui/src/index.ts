@@ -170,3 +170,8 @@ export { Logotype } from "./components/logo/Logotype";
 
 // Utilities
 export { cn } from "./lib/utils";
+export {
+  getShellGridModel,
+  readShellColumnCount,
+  useShellColumnCount,
+} from "./lib/shellGrid";

@@ -1,5 +1,6 @@
 "use client";
 
+import { getShellGridModel, useShellColumnCount } from "@/lib/shellGrid";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
@@ -31,36 +32,11 @@ const GridGuide = React.forwardRef<HTMLDivElement, GridGuideProps>(
     },
     ref,
   ) => {
-    const [columnCount, setColumnCount] = React.useState(16);
-
-    const contentBand = React.useMemo(() => {
-      if (columnCount >= 16) {
-        return { start: 3, end: 14, label: "desktop" };
-      }
-
-      if (columnCount >= 8) {
-        return { start: 2, end: 7, label: "tablet" };
-      }
-
-      return { start: 1, end: columnCount, label: "mobile" };
-    }, [columnCount]);
-
-    React.useEffect(() => {
-      if (!visible) return;
-
-      const updateColumnCount = () => {
-        const rootStyles = getComputedStyle(document.documentElement);
-        const rawValue = rootStyles.getPropertyValue("--shell-cols").trim();
-        const parsed = Number.parseInt(rawValue, 10);
-        if (Number.isFinite(parsed) && parsed > 0) {
-          setColumnCount(parsed);
-        }
-      };
-
-      updateColumnCount();
-      window.addEventListener("resize", updateColumnCount);
-      return () => window.removeEventListener("resize", updateColumnCount);
-    }, [visible]);
+    const columnCount = useShellColumnCount({ enabled: visible });
+    const contentBand = React.useMemo(
+      () => getShellGridModel(columnCount),
+      [columnCount],
+    );
 
     if (!visible) return null;
 

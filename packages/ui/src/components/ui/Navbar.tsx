@@ -2,18 +2,16 @@
 
 import { IconClose } from "@/components/icons/IconClose";
 import { IconMenu } from "@/components/icons/IconMenu";
-import { IconSearch } from "@/components/icons/IconSearch";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import {
   Button as AriaButton,
-  Input as AriaInput,
-  Label as AriaLabel,
   Link as AriaLink,
   type LinkProps as AriaLinkProps,
   SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps,
 } from "react-aria-components";
+import { SearchFieldContent } from "./SearchFieldContent";
 
 /* -------------------------------------------------------------------------- */
 /*  Internal type marker for mobile layout detection                          */
@@ -55,15 +53,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
         )}
         {...props}
       >
-        <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
-        <IconSearch
-          className="h-5 w-5 shrink-0 text-brand-white"
-          aria-hidden="true"
-        />
-        <AriaInput
-          placeholder={placeholder}
-          className="w-full bg-transparent font-serif text-sm leading-3 text-brand-white opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none"
-        />
+        <SearchFieldContent ariaLabel={ariaLabel} placeholder={placeholder} />
       </AriaSearchField>
     );
   },

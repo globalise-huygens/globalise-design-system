@@ -2,12 +2,10 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
-  Input as AriaInput,
-  Label as AriaLabel,
   SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps,
 } from "react-aria-components";
-import { IconSearch } from "../icons/IconSearch";
+import { SearchFieldContent } from "./SearchFieldContent";
 
 const searchBarVariants = cva(
   "flex items-center gap-s8 px-s16 backdrop-blur-[20px]",
@@ -50,14 +48,10 @@ const SearchBar = React.forwardRef<HTMLDivElement, SearchBarProps>(
         className={cn(searchBarVariants({ variant, size }), className)}
         {...props}
       >
-        <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
-        <IconSearch
-          className="h-5 w-5 shrink-0 text-brand-white"
-          aria-hidden="true"
-        />
-        <AriaInput
+        <SearchFieldContent
+          ariaLabel={ariaLabel}
           placeholder={placeholder}
-          className="w-full bg-transparent text-sm font-medium text-brand-white font-serif leading-3 opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none"
+          inputClassName="font-medium"
         />
       </AriaSearchField>
     );
