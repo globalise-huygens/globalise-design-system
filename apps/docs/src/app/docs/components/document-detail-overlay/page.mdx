@@ -1,0 +1,91 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { DocumentDetailViewerOverlayDemo } from "@/components/DocumentDetailViewerOverlayDemo";
+import { PropsTable } from "@/components/PropsTable";
+
+# Document Detail Overlay
+
+A near-full shell overlay for document scan and transcription workflows. It composes top and bottom bars, a left icon rail, a primary viewer pane, and a right transcript panel.
+
+## Preview
+
+<ComponentPreview className="min-h-80! p-6! items-center! justify-center!">
+  <DocumentDetailViewerOverlayDemo />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import {
+  DocumentDetailBody,
+  DocumentDetailBottomBar,
+  DocumentDetailIconRail,
+  DocumentDetailOverlay,
+  DocumentDetailSidePanel,
+  DocumentDetailTopBar,
+  DocumentDetailViewer,
+  DocumentDetailViewerPane,
+} from "@globalise/design-system";
+
+<DocumentDetailOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
+  <DocumentDetailTopBar>{/* controls */}</DocumentDetailTopBar>
+
+  <DocumentDetailBody>
+    <DocumentDetailIconRail>{/* tool modes */}</DocumentDetailIconRail>
+
+    <DocumentDetailViewer>
+      <DocumentDetailViewerPane toolbar={<div>Viewer tools</div>}>
+        {/* scan canvas */}
+      </DocumentDetailViewerPane>
+    </DocumentDetailViewer>
+
+    <DocumentDetailSidePanel>{/* transcript */}</DocumentDetailSidePanel>
+
+  </DocumentDetailBody>
+
+  <DocumentDetailBottomBar>{/* status */}</DocumentDetailBottomBar>
+</DocumentDetailOverlay>`} />
+
+## Layout Notes
+
+The default desktop placement uses a near-full 16-column shell span (`xl:col-start-2 xl:col-span-14`) so the viewer occupies most of the viewport while still leaving edge context.
+
+Use `contentClassName` to override shell placement for alternate page or dual-view variants.
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "isOpen",
+      type: "boolean",
+      description: "Controls whether the overlay is visible.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(isOpen: boolean) => void",
+      description: "Called when the overlay opens or closes.",
+    },
+    {
+      name: "isDismissable",
+      type: "boolean",
+      default: "false",
+      description: "Allows outside click or Escape dismiss when enabled.",
+    },
+    {
+      name: "contentClassName",
+      type: "string",
+      description:
+        "Additional classes for shell-grid placement of the document frame.",
+    },
+    {
+      name: "modalClassName",
+      type: "string",
+      description: "Additional classes for the inner React Aria Modal wrapper.",
+    },
+    {
+      name: "dialogClassName",
+      type: "string",
+      description: "Additional classes for the frame/dialog root.",
+    },
+  ]}
+/>

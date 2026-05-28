@@ -21,6 +21,7 @@ export interface DocumentDetailOverlayProps extends Omit<
   className?: string;
   modalClassName?: string;
   dialogClassName?: string;
+  contentClassName?: string;
   children?: React.ReactNode;
 }
 
@@ -33,6 +34,7 @@ const DocumentDetailOverlay = React.forwardRef<
       className,
       modalClassName,
       dialogClassName,
+      contentClassName,
       children,
       isDismissable = false,
       isOpen,
@@ -55,13 +57,14 @@ const DocumentDetailOverlay = React.forwardRef<
       >
         <AriaModal
           className={cn(
-            "flex min-h-full w-full items-start justify-center overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
+            "grid min-h-full w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-start overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
             modalClassName,
           )}
         >
           <AriaDialog
             className={cn(
-              "grid h-overlay-document-viewer-frame-height w-overlay-document-viewer-frame-width max-w-overlay-document-viewer-frame-max-width grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-brand-black outline-none",
+              "slot-full-bleed xl:col-start-2 xl:col-span-14 grid h-overlay-document-viewer-frame-height w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-brand-black outline-none",
+              contentClassName,
               dialogClassName,
             )}
           >
@@ -147,7 +150,7 @@ function DocumentDetailSidePanel({
   return (
     <div
       className={cn(
-        "flex w-overlay-document-viewer-pane-width shrink-0 flex-col gap-section-gap overflow-y-auto border-r border-brand-white/10 bg-neutral-900 px-panel-pad py-panel-pad [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]",
+        "flex w-overlay-document-viewer-side-panel-width shrink-0 flex-col gap-section-gap overflow-y-auto border-r border-brand-white/10 bg-neutral-900 px-panel-pad py-panel-pad [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]",
         className,
       )}
       {...props}

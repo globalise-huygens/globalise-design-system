@@ -41,6 +41,10 @@ const navigation = [
         href: "/docs/components/object-card-references-panel",
       },
       {
+        title: "Document Detail Overlay",
+        href: "/docs/components/document-detail-overlay",
+      },
+      {
         title: "Newsletter Signup",
         href: "/docs/components/newsletter-signup",
       },
