@@ -53,6 +53,24 @@ The design system uses **Noto Sans** (body/UI) and **Noto Serif** (headings/edit
 }
 ```
 
+## React + Vite Consumer Template
+
+For a copy-ready integration targeting a non-Next.js stack, use:
+
+`examples/react-vite-tanstack-tailwind4`
+
+This template includes:
+
+- React 19 + React DOM 19
+- TypeScript 5.9
+- Vite 8
+- TanStack Router + Vite router plugin
+- Tailwind CSS v4
+
+Use it as the baseline for transferring this design system into:
+
+`https://github.com/globalise-huygens/globalise-research-portal`
+
 ## Usage
 
 ```tsx

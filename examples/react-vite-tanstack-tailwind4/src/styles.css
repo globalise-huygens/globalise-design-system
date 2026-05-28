@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+@import "@globalise/design-system/styles.css";
+
+/* Let Tailwind detect classes used inside the external UI package */
+@source "../node_modules/@globalise/design-system/dist";
+
+@theme inline {
+  --font-sans: "Noto Sans", sans-serif;
+  --font-serif: "Noto Serif", serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--brand-black);
+}
