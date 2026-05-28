@@ -1,22 +1,22 @@
 import {
-  createRootRoute,
-  createRoute,
-  createRouter,
-  Outlet,
-} from "@tanstack/react-router";
-import {
   Button,
   Container,
   Divider,
   Grid,
   LogoNavbar,
+  Navbar,
   NavLink,
   NavLinks,
   NavSearchBar,
-  Navbar,
   Section,
   Typography,
 } from "@globalise/design-system";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Outlet,
+} from "@tanstack/react-router";
 
 function ShellLayout() {
   return (
@@ -55,8 +55,8 @@ function HomePage() {
               React + Vite + TanStack Router + Tailwind v4 integration baseline
             </Typography>
             <Typography variant="lead" className="text-white/80">
-              This page proves the design system works in a non-Next.js stack with
-              React 19 and Vite 8.
+              This page proves the design system works in a non-Next.js stack
+              with React 19 and Vite 8.
             </Typography>
             <div className="mt-2 flex flex-wrap gap-3">
               <Button>Explore records</Button>
@@ -71,8 +71,8 @@ function HomePage() {
               Why this template exists
             </Typography>
             <Typography variant="p" className="mt-3 text-white/80">
-              It provides a copy-friendly starter that can be moved directly into
-              the Globalise Research Portal repository.
+              It provides a copy-friendly starter that can be moved directly
+              into the Globalise Research Portal repository.
             </Typography>
           </div>
         </Grid>
