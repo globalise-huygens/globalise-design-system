@@ -71,6 +71,64 @@ export default function Page() {
 }
 ```
 
+### React + Vite + TanStack Router setup (Research Portal baseline)
+
+If you are integrating into a React-only app (not Next.js), use the stack below:
+
+- React 19
+- React DOM 19
+- TypeScript 5.9
+- Vite 8
+- TanStack Router + `@tanstack/router-plugin`
+- Tailwind CSS v4
+
+This repository includes a copy-ready starter at:
+
+`examples/react-vite-tanstack-tailwind4`
+
+#### Vite config
+
+```ts
+import tailwindcss from "@tailwindcss/vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [
+    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+  ],
+});
+```
+
+#### Global styles
+
+```css
+@import "tailwindcss";
+@import "@globalise/design-system/styles.css";
+
+/* Let Tailwind detect classes used by the design-system package */
+@source "../node_modules/@globalise/design-system/dist";
+```
+
+#### App entry
+
+```tsx
+import "./styles.css";
+import { RouterProvider } from "@tanstack/react-router";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { router } from "./router";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>,
+);
+```
+
 ### Next.js setup
 
 For Next.js projects, add `transpilePackages` to your `next.config.ts`:
@@ -85,9 +143,18 @@ const nextConfig = {
 
 | Dependency   | Version  |
 | ------------ | -------- |
-| React        | ≥ 18.0.0 |
-| React DOM    | ≥ 18.0.0 |
+| React        | ≥ 19.0.0 |
+| React DOM    | ≥ 19.0.0 |
 | Tailwind CSS | ≥ 4.0.0  |
+
+### Verified integration baseline
+
+- React 19
+- React DOM 19
+- TypeScript 5.9
+- Vite 8
+- TanStack Router + Vite plugin
+- Tailwind CSS v4
 
 ## What is currently included (updates will follow)
 
