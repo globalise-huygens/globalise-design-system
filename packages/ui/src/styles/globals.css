@@ -157,7 +157,7 @@
 
     --overlay-document-viewer-inset-x: var(--s24);
     --overlay-document-viewer-inset-top: 40px;
-    --overlay-document-viewer-inset-bottom: var(--s24);
+    --overlay-document-viewer-inset-bottom: 0px;
     --overlay-document-viewer-frame-max-width: 100vw;
     --overlay-document-viewer-top-bar-height: var(--s48);
     --overlay-document-viewer-bottom-bar-height: var(--control);
@@ -223,11 +223,11 @@
       --overlay-inset: var(--s32);
 
       --overlay-document-viewer-inset-x: var(--s24);
-      --overlay-document-viewer-inset-top: 40px;
-      --overlay-document-viewer-inset-bottom: var(--s24);
+      --overlay-document-viewer-inset-top: var(--s48);
+      --overlay-document-viewer-inset-bottom: 0px;
       --overlay-document-viewer-top-bar-height: var(--s48);
-      --overlay-document-viewer-bottom-bar-height: var(--control);
-      --overlay-document-viewer-rail-width: var(--rail);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
+      --overlay-document-viewer-rail-width: var(--s64);
       --overlay-document-viewer-frame-max-width: 100vw;
 
       --overlay-object-card-inset-x: var(--s48);
@@ -242,10 +242,10 @@
     :root {
       --overlay-document-viewer-inset-x: var(--s32);
       --overlay-document-viewer-inset-top: var(--s48);
-      --overlay-document-viewer-inset-bottom: var(--s32);
+      --overlay-document-viewer-inset-bottom: 0px;
       --overlay-document-viewer-top-bar-height: var(--s48);
-      --overlay-document-viewer-bottom-bar-height: var(--control);
-      --overlay-document-viewer-rail-width: var(--rail);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
+      --overlay-document-viewer-rail-width: var(--s64);
       --overlay-document-viewer-frame-max-width: 100vw;
 
       --overlay-object-card-inset-x: var(--s64);
@@ -260,10 +260,10 @@
     :root {
       --overlay-document-viewer-inset-x: var(--s48);
       --overlay-document-viewer-inset-top: var(--s64);
-      --overlay-document-viewer-inset-bottom: var(--s48);
+      --overlay-document-viewer-inset-bottom: 0px;
       --overlay-document-viewer-top-bar-height: var(--s56);
       --overlay-document-viewer-bottom-bar-height: var(--s48);
-      --overlay-document-viewer-rail-width: var(--rail);
+      --overlay-document-viewer-rail-width: var(--s64);
       --overlay-document-viewer-frame-max-width: 100vw;
 
       --overlay-object-card-inset-x: 96px;
@@ -278,10 +278,10 @@
     :root {
       --overlay-document-viewer-inset-x: var(--s48);
       --overlay-document-viewer-inset-top: 80px;
-      --overlay-document-viewer-inset-bottom: var(--s64);
+      --overlay-document-viewer-inset-bottom: 0px;
       --overlay-document-viewer-top-bar-height: var(--s56);
       --overlay-document-viewer-bottom-bar-height: var(--s48);
-      --overlay-document-viewer-rail-width: var(--rail);
+      --overlay-document-viewer-rail-width: var(--s64);
       --overlay-document-viewer-frame-max-width: 1920px;
 
       --overlay-object-card-inset-x: 136px;

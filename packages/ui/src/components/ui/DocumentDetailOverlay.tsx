@@ -50,26 +50,30 @@ const DocumentDetailOverlay = React.forwardRef<
         isOpen={isOpen}
         isDismissable={isDismissable}
         className={cn(
-          "fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-brand-black/80 backdrop-blur-[2px]",
+          "fixed inset-0 z-50 overflow-hidden overscroll-none bg-brand-black/80 backdrop-blur-[2px]",
           className,
         )}
         {...props}
       >
         <AriaModal
           className={cn(
-            "grid min-h-full w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-start overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
+            "flex h-full w-full items-end justify-center overflow-hidden px-overlay-document-viewer-inset-x pb-0 pt-overlay-document-viewer-inset-top",
             modalClassName,
           )}
         >
-          <AriaDialog
-            className={cn(
-              "slot-full-bleed xl:col-start-2 xl:col-span-14 grid h-overlay-document-viewer-frame-height w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-brand-black outline-none",
-              contentClassName,
-              dialogClassName,
-            )}
-          >
-            {children}
-          </AriaDialog>
+          <div className="flex h-overlay-document-viewer-frame-height w-overlay-document-viewer-frame-width max-w-overlay-document-viewer-frame-max-width min-h-0 items-stretch justify-center overflow-hidden">
+            <div className="grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center">
+              <AriaDialog
+                className={cn(
+                  "slot-full-bleed grid h-full min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-neutral-800 shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)] outline-none",
+                  contentClassName,
+                  dialogClassName,
+                )}
+              >
+                {children}
+              </AriaDialog>
+            </div>
+          </div>
         </AriaModal>
       </AriaModalOverlay>
     );
@@ -90,7 +94,7 @@ function DocumentDetailTopBar({
   return (
     <header
       className={cn(
-        "slot-full-bleed flex h-overlay-document-viewer-top-bar-height shrink-0 items-center border-b border-brand-white/10 bg-brand-black",
+        "slot-full-bleed flex h-overlay-document-viewer-top-bar-height shrink-0 items-center border-b border-brand-white/10 bg-neutral-900",
         className,
       )}
       {...props}
@@ -178,11 +182,17 @@ function DocumentDetailViewer({
 export interface DocumentDetailViewerPaneProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Toolbar content rendered above the pane's canvas area. */
   toolbar?: React.ReactNode;
+  /** Renders the toolbar as an overlay without reserving header height. */
+  toolbarFloating?: boolean;
+  /** Optional class overrides for the toolbar wrapper. */
+  toolbarClassName?: string;
 }
 
 function DocumentDetailViewerPane({
   className,
   toolbar,
+  toolbarFloating = false,
+  toolbarClassName,
   children,
   ...props
 }: DocumentDetailViewerPaneProps) {
@@ -190,12 +200,20 @@ function DocumentDetailViewerPane({
     <div
       className={cn(
         "flex min-h-0 flex-1 flex-col overflow-hidden border-r border-brand-white/10 last:border-r-0",
+        toolbarFloating && "relative",
         className,
       )}
       {...props}
     >
       {toolbar && (
-        <div className="flex h-toolbar shrink-0 items-center border-b border-brand-white/10 px-viewer-pad">
+        <div
+          className={cn(
+            toolbarFloating
+              ? "absolute left-0 top-0 z-10 flex items-center px-viewer-pad py-viewer-pad"
+              : "flex h-toolbar shrink-0 items-center border-b border-brand-white/10 px-viewer-pad",
+            toolbarClassName,
+          )}
+        >
           {toolbar}
         </div>
       )}
@@ -217,7 +235,7 @@ function DocumentDetailBottomBar({
   return (
     <footer
       className={cn(
-        "slot-full-bleed flex h-overlay-document-viewer-bottom-bar-height shrink-0 items-center border-t border-brand-white/10 bg-brand-black",
+        "slot-full-bleed flex h-overlay-document-viewer-bottom-bar-height shrink-0 items-center border-t border-brand-white/10 bg-neutral-900",
         className,
       )}
       {...props}

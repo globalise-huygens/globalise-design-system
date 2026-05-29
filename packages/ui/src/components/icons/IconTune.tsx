@@ -1,0 +1,14 @@
+import { SVGProps } from "react";
+
+export function IconTune(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 18 18"
+      fill="currentColor"
+      {...props}
+    >
+      <path d="M8.25 15.75V11.25H9.75V12.75H15.75V14.25H9.75V15.75H8.25ZM2.25 14.25V12.75H6.75V14.25H2.25ZM5.25 11.25V9.75H2.25V8.25H5.25V6.75H6.75V11.25H5.25ZM8.25 9.75V8.25H15.75V9.75H8.25ZM11.25 6.75V2.25H12.75V3.75H15.75V5.25H12.75V6.75H11.25ZM2.25 5.25V3.75H9.75V5.25H2.25Z" />
+    </svg>
+  );
+}
