@@ -64,7 +64,8 @@ This template includes:
 - React 19 + React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + Vite router plugin
+- TanStack Router
+- TanStack Query
 - Tailwind CSS v4
 
 Use it as the baseline for transferring this design system into:
@@ -93,7 +94,7 @@ export function Page() {
 | Component        | Description                                          |
 | ---------------- | ---------------------------------------------------- |
 | `Container`      | Responsive max-width wrapper with horizontal padding |
-| `Grid`           | 12-column CSS grid                                   |
+| `Grid`           | Responsive 4 / 8 / 16-column CSS grid                |
 | `Section`        | Full-width band with background and spacing variants |
 | `SectionDivider` | Convenience divider inside a Container               |
 | `Divider`        | Semantic `<hr>` styled as a subtle white line        |
@@ -288,7 +289,7 @@ import {
         </ObjectCardPropertyList>
       </ObjectCardSection>
       <ObjectCardFooter>
-        <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+        <ObjectCardAction icon={<IconCopy className="h-s16 w-s16" />}>
           Copy URI
         </ObjectCardAction>
       </ObjectCardFooter>
@@ -309,7 +310,7 @@ import {
 </ObjectCard>;
 ```
 
-Pair `ObjectCard` with `ObjectCardOverlay` when you want modal presentation aligned to the 12-column Globalise grid.
+Pair `ObjectCard` with `ObjectCardOverlay` when you want modal presentation aligned to the responsive Globalise shell grid.
 
 | Badge type | Color scheme |
 | ---------- | ------------ |

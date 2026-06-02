@@ -55,7 +55,7 @@ const ObjectCardOverlay = React.forwardRef<
           )}
         >
           <div className="flex h-overlay-object-card-frame-height w-overlay-object-card-frame-width max-w-overlay-object-card-frame-max-width min-h-0 items-stretch justify-center overflow-hidden">
-            <div className="grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center">
+            <div className="grid min-h-0 w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-stretch justify-center gap-x-shell-gutter">
               <div className={cn("min-h-0 w-full", contentClassName)}>
                 {children}
               </div>

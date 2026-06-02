@@ -34,7 +34,7 @@ const DocumentDetailOverlay = React.forwardRef<
       className,
       modalClassName,
       dialogClassName,
-      contentClassName,
+      contentClassName = "slot-full-bleed xl:col-start-2 xl:col-span-14",
       children,
       isDismissable = false,
       isOpen,
@@ -57,14 +57,14 @@ const DocumentDetailOverlay = React.forwardRef<
       >
         <AriaModal
           className={cn(
-            "grid min-h-full w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-start overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
+            "mx-auto grid min-h-full w-full max-w-overlay-document-viewer-frame-max-width grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] items-start gap-x-shell-gutter overflow-y-auto px-overlay-document-viewer-inset-x pb-overlay-document-viewer-inset-bottom pt-overlay-document-viewer-inset-top",
             modalClassName,
           )}
         >
           <AriaDialog
             className={cn(
-              "slot-full-bleed xl:col-start-2 xl:col-span-14 grid h-overlay-document-viewer-frame-height w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-brand-black outline-none",
               contentClassName,
+              "grid h-overlay-document-viewer-frame-height w-full grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] grid-rows-[auto_minmax(0,1fr)_auto] gap-x-shell-gutter overflow-hidden bg-brand-black outline-none",
               dialogClassName,
             )}
           >

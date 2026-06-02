@@ -5,7 +5,7 @@ import { ObjectCardOverlayDemo } from "./ObjectCardOverlayDemo";
 
 # Object Card Overlay
 
-A grid-aware overlay shell for ObjectCard and future document scan or page viewer layouts. It wraps React Aria's `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid.
+A grid-aware overlay shell for ObjectCard and future document scan or page viewer layouts. It wraps React Aria's `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid using the shared shell gutter.
 
 ## Preview
 
@@ -55,8 +55,9 @@ Use `contentClassName` to shift, widen, or split the overlay content within the 
     {
       name: "contentClassName",
       type: "string",
+      default: '"slot-content-band"',
       description:
-        "Additional classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
+        "Shell-grid placement classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
     },
   ]}
 />

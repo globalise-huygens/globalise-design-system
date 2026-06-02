@@ -25,7 +25,7 @@ const typographyVariants = cva("", {
         "font-sans text-sm text-muted-foreground leading-5 tracking-[-0.02em]",
       blockquote:
         "font-serif font-light text-4xl leading-10 tracking-[-0.02em]",
-      code: "relative bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+      code: "relative bg-muted px-s4 py-s4 font-mono text-sm font-semibold",
       /** Uppercased caption */
       label:
         "font-sans text-xs font-normal uppercase opacity-60 leading-4 tracking-[-0.02em]",

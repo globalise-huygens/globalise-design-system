@@ -47,9 +47,9 @@ A near-full shell overlay for document scan and transcription workflows. It comp
 
 ## Layout Notes
 
-The default desktop placement uses a near-full 16-column shell span (`xl:col-start-2 xl:col-span-14`) so the viewer occupies most of the viewport while still leaving edge context.
+The overlay modal now uses the same shell grid contract as pages: `repeat(var(--shell-cols), minmax(0, 1fr))` with `gap-x-shell-gutter`. The default desktop placement uses a near-full 16-column shell span (`xl:col-start-2 xl:col-span-14`) so the viewer occupies most of the viewport while still leaving edge context.
 
-Use `contentClassName` to override shell placement for alternate page or dual-view variants.
+Use `contentClassName` to replace shell placement for alternate page or dual-view variants. Use `dialogClassName` for visual styling on the frame itself.
 
 ## Props
 
@@ -74,8 +74,8 @@ Use `contentClassName` to override shell placement for alternate page or dual-vi
     {
       name: "contentClassName",
       type: "string",
-      description:
-        "Additional classes for shell-grid placement of the document frame.",
+      default: '"slot-full-bleed xl:col-start-2 xl:col-span-14"',
+      description: "Shell-grid placement classes for the document frame.",
     },
     {
       name: "modalClassName",

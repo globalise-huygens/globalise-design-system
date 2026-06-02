@@ -18,7 +18,7 @@ function SearchFieldContent({
     <>
       <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
       <IconSearch
-        className="h-5 w-5 shrink-0 text-brand-white"
+        className="h-s20 w-s20 shrink-0 text-brand-white"
         aria-hidden="true"
       />
       <AriaInput

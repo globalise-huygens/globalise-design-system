@@ -60,12 +60,12 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
 
       <div
         className={cn(
-          "absolute inset-0 p-3 flex flex-col justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
+          "absolute inset-0 flex flex-col justify-between p-s12 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
           touched && "opacity-100",
           cardHeroVariants({ hoverColor }),
         )}
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-s8">
           <span className="text-xs text-brand-black/60 leading-tight font-sans">
             {label}
           </span>
@@ -74,7 +74,7 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
           </span>
         </div>
         <IconArrowRight
-          className="h-5 w-5 text-brand-black"
+          className="h-s20 w-s20 text-brand-black"
           aria-hidden="true"
         />
       </div>
