@@ -5,7 +5,7 @@ import { PropsTable } from "@/components/PropsTable";
 
 # Document Detail Overlay
 
-A near-full shell overlay for document scan and transcription workflows. It composes top and bottom bars, a collapsed metadata rail, split scan/transcript panes, floating pane toolbars, and bottom pagination.
+A near-full shell overlay for document scan and transcription workflows. It composes top and bottom bars, expanded or collapsed metadata navigation, split scan/transcript panes, floating pane toolbars, and bottom pagination.
 
 ## Preview
 
@@ -22,9 +22,10 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   DocumentDetailCanvas,
   DocumentDetailControl,
   DocumentDetailFloatingToolbar,
-  DocumentDetailIconRail,
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
-  DocumentDetailRailButton,
   DocumentDetailSegment,
   DocumentDetailSegmentedControl,
   DocumentDetailSplitViewer,
@@ -36,9 +37,12 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   DocumentDetailViewer,
   DocumentDetailViewerPane,
   IconArrowLeftAlt,
+  IconChevronDown,
+  IconDocumentFrameAlert,
   IconDownloadTray,
   IconFolderCopy,
   IconFontSizing,
+  IconList,
   IconScan,
   IconTranscription,
   IconTune,
@@ -62,9 +66,27 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   </DocumentDetailTopBar>
 
   <DocumentDetailBody>
-    <DocumentDetailIconRail>
-      <DocumentDetailRailButton icon={<IconFolderCopy />} isActive label="1664" />
-    </DocumentDetailIconRail>
+    <DocumentDetailMetadataSidebar>
+      <DocumentDetailMetadataSidebarButton
+        variant="warning"
+        icon={<IconDocumentFrameAlert />}
+        label="Content Warning"
+        trailing={<IconChevronDown />}
+      />
+      <DocumentDetailMetadataSidebarButton
+        icon={<IconFolderCopy />}
+        label="Archive"
+        trailing={<IconChevronDown />}
+      >
+        <DocumentDetailMetadataSidebarBadge>1664</DocumentDetailMetadataSidebarBadge>
+      </DocumentDetailMetadataSidebarButton>
+      <DocumentDetailMetadataSidebarButton
+        icon={<IconList />}
+        label="Table of Contents"
+        count="(206)"
+        trailing={<IconChevronDown />}
+      />
+    </DocumentDetailMetadataSidebar>
 
     <DocumentDetailSplitViewer>
       <DocumentDetailViewerPane>
@@ -99,7 +121,7 @@ The overlay modal now uses the same shell grid contract as pages: `repeat(var(--
 
 Use `contentClassName` to replace shell placement for alternate page or dual-view variants. Use `dialogClassName` for visual styling on the frame itself.
 
-The component family is intentionally split into reusable primitives: bars (`DocumentDetailTopBar`, `DocumentDetailBottomBar`, `DocumentDetailBarGroup`, `DocumentDetailTitle`), controls (`DocumentDetailControl`, `DocumentDetailToolButton`, `DocumentDetailRailButton`, `DocumentDetailSegmentedControl`, `DocumentDetailSegment`), frame regions (`DocumentDetailBody`, `DocumentDetailViewer`, `DocumentDetailSplitViewer`, `DocumentDetailViewerPane`, `DocumentDetailSidePanel`), and content helpers (`DocumentDetailToolbar`, `DocumentDetailFloatingToolbar`, `DocumentDetailCanvas`, `DocumentDetailTranscriptCanvas`, `DocumentDetailTranscriptLine`, `DocumentDetailPanelHeader`).
+The component family is intentionally split into reusable primitives: bars (`DocumentDetailTopBar`, `DocumentDetailBottomBar`, `DocumentDetailBarGroup`, `DocumentDetailTitle`), controls (`DocumentDetailControl`, `DocumentDetailToolButton`, `DocumentDetailRailButton`, `DocumentDetailSegmentedControl`, `DocumentDetailSegment`), navigation (`DocumentDetailMetadataSidebar`, `DocumentDetailMetadataSidebarButton`, `DocumentDetailMetadataSidebarBadge`, `DocumentDetailIconRail`), frame regions (`DocumentDetailBody`, `DocumentDetailViewer`, `DocumentDetailSplitViewer`, `DocumentDetailViewerPane`, `DocumentDetailSidePanel`), and content helpers (`DocumentDetailToolbar`, `DocumentDetailFloatingToolbar`, `DocumentDetailCanvas`, `DocumentDetailTranscriptCanvas`, `DocumentDetailTranscriptLine`, `DocumentDetailPanelHeader`).
 
 ## Props
 

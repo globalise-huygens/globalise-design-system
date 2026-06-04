@@ -140,6 +140,105 @@ function DocumentDetailIconRail({
 }
 
 /* -------------------------------------------------------------------------- */
+/*  DocumentDetailMetadataSidebar                                              */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailMetadataSidebarProps extends React.HTMLAttributes<HTMLElement> {}
+
+function DocumentDetailMetadataSidebar({
+  className,
+  ...props
+}: DocumentDetailMetadataSidebarProps) {
+  return (
+    <nav
+      className={cn(
+        "flex h-full w-overlay-document-viewer-sidebar-width shrink-0 flex-col overflow-y-auto border-r border-brand-white/10 bg-neutral-900 text-brand-white [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export interface DocumentDetailMetadataSidebarButtonProps extends Omit<
+  AriaButtonProps,
+  "children" | "className" | "style"
+> {
+  className?: string;
+  icon?: React.ReactNode;
+  label?: React.ReactNode;
+  count?: React.ReactNode;
+  trailing?: React.ReactNode;
+  variant?: "default" | "warning";
+  children?: React.ReactNode;
+}
+
+const DocumentDetailMetadataSidebarButton = React.forwardRef<
+  HTMLButtonElement,
+  DocumentDetailMetadataSidebarButtonProps
+>(
+  (
+    {
+      className,
+      icon,
+      label,
+      count,
+      trailing,
+      variant = "default",
+      children,
+      ...props
+    },
+    ref,
+  ) => (
+    <AriaButton
+      ref={ref}
+      className={cn(
+        "flex h-s64 w-full items-center justify-between gap-s16 border-b border-brand-white/10 px-s24 font-sans text-brand-white transition-colors data-hovered:bg-brand-white/5 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring data-focus-visible:ring-inset",
+        variant === "warning" &&
+          "border-brand-black/10 text-vermilion-500 data-hovered:bg-vermilion-500/10",
+        className,
+      )}
+      {...props}
+    >
+      <span className="flex min-w-0 items-center gap-s8">
+        {icon && <span className="shrink-0">{icon}</span>}
+        {label && (
+          <span className="min-w-0 truncate text-left text-base leading-none lg:text-lg">
+            {label}
+          </span>
+        )}
+        {count && (
+          <span className="shrink-0 text-base font-light leading-none text-brand-white/45 lg:text-lg">
+            {count}
+          </span>
+        )}
+        {children}
+      </span>
+      {trailing && <span className="shrink-0">{trailing}</span>}
+    </AriaButton>
+  ),
+);
+DocumentDetailMetadataSidebarButton.displayName =
+  "DocumentDetailMetadataSidebarButton";
+
+export interface DocumentDetailMetadataSidebarBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {}
+
+function DocumentDetailMetadataSidebarBadge({
+  className,
+  ...props
+}: DocumentDetailMetadataSidebarBadgeProps) {
+  return (
+    <span
+      className={cn(
+        "inline-flex h-s20 min-w-s28 items-center justify-center border border-neutral-500 bg-neutral-600 px-s4 font-sans text-[13px] leading-none text-brand-white",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /*  DocumentDetailSidePanel                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -410,17 +509,20 @@ export interface DocumentDetailToolButtonProps extends Omit<
 > {
   className?: string;
   icon?: React.ReactNode;
+  isActive?: boolean;
   children?: React.ReactNode;
 }
 
 const DocumentDetailToolButton = React.forwardRef<
   HTMLButtonElement,
   DocumentDetailToolButtonProps
->(({ className, icon, children, ...props }, ref) => (
+>(({ className, icon, isActive = false, children, ...props }, ref) => (
   <AriaButton
     ref={ref}
     className={cn(
       "inline-flex h-s36 min-w-s32 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-white transition-colors data-hovered:bg-brand-white/10 data-pressed:bg-brand-white/15 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+      isActive &&
+        "bg-brand-white text-brand-black shadow-[0_1px_1px_rgba(0,0,0,0.12)] data-hovered:bg-brand-white data-pressed:bg-brand-white",
       className,
     )}
     {...props}
@@ -610,6 +712,9 @@ export {
   DocumentDetailControl,
   DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
   DocumentDetailPanelHeader,
   DocumentDetailRailButton,

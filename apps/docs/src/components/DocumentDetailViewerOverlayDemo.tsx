@@ -8,6 +8,9 @@ import {
   DocumentDetailCanvas,
   DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
   DocumentDetailRailButton,
   DocumentDetailSegment,
@@ -22,7 +25,7 @@ import {
   IconArrowLeftAlt,
   IconBrightness,
   IconCalendarClock,
-  IconCalendarClockLarge,
+  IconChevronDown,
   IconDashboardGear,
   IconDocumentFrameAlert,
   IconDownloadTray,
@@ -42,7 +45,6 @@ import {
   IconTune,
   IconViewModeGrid,
   IconViewObjectTrack,
-  IconViewObjectTrackLarge,
   IconWifiHome,
   IconZoomIn,
   IconZoomOut,
@@ -82,6 +84,94 @@ const TRANSCRIPT_LINE_WIDTHS = [
   "82%",
   "10%",
 ];
+
+const SIDEBAR_ITEMS = [
+  {
+    label: "Archive",
+    badge: "1664",
+    railLabel: "1664",
+    icon: <IconFolderCopy className="h-s20 w-s20" />,
+  },
+  {
+    label: "Table of Contents",
+    count: "(206)",
+    railLabel: "206",
+    icon: <IconList className="h-s20 w-s20" />,
+  },
+  {
+    label: "Identified",
+    count: "(376)",
+    railLabel: "376",
+    icon: <IconViewObjectTrack className="h-s20 w-s20" />,
+  },
+  {
+    label: "Events",
+    count: "(0)",
+    railLabel: "0",
+    icon: <IconCalendarClock className="h-s20 w-s20" />,
+  },
+];
+
+function SidebarDisclosureIcon() {
+  return <IconChevronDown className="h-s20 w-s20 text-current" />;
+}
+
+interface CollapsedMetadataRailProps {
+  onExpand: () => void;
+}
+
+function CollapsedMetadataRail({ onExpand }: CollapsedMetadataRailProps) {
+  return (
+    <DocumentDetailIconRail className="h-full w-full border-r-0 bg-neutral-900">
+      <DocumentDetailRailButton
+        aria-label="Expand content warning"
+        className="h-s72 border-b-0 text-vermilion-500"
+        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
+        onPress={onExpand}
+      />
+
+      {SIDEBAR_ITEMS.map((item) => (
+        <DocumentDetailRailButton
+          key={item.label}
+          aria-label={`Expand ${item.label}`}
+          className="h-s72 border-b-0"
+          icon={item.icon}
+          label={item.railLabel}
+          onPress={onExpand}
+        />
+      ))}
+    </DocumentDetailIconRail>
+  );
+}
+
+function ExpandedMetadataSidebar() {
+  return (
+    <DocumentDetailMetadataSidebar className="w-full border-r-0">
+      <DocumentDetailMetadataSidebarButton
+        variant="warning"
+        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
+        label="Content Warning"
+        trailing={<SidebarDisclosureIcon />}
+      />
+
+      {SIDEBAR_ITEMS.map((item) => (
+        <DocumentDetailMetadataSidebarButton
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          count={item.count}
+          trailing={<SidebarDisclosureIcon />}
+        >
+          {item.badge && (
+            <DocumentDetailMetadataSidebarBadge>
+              {item.badge}
+            </DocumentDetailMetadataSidebarBadge>
+          )}
+        </DocumentDetailMetadataSidebarButton>
+      ))}
+    </DocumentDetailMetadataSidebar>
+  );
+}
 
 function ManuscriptCanvas() {
   return (
@@ -173,6 +263,7 @@ function TranscriptCanvas() {
 
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -201,17 +292,46 @@ export function DocumentDetailViewerOverlayDemo() {
       <DocumentDetailOverlay
         isOpen={isOpen}
         onOpenChange={setIsOpen}
-        dialogClassName="bg-background-fixed-card shadow-[0_56px_96px_rgba(0,0,0,0.36)]"
+        dialogClassName="relative bg-background-fixed-card shadow-[0_56px_96px_rgba(0,0,0,0.36)]"
       >
-        <DocumentDetailTopBar className="relative justify-between border-b-0 bg-neutral-900 pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))] pr-s24">
-          <div className="absolute left-0 top-0 flex h-full w-overlay-document-viewer-rail-width items-center justify-center bg-brand-black text-vermilion-500">
-            <IconDocumentFrameAlert className="h-s20 w-s20" />
-          </div>
+        <div
+          id="document-detail-sidebar"
+          className={[
+            "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-200 ease-out",
+            isSidebarExpanded
+              ? "w-overlay-document-viewer-sidebar-width"
+              : "w-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
+          {isSidebarExpanded ? (
+            <ExpandedMetadataSidebar />
+          ) : (
+            <CollapsedMetadataRail
+              onExpand={() => setIsSidebarExpanded(true)}
+            />
+          )}
+        </div>
 
+        <DocumentDetailTopBar
+          className={[
+            "relative justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
+              : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
+          ].join(" ")}
+        >
           <DocumentDetailBarGroup className="gap-s8">
             <DocumentDetailToolButton
-              aria-label="Object overview"
+              aria-controls="document-detail-sidebar"
+              aria-expanded={isSidebarExpanded}
+              aria-label={
+                isSidebarExpanded
+                  ? "Collapse metadata sidebar"
+                  : "Expand metadata sidebar"
+              }
+              isActive={isSidebarExpanded}
               icon={<IconViewModeGrid className="h-s16 w-s16" />}
+              onPress={() => setIsSidebarExpanded((current) => !current)}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <DocumentDetailToolButton
@@ -279,38 +399,14 @@ export function DocumentDetailViewerOverlayDemo() {
           </DocumentDetailBarGroup>
         </DocumentDetailTopBar>
 
-        <DocumentDetailBody>
-          <DocumentDetailIconRail className="border-r-0 bg-neutral-900">
-            {[
-              {
-                label: "1664",
-                icon: <IconFolderCopy className="h-s20 w-s20" />,
-              },
-              {
-                label: "206",
-                icon: <IconList className="h-s24 w-s24" />,
-                active: false,
-              },
-              {
-                label: "376",
-                icon: <IconViewObjectTrackLarge className="h-s24 w-s24" />,
-                active: false,
-              },
-              {
-                label: "29",
-                icon: <IconCalendarClockLarge className="h-s24 w-s24" />,
-                active: false,
-              },
-            ].map((item) => (
-              <DocumentDetailRailButton
-                key={item.label}
-                className="h-s72 border-b-0"
-                icon={item.icon}
-                label={item.label}
-              />
-            ))}
-          </DocumentDetailIconRail>
-
+        <DocumentDetailBody
+          className={[
+            "transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-overlay-document-viewer-sidebar-width"
+              : "pl-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
           <DocumentDetailSplitViewer>
             <DocumentDetailViewerPane className="relative border-r border-brand-black">
               <ManuscriptCanvas />
@@ -321,7 +417,14 @@ export function DocumentDetailViewerOverlayDemo() {
           </DocumentDetailSplitViewer>
         </DocumentDetailBody>
 
-        <DocumentDetailBottomBar className="justify-center gap-s96 border-t-0 bg-neutral-900 pl-overlay-document-viewer-rail-width text-xs text-neutral-300">
+        <DocumentDetailBottomBar
+          className={[
+            "justify-center gap-s96 border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-overlay-document-viewer-sidebar-width"
+              : "pl-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
           <DocumentDetailBarGroup className="gap-s24">
             <DocumentDetailToolButton
               aria-label="First scan"
