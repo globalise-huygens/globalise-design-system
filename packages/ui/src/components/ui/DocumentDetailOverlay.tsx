@@ -4,6 +4,8 @@ import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import {
+  Button as AriaButton,
+  type ButtonProps as AriaButtonProps,
   Dialog as AriaDialog,
   Modal as AriaModal,
   ModalOverlay as AriaModalOverlay,
@@ -172,6 +174,27 @@ function DocumentDetailViewer({
 }
 
 /* -------------------------------------------------------------------------- */
+/*  DocumentDetailSplitViewer                                                  */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailSplitViewerProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailSplitViewer({
+  className,
+  ...props
+}: DocumentDetailSplitViewerProps) {
+  return (
+    <div
+      className={cn(
+        "grid min-w-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-2",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /*  DocumentDetailViewerPane                                                   */
 /* -------------------------------------------------------------------------- */
 
@@ -194,13 +217,363 @@ function DocumentDetailViewerPane({
       )}
       {...props}
     >
-      {toolbar && (
-        <div className="flex h-toolbar shrink-0 items-center border-b border-brand-white/10 px-viewer-pad">
-          {toolbar}
-        </div>
-      )}
+      {toolbar && <DocumentDetailToolbar>{toolbar}</DocumentDetailToolbar>}
       <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
     </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailFloatingToolbar                                              */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailFloatingToolbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailFloatingToolbar({
+  className,
+  ...props
+}: DocumentDetailFloatingToolbarProps) {
+  return (
+    <div
+      className={cn(
+        "absolute left-s16 top-s20 z-20 flex h-s40 w-fit items-center gap-s4 bg-brand-black px-s4 text-brand-white shadow-[0_4px_16px_rgba(0,0,0,0.28)]",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailCanvas                                                       */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailCanvasProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailCanvas({
+  className,
+  ...props
+}: DocumentDetailCanvasProps) {
+  return (
+    <div
+      className={cn(
+        "relative flex h-full w-full items-center justify-center bg-neutral-900 px-panel-pad py-panel-pad",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailTranscriptCanvas                                             */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailTranscriptCanvasProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailTranscriptCanvas({
+  className,
+  ...props
+}: DocumentDetailTranscriptCanvasProps) {
+  return (
+    <div
+      className={cn(
+        "relative h-full w-full overflow-hidden bg-neutral-600 px-panel-pad py-s96 text-neutral-300",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailTranscriptLine                                               */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailTranscriptLineProps extends React.HTMLAttributes<HTMLDivElement> {
+  index: number;
+  width?: React.CSSProperties["width"];
+}
+
+function DocumentDetailTranscriptLine({
+  className,
+  index,
+  width = "70%",
+  ...props
+}: DocumentDetailTranscriptLineProps) {
+  return (
+    <div className={cn("flex h-s16 items-center gap-s8", className)} {...props}>
+      <span className="w-s16 shrink-0 text-right font-sans text-[10px] leading-none text-neutral-300">
+        {index}
+      </span>
+      <span
+        className="h-s4 max-w-full shrink-0 bg-neutral-300/70"
+        style={{ width }}
+      />
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailBarGroup                                                     */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailBarGroupProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailBarGroup({
+  className,
+  ...props
+}: DocumentDetailBarGroupProps) {
+  return (
+    <div
+      className={cn("flex min-w-0 items-center gap-s12", className)}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailTitle                                                        */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailTitle({
+  className,
+  ...props
+}: DocumentDetailTitleProps) {
+  return (
+    <div
+      className={cn(
+        "min-w-0 px-s16 text-center font-sans text-xs text-brand-white lg:text-sm",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailControl                                                      */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailControlProps extends Omit<
+  AriaButtonProps,
+  "children" | "className" | "style"
+> {
+  className?: string;
+  icon?: React.ReactNode;
+  isIconOnly?: boolean;
+  isActive?: boolean;
+  children?: React.ReactNode;
+}
+
+const DocumentDetailControl = React.forwardRef<
+  HTMLButtonElement,
+  DocumentDetailControlProps
+>(
+  (
+    {
+      className,
+      icon,
+      isIconOnly = false,
+      isActive = false,
+      children,
+      ...props
+    },
+    ref,
+  ) => (
+    <AriaButton
+      ref={ref}
+      className={cn(
+        "inline-flex h-control items-center justify-center border border-brand-white/20 font-sans text-xs font-medium text-brand-white transition-colors data-hovered:border-brand-white/40 data-pressed:bg-brand-white/10 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+        isIconOnly ? "w-control px-0" : "gap-s8 px-s12",
+        isActive && "border-vermilion-500 bg-vermilion-500 text-brand-black",
+        className,
+      )}
+      {...props}
+    >
+      {icon}
+      {children && <span>{children}</span>}
+    </AriaButton>
+  ),
+);
+DocumentDetailControl.displayName = "DocumentDetailControl";
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailToolButton                                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailToolButtonProps extends Omit<
+  AriaButtonProps,
+  "children" | "className" | "style"
+> {
+  className?: string;
+  icon?: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+const DocumentDetailToolButton = React.forwardRef<
+  HTMLButtonElement,
+  DocumentDetailToolButtonProps
+>(({ className, icon, children, ...props }, ref) => (
+  <AriaButton
+    ref={ref}
+    className={cn(
+      "inline-flex h-s36 min-w-s32 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-white transition-colors data-hovered:bg-brand-white/10 data-pressed:bg-brand-white/15 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+      className,
+    )}
+    {...props}
+  >
+    {icon}
+    {children && <span>{children}</span>}
+  </AriaButton>
+));
+DocumentDetailToolButton.displayName = "DocumentDetailToolButton";
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailSegmentedControl                                             */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailSegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailSegmentedControl({
+  className,
+  ...props
+}: DocumentDetailSegmentedControlProps) {
+  return (
+    <div
+      className={cn(
+        "inline-flex h-s36 items-center gap-s4 rounded-[4px] bg-brand-white/10 p-s4 text-brand-white",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export interface DocumentDetailSegmentProps extends Omit<
+  AriaButtonProps,
+  "children" | "className" | "style"
+> {
+  className?: string;
+  icon?: React.ReactNode;
+  isActive?: boolean;
+  children?: React.ReactNode;
+}
+
+const DocumentDetailSegment = React.forwardRef<
+  HTMLButtonElement,
+  DocumentDetailSegmentProps
+>(({ className, icon, isActive = false, children, ...props }, ref) => (
+  <AriaButton
+    ref={ref}
+    className={cn(
+      "inline-flex h-s28 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-black transition-colors data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-brand-black",
+      !isActive &&
+        "bg-transparent text-brand-white data-hovered:bg-brand-white/10",
+      isActive &&
+        "bg-brand-white text-brand-black shadow-[0_1px_1px_rgba(0,0,0,0.12)]",
+      className,
+    )}
+    {...props}
+  >
+    {icon}
+    {children && <span>{children}</span>}
+  </AriaButton>
+));
+DocumentDetailSegment.displayName = "DocumentDetailSegment";
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailToolbar                                                      */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailToolbarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailToolbar({
+  className,
+  ...props
+}: DocumentDetailToolbarProps) {
+  return (
+    <div
+      className={cn(
+        "flex h-toolbar shrink-0 items-center gap-s8 border-b border-brand-white/10 px-viewer-pad text-brand-white",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailRailButton                                                   */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailRailButtonProps extends Omit<
+  AriaButtonProps,
+  "children" | "className" | "style"
+> {
+  className?: string;
+  icon?: React.ReactNode;
+  label?: React.ReactNode;
+  isActive?: boolean;
+  variant?: "default" | "accent";
+  children?: React.ReactNode;
+}
+
+const DocumentDetailRailButton = React.forwardRef<
+  HTMLButtonElement,
+  DocumentDetailRailButtonProps
+>(
+  (
+    {
+      className,
+      icon,
+      label,
+      isActive = false,
+      variant = "default",
+      children,
+      ...props
+    },
+    ref,
+  ) => (
+    <AriaButton
+      ref={ref}
+      className={cn(
+        "flex h-s64 w-full flex-col items-center justify-center gap-s4 border-b border-brand-white/10 font-sans text-[10px] text-brand-white transition-colors data-hovered:bg-neutral-800 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+        isActive && "bg-neutral-800",
+        variant === "accent" &&
+          "bg-vermilion-500 text-brand-black data-hovered:bg-vermilion-500",
+        className,
+      )}
+      {...props}
+    >
+      {icon}
+      {label && <span className="leading-none">{label}</span>}
+      {children}
+    </AriaButton>
+  ),
+);
+DocumentDetailRailButton.displayName = "DocumentDetailRailButton";
+
+/* -------------------------------------------------------------------------- */
+/*  DocumentDetailPanelHeader                                                  */
+/* -------------------------------------------------------------------------- */
+
+export interface DocumentDetailPanelHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function DocumentDetailPanelHeader({
+  className,
+  ...props
+}: DocumentDetailPanelHeaderProps) {
+  return (
+    <div
+      className={cn(
+        "sticky top-0 z-10 -mx-panel-pad -mt-panel-pad border-b border-brand-white/10 bg-inherit px-panel-pad py-s16",
+        className,
+      )}
+      {...props}
+    />
   );
 }
 
@@ -230,12 +603,26 @@ function DocumentDetailBottomBar({
 /* -------------------------------------------------------------------------- */
 
 export {
+  DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
+  DocumentDetailCanvas,
+  DocumentDetailControl,
+  DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
   DocumentDetailOverlay,
+  DocumentDetailPanelHeader,
+  DocumentDetailRailButton,
+  DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
   DocumentDetailSidePanel,
+  DocumentDetailSplitViewer,
+  DocumentDetailTitle,
   DocumentDetailTopBar,
+  DocumentDetailToolbar,
+  DocumentDetailToolButton,
+  DocumentDetailTranscriptCanvas,
+  DocumentDetailTranscriptLine,
   DocumentDetailViewer,
   DocumentDetailViewerPane,
 };

@@ -95,6 +95,7 @@
     /* ── Semantic tokens ───────────────────────────── */
     --surface-dark: var(--brand-black);
     --surface-light: var(--brand-white);
+    --background-fixed-card: #2b2c30;
     --text-on-dark: var(--brand-white);
     --text-on-light: var(--brand-black);
     --card: var(--surface-dark);
@@ -118,6 +119,7 @@
     --s48: 48px;
     --s56: 56px;
     --s64: 64px;
+    --s72: 72px;
     --s80: 80px;
     --s88: 88px;
     --s96: 96px;
@@ -128,7 +130,7 @@
     --s176: 176px;
 
     --control: var(--s40);
-    --rail: var(--s48);
+    --rail: var(--s64);
     --toolbar: var(--s56);
     --nav: var(--s56);
     --header-footer: var(--s64);
@@ -170,8 +172,8 @@
     --overlay-document-viewer-inset-top: var(--s40);
     --overlay-document-viewer-inset-bottom: var(--s24);
     --overlay-document-viewer-frame-max-width: 100vw;
-    --overlay-document-viewer-top-bar-height: var(--s48);
-    --overlay-document-viewer-bottom-bar-height: var(--control);
+    --overlay-document-viewer-top-bar-height: var(--s72);
+    --overlay-document-viewer-bottom-bar-height: var(--s56);
     --overlay-document-viewer-rail-width: var(--rail);
     --overlay-document-viewer-pane-gap: var(--shell-gutter);
     --overlay-document-viewer-side-panel-width: clamp(19rem, 31vw, 34rem);
@@ -236,8 +238,8 @@
       --overlay-document-viewer-inset-x: var(--s24);
       --overlay-document-viewer-inset-top: var(--s40);
       --overlay-document-viewer-inset-bottom: var(--s24);
-      --overlay-document-viewer-top-bar-height: var(--s48);
-      --overlay-document-viewer-bottom-bar-height: var(--control);
+      --overlay-document-viewer-top-bar-height: var(--s72);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
       --overlay-document-viewer-rail-width: var(--rail);
       --overlay-document-viewer-frame-max-width: 100vw;
 
@@ -254,8 +256,8 @@
       --overlay-document-viewer-inset-x: var(--s32);
       --overlay-document-viewer-inset-top: var(--s48);
       --overlay-document-viewer-inset-bottom: var(--s32);
-      --overlay-document-viewer-top-bar-height: var(--s48);
-      --overlay-document-viewer-bottom-bar-height: var(--control);
+      --overlay-document-viewer-top-bar-height: var(--s72);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
       --overlay-document-viewer-rail-width: var(--rail);
       --overlay-document-viewer-frame-max-width: 100vw;
 
@@ -272,8 +274,8 @@
       --overlay-document-viewer-inset-x: var(--s48);
       --overlay-document-viewer-inset-top: var(--s64);
       --overlay-document-viewer-inset-bottom: var(--s48);
-      --overlay-document-viewer-top-bar-height: var(--s56);
-      --overlay-document-viewer-bottom-bar-height: var(--s48);
+      --overlay-document-viewer-top-bar-height: var(--s72);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
       --overlay-document-viewer-rail-width: var(--rail);
       --overlay-document-viewer-frame-max-width: 100vw;
 
@@ -290,8 +292,8 @@
       --overlay-document-viewer-inset-x: var(--s48);
       --overlay-document-viewer-inset-top: var(--s80);
       --overlay-document-viewer-inset-bottom: var(--s64);
-      --overlay-document-viewer-top-bar-height: var(--s56);
-      --overlay-document-viewer-bottom-bar-height: var(--s48);
+      --overlay-document-viewer-top-bar-height: var(--s72);
+      --overlay-document-viewer-bottom-bar-height: var(--s56);
       --overlay-document-viewer-rail-width: var(--rail);
       --overlay-document-viewer-frame-max-width: 1920px;
 
@@ -385,6 +387,7 @@
   /* Semantic tokens */
   --color-surface-dark: var(--surface-dark);
   --color-surface-light: var(--surface-light);
+  --color-background-fixed-card: var(--background-fixed-card);
   --color-text-on-dark: var(--text-on-dark);
   --color-text-on-light: var(--text-on-light);
   --color-card: var(--card);
@@ -407,6 +410,7 @@
   --spacing-s48: var(--s48);
   --spacing-s56: var(--s56);
   --spacing-s64: var(--s64);
+  --spacing-s72: var(--s72);
   --spacing-s80: var(--s80);
   --spacing-s88: var(--s88);
   --spacing-s96: var(--s96);

@@ -5,7 +5,7 @@ import { PropsTable } from "@/components/PropsTable";
 
 # Document Detail Overlay
 
-A near-full shell overlay for document scan and transcription workflows. It composes top and bottom bars, a left icon rail, a primary viewer pane, and a right transcript panel.
+A near-full shell overlay for document scan and transcription workflows. It composes top and bottom bars, a collapsed metadata rail, split scan/transcript panes, floating pane toolbars, and bottom pagination.
 
 ## Preview
 
@@ -16,29 +16,77 @@ A near-full shell overlay for document scan and transcription workflows. It comp
 ## Usage
 
 <CodeBlock code={`import {
+  DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
+  DocumentDetailCanvas,
+  DocumentDetailControl,
+  DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
   DocumentDetailOverlay,
-  DocumentDetailSidePanel,
+  DocumentDetailRailButton,
+  DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
+  DocumentDetailSplitViewer,
+  DocumentDetailTitle,
+  DocumentDetailToolButton,
   DocumentDetailTopBar,
+  DocumentDetailTranscriptCanvas,
+  DocumentDetailTranscriptLine,
   DocumentDetailViewer,
   DocumentDetailViewerPane,
+  IconArrowLeftAlt,
+  IconDownloadTray,
+  IconFolderCopy,
+  IconFontSizing,
+  IconScan,
+  IconTranscription,
+  IconTune,
+  IconZoomIn,
+  IconZoomOut,
 } from "@globalise/design-system";
 
 <DocumentDetailOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
-  <DocumentDetailTopBar>{/* controls */}</DocumentDetailTopBar>
+  <DocumentDetailTopBar className="justify-between px-s24">
+    <DocumentDetailBarGroup>
+      <DocumentDetailToolButton onPress={goBack} icon={<IconArrowLeftAlt />}>Back to search</DocumentDetailToolButton>
+      <DocumentDetailSegmentedControl>
+        <DocumentDetailSegment isActive icon={<IconScan />}>Scan</DocumentDetailSegment>
+        <DocumentDetailSegment icon={<IconTranscription />}>Text</DocumentDetailSegment>
+      </DocumentDetailSegmentedControl>
+    </DocumentDetailBarGroup>
+    <DocumentDetailTitle>NL-HaNA_1.04.02_3365_0215</DocumentDetailTitle>
+    <DocumentDetailBarGroup>
+      <DocumentDetailToolButton aria-label="Download" icon={<IconDownloadTray />} />
+    </DocumentDetailBarGroup>
+  </DocumentDetailTopBar>
 
   <DocumentDetailBody>
-    <DocumentDetailIconRail>{/* tool modes */}</DocumentDetailIconRail>
+    <DocumentDetailIconRail>
+      <DocumentDetailRailButton icon={<IconFolderCopy />} isActive label="1664" />
+    </DocumentDetailIconRail>
 
-    <DocumentDetailViewer>
-      <DocumentDetailViewerPane toolbar={<div>Viewer tools</div>}>
-        {/* scan canvas */}
+    <DocumentDetailSplitViewer>
+      <DocumentDetailViewerPane>
+        <DocumentDetailCanvas>
+          <DocumentDetailFloatingToolbar>
+            <IconZoomOut />
+            <span>100%</span>
+            <IconZoomIn />
+            <DocumentDetailControl icon={<IconTune />}>Tune</DocumentDetailControl>
+          </DocumentDetailFloatingToolbar>
+          {/* scan canvas */}
+        </DocumentDetailCanvas>
       </DocumentDetailViewerPane>
-    </DocumentDetailViewer>
-
-    <DocumentDetailSidePanel>{/* transcript */}</DocumentDetailSidePanel>
+      <DocumentDetailViewerPane>
+        <DocumentDetailTranscriptCanvas>
+          <DocumentDetailFloatingToolbar>
+            <DocumentDetailToolButton icon={<IconFontSizing />}>Text</DocumentDetailToolButton>
+          </DocumentDetailFloatingToolbar>
+          <DocumentDetailTranscriptLine index={1} width="72%" />
+        </DocumentDetailTranscriptCanvas>
+      </DocumentDetailViewerPane>
+    </DocumentDetailSplitViewer>
 
   </DocumentDetailBody>
 
@@ -50,6 +98,8 @@ A near-full shell overlay for document scan and transcription workflows. It comp
 The overlay modal now uses the same shell grid contract as pages: `repeat(var(--shell-cols), minmax(0, 1fr))` with `gap-x-shell-gutter`. The default desktop placement uses a near-full 16-column shell span (`xl:col-start-2 xl:col-span-14`) so the viewer occupies most of the viewport while still leaving edge context.
 
 Use `contentClassName` to replace shell placement for alternate page or dual-view variants. Use `dialogClassName` for visual styling on the frame itself.
+
+The component family is intentionally split into reusable primitives: bars (`DocumentDetailTopBar`, `DocumentDetailBottomBar`, `DocumentDetailBarGroup`, `DocumentDetailTitle`), controls (`DocumentDetailControl`, `DocumentDetailToolButton`, `DocumentDetailRailButton`, `DocumentDetailSegmentedControl`, `DocumentDetailSegment`), frame regions (`DocumentDetailBody`, `DocumentDetailViewer`, `DocumentDetailSplitViewer`, `DocumentDetailViewerPane`, `DocumentDetailSidePanel`), and content helpers (`DocumentDetailToolbar`, `DocumentDetailFloatingToolbar`, `DocumentDetailCanvas`, `DocumentDetailTranscriptCanvas`, `DocumentDetailTranscriptLine`, `DocumentDetailPanelHeader`).
 
 ## Props
 
