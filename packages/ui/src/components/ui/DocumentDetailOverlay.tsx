@@ -323,7 +323,11 @@ function DocumentDetailViewerPane({
       )}
       {...props}
     >
-      {toolbar && <DocumentDetailToolbar>{toolbar}</DocumentDetailToolbar>}
+      {toolbar && (
+        <DocumentDetailToolbar className={toolbarClassName}>
+          {toolbar}
+        </DocumentDetailToolbar>
+      )}
       <div className="min-h-0 flex-1 overflow-hidden">{children}</div>
     </div>
   );
@@ -492,7 +496,7 @@ const DocumentDetailControl = React.forwardRef<
     <AriaButton
       ref={ref}
       className={cn(
-        "inline-flex h-control items-center justify-center border border-brand-white/20 font-sans text-xs font-medium text-brand-white transition-colors data-hovered:border-brand-white/40 data-pressed:bg-brand-white/10 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+        "inline-flex h-control items-center justify-center border border-brand-white/20 font-sans text-xs font-medium text-brand-white transition-colors data-hovered:border-brand-white/40 pressed:bg-brand-white/10 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
         isIconOnly ? "w-control px-0" : "gap-s8 px-s12",
         isActive && "border-vermilion-500 bg-vermilion-500 text-brand-black",
         className,
@@ -527,9 +531,9 @@ const DocumentDetailToolButton = React.forwardRef<
   <AriaButton
     ref={ref}
     className={cn(
-      "inline-flex h-s36 min-w-s32 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-white transition-colors data-hovered:bg-brand-white/10 data-pressed:bg-brand-white/15 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
+      "inline-flex h-s36 min-w-s32 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-white transition-colors data-hovered:bg-brand-white/10 pressed:bg-brand-white/15 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
       isActive &&
-        "bg-brand-white text-brand-black shadow-[0_1px_1px_rgba(0,0,0,0.12)] data-hovered:bg-brand-white data-pressed:bg-brand-white",
+        "bg-brand-white text-brand-black shadow-[0_1px_1px_rgba(0,0,0,0.12)] data-hovered:bg-brand-white pressed:bg-brand-white",
       className,
     )}
     {...props}

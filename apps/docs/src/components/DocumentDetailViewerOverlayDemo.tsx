@@ -2,6 +2,7 @@
 
 import {
   Button,
+  cn,
   DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
@@ -289,7 +290,7 @@ function ManuscriptCanvas() {
         />
       </DocumentDetailFloatingToolbar>
 
-      <div className="relative h-full max-h-[calc(100%-var(--s32))] aspect-[1102/1566] border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+      <div className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
         <Image
           src="/images/document-detail-manuscript.png"
           alt="Manuscript scan preview"
@@ -328,7 +329,7 @@ function TranscriptCanvas() {
         />
       </DocumentDetailFloatingToolbar>
 
-      <div className="mx-auto flex max-w-[456px] flex-col gap-s4 pt-s24">
+      <div className="mx-auto flex max-w-114 flex-col gap-s4 pt-s24">
         {TRANSCRIPT_LINE_WIDTHS.map((width, index) => (
           <DocumentDetailTranscriptLine
             key={`${index}-${width}`}
@@ -443,7 +444,7 @@ export function DocumentDetailViewerOverlayDemo() {
             </DocumentDetailSegmentedControl>
           </DocumentDetailBarGroup>
 
-          <DocumentDetailTitle className="max-w-[520px] flex-1 px-s24 text-sm leading-tight text-neutral-200">
+          <DocumentDetailTitle className="max-w-130 flex-1 px-s24 text-sm leading-tight text-neutral-200">
             <p className="truncate">
               26 March 1702 • 26 • missive van den independent fiscael tot
               cormandel Hendrick beiker
