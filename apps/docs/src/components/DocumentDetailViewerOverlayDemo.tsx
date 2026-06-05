@@ -23,6 +23,7 @@ import {
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewerPane,
+  ObjectCardReferenceItem,
   IconArrowLeftAlt,
   IconBrightness,
   IconCalendarClock,
@@ -87,6 +88,9 @@ const TRANSCRIPT_LINE_WIDTHS = [
   "82%",
   "10%",
 ];
+
+const FLOATING_TOOLBAR_REVEAL_CLASS =
+  "bg-brand-black/35 text-brand-white/45 shadow-none transition-[background-color,box-shadow,color] duration-150 [&_button]:text-brand-white/45 hover:bg-brand-black hover:text-brand-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.28)] hover:[&_button]:text-brand-white focus-within:bg-brand-black focus-within:text-brand-white focus-within:shadow-[0_4px_16px_rgba(0,0,0,0.28)] focus-within:[&_button]:text-brand-white";
 
 const SIDEBAR_ITEMS = [
   {
@@ -646,32 +650,29 @@ function TableOfContentsScanCard({
   cardRef?: React.Ref<HTMLDivElement>;
 }) {
   return (
-    <div ref={cardRef} className="bg-neutral-800 py-s10">
-      <div className="flex items-start gap-s24 pr-s2">
-        <div className="relative h-22.25 w-15.5 shrink-0 overflow-hidden bg-neutral-700">
-          <Image
-            src="/images/document-detail-manuscript.png"
-            alt=""
-            fill
-            sizes="62px"
-            className="object-cover object-top"
-          />
-        </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-s8">
-          <div className="text-xs leading-3 text-brand-white">
-            {id} · scan {scan}
+    <div ref={cardRef}>
+      <ObjectCardReferenceItem
+        className="border-brand-white/20 py-s12"
+        title={`${id} · scan ${scan}`}
+        archiveId="NA Identifier"
+        href="#"
+        image={
+          <div className="relative h-full w-full overflow-hidden bg-neutral-700">
+            <Image
+              src="/images/document-detail-manuscript.png"
+              alt=""
+              fill
+              sizes="80px"
+              className="object-contain p-s4"
+            />
           </div>
-          {snippet && (
-            <div className="bg-neutral-700 p-s8 text-xs leading-4 text-stone-300">
-              <p className="line-clamp-2 [&_strong]:font-semibold">{snippet}</p>
-            </div>
-          )}
-          <div className="inline-flex items-center gap-s6 text-xs leading-4 text-zinc-400">
-            NA Identifier
-            <IconExternalLink className="h-s12 w-s12 shrink-0" />
-          </div>
-        </div>
-      </div>
+        }
+        snippet={
+          snippet ? (
+            <span className="[&_strong]:font-semibold">{snippet}</span>
+          ) : undefined
+        }
+      />
     </div>
   );
 }
@@ -708,33 +709,43 @@ function TableOfContentsPanel() {
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <label className="inline-flex min-w-0 items-center gap-s6 text-[10px] leading-3 text-brand-white">
+        <label className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:text-brand-white/75">
           <input
             type="checkbox"
             checked={resultsOnly}
             onChange={(event) => setResultsOnly(event.target.checked)}
-            className="h-s12 w-s12 shrink-0 appearance-none border border-brand-white bg-transparent checked:bg-brand-white"
+            className="peer sr-only"
           />
-          <span>Results Only</span>
+          <span className="h-s12 w-s12 shrink-0 bg-neutral-700 peer-checked:bg-brand-white peer-checked:shadow-[inset_0_0_0_2px_var(--neutral-800)]" />
+          <span>Results</span>
         </label>
 
-        <div className="flex shrink-0 items-center gap-s4">
-          <button
-            type="button"
-            onClick={scrollToSelectedDocument}
-            className="inline-flex h-s24 items-center gap-s4 border border-brand-white/15 px-s6 text-[10px] leading-3 text-brand-white transition-colors hover:border-brand-white/35"
-          >
-            <IconDocument className="h-s12 w-s12" />
-            Document
-          </button>
-          <button
-            type="button"
-            onClick={scrollToActiveScan}
-            className="inline-flex h-s24 items-center gap-s4 border border-brand-white/15 px-s6 text-[10px] leading-3 text-brand-white transition-colors hover:border-brand-white/35"
-          >
-            <IconScan className="h-s12 w-s12" />
-            Scan {ACTIVE_TOC_SCAN}
-          </button>
+        <div className="flex shrink-0 items-center gap-s12">
+          <span className="text-[10px] leading-3 text-brand-white/45">
+            Jump
+          </span>
+          <div className="flex items-center gap-s12">
+            <button
+              type="button"
+              aria-label="Jump to active document"
+              title="Jump to active document"
+              onClick={scrollToSelectedDocument}
+              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <IconDocument className="h-s12 w-s12" />
+              Doc
+            </button>
+            <button
+              type="button"
+              aria-label={`Jump to active scan page ${ACTIVE_TOC_SCAN}`}
+              title={`Jump to active scan page ${ACTIVE_TOC_SCAN}`}
+              onClick={scrollToActiveScan}
+              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <IconScan className="h-s12 w-s12" />
+              {ACTIVE_TOC_SCAN}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -959,7 +970,7 @@ function EditableCounter({
 function ManuscriptCanvas() {
   return (
     <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
-      <DocumentDetailFloatingToolbar>
+      <DocumentDetailFloatingToolbar className={FLOATING_TOOLBAR_REVEAL_CLASS}>
         <DocumentDetailBarGroup className="h-s36 gap-s4 px-s4 text-xs">
           <IconZoomOut className="h-s16 w-s16" />
           <span>100%</span>
@@ -1008,7 +1019,12 @@ function ManuscriptCanvas() {
 function TranscriptCanvas() {
   return (
     <DocumentDetailTranscriptCanvas>
-      <DocumentDetailFloatingToolbar className="left-auto right-s24 gap-s4 px-s4">
+      <DocumentDetailFloatingToolbar
+        className={cn(
+          "left-auto right-s24 gap-s4 px-s4",
+          FLOATING_TOOLBAR_REVEAL_CLASS,
+        )}
+      >
         <DocumentDetailToolButton
           aria-label="Toggle transcript text"
           className="min-w-s28 px-s4"
