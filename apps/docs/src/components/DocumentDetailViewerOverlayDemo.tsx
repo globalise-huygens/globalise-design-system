@@ -17,17 +17,16 @@ import {
   DocumentDetailSegment,
   DocumentDetailSegmentedControl,
   DocumentDetailSplitViewer,
-  DocumentDetailTitle,
   DocumentDetailToolButton,
   DocumentDetailTopBar,
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewerPane,
   ObjectCardReferenceItem,
-  IconArrowLeftAlt,
   IconBrightness,
   IconCalendarClock,
   IconChevronDown,
+  IconClose,
   IconDashboardGear,
   IconDocument,
   IconDocumentFrameAlert,
@@ -91,6 +90,9 @@ const TRANSCRIPT_LINE_WIDTHS = [
 
 const FLOATING_TOOLBAR_REVEAL_CLASS =
   "bg-brand-black/35 text-brand-white/45 shadow-none transition-[background-color,box-shadow,color] duration-150 [&_button]:text-brand-white/45 hover:bg-brand-black hover:text-brand-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.28)] hover:[&_button]:text-brand-white focus-within:bg-brand-black focus-within:text-brand-white focus-within:shadow-[0_4px_16px_rgba(0,0,0,0.28)] focus-within:[&_button]:text-brand-white";
+
+const TOP_BAR_ICON_BUTTON_CLASS =
+  "h-s36 min-w-s36 px-0 [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
 const SIDEBAR_ITEMS = [
   {
@@ -1129,71 +1131,77 @@ export function DocumentDetailViewerOverlayDemo() {
                   : "Expand metadata sidebar"
               }
               isActive={isSidebarExpanded}
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconViewModeGrid className="h-s16 w-s16" />}
               onPress={() => setIsSidebarExpanded((current) => !current)}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailToolButton
-              onPress={() => setIsOpen(false)}
-              icon={<IconArrowLeftAlt className="h-s16 w-s16" />}
-            >
-              Back to Search
-            </DocumentDetailToolButton>
-            <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailSegmentedControl>
+            <DocumentDetailSegmentedControl className="h-s36 gap-0 overflow-hidden rounded-[6px] bg-transparent p-0">
               <DocumentDetailSegment
                 isActive
-                icon={<IconScan className="h-s16 w-s16" />}
+                className="h-s36 rounded-none rounded-l-[6px] border-r border-brand-black/70 px-s12 text-sm leading-5"
+                icon={<IconScan className="h-[18px] w-[18px]" />}
               >
                 Scan
               </DocumentDetailSegment>
               <DocumentDetailSegment
                 isActive
-                icon={<IconTranscription className="h-s16 w-s16" />}
+                className="h-s36 rounded-none rounded-r-[6px] px-s12 text-sm leading-5"
+                icon={<IconTranscription className="h-[18px] w-[18px]" />}
               >
                 Text
               </DocumentDetailSegment>
             </DocumentDetailSegmentedControl>
-            <DocumentDetailSegmentedControl className="bg-transparent text-brand-white">
-              <DocumentDetailSegment isActive>N</DocumentDetailSegment>
-              <DocumentDetailSegment className="text-brand-white">
+            <DocumentDetailSegmentedControl className="h-s36 bg-transparent text-brand-white">
+              <DocumentDetailSegment isActive className="h-s36 px-s12">
+                N
+              </DocumentDetailSegment>
+              <DocumentDetailSegment className="h-s36 px-s12 text-brand-white">
                 D
               </DocumentDetailSegment>
             </DocumentDetailSegmentedControl>
           </DocumentDetailBarGroup>
 
-          <DocumentDetailTitle className="max-w-130 flex-1 px-s24 text-sm leading-tight text-neutral-200">
-            <p className="truncate">
-              26 March 1702 • 26 • missive van den independent fiscael tot
-              cormandel Hendrick beiker
-            </p>
-          </DocumentDetailTitle>
+          <div className="flex-1" />
 
           <DocumentDetailBarGroup className="gap-s8">
             <DocumentDetailToolButton
               aria-label="Swap panes"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconSwap className="h-s16 w-s16" />}
             />
             <DocumentDetailToolButton
               aria-label="Picture in picture"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconPictureInPicture className="h-s16 w-s16" />}
             />
             <DocumentDetailToolButton
               aria-label="Open document"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconImportContacts className="h-s16 w-s16" />}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <DocumentDetailToolButton
               aria-label="Object tracking"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconViewObjectTrack className="h-s16 w-s16" />}
             />
             <DocumentDetailToolButton
               aria-label="Date metadata"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconCalendarClock className="h-s16 w-s16" />}
             />
             <DocumentDetailToolButton
               aria-label="Settings"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconDashboardGear className="h-s16 w-s16" />}
+            />
+            <span className="font-sans text-xs text-brand-white/70">|</span>
+            <DocumentDetailToolButton
+              aria-label="Close document detail viewer"
+              className={TOP_BAR_ICON_BUTTON_CLASS}
+              icon={<IconClose className="h-s16 w-s16" />}
+              onPress={() => setIsOpen(false)}
             />
           </DocumentDetailBarGroup>
         </DocumentDetailTopBar>
