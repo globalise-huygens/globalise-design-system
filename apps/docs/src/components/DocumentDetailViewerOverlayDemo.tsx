@@ -1172,12 +1172,20 @@ export function DocumentDetailViewerOverlayDemo() {
             />
             <DocumentDetailToolButton
               aria-label="Picture in picture"
-              className={TOP_BAR_ICON_BUTTON_CLASS}
+              isDisabled
+              className={cn(
+                TOP_BAR_ICON_BUTTON_CLASS,
+                "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+              )}
               icon={<IconPictureInPicture className="h-s16 w-s16" />}
             />
             <DocumentDetailToolButton
               aria-label="Open document"
-              className={TOP_BAR_ICON_BUTTON_CLASS}
+              isDisabled
+              className={cn(
+                TOP_BAR_ICON_BUTTON_CLASS,
+                "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+              )}
               icon={<IconImportContacts className="h-s16 w-s16" />}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
