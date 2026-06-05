@@ -28,6 +28,7 @@ import {
   IconCalendarClock,
   IconChevronDown,
   IconDashboardGear,
+  IconDocument,
   IconDocumentFrameAlert,
   IconDownloadTray,
   IconExternalLink,
@@ -168,9 +169,185 @@ const INVENTORY_HIERARCHY = [
 ];
 
 const TABLE_OF_CONTENTS = [
-  ["1", "Missive van den independent fiscael tot Cormandel"],
-  ["2", "Memorie over verzending en ontvangst"],
-  ["3", "Bijlage met namen en handelsplaatsen"],
+  {
+    title:
+      "Februar 1701 • 1 • wij in het afgeweken Jaar hebben gedaan geligt lb 4000. buskruit te weten uit de",
+  },
+  {
+    title: "03 March 1701 • 309 • Register der papieren",
+  },
+  {
+    title:
+      "15 March 1701 • 31 • D=o voor den secretaris joris van de velde in desselfs reijse na priaman den laasten november 1701",
+  },
+  {
+    title:
+      "04 April 1701 • 56 • missive van den oppercoopman en gesaghebber Encam en raad tot padang aen haer Ed„s de hoge reg: tot batavia gesz de dato 5=en februarij 1702",
+  },
+  {
+    title:
+      "27 August 1701 • 3 • translaat briefje door op gem gesaghebberen raad, aen Radja nanda ende de verdere regenten tot priaman gesz",
+  },
+  {
+    title:
+      "08 September 1701 • 2 • briefje vanden oppercoopman en gesaghebber Anthonij Encam ende den raad tot padang aen haer Ed=s de hooge Regeringe tot batavia, aen haer Ed=s de hooge regeringe tot batavia gesz de dato 22 feb 1702 verdere regenten tot priaman gesz",
+    hasResults: true,
+  },
+  {
+    title:
+      "09 September 1701 • 2 • Instructie den vaandrager Hans michiel schreuder ter narigt mede gegeven in syne Commissie na Indrapoura den 21=e april 1701",
+  },
+  {
+    title:
+      "12 December 1701 • 98 • nader ditto van den coopman Jordaan Teding wegens sijne verrigtinge en ontmoeting der plaatse voorsz",
+    hasResults: true,
+  },
+  {
+    title: "28 December 1701 • 16 • Register der papieren",
+  },
+];
+
+const SELECTED_TOC_ENTRY =
+  "26 March 1702 • 26 • missive van den independent fiscael tot cormandel Hendrick beiker, aan haer Ed=ls de hooge req: tot batavia gesz de dato 22:' meij 1702:";
+
+const ACTIVE_TOC_SCAN = 23;
+
+const SELECTED_TOC_METADATA = [
+  ["Type", "Letter"],
+  ["Creator", "Hendrick Beiker"],
+  ["Date", "1702-01-01 - 1702-12-31 to 1703-01-01 - 1703-12-31"],
+  ["Location", "Coromandel", "[GLOB_40]"],
+  ["TANAP", "TANAP Digitized Index (2026-04-10)"],
+];
+
+const TOC_SCAN_SNIPPETS: Record<number, React.ReactNode> = {
+  2: (
+    <>
+      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
+      Gansenhoef,
+    </>
+  ),
+  7: (
+    <>
+      Zeeland, mitsganders de <strong>prins Eugenius</strong>, den Bergh,
+      &apos;T Noord
+    </>
+  ),
+  8: (
+    <>
+      Voor Amsterdam T schip <strong>prins Eugenius</strong> deb berg: moorder
+    </>
+  ),
+  9: (
+    <>
+      batavia met de scheppen <strong>prins Eugenius</strong> en gansenhoev tot
+    </>
+  ),
+  11: (
+    <>
+      ontfangen per het schip <strong>prins Eugenius</strong> hpoog op october
+    </>
+  ),
+  12: (
+    <>
+      kunnen voldoen <strong>prins Eugenius</strong> den 21: Julij mitsgad
+    </>
+  ),
+  17: (
+    <>
+      Voor de proesdidiale Kamer <strong>prins Eugenius</strong> en Gansenhoef,
+    </>
+  ),
+  18: (
+    <>
+      is voldaan P:r de <strong>prins Eugenius</strong> op den 20:e Maart 1723
+    </>
+  ),
+  19: (
+    <>
+      de scheppen de <strong>prins Eugenius</strong> wendela.
+    </>
+  ),
+  21: (
+    <>
+      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
+      Gansenhoef,
+    </>
+  ),
+  23: (
+    <>
+      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
+      Gansenhoef,
+    </>
+  ),
+  24: (
+    <>
+      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
+      Gansenhoef,
+    </>
+  ),
+};
+
+const TOC_SCANS = Array.from({ length: 26 }, (_, index) => {
+  const scan = index + 1;
+
+  return {
+    scan,
+    id: `NL-HaNA_1.04.02_1664_${1338 + scan}`,
+    snippet: TOC_SCAN_SNIPPETS[scan],
+  };
+});
+
+const TABLE_OF_CONTENTS_AFTER_SELECTED = [
+  {
+    title:
+      "06 April 1702 • 31 • d=o voor den opsiender der Equipagie dirk hiersz, en onderstuurman Jacob van Doorn den 3=e februarij deses jaars uyjtgesonden om te kruysten tusschen priaman en oulaccan",
+    hasResults: true,
+  },
+  {
+    title:
+      "15 April 1702 • 2 • Als voren translaat missive van den panglima en de twaalf ponglons tot padang aende Heer gouverneur generaal willem van Outhoorn tot batavia gesz",
+  },
+  {
+    title: "19 April 1702 • 4 • Ditto aen als voren",
+  },
+  {
+    title:
+      "21 April 1702 • 26 • D=o door radja soucca ampat uijt songi pagou, aen den panglima sirrinarra end'verdere pouglons van sillida gesz:",
+  },
+  {
+    title:
+      "17 September 1702 • 4 • DD=o door eenige hoofden tot padang aen maharadja jndra tot bat:a gesr",
+  },
+  {
+    title:
+      "29 September 1702 • 2 • missive van den oppercoopman en gesaghebber Anthonij ducam ende den raad tot padang aen haer Ed=s tot batavia gesz den 13=' maert 1702",
+    hasResults: true,
+  },
+  {
+    title:
+      "11 October 1702 • 53 • briefjes van den raad tot padang bij overlijden van den gesaghebber anthonij ducam aen haer edelens tot Batavia gesz de dato 26e maart anno 1702",
+    hasResults: true,
+  },
+  {
+    title:
+      "31 October 1702 • 34 • rendement der vercogte coopmanschappen tot padang in een rondjaar ofte thedert primo september onno 1700 tot ultimo augustus anno passado",
+  },
+  {
+    title:
+      "01 November 1702 • 4 • item van als voren der comptoirs primo Chinco in opgem. Tijt",
+  },
+  {
+    title:
+      "11 November 1702 • 4 • item van als voren der comptoire banos in voorsz tijt",
+  },
+  {
+    title:
+      "12 December 1702 • 2 • Als voren translaat missive van den panglima en de twaalf ponglons tot padang aende Heer gouverneur generaal willem van Outhoorn tot batavia gesz",
+  },
+  {
+    title: "19 Januar 1703 • 39 • Register der papieren",
+  },
 ];
 
 const IDENTIFIED_ENTITIES = [
@@ -402,19 +579,205 @@ function ArchivePanel() {
   );
 }
 
-function TableOfContentsPanel() {
+function TableOfContentsEntry({
+  title,
+  isSelected = false,
+  buttonRef,
+}: {
+  title: string;
+  isSelected?: boolean;
+  buttonRef?: React.Ref<HTMLButtonElement>;
+}) {
   return (
-    <div className="w-full px-s24 py-s16 font-sans">
-      <div className="flex flex-col gap-s12">
-        {TABLE_OF_CONTENTS.map(([index, title]) => (
+    <button
+      ref={buttonRef}
+      type="button"
+      className={cn(
+        "grid w-full grid-cols-[1rem_minmax(0,1fr)_1.5rem] items-start gap-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors hover:text-brand-white/75",
+        isSelected && "border-t border-neutral-500 font-bold",
+      )}
+    >
+      <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
+      <span className="min-w-0">{title}</span>
+      <SidebarDisclosureIcon isExpanded={isSelected} />
+    </button>
+  );
+}
+
+function TableOfContentsMetadataRow({
+  label,
+  value,
+  suffix,
+}: {
+  label: string;
+  value: string;
+  suffix?: string;
+}) {
+  return (
+    <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] gap-s24 text-xs leading-4">
+      <div className="text-[10px] leading-3 text-neutral-500">{label}</div>
+      <div className="min-w-0 text-brand-white">
+        {label === "Type" || label === "Creator" || label === "Location" ? (
+          <a href="#" className="underline underline-offset-2">
+            {value}
+          </a>
+        ) : (
+          value
+        )}
+        {suffix && (
+          <span className="ml-s4 align-middle text-[6px] leading-2">
+            {suffix}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TableOfContentsScanCard({
+  id,
+  scan,
+  snippet,
+  cardRef,
+}: {
+  id: string;
+  scan: number;
+  snippet?: React.ReactNode;
+  cardRef?: React.Ref<HTMLDivElement>;
+}) {
+  return (
+    <div ref={cardRef} className="bg-neutral-800 py-s10">
+      <div className="flex items-start gap-s24 pr-s2">
+        <div className="relative h-22.25 w-15.5 shrink-0 overflow-hidden bg-neutral-700">
+          <Image
+            src="/images/document-detail-manuscript.png"
+            alt=""
+            fill
+            sizes="62px"
+            className="object-cover object-top"
+          />
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-s8">
+          <div className="text-xs leading-3 text-brand-white">
+            {id} · scan {scan}
+          </div>
+          {snippet && (
+            <div className="bg-neutral-700 p-s8 text-xs leading-4 text-stone-300">
+              <p className="line-clamp-2 [&_strong]:font-semibold">{snippet}</p>
+            </div>
+          )}
+          <div className="inline-flex items-center gap-s6 text-xs leading-4 text-zinc-400">
+            NA Identifier
+            <IconExternalLink className="h-s12 w-s12 shrink-0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TableOfContentsPanel() {
+  const [resultsOnly, setResultsOnly] = React.useState(false);
+  const selectedDocumentRef = React.useRef<HTMLButtonElement>(null);
+  const activeScanRef = React.useRef<HTMLDivElement>(null);
+
+  const visibleBeforeEntries = resultsOnly
+    ? TABLE_OF_CONTENTS.filter((item) => item.hasResults)
+    : TABLE_OF_CONTENTS;
+  const visibleAfterEntries = resultsOnly
+    ? TABLE_OF_CONTENTS_AFTER_SELECTED.filter((item) => item.hasResults)
+    : TABLE_OF_CONTENTS_AFTER_SELECTED;
+  const visibleScans = resultsOnly
+    ? TOC_SCANS.filter((scan) => scan.snippet)
+    : TOC_SCANS;
+
+  const scrollToSelectedDocument = () => {
+    selectedDocumentRef.current?.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToActiveScan = () => {
+    activeScanRef.current?.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className="flex w-full flex-col font-sans">
+      <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
+        <label className="inline-flex min-w-0 items-center gap-s6 text-[10px] leading-3 text-brand-white">
+          <input
+            type="checkbox"
+            checked={resultsOnly}
+            onChange={(event) => setResultsOnly(event.target.checked)}
+            className="h-s12 w-s12 shrink-0 appearance-none border border-brand-white bg-transparent checked:bg-brand-white"
+          />
+          <span>Results Only</span>
+        </label>
+
+        <div className="flex shrink-0 items-center gap-s4">
           <button
-            key={index}
             type="button"
-            className="grid grid-cols-[2rem_minmax(0,1fr)] items-start gap-s12 text-left text-sm leading-5 text-brand-white transition-colors hover:text-brand-white/75"
+            onClick={scrollToSelectedDocument}
+            className="inline-flex h-s24 items-center gap-s4 border border-brand-white/15 px-s6 text-[10px] leading-3 text-brand-white transition-colors hover:border-brand-white/35"
           >
-            <span className="text-brand-white/45">{index}</span>
-            <span className="min-w-0">{title}</span>
+            <IconDocument className="h-s12 w-s12" />
+            Document
           </button>
+          <button
+            type="button"
+            onClick={scrollToActiveScan}
+            className="inline-flex h-s24 items-center gap-s4 border border-brand-white/15 px-s6 text-[10px] leading-3 text-brand-white transition-colors hover:border-brand-white/35"
+          >
+            <IconScan className="h-s12 w-s12" />
+            Scan {ACTIVE_TOC_SCAN}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col px-s24 pb-s32">
+        {visibleBeforeEntries.map((item) => (
+          <TableOfContentsEntry key={item.title} title={item.title} />
+        ))}
+
+        <div className="flex flex-col gap-s12">
+          <TableOfContentsEntry
+            title={SELECTED_TOC_ENTRY}
+            isSelected
+            buttonRef={selectedDocumentRef}
+          />
+
+          <div className="flex flex-col gap-s10 px-s24 py-s2">
+            {SELECTED_TOC_METADATA.map(([label, value, suffix]) => (
+              <TableOfContentsMetadataRow
+                key={label}
+                label={label}
+                value={value}
+                suffix={suffix}
+              />
+            ))}
+          </div>
+
+          <div className="flex flex-col overflow-hidden px-s2">
+            {visibleScans.map((scan) => (
+              <TableOfContentsScanCard
+                key={scan.id}
+                id={scan.id}
+                scan={scan.scan}
+                snippet={scan.snippet}
+                cardRef={
+                  scan.scan === ACTIVE_TOC_SCAN ? activeScanRef : undefined
+                }
+              />
+            ))}
+          </div>
+        </div>
+
+        {visibleAfterEntries.map((item) => (
+          <TableOfContentsEntry key={item.title} title={item.title} />
         ))}
       </div>
     </div>
