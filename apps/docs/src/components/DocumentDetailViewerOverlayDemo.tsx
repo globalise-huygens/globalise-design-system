@@ -88,24 +88,28 @@ const TRANSCRIPT_LINE_WIDTHS = [
 
 const SIDEBAR_ITEMS = [
   {
+    id: "archive",
     label: "Archive",
     badge: "1664",
     railLabel: "1664",
     icon: <IconFolderCopy className="h-s20 w-s20" />,
   },
   {
+    id: "table-of-contents",
     label: "Table of Contents",
     count: "(206)",
     railLabel: "206",
     icon: <IconList className="h-s20 w-s20" />,
   },
   {
+    id: "identified",
     label: "Identified",
     count: "(376)",
     railLabel: "376",
     icon: <IconViewObjectTrack className="h-s20 w-s20" />,
   },
   {
+    id: "events",
     label: "Events",
     count: "(0)",
     railLabel: "0",
@@ -113,8 +117,38 @@ const SIDEBAR_ITEMS = [
   },
 ];
 
-function SidebarDisclosureIcon() {
-  return <IconChevronDown className="h-s20 w-s20 text-current" />;
+const ARCHIVE_DETAILS = [
+  ["Archive", "Dutch East India Company"],
+  ["Reference", "NL-HaNA 1.04.02 3365"],
+  ["Scan", "0215"],
+  ["Date", "26 March 1702"],
+];
+
+const TABLE_OF_CONTENTS = [
+  ["1", "Missive van den independent fiscael tot Cormandel"],
+  ["2", "Memorie over verzending en ontvangst"],
+  ["3", "Bijlage met namen en handelsplaatsen"],
+];
+
+const IDENTIFIED_ENTITIES = [
+  ["People", "Hendrick Beiker", "Jan van Riebeeck", "Cornelis Speelman"],
+  ["Places", "Cormandel", "Batavia", "Nagapattinam"],
+  ["Organisations", "VOC", "Raad van Indie"],
+];
+
+function SidebarDisclosureIcon({
+  isExpanded = false,
+}: {
+  isExpanded?: boolean;
+}) {
+  return (
+    <IconChevronDown
+      className={cn(
+        "h-s20 w-s20 text-current transition-transform duration-150",
+        isExpanded && "rotate-180",
+      )}
+    />
+  );
 }
 
 interface CollapsedMetadataRailProps {
@@ -145,30 +179,215 @@ function CollapsedMetadataRail({ onExpand }: CollapsedMetadataRailProps) {
   );
 }
 
-function ExpandedMetadataSidebar() {
+interface ExpandedSidebarSectionProps {
+  id: string;
+  icon: React.ReactNode;
+  label: string;
+  count?: React.ReactNode;
+  badge?: React.ReactNode;
+  isExpanded: boolean;
+  onToggle: () => void;
+  variant?: "default" | "warning";
+  children: React.ReactNode;
+}
+
+function ExpandedSidebarSection({
+  id,
+  icon,
+  label,
+  count,
+  badge,
+  isExpanded,
+  onToggle,
+  variant = "default",
+  children,
+}: ExpandedSidebarSectionProps) {
+  const panelId = `${id}-panel`;
+
   return (
-    <DocumentDetailMetadataSidebar className="w-full border-r-0">
+    <>
       <DocumentDetailMetadataSidebarButton
+        aria-controls={panelId}
+        aria-expanded={isExpanded}
+        className={cn(
+          "h-s64 shrink-0",
+          variant === "warning" &&
+            "text-vermilion-500 data-hovered:bg-vermilion-500/10",
+          variant === "warning" &&
+            isExpanded &&
+            "bg-neutral-800 text-vermilion-500 data-hovered:bg-neutral-800",
+        )}
+        variant={variant}
+        icon={icon}
+        label={label}
+        count={count}
+        trailing={<SidebarDisclosureIcon isExpanded={isExpanded} />}
+        onPress={onToggle}
+      >
+        {badge}
+      </DocumentDetailMetadataSidebarButton>
+
+      {isExpanded && (
+        <div
+          id={panelId}
+          role="region"
+          aria-label={`${label} details`}
+          className={cn(
+            "min-h-0 flex-1 overflow-y-auto overflow-x-hidden border-b border-brand-white/10 [scrollbar-width:thin]",
+            variant === "warning"
+              ? "bg-neutral-800 text-vermilion-500 [scrollbar-color:var(--vermilion-600)_transparent]"
+              : "bg-neutral-800 text-brand-white [scrollbar-color:var(--neutral-600)_transparent]",
+          )}
+        >
+          {children}
+        </div>
+      )}
+    </>
+  );
+}
+
+function ContentWarningPanel() {
+  return (
+    <div className="w-full px-s24 py-s20 font-sans">
+      <div className="flex items-start gap-s12">
+        <IconDocumentFrameAlert className="mt-s2 h-s24 w-s24 shrink-0" />
+        <div className="flex min-w-0 flex-col gap-s12">
+          <p className="text-xl leading-none">Content Warning</p>
+          <p className="text-sm leading-5">
+            The Dutch East India Company archives (and consequently their
+            transcriptions) and its document descriptions bear harmful and
+            discriminatory language. They also record a wide range of events,
+            intentions and perspectives that are violent and can cause distress.
+            To read more about the GLOBALISE project’s efforts to address
+            problematic content, see [here:hyperlink to long read] 
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArchivePanel() {
+  return (
+    <div className="w-full px-s24 py-s16 font-sans">
+      <dl className="grid grid-cols-[7rem_minmax(0,1fr)] gap-x-s16 gap-y-s12 text-sm leading-5">
+        {ARCHIVE_DETAILS.map(([label, value]) => (
+          <React.Fragment key={label}>
+            <dt className="text-brand-white/45">{label}</dt>
+            <dd className="min-w-0">{value}</dd>
+          </React.Fragment>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+function TableOfContentsPanel() {
+  return (
+    <div className="w-full px-s24 py-s16 font-sans">
+      <div className="flex flex-col gap-s12">
+        {TABLE_OF_CONTENTS.map(([index, title]) => (
+          <button
+            key={index}
+            type="button"
+            className="grid grid-cols-[2rem_minmax(0,1fr)] items-start gap-s12 text-left text-sm leading-5 text-brand-white transition-colors hover:text-brand-white/75"
+          >
+            <span className="text-brand-white/45">{index}</span>
+            <span className="min-w-0">{title}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function IdentifiedPanel() {
+  return (
+    <div className="w-full px-s24 py-s16 font-sans">
+      <div className="flex flex-col gap-s16">
+        {IDENTIFIED_ENTITIES.map(([group, ...entities]) => (
+          <section key={group} className="flex flex-col gap-s8">
+            <h3 className="text-xs uppercase text-brand-white/45">{group}</h3>
+            <div className="flex flex-wrap gap-s8">
+              {entities.map((entity) => (
+                <button
+                  key={entity}
+                  type="button"
+                  className="border border-brand-white/15 px-s8 py-s4 text-sm leading-5 text-brand-white transition-colors hover:border-brand-white/35"
+                >
+                  {entity}
+                </button>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EventsPanel() {
+  return (
+    <div className="w-full px-s24 py-s16 font-sans text-sm leading-5 text-brand-white/55">
+      No events have been identified for this document.
+    </div>
+  );
+}
+
+function ExpandedMetadataSidebar() {
+  const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
+    () => new Set(["content-warning"]),
+  );
+
+  const toggleSection = React.useCallback((sectionId: string) => {
+    setExpandedSections((current) => {
+      const next = new Set(current);
+
+      if (next.has(sectionId)) {
+        next.delete(sectionId);
+      } else {
+        next.add(sectionId);
+      }
+
+      return next;
+    });
+  }, []);
+
+  return (
+    <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
+      <ExpandedSidebarSection
+        id="content-warning"
         variant="warning"
         icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
         label="Content Warning"
-        trailing={<SidebarDisclosureIcon />}
-      />
+        isExpanded={expandedSections.has("content-warning")}
+        onToggle={() => toggleSection("content-warning")}
+      >
+        <ContentWarningPanel />
+      </ExpandedSidebarSection>
 
       {SIDEBAR_ITEMS.map((item) => (
-        <DocumentDetailMetadataSidebarButton
-          key={item.label}
+        <ExpandedSidebarSection
+          key={item.id}
+          id={item.id}
           icon={item.icon}
           label={item.label}
           count={item.count}
-          trailing={<SidebarDisclosureIcon />}
+          badge={
+            item.badge ? (
+              <DocumentDetailMetadataSidebarBadge>
+                {item.badge}
+              </DocumentDetailMetadataSidebarBadge>
+            ) : undefined
+          }
+          isExpanded={expandedSections.has(item.id)}
+          onToggle={() => toggleSection(item.id)}
         >
-          {item.badge && (
-            <DocumentDetailMetadataSidebarBadge>
-              {item.badge}
-            </DocumentDetailMetadataSidebarBadge>
-          )}
-        </DocumentDetailMetadataSidebarButton>
+          {item.id === "archive" && <ArchivePanel />}
+          {item.id === "table-of-contents" && <TableOfContentsPanel />}
+          {item.id === "identified" && <IdentifiedPanel />}
+          {item.id === "events" && <EventsPanel />}
+        </ExpandedSidebarSection>
       ))}
     </DocumentDetailMetadataSidebar>
   );
