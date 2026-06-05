@@ -30,6 +30,7 @@ import {
   IconDashboardGear,
   IconDocumentFrameAlert,
   IconDownloadTray,
+  IconExternalLink,
   IconFolderCopy,
   IconFontSizing,
   IconImportContacts,
@@ -88,8 +89,8 @@ const TRANSCRIPT_LINE_WIDTHS = [
 
 const SIDEBAR_ITEMS = [
   {
-    id: "archive",
-    label: "Archive",
+    id: "inventory",
+    label: "Inventory",
     badge: "1664",
     railLabel: "1664",
     icon: <IconFolderCopy className="h-s20 w-s20" />,
@@ -117,11 +118,53 @@ const SIDEBAR_ITEMS = [
   },
 ];
 
-const ARCHIVE_DETAILS = [
-  ["Archive", "Dutch East India Company"],
-  ["Reference", "NL-HaNA 1.04.02 3365"],
-  ["Scan", "0215"],
-  ["Date", "26 March 1702"],
+const INVENTORY_METADATA = [
+  {
+    label: "Title(s)",
+    value:
+      "1703. RRRRR. Veertiende boek: Batavia's ingekomen brievenboek, deel III: Sumatra's Westkust, Bengalen, Coromandel 1703",
+  },
+  {
+    label: "Date",
+    value: "1703-01-01 - 1703-12-31",
+  },
+];
+
+const INVENTORY_SETTLEMENTS = ["Batavia", "Goa"];
+
+const INVENTORY_HIERARCHY = [
+  {
+    level: 0,
+    label:
+      "1.04.02 Inventaris van het archief van de Verenigde Oost-Indische Compagnie (VOC)",
+  },
+  {
+    level: 1,
+    label: "Deel I Heren Zeventien en kamer Amsterdam",
+  },
+  {
+    level: 2,
+    label: "Deel I/E INGEKOMEN STUKKEN UIT",
+  },
+  {
+    level: 3,
+    label: "Deel-I-E.5 - Overgekomen brieven en papieren",
+  },
+  {
+    level: 4,
+    label:
+      "Deel-I-E.5.a - Overgekomen brieven en papieren uit Indië aan de Heren XVII en de kamer Amsterdam",
+  },
+  {
+    level: 5,
+    label:
+      "1056-3986 - Overgekomen brieven en papieren uit Indië aan de Heren XVII en de kamer Amsterdam",
+  },
+  {
+    level: 6,
+    label: "1664",
+    isCurrent: true,
+  },
 ];
 
 const TABLE_OF_CONTENTS = [
@@ -250,34 +293,111 @@ function ContentWarningPanel() {
   return (
     <div className="w-full px-s24 py-s20 font-sans">
       <div className="flex items-start gap-s12">
-        <IconDocumentFrameAlert className="mt-s2 h-s24 w-s24 shrink-0" />
-        <div className="flex min-w-0 flex-col gap-s12">
-          <p className="text-xl leading-none">Content Warning</p>
-          <p className="text-sm leading-5">
-            The Dutch East India Company archives (and consequently their
-            transcriptions) and its document descriptions bear harmful and
-            discriminatory language. They also record a wide range of events,
-            intentions and perspectives that are violent and can cause distress.
-            To read more about the GLOBALISE project’s efforts to address
-            problematic content, see [here:hyperlink to long read] 
-          </p>
-        </div>
+        <p className="text-sm leading-5">
+          The Dutch East India Company archives (and consequently their
+          transcriptions) and its document descriptions bear harmful and
+          discriminatory language. They also record a wide range of events,
+          intentions and perspectives that are violent and can cause distress.
+          To read more about the GLOBALISE project’s efforts to address
+          problematic content, see [here:hyperlink to long read] 
+        </p>
       </div>
+    </div>
+  );
+}
+
+function InventoryMetadataRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-[5rem_minmax(0,1fr)] gap-s12 text-xs leading-4">
+      <div className="text-[10px] leading-3 text-neutral-500">{label}</div>
+      <div className="min-w-0 text-brand-white">{children}</div>
+    </div>
+  );
+}
+
+function InventoryHierarchyRow({
+  level,
+  label,
+  isCurrent = false,
+}: {
+  level: number;
+  label: string;
+  isCurrent?: boolean;
+}) {
+  return (
+    <div
+      className="flex h-s24 items-center text-xs leading-4 text-brand-white"
+      style={{ paddingLeft: level * 18 }}
+    >
+      {level > 0 && (
+        <span className="mr-s8 w-s12 shrink-0 text-right text-neutral-500">
+          ↳
+        </span>
+      )}
+      {isCurrent ? (
+        <>
+          <span className="mr-s8 text-neutral-400">→</span>
+          <span className="border border-neutral-500 bg-neutral-600 px-s4 leading-5">
+            {label}
+          </span>
+        </>
+      ) : (
+        <span className="whitespace-nowrap">{label}</span>
+      )}
     </div>
   );
 }
 
 function ArchivePanel() {
   return (
-    <div className="w-full px-s24 py-s16 font-sans">
-      <dl className="grid grid-cols-[7rem_minmax(0,1fr)] gap-x-s16 gap-y-s12 text-sm leading-5">
-        {ARCHIVE_DETAILS.map(([label, value]) => (
-          <React.Fragment key={label}>
-            <dt className="text-brand-white/45">{label}</dt>
-            <dd className="min-w-0">{value}</dd>
-          </React.Fragment>
+    <div className="flex w-full flex-col gap-s16 py-s12 font-sans">
+      <div className="flex flex-col gap-s12 px-s24">
+        {INVENTORY_METADATA.map((item) => (
+          <InventoryMetadataRow key={item.label} label={item.label}>
+            {item.value}
+          </InventoryMetadataRow>
         ))}
-      </dl>
+
+        <InventoryMetadataRow label="settlement(s)">
+          {INVENTORY_SETTLEMENTS.map((settlement, index) => (
+            <React.Fragment key={settlement}>
+              {index > 0 && <span>, </span>}
+              <a href="#" className="underline underline-offset-2">
+                {settlement}
+              </a>
+            </React.Fragment>
+          ))}
+        </InventoryMetadataRow>
+
+        <InventoryMetadataRow label="handle">
+          <a
+            href="#"
+            className="inline-flex items-center gap-s8 underline underline-offset-2"
+          >
+            see nationaal archive
+            <IconExternalLink className="h-s12 w-s12 shrink-0" />
+          </a>
+        </InventoryMetadataRow>
+      </div>
+
+      <div className="overflow-x-auto px-s24 py-s8 [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]">
+        <div className="flex w-200.25 flex-col gap-s2">
+          {INVENTORY_HIERARCHY.map((item) => (
+            <InventoryHierarchyRow
+              key={`${item.level}-${item.label}`}
+              level={item.level}
+              label={item.label}
+              isCurrent={item.isCurrent}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -383,7 +503,7 @@ function ExpandedMetadataSidebar() {
           isExpanded={expandedSections.has(item.id)}
           onToggle={() => toggleSection(item.id)}
         >
-          {item.id === "archive" && <ArchivePanel />}
+          {item.id === "inventory" && <ArchivePanel />}
           {item.id === "table-of-contents" && <TableOfContentsPanel />}
           {item.id === "identified" && <IdentifiedPanel />}
           {item.id === "events" && <EventsPanel />}
