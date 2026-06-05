@@ -91,7 +91,10 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
                     )}
                   >
                     {item.cta}{" "}
-                    <IconArrowRight className="h-5 w-5" aria-hidden="true" />
+                    <IconArrowRight
+                      className="h-s20 w-s20"
+                      aria-hidden="true"
+                    />
                   </span>
                 </div>
               </>
@@ -119,13 +122,13 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
           return (
             <AriaButton
               key={index}
-              className="flex w-full cursor-pointer flex-col items-start gap-s8 overflow-hidden p-s12 text-left transition-all duration-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black) lg:w-30"
+              className="flex w-full cursor-pointer flex-col items-start gap-s8 overflow-hidden p-s12 text-left transition-all duration-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black) lg:w-s120"
               style={{ backgroundColor: item.color }}
               onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}
             >
               <IconAdd
-                className="h-5 w-5 text-brand-black"
+                className="h-s20 w-s20 text-brand-black"
                 aria-hidden="true"
               />
               <span className="font-serif text-base font-medium leading-[1.3] tracking-[-0.3px] text-brand-black">

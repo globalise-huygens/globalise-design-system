@@ -11,6 +11,7 @@ import {
   Section,
   Typography,
 } from "@globalise/design-system";
+import { useQuery } from "@tanstack/react-query";
 import {
   createRootRoute,
   createRoute,
@@ -43,12 +44,18 @@ function ShellLayout() {
 }
 
 function HomePage() {
+  const integrationStatus = useQuery({
+    queryKey: ["integration-status"],
+    queryFn: async () => "TanStack Query provider is active",
+    staleTime: Infinity,
+  });
+
   return (
     <Section spacing="large">
       <Container>
         <Grid className="gap-y-8">
           <div className="slot-content-narrow flex flex-col gap-4">
-            <Typography variant="label" className="text-brand-accent">
+            <Typography variant="label" className="text-brand-turquoise">
               Research Portal
             </Typography>
             <Typography variant="h2" className="text-white">
@@ -56,7 +63,10 @@ function HomePage() {
             </Typography>
             <Typography variant="lead" className="text-white/80">
               This page proves the design system works in a non-Next.js stack
-              with React 19 and Vite 8.
+              with React 19, Vite 8, TanStack Router, and TanStack Query.
+            </Typography>
+            <Typography variant="small" className="text-white/60">
+              {integrationStatus.data ?? "Checking TanStack Query provider..."}
             </Typography>
             <div className="mt-2 flex flex-wrap gap-3">
               <Button>Explore records</Button>

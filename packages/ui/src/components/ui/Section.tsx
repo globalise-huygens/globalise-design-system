@@ -3,15 +3,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Container, type ContainerProps } from "./Container";
 
-const sectionVariants = cva("py-16 sm:py-20", {
+const sectionVariants = cva("py-s64 sm:py-s80", {
   variants: {
     background: {
       dark: "bg-surface-dark text-text-on-dark",
       light: "bg-surface-light text-text-on-light",
     },
     spacing: {
-      default: "lg:py-28",
-      large: "lg:py-[120px]",
+      default: "lg:py-s112",
+      large: "lg:py-s120",
     },
   },
   defaultVariants: {

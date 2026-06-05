@@ -14,7 +14,7 @@ export interface NewsletterSignupProps extends Omit<
   "children" | "className" | "style"
 > {
   className?: string;
-  /** Image element (e.g. next/image) rendered on the left side */
+  /** Image element rendered on the left side */
   image?: React.ReactNode;
   /** Heading text */
   heading: string;
@@ -51,11 +51,11 @@ const NewsletterSignup = React.forwardRef<
     return (
       <AriaForm
         ref={ref}
-        className={cn("flex flex-col gap-12", className)}
+        className={cn("flex flex-col gap-s48", className)}
         {...props}
       >
-        <div className="grid grid-cols-1 gap-s24 md:grid-cols-10">
-          <div className="flex flex-col gap-s24 md:col-span-7 lg:col-span-6">
+        <div className="grid grid-cols-1 gap-s24 md:grid-cols-12">
+          <div className="flex flex-col gap-s24 md:col-span-8 lg:col-span-7">
             <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-brand-black">
               {heading}
             </h3>
@@ -65,17 +65,17 @@ const NewsletterSignup = React.forwardRef<
           </div>
         </div>
 
-        <div className="grid h-auto grid-cols-1 overflow-hidden md:grid-cols-10 md:min-h-[336px]">
+        <div className="grid h-auto grid-cols-1 overflow-hidden md:grid-cols-12 md:min-h-[336px]">
           {image && (
-            <div className="relative h-48 w-full shrink-0 md:col-span-5 md:h-full">
+            <div className="relative h-48 w-full shrink-0 md:col-span-6 md:h-full">
               {image}
             </div>
           )}
           <div
             className={cn(
-              "bg-brand-turquoise px-8 py-12 sm:px-12 sm:py-16",
+              "bg-brand-turquoise px-s32 py-s48 sm:px-s48 sm:py-s64",
               "grid grid-cols-12 gap-y-s32",
-              image ? "md:col-span-5" : "md:col-span-10",
+              image ? "md:col-span-6" : "md:col-span-12",
             )}
           >
             <AriaTextField
@@ -98,7 +98,7 @@ const NewsletterSignup = React.forwardRef<
               </AriaButton>
             </AriaTextField>
             {privacyText && (
-              <span className="col-span-12 text-brand-black text-sm font-normal font-sans leading-5 md:col-span-9">
+              <span className="col-span-12 text-brand-black text-sm font-normal font-sans leading-5 md:col-span-10">
                 {privacyText}
               </span>
             )}

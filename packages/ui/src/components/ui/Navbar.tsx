@@ -99,7 +99,7 @@ const NavLinks = React.forwardRef<HTMLDivElement, NavLinksProps>(
     <div
       ref={ref}
       className={cn(
-        "hidden shrink-0 items-center justify-end gap-4 sm:flex sm:gap-10",
+        "hidden shrink-0 items-center justify-end gap-s16 sm:flex sm:gap-s40",
         className,
       )}
       {...props}
@@ -141,9 +141,9 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? (
-              <IconClose className="h-5 w-5" />
+              <IconClose className="h-s20 w-s20" />
             ) : (
-              <IconMenu className="h-5 w-5" />
+              <IconMenu className="h-s20 w-s20" />
             )}
           </AriaButton>
         </div>

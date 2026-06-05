@@ -117,22 +117,56 @@ export type {
 } from "./components/ui/ObjectCardReferencesPanel";
 
 export {
+  DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
+  DocumentDetailCanvas,
+  DocumentDetailControl,
+  DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
+  DocumentDetailPanelHeader,
+  DocumentDetailRailButton,
+  DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
   DocumentDetailSidePanel,
+  DocumentDetailSplitViewer,
+  DocumentDetailTitle,
+  DocumentDetailToolbar,
+  DocumentDetailToolButton,
   DocumentDetailTopBar,
+  DocumentDetailTranscriptCanvas,
+  DocumentDetailTranscriptLine,
   DocumentDetailViewer,
   DocumentDetailViewerPane,
 } from "./components/ui/DocumentDetailOverlay";
 export type {
+  DocumentDetailBarGroupProps,
   DocumentDetailBodyProps,
   DocumentDetailBottomBarProps,
+  DocumentDetailCanvasProps,
+  DocumentDetailControlProps,
+  DocumentDetailFloatingToolbarProps,
   DocumentDetailIconRailProps,
+  DocumentDetailMetadataSidebarBadgeProps,
+  DocumentDetailMetadataSidebarButtonProps,
+  DocumentDetailMetadataSidebarProps,
   DocumentDetailOverlayProps,
+  DocumentDetailPanelHeaderProps,
+  DocumentDetailRailButtonProps,
+  DocumentDetailSegmentedControlProps,
+  DocumentDetailSegmentProps,
   DocumentDetailSidePanelProps,
+  DocumentDetailSplitViewerProps,
+  DocumentDetailTitleProps,
+  DocumentDetailToolbarProps,
+  DocumentDetailToolButtonProps,
   DocumentDetailTopBarProps,
+  DocumentDetailTranscriptCanvasProps,
+  DocumentDetailTranscriptLineProps,
   DocumentDetailViewerPaneProps,
   DocumentDetailViewerProps,
 } from "./components/ui/DocumentDetailOverlay";
@@ -145,28 +179,44 @@ export type { ArticleRowProps } from "./components/ui/ArticleRow";
 
 // Icons
 export { IconAdd } from "./components/icons/IconAdd";
-export { IconArrowRight } from "./components/icons/IconArrowRight";
-export { IconArrowLeftSimple } from "./components/icons/IconArrowLeftSimple";
-export { IconArrowRightSimple } from "./components/icons/IconArrowRightSimple";
 export { IconArrowLeftAlt } from "./components/icons/IconArrowLeftAlt";
-export { IconArrowPauseLeft } from "./components/icons/IconArrowPauseLeft";
-export { IconArrowPauseRight } from "./components/icons/IconArrowPauseRight";
-export { IconEast } from "./components/icons/IconEast";
-export { IconZoomIn } from "./components/icons/IconZoomIn";
-export { IconZoomOut } from "./components/icons/IconZoomOut";
-export { IconRotate } from "./components/icons/IconRotate";
+export { IconArrowRight } from "./components/icons/IconArrowRight";
 export { IconBrightness } from "./components/icons/IconBrightness";
-export { IconTextSize } from "./components/icons/IconTextSize";
+export { IconCalendarClock } from "./components/icons/IconCalendarClock";
+export { IconCalendarClockLarge } from "./components/icons/IconCalendarClockLarge";
 export { IconChevronDown } from "./components/icons/IconChevronDown";
 export { IconClose } from "./components/icons/IconClose";
 export { IconCopy } from "./components/icons/IconCopy";
+export { IconDashboardGear } from "./components/icons/IconDashboardGear";
+export { IconDocumentFrameAlert } from "./components/icons/IconDocumentFrameAlert";
 export { IconDownload } from "./components/icons/IconDownload";
+export { IconDownloadTray } from "./components/icons/IconDownloadTray";
 export { IconExternalLink } from "./components/icons/IconExternalLink";
+export { IconFolderCopy } from "./components/icons/IconFolderCopy";
+export { IconFontSizing } from "./components/icons/IconFontSizing";
+export { IconImportContacts } from "./components/icons/IconImportContacts";
+export { IconLeft } from "./components/icons/IconLeft";
+export { IconLeftFirst } from "./components/icons/IconLeftFirst";
+export { IconList } from "./components/icons/IconList";
 export { IconMenu } from "./components/icons/IconMenu";
+export { IconPictureInPicture } from "./components/icons/IconPictureInPicture";
+export { IconRight } from "./components/icons/IconRight";
+export { IconRightLast } from "./components/icons/IconRightLast";
+export { IconRotate } from "./components/icons/IconRotate";
+export { IconScan } from "./components/icons/IconScan";
 export { IconSearch } from "./components/icons/IconSearch";
 export { IconSearchMinus } from "./components/icons/IconSearchMinus";
 export { IconSearchPlus } from "./components/icons/IconSearchPlus";
 export { IconShip } from "./components/icons/IconShip";
+export { IconSwap } from "./components/icons/IconSwap";
+export { IconTranscription } from "./components/icons/IconTranscription";
+export { IconTune } from "./components/icons/IconTune";
+export { IconViewModeGrid } from "./components/icons/IconViewModeGrid";
+export { IconViewObjectTrack } from "./components/icons/IconViewObjectTrack";
+export { IconViewObjectTrackLarge } from "./components/icons/IconViewObjectTrackLarge";
+export { IconWifiHome } from "./components/icons/IconWifiHome";
+export { IconZoomIn } from "./components/icons/IconZoomIn";
+export { IconZoomOut } from "./components/icons/IconZoomOut";
 export { IconPerson } from "./components/icons/IconPerson";
 export { IconPlace } from "./components/icons/IconPlace";
 export { IconCommodity } from "./components/icons/IconCommodity";
@@ -174,17 +224,10 @@ export { IconDimensions } from "./components/icons/IconDimensions";
 export { IconOrganisation } from "./components/icons/IconOrganisation";
 export { IconDate } from "./components/icons/IconDate";
 export { IconDocument } from "./components/icons/IconDocument";
-export { IconTune } from "./components/icons/IconTune";
-export { IconWifiHome } from "./components/icons/IconWifiHome";
-export { IconViewObjectTrack } from "./components/icons/IconViewObjectTrack";
-export { IconImportContacts } from "./components/icons/IconImportContacts";
-export { IconCalendarClock } from "./components/icons/IconCalendarClock";
 export { IconDashboard2Gear } from "./components/icons/IconDashboard2Gear";
 export { IconPictureInPictureAlt } from "./components/icons/IconPictureInPictureAlt";
 export { IconImage } from "./components/icons/IconImage";
 export { IconFrameExclamation } from "./components/icons/IconFrameExclamation";
-export { IconFolderCopy } from "./components/icons/IconFolderCopy";
-export { IconList } from "./components/icons/IconList";
 export { IconSidebar } from "./components/icons/IconSidebar";
 export { IconSwapArrow } from "./components/icons/IconSwapArrow";
 

@@ -60,7 +60,7 @@ A composable card built on React Aria Components for displaying entity detail ov
     </ObjectCardHeader>
 
     <ObjectCardBody>
-      <ObjectCardPanel side="left" className="gap-12">
+      <ObjectCardPanel side="left" className="gap-s48">
         <ObjectCardSection title="General Properties">
           <ObjectCardPropertyList>
             <ObjectCardProperty label="Built" value="1703, Amsterdam" />
@@ -78,7 +78,7 @@ A composable card built on React Aria Components for displaying entity detail ov
         </ObjectCardSection>
 
         <ObjectCardFooter>
-          <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+          <ObjectCardAction icon={<IconCopy className="h-s16 w-s16" />}>
             Copy URI
           </ObjectCardAction>
         </ObjectCardFooter>
@@ -106,39 +106,39 @@ Reusable badge for marking entity types in transcription text, headers, and enti
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+    <EntityBadge type="ship" icon={<IconShip className="h-s16 w-s16" />}>
       Ship
     </EntityBadge>
-    <EntityBadge type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
+    <EntityBadge type="person" icon={<IconPerson className="h-s16 w-s16" />}>
       Person
     </EntityBadge>
-    <EntityBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+    <EntityBadge type="place" icon={<IconPlace className="h-s16 w-s16" />}>
       Place
     </EntityBadge>
     <EntityBadge
       type="commodity"
-      icon={<IconCommodity className="h-3.5 w-3.5" />}
+      icon={<IconCommodity className="h-s16 w-s16" />}
     >
       Commodity
     </EntityBadge>
     <EntityBadge
       type="dimensions"
-      icon={<IconDimensions className="h-3.5 w-3.5" />}
+      icon={<IconDimensions className="h-s16 w-s16" />}
     >
       Dimensions
     </EntityBadge>
     <EntityBadge
       type="organisation"
-      icon={<IconOrganisation className="h-3.5 w-3.5" />}
+      icon={<IconOrganisation className="h-s16 w-s16" />}
     >
       Organisation
     </EntityBadge>
-    <EntityBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+    <EntityBadge type="date" icon={<IconDate className="h-s16 w-s16" />}>
       Date
     </EntityBadge>
     <EntityBadge
       type="document"
-      icon={<IconDocument className="h-3.5 w-3.5" />}
+      icon={<IconDocument className="h-s16 w-s16" />}
     >
       Document
     </EntityBadge>
@@ -157,14 +157,14 @@ Reusable badge for marking entity types in transcription text, headers, and enti
       name: "icon",
       type: "ReactNode",
       description:
-        "Optional icon rendered before the label. Typically 14×14px.",
+        "Optional icon rendered before the label. Typically `h-s16 w-s16`.",
     },
   ]}
 />
 
 ## Card Overlay
 
-Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid.
+Grid-aware overlay shell for ObjectCard and future document scan/page viewer layouts. It wraps RAC `ModalOverlay` and `Modal`, then places content inside the centered 12-track slot of the 16-column shell grid using the shared shell gutter.
 
 <PropsTable
   props={[
@@ -192,8 +192,9 @@ Grid-aware overlay shell for ObjectCard and future document scan/page viewer lay
     {
       name: "contentClassName",
       type: "string",
+      default: '"slot-content-band"',
       description:
-        "Additional classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
+        "Shell-grid placement classes for the centered 12-track content slot inside the 16-column shell grid. Use this for scan-viewer or page-overview layouts.",
     },
   ]}
 />
@@ -289,7 +290,7 @@ Pre-styled inline stat row. Each `ObjectCardStat` is a styled span.
 
 ### ObjectCardBody
 
-Flex container that switches from column (mobile) to row (desktop). The card constrains itself to the viewport and scrolls panel content when space is tight.
+Grid container that switches from one column on mobile to a 12-column split on desktop. The default panels each span six columns, so the card aligns with the standard content band while still constraining itself to the viewport and scrolling panel content when space is tight.
 
 <PropsTable
   props={[

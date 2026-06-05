@@ -134,7 +134,7 @@ function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
     <div
       className={cn(
-        "grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-10",
+        "grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-12",
         className,
       )}
     >
@@ -148,8 +148,8 @@ const objectCardPanelVariants = cva(
   {
     variants: {
       side: {
-        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-5 lg:border-b-0 lg:border-r",
-        right: "bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-5",
+        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-6 lg:border-b-0 lg:border-r",
+        right: "bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-6",
       },
     },
     defaultVariants: {
@@ -233,7 +233,7 @@ function ObjectCardProperty({
       <dt className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
         {label}
       </dt>
-      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-[20px] text-brand-white">
+      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-(--s20) text-brand-white">
         {value}
       </dd>
     </div>
@@ -364,7 +364,9 @@ const ObjectCardAction = React.forwardRef<
     {...props}
   >
     {icon && (
-      <span className="flex h-4 w-4 items-center justify-center">{icon}</span>
+      <span className="flex h-s16 w-s16 items-center justify-center">
+        {icon}
+      </span>
     )}
     <span>{children}</span>
   </AriaButton>

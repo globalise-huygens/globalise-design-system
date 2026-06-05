@@ -8,7 +8,7 @@ export function IconTune(props: SVGProps<SVGSVGElement>) {
       fill="currentColor"
       {...props}
     >
-      <path d="M8.25 15.75V11.25H9.75V12.75H15.75V14.25H9.75V15.75H8.25ZM2.25 14.25V12.75H6.75V14.25H2.25ZM5.25 11.25V9.75H2.25V8.25H5.25V6.75H6.75V11.25H5.25ZM8.25 9.75V8.25H15.75V9.75H8.25ZM11.25 6.75V2.25H12.75V3.75H15.75V5.25H12.75V6.75H11.25ZM2.25 5.25V3.75H9.75V5.25H2.25Z" />
+      <path d="M8.25 15.75v-4.5h1.5v1.5h6v1.5h-6v1.5h-1.5Zm-6-1.5v-1.5h4.5v1.5h-4.5Zm3-3v-1.5h-3v-1.5h3v-1.5h1.5v4.5h-1.5Zm3-1.5v-1.5h7.5v1.5h-7.5Zm3-3v-4.5h1.5v1.5h3v1.5h-3v1.5h-1.5Zm-9-1.5v-1.5h7.5v1.5h-7.5Z" />
     </svg>
   );
 }

@@ -2,39 +2,48 @@
 
 import {
   Button,
-  cn,
+  DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
+  DocumentDetailCanvas,
+  DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
-  DocumentDetailSidePanel,
+  DocumentDetailRailButton,
+  DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
+  DocumentDetailSplitViewer,
+  DocumentDetailTitle,
+  DocumentDetailToolButton,
   DocumentDetailTopBar,
-  DocumentDetailViewer,
+  DocumentDetailTranscriptCanvas,
+  DocumentDetailTranscriptLine,
   DocumentDetailViewerPane,
-  IconAdd,
   IconArrowLeftAlt,
-  IconArrowLeftSimple,
-  IconArrowPauseLeft,
-  IconArrowPauseRight,
-  IconArrowRight,
-  IconArrowRightSimple,
   IconBrightness,
   IconCalendarClock,
-  IconDashboard2Gear,
-  IconDocument,
-  IconDownload,
-  IconEast,
+  IconChevronDown,
+  IconDashboardGear,
+  IconDocumentFrameAlert,
+  IconDownloadTray,
   IconFolderCopy,
-  IconFrameExclamation,
-  IconImage,
+  IconFontSizing,
   IconImportContacts,
+  IconLeft,
+  IconLeftFirst,
   IconList,
-  IconPictureInPictureAlt,
+  IconPictureInPicture,
+  IconRight,
+  IconRightLast,
   IconRotate,
-  IconSidebar,
-  IconSwapArrow,
-  IconTextSize,
+  IconScan,
+  IconSwap,
+  IconTranscription,
   IconTune,
+  IconViewModeGrid,
   IconViewObjectTrack,
   IconWifiHome,
   IconZoomIn,
@@ -44,81 +53,123 @@ import Image from "next/image";
 import * as React from "react";
 
 const TRANSCRIPT_LINE_WIDTHS = [
-  "w-20",
-  "w-80",
-  "flex-1",
-  "w-72",
-  "w-48",
-  "w-24",
-  "w-64",
-  "w-48",
-  "w-60",
-  "w-60",
-  "w-40",
-  "w-96",
-  "w-96",
-  "w-80",
-  "w-96",
-  "w-80",
-  "w-72",
-  "w-6",
-  "w-64",
-  "w-44",
-  "w-72",
-  "w-64",
-  "w-72",
-  "w-72",
-  "w-40",
-  "w-80",
-  "w-96",
-  "w-96",
-  "w-96",
-  "w-6",
+  "18%",
+  "78%",
+  "96%",
+  "72%",
+  "52%",
+  "26%",
+  "66%",
+  "48%",
+  "56%",
+  "60%",
+  "38%",
+  "82%",
+  "84%",
+  "80%",
+  "82%",
+  "74%",
+  "68%",
+  "10%",
+  "66%",
+  "42%",
+  "64%",
+  "58%",
+  "66%",
+  "68%",
+  "38%",
+  "78%",
+  "88%",
+  "84%",
+  "82%",
+  "10%",
 ];
 
-const COLLAPSED_LEFT_SIDEBAR_ITEMS = [
+const SIDEBAR_ITEMS = [
   {
-    label: "1664",
-    icon: IconFolderCopy,
-    iconClassName: "h-5 w-5",
-    chip: true,
+    label: "Archive",
+    badge: "1664",
+    railLabel: "1664",
+    icon: <IconFolderCopy className="h-s20 w-s20" />,
   },
   {
-    label: "206",
-    icon: IconList,
-    iconClassName: "h-5 w-5",
-    chip: false,
+    label: "Table of Contents",
+    count: "(206)",
+    railLabel: "206",
+    icon: <IconList className="h-s20 w-s20" />,
   },
   {
-    label: "376",
-    icon: IconViewObjectTrack,
-    iconClassName: "h-5 w-5",
-    chip: false,
+    label: "Identified",
+    count: "(376)",
+    railLabel: "376",
+    icon: <IconViewObjectTrack className="h-s20 w-s20" />,
   },
   {
-    label: "29",
-    icon: IconCalendarClock,
-    iconClassName: "h-5 w-5",
-    chip: false,
+    label: "Events",
+    count: "(0)",
+    railLabel: "0",
+    icon: <IconCalendarClock className="h-s20 w-s20" />,
   },
-] as const;
+];
 
-function ToolPill({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) {
+function SidebarDisclosureIcon() {
+  return <IconChevronDown className="h-s20 w-s20 text-current" />;
+}
+
+interface CollapsedMetadataRailProps {
+  onExpand: () => void;
+}
+
+function CollapsedMetadataRail({ onExpand }: CollapsedMetadataRailProps) {
   return (
-    <div
-      className={cn(
-        "flex h-8 items-center gap-s8 bg-neutral-900 px-s8 text-xs leading-4",
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <DocumentDetailIconRail className="h-full w-full border-r-0 bg-neutral-900">
+      <DocumentDetailRailButton
+        aria-label="Expand content warning"
+        className="h-s72 border-b-0 text-vermilion-500"
+        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
+        onPress={onExpand}
+      />
+
+      {SIDEBAR_ITEMS.map((item) => (
+        <DocumentDetailRailButton
+          key={item.label}
+          aria-label={`Expand ${item.label}`}
+          className="h-s72 border-b-0"
+          icon={item.icon}
+          label={item.railLabel}
+          onPress={onExpand}
+        />
+      ))}
+    </DocumentDetailIconRail>
+  );
+}
+
+function ExpandedMetadataSidebar() {
+  return (
+    <DocumentDetailMetadataSidebar className="w-full border-r-0">
+      <DocumentDetailMetadataSidebarButton
+        variant="warning"
+        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
+        label="Content Warning"
+        trailing={<SidebarDisclosureIcon />}
+      />
+
+      {SIDEBAR_ITEMS.map((item) => (
+        <DocumentDetailMetadataSidebarButton
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          count={item.count}
+          trailing={<SidebarDisclosureIcon />}
+        >
+          {item.badge && (
+            <DocumentDetailMetadataSidebarBadge>
+              {item.badge}
+            </DocumentDetailMetadataSidebarBadge>
+          )}
+        </DocumentDetailMetadataSidebarButton>
+      ))}
+    </DocumentDetailMetadataSidebar>
   );
 }
 
@@ -204,24 +255,95 @@ function EditableCounter({
 
 function ManuscriptCanvas() {
   return (
-    <div className="relative flex h-full w-full items-center justify-center bg-neutral-900 px-s24 py-s24">
-      <div className="relative h-full w-full border-0 bg-[#dcc7a8]">
+    <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
+      <DocumentDetailFloatingToolbar>
+        <DocumentDetailBarGroup className="h-s36 gap-s4 px-s4 text-xs">
+          <IconZoomOut className="h-s16 w-s16" />
+          <span>100%</span>
+          <IconZoomIn className="h-s16 w-s16" />
+        </DocumentDetailBarGroup>
+        <DocumentDetailToolButton
+          aria-label="Rotate scan"
+          className="min-w-s28 px-s4"
+          icon={<IconRotate className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Adjust scan brightness"
+          className="min-w-s28 px-s4"
+          icon={<IconBrightness className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Reset scan position"
+          className="min-w-s28 px-s4"
+          icon={<IconWifiHome className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Tune scan"
+          className="min-w-s28 px-s4"
+          icon={<IconTune className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Download scan"
+          className="min-w-s28 px-s4"
+          icon={<IconDownloadTray className="h-s16 w-s16" />}
+        />
+      </DocumentDetailFloatingToolbar>
+
+      <div className="relative h-full max-h-[calc(100%-var(--s32))] aspect-[1102/1566] border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
         <Image
-          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='1200'%3E%3Crect width='900' height='1200' fill='%23dcc7a8'/%3E%3Cg stroke='%23866c56' stroke-width='2' opacity='0.28'%3E%3Cline x1='90' y1='150' x2='820' y2='210'/%3E%3Cline x1='130' y1='250' x2='780' y2='300'/%3E%3Cline x1='90' y1='360' x2='820' y2='420'/%3E%3Cline x1='130' y1='460' x2='780' y2='520'/%3E%3Cline x1='100' y1='575' x2='790' y2='635'/%3E%3Cline x1='130' y1='690' x2='760' y2='735'/%3E%3Cline x1='100' y1='800' x2='810' y2='860'/%3E%3Cline x1='130' y1='920' x2='760' y2='975'/%3E%3Cline x1='100' y1='1030' x2='800' y2='1095'/%3E%3C/g%3E%3C/svg%3E"
+          src="/images/document-detail-manuscript.png"
           alt="Manuscript scan preview"
           fill
-          className="object-contain p-s24"
+          className="object-contain"
+          sizes="(min-width: 1280px) 44vw, 80vw"
         />
       </div>
-    </div>
+    </DocumentDetailCanvas>
+  );
+}
+
+function TranscriptCanvas() {
+  return (
+    <DocumentDetailTranscriptCanvas>
+      <DocumentDetailFloatingToolbar className="left-auto right-s24 gap-s4 px-s4">
+        <DocumentDetailToolButton
+          aria-label="Toggle transcript text"
+          className="min-w-s28 px-s4"
+          icon={<IconFontSizing className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Reset transcript position"
+          className="min-w-s28 px-s4"
+          icon={<IconWifiHome className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Tune transcript"
+          className="min-w-s28 px-s4"
+          icon={<IconTune className="h-s16 w-s16" />}
+        />
+        <DocumentDetailToolButton
+          aria-label="Download transcript"
+          className="min-w-s28 px-s4"
+          icon={<IconDownloadTray className="h-s16 w-s16" />}
+        />
+      </DocumentDetailFloatingToolbar>
+
+      <div className="mx-auto flex max-w-[456px] flex-col gap-s4 pt-s24">
+        {TRANSCRIPT_LINE_WIDTHS.map((width, index) => (
+          <DocumentDetailTranscriptLine
+            key={`${index}-${width}`}
+            index={index + 1}
+            width={width}
+          />
+        ))}
+      </div>
+    </DocumentDetailTranscriptCanvas>
   );
 }
 
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
-  const [scanPosition, setScanPosition] = React.useState("23");
-  const [resultPosition, setResultPosition] = React.useState("2");
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -250,248 +372,173 @@ export function DocumentDetailViewerOverlayDemo() {
       <DocumentDetailOverlay
         isOpen={isOpen}
         onOpenChange={setIsOpen}
-        dialogClassName="h-full lg:w-[1233px] lg:max-w-[1233px] lg:mx-auto"
+        dialogClassName="relative bg-background-fixed-card shadow-[0_56px_96px_rgba(0,0,0,0.36)]"
       >
-        <DocumentDetailTopBar className="border-0 justify-between px-s16">
-          <div className="flex min-w-0 items-center gap-s8 text-xs text-brand-white">
-            <button
-              type="button"
-              className="flex h-8 w-8 items-center justify-center"
-              aria-label="Open sidebar"
+        <div
+          id="document-detail-sidebar"
+          className={[
+            "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-200 ease-out",
+            isSidebarExpanded
+              ? "w-overlay-document-viewer-sidebar-width"
+              : "w-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
+          {isSidebarExpanded ? (
+            <ExpandedMetadataSidebar />
+          ) : (
+            <CollapsedMetadataRail
+              onExpand={() => setIsSidebarExpanded(true)}
+            />
+          )}
+        </div>
+
+        <DocumentDetailTopBar
+          className={[
+            "relative justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
+              : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
+          ].join(" ")}
+        >
+          <DocumentDetailBarGroup className="gap-s8">
+            <DocumentDetailToolButton
+              aria-controls="document-detail-sidebar"
+              aria-expanded={isSidebarExpanded}
+              aria-label={
+                isSidebarExpanded
+                  ? "Collapse metadata sidebar"
+                  : "Expand metadata sidebar"
+              }
+              isActive={isSidebarExpanded}
+              icon={<IconViewModeGrid className="h-s16 w-s16" />}
+              onPress={() => setIsSidebarExpanded((current) => !current)}
+            />
+            <span className="font-sans text-xs text-brand-white/70">|</span>
+            <DocumentDetailToolButton
+              onPress={() => setIsOpen(false)}
+              icon={<IconArrowLeftAlt className="h-s16 w-s16" />}
             >
-              <IconSidebar className="h-3 w-3.75 text-brand-white" />
-            </button>
-
-            <span className="text-neutral-400">|</span>
-
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="flex h-8 items-center gap-s6 px-s6 text-brand-white transition-opacity hover:opacity-80"
-            >
-              <IconArrowLeftAlt className="h-s16 w-s16" />
-              Back to search
-            </button>
-
-            <span className="text-neutral-400">|</span>
-
-            <div className="flex rounded-lg p-0.5">
-              <button
-                type="button"
-                className="flex h-8 w-20 items-center gap-s6 rounded-l-sm bg-brand-white px-s12 text-brand-black"
+              Back to Search
+            </DocumentDetailToolButton>
+            <span className="font-sans text-xs text-brand-white/70">|</span>
+            <DocumentDetailSegmentedControl>
+              <DocumentDetailSegment
+                isActive
+                icon={<IconScan className="h-s16 w-s16" />}
               >
-                <IconImage className="h-s16 w-s16" />
                 Scan
-              </button>
-              <button
-                type="button"
-                className="flex h-8 w-20 items-center gap-s6 rounded-r-sm bg-brand-white px-s12 text-brand-black"
+              </DocumentDetailSegment>
+              <DocumentDetailSegment
+                isActive
+                icon={<IconTranscription className="h-s16 w-s16" />}
               >
-                <IconDocument className="h-s16 w-s16" />
                 Text
-              </button>
-            </div>
-
-            <div className="flex h-8 items-center gap-0.5 rounded-lg p-0.5">
-              <span className="flex h-7 w-7 items-center justify-center rounded-sm bg-brand-white text-brand-black">
-                N
-              </span>
-              <span className="flex h-7 w-7 items-center justify-center text-brand-white">
+              </DocumentDetailSegment>
+            </DocumentDetailSegmentedControl>
+            <DocumentDetailSegmentedControl className="bg-transparent text-brand-white">
+              <DocumentDetailSegment isActive>N</DocumentDetailSegment>
+              <DocumentDetailSegment className="text-brand-white">
                 D
-              </span>
-            </div>
-          </div>
+              </DocumentDetailSegment>
+            </DocumentDetailSegmentedControl>
+          </DocumentDetailBarGroup>
 
-          <div className="min-w-0 px-s12 text-center font-sans text-sm text-brand-white">
+          <DocumentDetailTitle className="max-w-[520px] flex-1 px-s24 text-sm leading-tight text-neutral-200">
             <p className="truncate">
               26 March 1702 • 26 • missive van den independent fiscael tot
-              cormandel Hendrick beiker, aan haer Ed=ls de hooge req:
+              cormandel Hendrick beiker
             </p>
-          </div>
+          </DocumentDetailTitle>
 
-          <div className="hidden items-center gap-s8 text-brand-white lg:flex">
-            <IconButton label="Swap relations">
-              <IconSwapArrow className="h-s16 w-s16" />
-            </IconButton>
-            <IconButton label="Picture in picture">
-              <IconPictureInPictureAlt className="h-s16 w-s16" />
-            </IconButton>
-            <IconButton label="Import contacts">
-              <IconImportContacts className="h-s16 w-s16" />
-            </IconButton>
-            <span className="text-neutral-400">|</span>
-            <IconButton label="Object links">
-              <IconViewObjectTrack className="h-s16 w-s16" />
-            </IconButton>
-            <IconButton label="Calendar">
-              <IconCalendarClock className="h-s16 w-s16" />
-            </IconButton>
-            <IconButton label="Dashboard settings">
-              <IconDashboard2Gear className="h-s16 w-s16" />
-            </IconButton>
-          </div>
+          <DocumentDetailBarGroup className="gap-s8">
+            <DocumentDetailToolButton
+              aria-label="Swap panes"
+              icon={<IconSwap className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Picture in picture"
+              icon={<IconPictureInPicture className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Open document"
+              icon={<IconImportContacts className="h-s16 w-s16" />}
+            />
+            <span className="font-sans text-xs text-brand-white/70">|</span>
+            <DocumentDetailToolButton
+              aria-label="Object tracking"
+              icon={<IconViewObjectTrack className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Date metadata"
+              icon={<IconCalendarClock className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Settings"
+              icon={<IconDashboardGear className="h-s16 w-s16" />}
+            />
+          </DocumentDetailBarGroup>
         </DocumentDetailTopBar>
 
-        <DocumentDetailBody className="grid min-h-0 grid-cols-1 lg:grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))]">
-          <DocumentDetailIconRail className="order-1 w-auto border-0 bg-neutral-800 py-s0 lg:col-span-1 lg:outline-1 lg:-outline-offset-1 lg:outline-black">
-            <button
-              type="button"
-              className="flex h-20 w-full flex-col items-center justify-center gap-s8 border-0 bg-vermilion-500/95 text-brand-black"
-              aria-label="Selection mode"
-            >
-              <IconFrameExclamation className="h-5 w-5 text-neutral-900" />
-            </button>
-            {COLLAPSED_LEFT_SIDEBAR_ITEMS.map((item, index) => {
-              const ItemIcon = item.icon;
-              return (
-                <button
-                  key={item.label}
-                  type="button"
-                  className={cn(
-                    "flex h-16 w-full flex-col items-center justify-center gap-2.5 border-0 p-2.5 text-brand-white",
-                    index === 0 ? "bg-neutral-800" : "bg-neutral-900/90",
-                  )}
-                >
-                  <ItemIcon
-                    className={cn(item.iconClassName, "text-brand-white")}
-                  />
-                  {item.chip ? (
-                    <span className="inline-flex items-center justify-center bg-neutral-600 px-0.5 text-xs leading-5 outline-1 -outline-offset-1 outline-neutral-500">
-                      {item.label}
-                    </span>
-                  ) : (
-                    <span className="text-xs leading-5">{item.label}</span>
-                  )}
-                </button>
-              );
-            })}
-          </DocumentDetailIconRail>
-
-          <DocumentDetailViewer
-            className={cn(
-              "order-2 min-w-0 border-0 bg-neutral-500 lg:outline-1 lg:-outline-offset-1 lg:outline-black",
-              isSidebarExpanded ? "lg:col-span-8" : "lg:col-span-15",
-            )}
-          >
-            <DocumentDetailViewerPane
-              className="border-0"
-              toolbarFloating
-              toolbarClassName="absolute left-[13px] top-[20px] z-20"
-              toolbar={
-                <div className="inline-flex h-12 items-center gap-1 rounded-lg bg-zinc-800 px-2 py-1 text-brand-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)]">
-                  <ToolPill className="border-0 px-0">
-                    <IconZoomOut className="h-s16 w-s16" />
-                    <span className="font-sans text-[11px] leading-5">
-                      100%
-                    </span>
-                    <IconZoomIn className="h-s16 w-s16" />
-                  </ToolPill>
-
-                  <ToolPill className="border-0 px-s8">
-                    <IconRotate className="h-s16 w-s16" />
-                    <IconBrightness className="h-s16 w-s16" />
-                    <IconWifiHome className="h-s16 w-s16" />
-                    <IconTune className="h-s16 w-s16" />
-                    <IconDownload className="h-s16 w-s16" />
-                  </ToolPill>
-                </div>
-              }
-            >
+        <DocumentDetailBody
+          className={[
+            "transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-overlay-document-viewer-sidebar-width"
+              : "pl-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
+          <DocumentDetailSplitViewer>
+            <DocumentDetailViewerPane className="relative border-r border-brand-black">
               <ManuscriptCanvas />
             </DocumentDetailViewerPane>
-          </DocumentDetailViewer>
-
-          {isSidebarExpanded && (
-            <DocumentDetailSidePanel className="order-3 relative w-auto border-0 bg-neutral-500 px-0 py-0 lg:col-span-7 lg:outline-1 lg:-outline-offset-1 lg:outline-black">
-              <div className="pointer-events-none absolute right-5 top-5 z-20">
-                <div className="pointer-events-auto inline-flex h-12 items-center gap-1 rounded-lg bg-zinc-800 p-1 text-brand-white shadow-[0px_4px_12px_0px_rgba(0,0,0,0.15)]">
-                  <button
-                    type="button"
-                    className="flex h-9 w-7 items-center justify-center"
-                    aria-label="Text size"
-                  >
-                    <IconTextSize className="h-s16 w-s16" />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex h-9 w-7 items-center justify-center"
-                    aria-label="Viewer mode"
-                  >
-                    <IconWifiHome className="h-s16 w-s16" />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex h-9 w-7 items-center justify-center"
-                    aria-label="Sidebar settings"
-                  >
-                    <IconTune className="h-s16 w-s16" />
-                  </button>
-                  <button
-                    type="button"
-                    className="flex h-9 w-7 items-center justify-center"
-                    aria-label="Download"
-                  >
-                    <IconDownload className="h-s16 w-s16" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="absolute left-[23px] top-[122px] flex w-[452px] flex-col gap-1.5 px-3 pt-3">
-                {TRANSCRIPT_LINE_WIDTHS.map((lineWidthClass, index) => (
-                  <div
-                    key={index}
-                    className="inline-flex h-2.5 items-center gap-1.5"
-                  >
-                    <span className="w-3 text-right font-sans text-[7.08px] leading-3 tracking-tight text-gray-300">
-                      {index + 1}
-                    </span>
-                    <span
-                      className={cn("h-1 bg-gray-300/60", lineWidthClass)}
-                    />
-                  </div>
-                ))}
-              </div>
-            </DocumentDetailSidePanel>
-          )}
+            <DocumentDetailViewerPane className="relative border-r-0">
+              <TranscriptCanvas />
+            </DocumentDetailViewerPane>
+          </DocumentDetailSplitViewer>
         </DocumentDetailBody>
 
-        <DocumentDetailBottomBar className="border-0 justify-between px-s24 py-s12 text-xs text-brand-white">
-          <div className="flex items-center gap-s12 text-neutral-300">
-            <IconButton label="Jump to first scan" className="h-8 w-6">
-              <IconArrowPauseLeft className="h-s16 w-s16" />
-            </IconButton>
-            <span className="text-neutral-300">NL-HaNA_1.04.02_3365_0215</span>
-          </div>
-          <div className="flex items-center gap-s24 text-neutral-300">
-            <span className="flex items-center gap-s8">
-              <IconArrowLeftSimple className="h-s16 w-s16" />
-              Scan{" "}
-              <EditableCounter
-                value={scanPosition}
-                onChange={setScanPosition}
-                ariaLabel="Scan position"
-              />{" "}
-              of 156
-              <IconArrowRightSimple className="h-s16 w-s16" />
+        <DocumentDetailBottomBar
+          className={[
+            "justify-center gap-s96 border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            isSidebarExpanded
+              ? "pl-overlay-document-viewer-sidebar-width"
+              : "pl-overlay-document-viewer-rail-width",
+          ].join(" ")}
+        >
+          <DocumentDetailBarGroup className="gap-s24">
+            <DocumentDetailToolButton
+              aria-label="First scan"
+              icon={<IconLeftFirst className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Previous scan"
+              icon={<IconLeft className="h-s16 w-s16" />}
+            />
+            <span>
+              Scan <span className="text-parchment-500">23</span> of 156
             </span>
-            <span className="flex items-center gap-s8">
-              <IconArrowLeftSimple className="h-s16 w-s16" />
-              result <span className="italic">&quot;prins Eugenius&quot;</span>
-              <EditableCounter
-                value={resultPosition}
-                onChange={setResultPosition}
-                ariaLabel="Search result position"
-              />{" "}
-              of 19
-              <IconArrowRightSimple className="h-s16 w-s16" />
+            <DocumentDetailToolButton
+              aria-label="Next scan"
+              icon={<IconRight className="h-s16 w-s16" />}
+            />
+            <DocumentDetailToolButton
+              aria-label="Last scan"
+              icon={<IconRightLast className="h-s16 w-s16" />}
+            />
+          </DocumentDetailBarGroup>
+          <DocumentDetailBarGroup className="gap-s24">
+            <DocumentDetailToolButton
+              aria-label="Previous search hit"
+              icon={<IconLeft className="h-s16 w-s16" />}
+            />
+            <span>
+              search hits <span className="text-parchment-500">2</span> of 19
             </span>
-          </div>
-          <div className="flex items-center gap-s12 text-neutral-300">
-            <span className="text-neutral-300">NL-HaNA_1.04.02_3365_0371</span>
-            <IconButton label="Jump to last scan" className="h-8 w-6">
-              <IconArrowPauseRight className="h-s16 w-s16" />
-            </IconButton>
-          </div>
+            <DocumentDetailToolButton
+              aria-label="Next search hit"
+              icon={<IconRight className="h-s16 w-s16" />}
+            />
+          </DocumentDetailBarGroup>
         </DocumentDetailBottomBar>
       </DocumentDetailOverlay>
     </>

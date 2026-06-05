@@ -71,7 +71,7 @@ export default function Page() {
 }
 ```
 
-### React + Vite + TanStack Router setup (Research Portal baseline)
+### React + Vite + TanStack setup (Research Portal baseline)
 
 If you are integrating into a React-only app (not Next.js), use the stack below:
 
@@ -79,7 +79,8 @@ If you are integrating into a React-only app (not Next.js), use the stack below:
 - React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + `@tanstack/router-plugin`
+- TanStack Router
+- TanStack Query
 - Tailwind CSS v4
 
 This repository includes a copy-ready starter at:
@@ -90,16 +91,11 @@ This repository includes a copy-ready starter at:
 
 ```ts
 import tailwindcss from "@tailwindcss/vite";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [
-    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
 });
 ```
 
@@ -117,14 +113,19 @@ export default defineConfig({
 
 ```tsx
 import "./styles.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { router } from "./router";
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );
 ```
@@ -143,8 +144,8 @@ const nextConfig = {
 
 | Dependency   | Version  |
 | ------------ | -------- |
-| React        | ≥ 19.0.0 |
-| React DOM    | ≥ 19.0.0 |
+| React        | ≥ 18.0.0 |
+| React DOM    | ≥ 18.0.0 |
 | Tailwind CSS | ≥ 4.0.0  |
 
 ### Verified integration baseline
@@ -153,7 +154,8 @@ const nextConfig = {
 - React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + Vite plugin
+- TanStack Router
+- TanStack Query
 - Tailwind CSS v4
 
 ## What is currently included (updates will follow)
@@ -166,6 +168,6 @@ const nextConfig = {
 - Content: `Typography`, `Button`, `NewsletterSignup`, `SearchBar`, `ArticleRow`
 - Icons: `IconAdd`, `IconArrowRight`, `IconChevronDown`, `IconClose`, `IconMenu`, `IconSearch`
 - Logos: `Logomark`, `Logotype`, `LogoLockup`, `LogoNavbar`
-- Dev tools: `GridGuide` (12-column overlay for alignment checking)
+- Dev tools: `GridGuide` (responsive 4 / 8 / 16-column overlay for alignment checking)
 - Design tokens for brand colours, colour scales, typography, and spacing
 - Full TypeScript support with exported types for every component

@@ -2,11 +2,11 @@ import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import { ResponsiveGridPreview } from "@/components/ResponsiveGridPreview";
-import { Grid } from "@globalise/design-system";
+import { GridColumnPlacementPreview } from "@/components/GridColumnPlacementPreview";
 
 # Grid
 
-The page-level layout grid now follows the shared shell contract: **4 columns (mobile), 8 columns (tablet), 16 columns (desktop), stretch, 1440px max width, 16px gutters**.
+The page-level layout grid follows the shared shell contract implemented in `@globalise/design-system`: **4 columns (mobile), 8 columns (tablet), 16 columns (desktop), stretch, 1440px max width, token-driven margins, and token-driven gutters**.
 
 Use `col-span-full` as the safe default at every breakpoint. Use explicit `col-start-*` and `col-span-*` at `xl` when you need placement inside the 16-column desktop shell.
 
@@ -55,20 +55,7 @@ Overlays and modals can still occupy the full shell when needed (`slot-full-blee
 Use Tailwind's `col-start-*` and `col-span-*` utilities to place children within the 16-column grid.
 
 <ComponentPreview>
-  <Grid className="mx-auto w-full max-w-shell-max px-shell-margin">
-    <div className="col-span-full flex h-12 items-center justify-center bg-brand-white text-xs text-brand-black">
-      <span>col-span-full (full bleed)</span>
-    </div>
-    <div className="col-span-full flex h-12 items-center justify-center bg-brand-turquoise text-xs text-brand-black xl:col-start-3 xl:col-span-12">
-      <span>col-start-3 col-span-12 (standard content)</span>
-    </div>
-    <div className="col-span-full flex h-12 items-center justify-center bg-brand-vermilion text-xs text-brand-black xl:col-start-3 xl:col-span-6">
-      <span>col-start-3 col-span-6</span>
-    </div>
-    <div className="col-span-full flex h-12 items-center justify-center bg-brand-mint text-xs text-brand-black xl:col-start-9 xl:col-span-6">
-      <span>col-start-9 col-span-6</span>
-    </div>
-  </Grid>
+  <GridColumnPlacementPreview />
 </ComponentPreview>
 
 ## Grid specification
@@ -79,6 +66,7 @@ Use Tailwind's `col-start-*` and `col-span-*` utilities to place children within
 | Type                  | Stretch      |
 | Max width             | 1440px       |
 | Desktop page margin   | 32px         |
+| Tablet page margin    | 24px         |
 | Mobile page margin    | 16px         |
 | Gutter                | 16px         |
 | Standard content band | Columns 3-14 |
@@ -94,7 +82,7 @@ The grid is responsive by token: 4 columns at mobile, 8 at tablet, and 16 at des
 
 ### Mobile-first column pattern
 
-On smaller screens, let children span all 16 columns. At desktop, snap them into the centered content band:
+On smaller screens, let children span the active shell columns. At desktop, snap them into the centered content band:
 
 <CodeBlock
   code={`{/* Standard content area — mobile-safe */}

@@ -46,7 +46,7 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
     const href = "href" in props ? props.href : undefined;
     const content = (
       <>
-        <div className="flex min-h-[6rem] flex-col gap-s8">
+        <div className="flex min-h-s96 flex-col gap-s8">
           <span className="font-serif font-medium text-3xl sm:text-4xl leading-tight">
             {heading}
           </span>

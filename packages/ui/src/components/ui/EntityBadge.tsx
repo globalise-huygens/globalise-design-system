@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
 export const entityBadgeVariants = cva(
-  "inline-flex h-6 w-fit items-center gap-1 pl-2 pr-2.5 text-xs font-medium font-sans uppercase leading-3 outline outline-[1.2px] outline-offset-[-1.2px]",
+  "inline-flex h-s24 w-fit items-center gap-s4 pl-s8 pr-s8 text-xs font-medium font-sans uppercase leading-(--s12) outline outline-[1.2px] outline-offset-[-1.2px]",
   {
     variants: {
       type: {
@@ -44,7 +44,7 @@ function EntityBadge({
   return (
     <span className={cn(entityBadgeVariants({ type }), className)} {...props}>
       {icon && (
-        <span className="flex h-3.5 w-3.5 items-center justify-center">
+        <span className="flex h-s16 w-s16 items-center justify-center">
           {icon}
         </span>
       )}
