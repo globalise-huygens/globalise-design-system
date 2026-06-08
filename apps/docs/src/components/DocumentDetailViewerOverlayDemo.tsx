@@ -94,6 +94,9 @@ const FLOATING_TOOLBAR_REVEAL_CLASS =
 const TOP_BAR_ICON_BUTTON_CLASS =
   "h-s36 min-w-s36 px-0 [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
+const BOTTOM_BAR_ICON_BUTTON_CLASS =
+  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 [&>svg]:h-s16 [&>svg]:w-s16";
+
 const SIDEBAR_ITEMS = [
   {
     id: "inventory",
@@ -912,60 +915,58 @@ function IconButton({
   );
 }
 
-function EditableCounter({
+function NumericJumpField({
   value,
   onChange,
   ariaLabel,
+  max,
 }: {
-  value: string;
-  onChange: (nextValue: string) => void;
+  value: number;
+  onChange: (nextValue: number) => void;
   ariaLabel: string;
+  max: number;
 }) {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const [draftValue, setDraftValue] = React.useState(value);
+  const [draftValue, setDraftValue] = React.useState(String(value));
+
+  const commitValue = React.useCallback(() => {
+    const parsedValue = Number.parseInt(draftValue, 10);
+    const nextValue = Number.isNaN(parsedValue)
+      ? value
+      : Math.min(Math.max(parsedValue, 1), max);
+
+    onChange(nextValue);
+    setDraftValue(String(nextValue));
+  }, [draftValue, max, onChange, value]);
 
   React.useEffect(() => {
-    if (!isEditing) {
-      setDraftValue(value);
-    }
-  }, [isEditing, value]);
-
-  if (isEditing) {
-    return (
-      <input
-        autoFocus
-        value={draftValue}
-        aria-label={ariaLabel}
-        onChange={(event) => setDraftValue(event.target.value)}
-        onBlur={() => {
-          onChange(draftValue.trim() || value);
-          setIsEditing(false);
-        }}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            onChange(draftValue.trim() || value);
-            setIsEditing(false);
-          }
-
-          if (event.key === "Escape") {
-            setDraftValue(value);
-            setIsEditing(false);
-          }
-        }}
-        className="h-5 w-10 border-0 bg-transparent text-center text-xs leading-5 text-stone-400 outline-none"
-      />
-    );
-  }
+    setDraftValue(String(value));
+  }, [value]);
 
   return (
-    <button
-      type="button"
-      onDoubleClick={() => setIsEditing(true)}
-      className="text-stone-400"
-      aria-label={`${ariaLabel}. Double click to edit.`}
-    >
-      {value}
-    </button>
+    <input
+      type="number"
+      min={1}
+      max={max}
+      value={draftValue}
+      aria-label={ariaLabel}
+      onChange={(event) => {
+        setDraftValue(event.target.value.replace(/\D/g, ""));
+      }}
+      onBlur={commitValue}
+      onFocus={(event) => event.currentTarget.select()}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") {
+          event.currentTarget.blur();
+        }
+
+        if (event.key === "Escape") {
+          setDraftValue(String(value));
+          event.currentTarget.blur();
+        }
+      }}
+      className="mx-s1 inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-0.5 pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      style={{ width: `${String(max).length + 0.5}ch` }}
+    />
   );
 }
 
@@ -1065,6 +1066,11 @@ function TranscriptCanvas() {
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
+  const [currentScan, setCurrentScan] = React.useState(23);
+  const [currentSearchHit, setCurrentSearchHit] = React.useState(2);
+
+  const maxScan = 156;
+  const maxSearchHit = 19;
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -1234,7 +1240,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "justify-center gap-s96 border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            "!h-s36 justify-center gap-s96 border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
@@ -1243,35 +1249,71 @@ export function DocumentDetailViewerOverlayDemo() {
           <DocumentDetailBarGroup className="gap-s24">
             <DocumentDetailToolButton
               aria-label="First scan"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeftFirst className="h-s16 w-s16" />}
+              onPress={() => setCurrentScan(1)}
             />
             <DocumentDetailToolButton
               aria-label="Previous scan"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
+              onPress={() => {
+                setCurrentScan((current) => Math.max(current - 1, 1));
+              }}
             />
-            <span>
-              Scan <span className="text-parchment-500">23</span> of 156
+            <span className="inline-flex items-baseline leading-4">
+              Scan
+              <NumericJumpField
+                ariaLabel="Go to scan"
+                value={currentScan}
+                max={maxScan}
+                onChange={setCurrentScan}
+              />
+              of {maxScan}
             </span>
             <DocumentDetailToolButton
               aria-label="Next scan"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
+              onPress={() => {
+                setCurrentScan((current) => Math.min(current + 1, maxScan));
+              }}
             />
             <DocumentDetailToolButton
               aria-label="Last scan"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRightLast className="h-s16 w-s16" />}
+              onPress={() => setCurrentScan(maxScan)}
             />
           </DocumentDetailBarGroup>
           <DocumentDetailBarGroup className="gap-s24">
             <DocumentDetailToolButton
               aria-label="Previous search hit"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
+              onPress={() => {
+                setCurrentSearchHit((current) => Math.max(current - 1, 1));
+              }}
             />
-            <span>
-              search hits <span className="text-parchment-500">2</span> of 19
+            <span className="inline-flex items-baseline leading-4">
+              search hits
+              <NumericJumpField
+                ariaLabel="Go to search hit"
+                value={currentSearchHit}
+                max={maxSearchHit}
+                onChange={setCurrentSearchHit}
+              />
+              of {maxSearchHit}
             </span>
             <DocumentDetailToolButton
               aria-label="Next search hit"
+              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
+              onPress={() => {
+                setCurrentSearchHit((current) =>
+                  Math.min(current + 1, maxSearchHit),
+                );
+              }}
             />
           </DocumentDetailBarGroup>
         </DocumentDetailBottomBar>
