@@ -108,20 +108,18 @@ const SIDEBAR_ITEMS = [
   {
     id: "table-of-contents",
     label: "Table of Contents",
-    count: "(206)",
-    railLabel: "206",
     icon: <IconList className="h-s20 w-s20" />,
   },
   {
     id: "identified",
-    label: "Identified",
+    label: "Entity tags",
     count: "(376)",
     railLabel: "376",
     icon: <IconViewObjectTrack className="h-s20 w-s20" />,
   },
   {
     id: "events",
-    label: "Events",
+    label: "Event tags",
     count: "(0)",
     railLabel: "0",
     icon: <IconCalendarClock className="h-s20 w-s20" />,
@@ -381,17 +379,19 @@ function SidebarDisclosureIcon({
 }
 
 interface CollapsedMetadataRailProps {
-  onExpand: () => void;
+  onExpandSection: (sectionId: string) => void;
 }
 
-function CollapsedMetadataRail({ onExpand }: CollapsedMetadataRailProps) {
+function CollapsedMetadataRail({
+  onExpandSection,
+}: CollapsedMetadataRailProps) {
   return (
     <DocumentDetailIconRail className="h-full w-full border-r-0 bg-neutral-900">
       <DocumentDetailRailButton
         aria-label="Expand content warning"
         className="h-s72 border-b-0 text-vermilion-500"
         icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
-        onPress={onExpand}
+        onPress={() => onExpandSection("content-warning")}
       />
 
       {SIDEBAR_ITEMS.map((item) => (
@@ -401,7 +401,7 @@ function CollapsedMetadataRail({ onExpand }: CollapsedMetadataRailProps) {
           className="h-s72 border-b-0"
           icon={item.icon}
           label={item.railLabel}
-          onPress={onExpand}
+          onPress={() => onExpandSection(item.id)}
         />
       ))}
     </DocumentDetailIconRail>
@@ -833,25 +833,13 @@ function EventsPanel() {
   );
 }
 
-function ExpandedMetadataSidebar() {
-  const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
-    () => new Set(["content-warning"]),
-  );
-
-  const toggleSection = React.useCallback((sectionId: string) => {
-    setExpandedSections((current) => {
-      const next = new Set(current);
-
-      if (next.has(sectionId)) {
-        next.delete(sectionId);
-      } else {
-        next.add(sectionId);
-      }
-
-      return next;
-    });
-  }, []);
-
+function ExpandedMetadataSidebar({
+  expandedSections,
+  onToggleSection,
+}: {
+  expandedSections: Set<string>;
+  onToggleSection: (sectionId: string) => void;
+}) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
       <ExpandedSidebarSection
@@ -860,7 +848,7 @@ function ExpandedMetadataSidebar() {
         icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
         label="Content Warning"
         isExpanded={expandedSections.has("content-warning")}
-        onToggle={() => toggleSection("content-warning")}
+        onToggle={() => onToggleSection("content-warning")}
       >
         <ContentWarningPanel />
       </ExpandedSidebarSection>
@@ -880,7 +868,7 @@ function ExpandedMetadataSidebar() {
             ) : undefined
           }
           isExpanded={expandedSections.has(item.id)}
-          onToggle={() => toggleSection(item.id)}
+          onToggle={() => onToggleSection(item.id)}
         >
           {item.id === "inventory" && <ArchivePanel />}
           {item.id === "table-of-contents" && <TableOfContentsPanel />}
@@ -1066,11 +1054,37 @@ function TranscriptCanvas() {
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
+  const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
+    () => new Set(["inventory", "table-of-contents"]),
+  );
   const [currentScan, setCurrentScan] = React.useState(23);
   const [currentSearchHit, setCurrentSearchHit] = React.useState(2);
 
   const maxScan = 156;
   const maxSearchHit = 19;
+
+  const toggleSidebarSection = React.useCallback((sectionId: string) => {
+    setExpandedSections((current) => {
+      const next = new Set(current);
+
+      if (next.has(sectionId)) {
+        next.delete(sectionId);
+      } else {
+        next.add(sectionId);
+      }
+
+      return next;
+    });
+  }, []);
+
+  const expandSidebarSection = React.useCallback((sectionId: string) => {
+    setExpandedSections((current) => {
+      const next = new Set(current);
+      next.add(sectionId);
+      return next;
+    });
+    setIsSidebarExpanded(true);
+  }, []);
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -1111,10 +1125,13 @@ export function DocumentDetailViewerOverlayDemo() {
           ].join(" ")}
         >
           {isSidebarExpanded ? (
-            <ExpandedMetadataSidebar />
+            <ExpandedMetadataSidebar
+              expandedSections={expandedSections}
+              onToggleSection={toggleSidebarSection}
+            />
           ) : (
             <CollapsedMetadataRail
-              onExpand={() => setIsSidebarExpanded(true)}
+              onExpandSection={expandSidebarSection}
             />
           )}
         </div>

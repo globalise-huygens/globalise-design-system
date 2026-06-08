@@ -203,12 +203,12 @@ const DocumentDetailMetadataSidebarButton = React.forwardRef<
       <span className="flex min-w-0 items-center gap-s8">
         {icon && <span className="shrink-0">{icon}</span>}
         {label && (
-          <span className="min-w-0 truncate text-left text-base leading-none lg:text-lg">
+          <span className="min-w-0 truncate text-left text-base leading-5 lg:text-lg lg:leading-5">
             {label}
           </span>
         )}
         {count && (
-          <span className="shrink-0 text-base font-light leading-none text-brand-white/45 lg:text-lg">
+          <span className="shrink-0 text-base font-light leading-5 text-brand-white/45 lg:text-lg lg:leading-5">
             {count}
           </span>
         )}
