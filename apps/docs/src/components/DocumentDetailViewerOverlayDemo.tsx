@@ -97,6 +97,9 @@ const TOP_BAR_ICON_BUTTON_CLASS =
 const BOTTOM_BAR_ICON_BUTTON_CLASS =
   "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 [&>svg]:h-s16 [&>svg]:w-s16";
 
+const CONTENT_WARNING_TEXT =
+  "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
+
 const SIDEBAR_ITEMS = [
   {
     id: "inventory",
@@ -387,13 +390,6 @@ function CollapsedMetadataRail({
 }: CollapsedMetadataRailProps) {
   return (
     <DocumentDetailIconRail className="h-full w-full border-r-0 bg-neutral-900">
-      <DocumentDetailRailButton
-        aria-label="Expand content warning"
-        className="h-s72 border-b-0 text-vermilion-500"
-        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
-        onPress={() => onExpandSection("content-warning")}
-      />
-
       {SIDEBAR_ITEMS.map((item) => (
         <DocumentDetailRailButton
           key={item.label}
@@ -475,19 +471,98 @@ function ExpandedSidebarSection({
   );
 }
 
-function ContentWarningPanel() {
+function ContentWarningTopBarControl() {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
+  const [isPinned, setIsPinned] = React.useState(false);
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const popoverId = React.useId();
+  const titleId = React.useId();
+  const isOpen = isHovered || hasFocusWithin || isPinned;
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setIsPinned(false);
+        setIsHovered(false);
+        setHasFocusWithin(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsPinned(false);
+        setIsHovered(false);
+        setHasFocusWithin(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   return (
-    <div className="w-full px-s24 py-s20 font-sans">
-      <div className="flex items-start gap-s12">
-        <p className="text-sm leading-5">
-          The Dutch East India Company archives (and consequently their
-          transcriptions) and its document descriptions bear harmful and
-          discriminatory language. They also record a wide range of events,
-          intentions and perspectives that are violent and can cause distress.
-          To read more about the GLOBALISE project’s efforts to address
-          problematic content, see [here:hyperlink to long read] 
-        </p>
-      </div>
+    <div
+      ref={rootRef}
+      className="relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setHasFocusWithin(true)}
+      onBlur={(event) => {
+        const nextFocusedElement = event.relatedTarget;
+
+        if (
+          !(nextFocusedElement instanceof Node) ||
+          !event.currentTarget.contains(nextFocusedElement)
+        ) {
+          setHasFocusWithin(false);
+        }
+      }}
+    >
+      <DocumentDetailToolButton
+        aria-controls={popoverId}
+        aria-expanded={isOpen}
+        aria-label="Content warning"
+        className={cn(
+          TOP_BAR_ICON_BUTTON_CLASS,
+          "text-vermilion-500 data-hovered:bg-vermilion-500/10 data-focus-visible:ring-vermilion-500",
+          isOpen && "bg-vermilion-500/10",
+        )}
+        icon={<IconDocumentFrameAlert className="h-s16 w-s16" />}
+        onPress={() => setIsPinned((current) => !current)}
+      />
+
+      {isOpen && (
+        <div
+          id={popoverId}
+          role="dialog"
+          aria-labelledby={titleId}
+          className="absolute left-0 top-[calc(100%+var(--s8))] z-30 w-[min(380px,calc(100vw-var(--s32)))] border border-vermilion-500/35 bg-neutral-900 p-s16 font-sans text-vermilion-500 shadow-[0_16px_32px_rgba(0,0,0,0.36)]"
+        >
+          <div className="mb-s8 flex items-center gap-s8">
+            <IconDocumentFrameAlert className="h-s16 w-s16 shrink-0" />
+            <h2 id={titleId} className="text-sm leading-5">
+              Content Warning
+            </h2>
+          </div>
+          <p className="text-xs leading-5">{CONTENT_WARNING_TEXT}</p>
+          <a
+            href="#"
+            className="mt-s12 inline-flex text-xs leading-4 underline underline-offset-2 transition-colors hover:text-vermilion-400"
+          >
+            Read more about problematic content
+          </a>
+        </div>
+      )}
     </div>
   );
 }
@@ -842,17 +917,6 @@ function ExpandedMetadataSidebar({
 }) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
-      <ExpandedSidebarSection
-        id="content-warning"
-        variant="warning"
-        icon={<IconDocumentFrameAlert className="h-s20 w-s20" />}
-        label="Content Warning"
-        isExpanded={expandedSections.has("content-warning")}
-        onToggle={() => onToggleSection("content-warning")}
-      >
-        <ContentWarningPanel />
-      </ExpandedSidebarSection>
-
       {SIDEBAR_ITEMS.map((item) => (
         <ExpandedSidebarSection
           key={item.id}
@@ -1008,6 +1072,8 @@ function ManuscriptCanvas() {
 }
 
 function TranscriptCanvas() {
+  const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
+
   return (
     <DocumentDetailTranscriptCanvas>
       <DocumentDetailFloatingToolbar
@@ -1016,6 +1082,34 @@ function TranscriptCanvas() {
           FLOATING_TOOLBAR_REVEAL_CLASS,
         )}
       >
+        <DocumentDetailSegmentedControl className="h-s28 gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0">
+          <DocumentDetailSegment
+            aria-label="Show normalized transcription"
+            isActive={transcriptMode === "n"}
+            className={cn(
+              "h-s28 min-w-s28 rounded-none rounded-l-[4px] border-r border-brand-black/70 px-s8 leading-4",
+              transcriptMode === "n"
+                ? "!bg-brand-white !text-brand-black"
+                : "!text-brand-white/55 data-hovered:!bg-brand-white/10",
+            )}
+            onPress={() => setTranscriptMode("n")}
+          >
+            N
+          </DocumentDetailSegment>
+          <DocumentDetailSegment
+            aria-label="Show diplomatic transcription"
+            isActive={transcriptMode === "d"}
+            className={cn(
+              "h-s28 min-w-s28 rounded-none rounded-r-[4px] px-s8 leading-4",
+              transcriptMode === "d"
+                ? "!bg-brand-white !text-brand-black"
+                : "!text-brand-white/55 data-hovered:!bg-brand-white/10",
+            )}
+            onPress={() => setTranscriptMode("d")}
+          >
+            D
+          </DocumentDetailSegment>
+        </DocumentDetailSegmentedControl>
         <DocumentDetailToolButton
           aria-label="Toggle transcript text"
           className="min-w-s28 px-s4"
@@ -1158,6 +1252,7 @@ export function DocumentDetailViewerOverlayDemo() {
               icon={<IconViewModeGrid className="h-s16 w-s16" />}
               onPress={() => setIsSidebarExpanded((current) => !current)}
             />
+            <ContentWarningTopBarControl />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <DocumentDetailSegmentedControl className="h-s36 gap-0 overflow-hidden rounded-[6px] bg-transparent p-0">
               <DocumentDetailSegment
@@ -1173,14 +1268,6 @@ export function DocumentDetailViewerOverlayDemo() {
                 icon={<IconTranscription className="h-[18px] w-[18px]" />}
               >
                 Text
-              </DocumentDetailSegment>
-            </DocumentDetailSegmentedControl>
-            <DocumentDetailSegmentedControl className="h-s36 bg-transparent text-brand-white">
-              <DocumentDetailSegment isActive className="h-s36 px-s12">
-                N
-              </DocumentDetailSegment>
-              <DocumentDetailSegment className="h-s36 px-s12 text-brand-white">
-                D
               </DocumentDetailSegment>
             </DocumentDetailSegmentedControl>
           </DocumentDetailBarGroup>
