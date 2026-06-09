@@ -22,27 +22,32 @@ import {
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewerPane,
-  ObjectCardReferenceItem,
   IconBrightness,
   IconCalendarClock,
   IconChevronDown,
   IconClose,
+  IconCommodity,
   IconDashboardGear,
+  IconDate,
   IconDocument,
   IconDocumentFrameAlert,
   IconDownloadTray,
   IconExternalLink,
   IconFolderCopy,
-  IconFontSizing,
   IconImportContacts,
   IconLeft,
   IconLeftFirst,
   IconList,
+  IconOrganisation,
+  IconPerson,
   IconPictureInPicture,
+  IconPlace,
   IconRight,
   IconRightLast,
   IconRotate,
   IconScan,
+  IconSearch,
+  IconShip,
   IconSwap,
   IconTranscription,
   IconTune,
@@ -51,6 +56,7 @@ import {
   IconWifiHome,
   IconZoomIn,
   IconZoomOut,
+  ObjectCardReferenceItem,
 } from "@globalise/design-system";
 import Image from "next/image";
 import * as React from "react";
@@ -89,7 +95,7 @@ const TRANSCRIPT_LINE_WIDTHS = [
 ];
 
 const FLOATING_TOOLBAR_REVEAL_CLASS =
-  "bg-brand-black/35 text-brand-white/45 shadow-none transition-[background-color,box-shadow,color] duration-150 [&_button]:text-brand-white/45 hover:bg-brand-black hover:text-brand-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.28)] hover:[&_button]:text-brand-white focus-within:bg-brand-black focus-within:text-brand-white focus-within:shadow-[0_4px_16px_rgba(0,0,0,0.28)] focus-within:[&_button]:text-brand-white";
+  "bg-brand-black/35 text-brand-white/45 shadow-none transition-[background-color,box-shadow,color] duration-150 hover:bg-brand-black hover:text-brand-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.28)] focus-within:bg-brand-black focus-within:text-brand-white focus-within:shadow-[0_4px_16px_rgba(0,0,0,0.28)]";
 
 const TOP_BAR_ICON_BUTTON_CLASS =
   "h-s36 min-w-s36 px-0 [&>svg]:h-[18px] [&>svg]:w-[18px]";
@@ -97,6 +103,25 @@ const TOP_BAR_ICON_BUTTON_CLASS =
 const BOTTOM_BAR_ICON_BUTTON_CLASS =
   "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 [&>svg]:h-s16 [&>svg]:w-s16";
 
+const EDITABLE_NUMBER_INPUT_CLASS =
+  "mx-[2px] inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-[2px] pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+
+const SEGMENTED_SURFACE_COMPACT_CLASS =
+  "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
+
+const SEGMENTED_SURFACE_REGULAR_CLASS =
+  "inline-flex h-s36 shrink-0 items-center gap-0 overflow-hidden rounded-[6px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
+
+const SEGMENTED_BUTTON_ACTIVE_CLASS = "bg-brand-white text-brand-black";
+
+const SEGMENTED_BUTTON_INACTIVE_CLASS =
+  "text-brand-white/65 hover:bg-brand-white/10 hover:text-brand-white";
+
+const SEGMENTED_BUTTON_COMPACT_CLASS =
+  "inline-flex h-s28 min-w-s36 shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 px-s8 text-xs leading-4 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 last:border-r-0";
+
+const SEGMENTED_BUTTON_REGULAR_CLASS =
+  "inline-flex h-s36 shrink-0 items-center justify-center gap-s4 whitespace-nowrap border-r border-brand-black/70 px-s12 text-sm leading-5 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 last:border-r-0";
 const CONTENT_WARNING_TEXT =
   "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
 
@@ -360,11 +385,241 @@ const TABLE_OF_CONTENTS_AFTER_SELECTED = [
   },
 ];
 
-const IDENTIFIED_ENTITIES = [
-  ["People", "Hendrick Beiker", "Jan van Riebeeck", "Cornelis Speelman"],
-  ["Places", "Cormandel", "Batavia", "Nagapattinam"],
-  ["Organisations", "VOC", "Raad van Indie"],
+const CLASSIFIED_ENTITY_TAG_GROUPS = [
+  {
+    category: "Persons",
+    count: 496,
+    icon: <IconPerson className="h-s16 w-s16" />,
+    firstScan: 2,
+    scanStride: 3,
+    subcategories: [
+      { label: "by Name", count: 298, firstScan: 2, scanStride: 3 },
+      { label: "by Attributes", count: 45, firstScan: 6, scanStride: 5 },
+      { label: "by Profession", count: 58, firstScan: 9, scanStride: 4 },
+      { label: "by Civic Status", count: 106, firstScan: 12, scanStride: 6 },
+      {
+        label: "by Ethno-Religious Appellation",
+        count: 106,
+        firstScan: 15,
+        scanStride: 7,
+      },
+    ],
+  },
+  {
+    category: "Organisations",
+    count: 71,
+    icon: <IconOrganisation className="h-s16 w-s16" />,
+    firstScan: 1,
+    scanStride: 4,
+    subcategories: [
+      { label: "by Name", count: 71, firstScan: 1, scanStride: 4 },
+    ],
+  },
+  {
+    category: "Ships",
+    count: 67,
+    icon: <IconShip className="h-s16 w-s16" />,
+    firstScan: 23,
+    scanStride: 2,
+    subcategories: [
+      { label: "by Name", count: 106, firstScan: 23, scanStride: 2 },
+      { label: "by Type", count: 106, firstScan: 28, scanStride: 5 },
+    ],
+  },
+  {
+    category: "Commodities",
+    count: 51,
+    icon: <IconCommodity className="h-s16 w-s16" />,
+    firstScan: 20,
+    scanStride: 6,
+    subcategories: [
+      { label: "by Name", count: 106, firstScan: 20, scanStride: 6 },
+      { label: "by Qualifier", count: 106, firstScan: 26, scanStride: 4 },
+    ],
+  },
+  {
+    category: "Dates",
+    count: 46,
+    icon: <IconDate className="h-s16 w-s16" />,
+    firstScan: 31,
+    scanStride: 3,
+    subcategories: [],
+  },
+  {
+    category: "Places",
+    count: 34,
+    icon: <IconPlace className="h-s16 w-s16" />,
+    firstScan: 8,
+    scanStride: 4,
+    subcategories: [
+      { label: "by Name", count: 106, firstScan: 8, scanStride: 4 },
+      { label: "by Location Form", count: 106, firstScan: 13, scanStride: 5 },
+    ],
+  },
+  {
+    category: "Polities",
+    count: 0,
+    icon: <IconOrganisation className="h-s16 w-s16" />,
+    firstScan: 1,
+    scanStride: 1,
+    subcategories: [],
+  },
+  {
+    category: "Documents",
+    count: 2,
+    icon: <IconDocument className="h-s16 w-s16" />,
+    firstScan: 19,
+    scanStride: 23,
+    subcategories: [],
+  },
+  {
+    category: "Quantity",
+    count: 2,
+    icon: <IconList className="h-s16 w-s16" />,
+    firstScan: 44,
+    scanStride: 11,
+    subcategories: [],
+  },
 ];
+
+const IDENTIFIED_ENTITY_TAGS = [
+  {
+    name: "Joan Maetsuijker",
+    type: "Person",
+    icon: <IconPerson className="h-s16 w-s16" />,
+    classifiedAs: ["Joan Maetsuijker", "gouverneur generaal"],
+    occurrences: 496,
+    firstScan: 2,
+    scanStride: 3,
+  },
+  {
+    name: "Person X",
+    type: "Person",
+    icon: <IconPerson className="h-s16 w-s16" />,
+    classifiedAs: ["persoon X", "oppercoopman"],
+    occurrences: 138,
+    firstScan: 4,
+    scanStride: 5,
+  },
+  {
+    name: "Person Z",
+    type: "Person",
+    icon: <IconPerson className="h-s16 w-s16" />,
+    classifiedAs: ["persoon Z"],
+    occurrences: 76,
+    firstScan: 6,
+    scanStride: 7,
+  },
+  {
+    name: "VOC",
+    type: "Organisation",
+    icon: <IconOrganisation className="h-s16 w-s16" />,
+    classifiedAs: ["VOC", "Oost-Indische Compagnie"],
+    occurrences: 71,
+    firstScan: 1,
+    scanStride: 4,
+  },
+  {
+    name: "Prins Eugenius",
+    type: "Ship",
+    icon: <IconShip className="h-s16 w-s16" />,
+    classifiedAs: ["prins Eugenius", "D' prins Eugenius"],
+    occurrences: 67,
+    firstScan: 23,
+    scanStride: 2,
+  },
+  {
+    name: "Person A",
+    type: "Person",
+    icon: <IconPerson className="h-s16 w-s16" />,
+    classifiedAs: ["persoon A"],
+    occurrences: 56,
+    firstScan: 12,
+    scanStride: 3,
+  },
+  {
+    name: "Person B",
+    type: "Person",
+    icon: <IconPerson className="h-s16 w-s16" />,
+    classifiedAs: ["persoon B"],
+    occurrences: 56,
+    firstScan: 15,
+    scanStride: 4,
+  },
+  {
+    name: "Ship V",
+    type: "Ship",
+    icon: <IconShip className="h-s16 w-s16" />,
+    classifiedAs: ["schip V"],
+    occurrences: 53,
+    firstScan: 18,
+    scanStride: 5,
+  },
+  {
+    name: "Cinnamon",
+    type: "Commodity",
+    icon: <IconCommodity className="h-s16 w-s16" />,
+    classifiedAs: ["cinnamon", "kaneel"],
+    occurrences: 51,
+    firstScan: 20,
+    scanStride: 6,
+  },
+  {
+    name: "March",
+    type: "Date",
+    icon: <IconDate className="h-s16 w-s16" />,
+    classifiedAs: ["maart", "March"],
+    occurrences: 46,
+    firstScan: 31,
+    scanStride: 3,
+  },
+  {
+    name: "Batavia",
+    type: "Place",
+    icon: <IconPlace className="h-s16 w-s16" />,
+    classifiedAs: ["batavia", "tot batavia"],
+    occurrences: 34,
+    firstScan: 8,
+    scanStride: 4,
+  },
+  {
+    name: "India",
+    type: "Place",
+    icon: <IconPlace className="h-s16 w-s16" />,
+    classifiedAs: ["Indie", "India"],
+    occurrences: 33,
+    firstScan: 11,
+    scanStride: 5,
+  },
+  {
+    name: "Thing YUH",
+    type: "Commodity",
+    icon: <IconCommodity className="h-s16 w-s16" />,
+    classifiedAs: ["thing YUH"],
+    occurrences: 1,
+    firstScan: 56,
+    scanStride: 1,
+  },
+];
+
+type TagNavigationTarget = {
+  id: string;
+  label: string;
+  occurrences: number;
+  firstScan: number;
+  scanStride: number;
+  kind: "Classified" | "Identified";
+};
+
+function getTagOccurrenceScan(
+  target: TagNavigationTarget,
+  occurrenceIndex: number,
+  maxScan: number,
+) {
+  return (
+    ((target.firstScan + occurrenceIndex * target.scanStride - 1) % maxScan) + 1
+  );
+}
 
 function SidebarDisclosureIcon({
   isExpanded = false,
@@ -875,27 +1130,326 @@ function TableOfContentsPanel() {
   );
 }
 
-function IdentifiedPanel() {
+function IdentifiedPanel({
+  activeTagTargetId,
+  onSelectTagTarget,
+}: {
+  activeTagTargetId?: string;
+  onSelectTagTarget: (target: TagNavigationTarget) => void;
+}) {
+  const [expandedClassifiedCategories, setExpandedClassifiedCategories] =
+    React.useState<Set<string>>(
+      () =>
+        new Set(
+          CLASSIFIED_ENTITY_TAG_GROUPS.filter(
+            (group) => group.subcategories.length > 0,
+          ).map((group) => group.category),
+        ),
+    );
+  const [entityQuery, setEntityQuery] = React.useState("");
+  const [entitySort, setEntitySort] = React.useState<
+    "sequential" | "alphabet" | "amount"
+  >("amount");
+  const [isTypeGroupingEnabled, setIsTypeGroupingEnabled] =
+    React.useState(false);
+  const [entitySortDirection, setEntitySortDirection] = React.useState<
+    "ascending" | "descending"
+  >("descending");
+
+  const visibleIdentifiedEntities = React.useMemo(() => {
+    const normalizedQuery = entityQuery.trim().toLowerCase();
+
+    return IDENTIFIED_ENTITY_TAGS.filter((entity) => {
+      const matchesQuery =
+        normalizedQuery.length === 0 ||
+        entity.name.toLowerCase().includes(normalizedQuery) ||
+        entity.type.toLowerCase().includes(normalizedQuery) ||
+        entity.classifiedAs.some((tag) =>
+          tag.toLowerCase().includes(normalizedQuery),
+        );
+
+      return matchesQuery;
+    }).sort((firstEntity, secondEntity) => {
+      if (isTypeGroupingEnabled) {
+        const typeComparison = firstEntity.type.localeCompare(
+          secondEntity.type,
+        );
+
+        if (typeComparison !== 0) {
+          return entitySortDirection === "ascending"
+            ? typeComparison
+            : -typeComparison;
+        }
+      }
+
+      let comparison = 0;
+
+      if (entitySort === "alphabet") {
+        comparison = firstEntity.name.localeCompare(secondEntity.name);
+      } else if (entitySort === "amount") {
+        comparison = firstEntity.occurrences - secondEntity.occurrences;
+      } else {
+        comparison =
+          IDENTIFIED_ENTITY_TAGS.indexOf(firstEntity) -
+          IDENTIFIED_ENTITY_TAGS.indexOf(secondEntity);
+      }
+
+      return entitySortDirection === "ascending" ? comparison : -comparison;
+    });
+  }, [entityQuery, entitySort, entitySortDirection, isTypeGroupingEnabled]);
+
+  const toggleClassifiedCategory = React.useCallback((category: string) => {
+    setExpandedClassifiedCategories((current) => {
+      const next = new Set(current);
+
+      if (next.has(category)) {
+        next.delete(category);
+      } else {
+        next.add(category);
+      }
+
+      return next;
+    });
+  }, []);
+
+  const getClassifiedTarget = React.useCallback(
+    (
+      group: (typeof CLASSIFIED_ENTITY_TAG_GROUPS)[number],
+      subcategory?: (typeof CLASSIFIED_ENTITY_TAG_GROUPS)[number]["subcategories"][number],
+    ): TagNavigationTarget => ({
+      id: subcategory
+        ? `classified:${group.category}:${subcategory.label}`
+        : `classified:${group.category}`,
+      label: subcategory
+        ? `${group.category} · ${subcategory.label}`
+        : group.category,
+      occurrences: subcategory?.count ?? group.count,
+      firstScan: subcategory?.firstScan ?? group.firstScan,
+      scanStride: subcategory?.scanStride ?? group.scanStride,
+      kind: "Classified",
+    }),
+    [],
+  );
+
+  const getIdentifiedTarget = React.useCallback(
+    (entity: (typeof IDENTIFIED_ENTITY_TAGS)[number]): TagNavigationTarget => ({
+      id: `identified:${entity.name}`,
+      label: entity.name,
+      occurrences: entity.occurrences,
+      firstScan: entity.firstScan,
+      scanStride: entity.scanStride,
+      kind: "Identified",
+    }),
+    [],
+  );
+
   return (
-    <div className="w-full px-s24 py-s16 font-sans">
-      <div className="flex flex-col gap-s16">
-        {IDENTIFIED_ENTITIES.map(([group, ...entities]) => (
-          <section key={group} className="flex flex-col gap-s8">
-            <h3 className="text-xs uppercase text-brand-white/45">{group}</h3>
-            <div className="flex flex-wrap gap-s8">
-              {entities.map((entity) => (
+    <div className="w-full font-sans text-brand-white">
+      <section className="border-b border-brand-white/10 px-s24 py-s16">
+        <div className="mb-s12 flex items-center justify-between gap-s16">
+          <div className="flex items-baseline gap-s8">
+            <h3 className="text-sm leading-5 text-brand-white">
+              Classified as
+            </h3>
+            <span className="text-sm leading-5 text-brand-white/45">19096</span>
+          </div>
+          <IconChevronDown className="h-s16 w-s16 rotate-180 text-brand-white" />
+        </div>
+
+        <div className="flex flex-col gap-s4">
+          {CLASSIFIED_ENTITY_TAG_GROUPS.map((group) => (
+            <div key={group.category} className="flex flex-col">
+              <div className="flex h-s24 items-center justify-between gap-s8 text-xs leading-3">
                 <button
-                  key={entity}
                   type="button"
-                  className="border border-brand-white/15 px-s8 py-s4 text-sm leading-5 text-brand-white transition-colors hover:border-brand-white/35"
+                  disabled={group.count <= 0}
+                  className={cn(
+                    "flex min-w-0 items-center gap-s8 px-s8 text-left text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:text-brand-white/30 disabled:hover:bg-transparent",
+                    activeTagTargetId === `classified:${group.category}` &&
+                      "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
+                  )}
+                  onClick={() => onSelectTagTarget(getClassifiedTarget(group))}
                 >
-                  {entity}
+                  <span className="text-brand-white/55">{group.icon}</span>
+                  <span className="truncate">{group.category}</span>
+                  <span className="text-brand-white/45">{group.count}</span>
+                </button>
+                {group.subcategories.length > 0 && (
+                  <button
+                    type="button"
+                    aria-label={`Toggle ${group.category} subcategories`}
+                    aria-expanded={expandedClassifiedCategories.has(
+                      group.category,
+                    )}
+                    className="flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white transition-colors hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    onClick={() => toggleClassifiedCategory(group.category)}
+                  >
+                    <IconChevronDown
+                      className={cn(
+                        "h-s16 w-s16 transition-transform",
+                        expandedClassifiedCategories.has(group.category) &&
+                          "rotate-180",
+                      )}
+                    />
+                  </button>
+                )}
+              </div>
+
+              {expandedClassifiedCategories.has(group.category) &&
+                group.subcategories.map((subcategory) => (
+                  <button
+                    key={`${group.category}-${subcategory.label}`}
+                    type="button"
+                    className={cn(
+                      "ml-s24 flex h-s24 min-w-0 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      activeTagTargetId ===
+                        `classified:${group.category}:${subcategory.label}` &&
+                        "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
+                    )}
+                    onClick={() =>
+                      onSelectTagTarget(getClassifiedTarget(group, subcategory))
+                    }
+                  >
+                    <span className="text-brand-white/35">{group.icon}</span>
+                    <span className="truncate">{subcategory.label}</span>
+                    <span className="shrink-0 text-brand-white/45">
+                      {subcategory.count}
+                    </span>
+                  </button>
+                ))}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-s24 py-s16">
+        <div className="mb-s12 flex items-center justify-between gap-s16">
+          <div className="flex items-baseline gap-s8">
+            <h3 className="text-sm leading-5 text-brand-white">
+              Identified as
+            </h3>
+            <span className="text-sm leading-5 text-brand-white/45">18191</span>
+          </div>
+          <IconChevronDown className="h-s16 w-s16 rotate-180 text-brand-white" />
+        </div>
+
+        <div className="mb-s12 flex flex-col gap-s8">
+          <label className="flex h-s28 items-center gap-s8 border border-brand-white/10 bg-neutral-800 px-s8 text-xs leading-4 text-brand-white">
+            <IconSearch className="h-s12 w-s12 shrink-0 text-brand-white/55" />
+            <input
+              value={entityQuery}
+              onChange={(event) => setEntityQuery(event.target.value)}
+              placeholder="Search entities"
+              className="min-w-0 flex-1 border-0 bg-transparent p-0 text-xs leading-4 text-brand-white outline-none placeholder:text-brand-white/35"
+            />
+          </label>
+
+          <div
+            className="flex items-center justify-between gap-s8"
+            onClick={(event) => event.stopPropagation()}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            <div
+              className={SEGMENTED_SURFACE_COMPACT_CLASS}
+              role="group"
+              aria-label="Entity sort controls"
+            >
+              {[
+                ["sequential", "Sequential"],
+                ["alphabet", "Alphabet"],
+                ["amount", "Amount"],
+              ].map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={cn(
+                    SEGMENTED_BUTTON_COMPACT_CLASS,
+                    "min-w-0 px-s8 text-[10px] leading-3",
+                    entitySort === value
+                      ? SEGMENTED_BUTTON_ACTIVE_CLASS
+                      : SEGMENTED_BUTTON_INACTIVE_CLASS,
+                  )}
+                  onClick={() =>
+                    setEntitySort(value as "sequential" | "alphabet" | "amount")
+                  }
+                >
+                  {label}
                 </button>
               ))}
             </div>
-          </section>
-        ))}
-      </div>
+
+            <div className="flex items-center gap-s8">
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={isTypeGroupingEnabled}
+                className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onClick={() => setIsTypeGroupingEnabled((current) => !current)}
+              >
+                <span
+                  className={cn(
+                    "h-s12 w-s12 shrink-0 bg-neutral-700",
+                    isTypeGroupingEnabled &&
+                      "bg-brand-white shadow-[inset_0_0_0_2px_var(--neutral-800)]",
+                  )}
+                />
+                <span>Type</span>
+              </button>
+              <button
+                type="button"
+                aria-label={
+                  entitySortDirection === "ascending"
+                    ? "Sort last to first"
+                    : "Sort first to last"
+                }
+                title={
+                  entitySortDirection === "ascending"
+                    ? "First to last"
+                    : "Last to first"
+                }
+                className="flex h-s28 w-s28 items-center justify-center text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onClick={() =>
+                  setEntitySortDirection((current) =>
+                    current === "ascending" ? "descending" : "ascending",
+                  )
+                }
+              >
+                <IconSwap
+                  className={cn(
+                    "h-s16 w-s16 transition-transform",
+                    entitySortDirection === "ascending"
+                      ? "rotate-90"
+                      : "-rotate-90",
+                  )}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-0.5">
+          {visibleIdentifiedEntities.map((entity) => (
+            <button
+              key={entity.name}
+              type="button"
+              className={cn(
+                "flex h-s24 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                activeTagTargetId === `identified:${entity.name}` &&
+                  "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
+              )}
+              onClick={() => onSelectTagTarget(getIdentifiedTarget(entity))}
+            >
+              <span className="shrink-0 text-brand-white/55">
+                {entity.icon}
+              </span>
+              <span className="min-w-0 flex-1 truncate">{entity.name}</span>
+              <span className="shrink-0 text-brand-white/45">
+                {entity.occurrences}
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
@@ -911,9 +1465,13 @@ function EventsPanel() {
 function ExpandedMetadataSidebar({
   expandedSections,
   onToggleSection,
+  activeTagTargetId,
+  onSelectTagTarget,
 }: {
   expandedSections: Set<string>;
   onToggleSection: (sectionId: string) => void;
+  activeTagTargetId?: string;
+  onSelectTagTarget: (target: TagNavigationTarget) => void;
 }) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
@@ -936,7 +1494,12 @@ function ExpandedMetadataSidebar({
         >
           {item.id === "inventory" && <ArchivePanel />}
           {item.id === "table-of-contents" && <TableOfContentsPanel />}
-          {item.id === "identified" && <IdentifiedPanel />}
+          {item.id === "identified" && (
+            <IdentifiedPanel
+              activeTagTargetId={activeTagTargetId}
+              onSelectTagTarget={onSelectTagTarget}
+            />
+          )}
           {item.id === "events" && <EventsPanel />}
         </ExpandedSidebarSection>
       ))}
@@ -1016,21 +1579,138 @@ function NumericJumpField({
           event.currentTarget.blur();
         }
       }}
-      className="mx-s1 inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-0.5 pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      className={EDITABLE_NUMBER_INPUT_CLASS}
       style={{ width: `${String(max).length + 0.5}ch` }}
     />
   );
 }
 
+function ZoomPercentageField({
+  value,
+  onChange,
+  ariaLabel,
+  min = 25,
+  max = 400,
+}: {
+  value: number;
+  onChange: (nextValue: number) => void;
+  ariaLabel: string;
+  min?: number;
+  max?: number;
+}) {
+  const [draftValue, setDraftValue] = React.useState(String(value));
+
+  const commitValue = React.useCallback(() => {
+    const parsedValue = Number.parseInt(draftValue, 10);
+    const nextValue = Number.isNaN(parsedValue)
+      ? value
+      : Math.min(Math.max(parsedValue, min), max);
+
+    onChange(nextValue);
+    setDraftValue(String(nextValue));
+  }, [draftValue, max, min, onChange, value]);
+
+  React.useEffect(() => {
+    setDraftValue(String(value));
+  }, [value]);
+
+  return (
+    <span className="inline-flex h-s16 w-full items-baseline justify-center leading-4">
+      <input
+        type="number"
+        min={min}
+        max={max}
+        value={draftValue}
+        aria-label={ariaLabel}
+        onChange={(event) => {
+          setDraftValue(event.target.value.replace(/\D/g, ""));
+        }}
+        onBlur={commitValue}
+        onFocus={(event) => event.currentTarget.select()}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            event.currentTarget.blur();
+          }
+
+          if (event.key === "Escape") {
+            setDraftValue(String(value));
+            event.currentTarget.blur();
+          }
+        }}
+        className={cn(EDITABLE_NUMBER_INPUT_CLASS, "mx-0")}
+        style={{ width: `${String(max).length + 1}ch` }}
+      />
+      <span className="ml-px text-xs leading-4 text-parchment-500">%</span>
+    </span>
+  );
+}
+
+function ViewerZoomControl({
+  value,
+  onChange,
+  label,
+}: {
+  value: number;
+  onChange: (nextValue: number) => void;
+  label: string;
+}) {
+  const minZoom = 25;
+  const maxZoom = 400;
+  const step = 10;
+
+  const changeZoom = React.useCallback(
+    (delta: number) => {
+      onChange(Math.min(Math.max(value + delta, minZoom), maxZoom));
+    },
+    [onChange, value],
+  );
+
+  return (
+    <div
+      className={cn(SEGMENTED_SURFACE_COMPACT_CLASS, "text-brand-white")}
+      role="group"
+      aria-label={`${label} zoom controls`}
+    >
+      <button
+        type="button"
+        aria-label={`${label} zoom out`}
+        className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60"
+        onClick={() => changeZoom(-step)}
+      >
+        <IconZoomOut className="h-s16 w-s16" />
+      </button>
+      <div className="flex h-s28 w-s56 items-center justify-center px-s4">
+        <ZoomPercentageField
+          ariaLabel={`${label} zoom percentage`}
+          value={value}
+          onChange={onChange}
+          min={minZoom}
+          max={maxZoom}
+        />
+      </div>
+      <button
+        type="button"
+        aria-label={`${label} zoom in`}
+        className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60"
+        onClick={() => changeZoom(step)}
+      >
+        <IconZoomIn className="h-s16 w-s16" />
+      </button>
+    </div>
+  );
+}
+
 function ManuscriptCanvas() {
+  const [scanZoom, setScanZoom] = React.useState(100);
+
   return (
     <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
       <DocumentDetailFloatingToolbar className={FLOATING_TOOLBAR_REVEAL_CLASS}>
-        <DocumentDetailBarGroup className="h-s36 gap-s4 px-s4 text-xs">
-          <IconZoomOut className="h-s16 w-s16" />
-          <span>100%</span>
-          <IconZoomIn className="h-s16 w-s16" />
-        </DocumentDetailBarGroup>
+        <ViewerZoomControl
+          label="Scan"
+          value={scanZoom}
+          onChange={setScanZoom}
+        />
         <DocumentDetailToolButton
           aria-label="Rotate scan"
           className="min-w-s28 px-s4"
@@ -1058,7 +1738,13 @@ function ManuscriptCanvas() {
         />
       </DocumentDetailFloatingToolbar>
 
-      <div className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+      <div
+        className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-150 ease-out"
+        style={{
+          transform: `scale(${scanZoom / 100})`,
+          transformOrigin: "center center",
+        }}
+      >
         <Image
           src="/images/document-detail-manuscript.png"
           alt="Manuscript scan preview"
@@ -1073,6 +1759,7 @@ function ManuscriptCanvas() {
 
 function TranscriptCanvas() {
   const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
+  const [transcriptZoom, setTranscriptZoom] = React.useState(100);
 
   return (
     <DocumentDetailTranscriptCanvas>
@@ -1082,38 +1769,42 @@ function TranscriptCanvas() {
           FLOATING_TOOLBAR_REVEAL_CLASS,
         )}
       >
-        <DocumentDetailSegmentedControl className="h-s28 gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0">
-          <DocumentDetailSegment
+        <div
+          className={SEGMENTED_SURFACE_COMPACT_CLASS}
+          role="group"
+          aria-label="Transcript mode controls"
+        >
+          <button
+            type="button"
             aria-label="Show normalized transcription"
-            isActive={transcriptMode === "n"}
             className={cn(
-              "h-s28 min-w-s28 rounded-none rounded-l-[4px] border-r border-brand-black/70 px-s8 leading-4",
+              SEGMENTED_BUTTON_COMPACT_CLASS,
               transcriptMode === "n"
-                ? "!bg-brand-white !text-brand-black"
-                : "!text-brand-white/55 data-hovered:!bg-brand-white/10",
+                ? SEGMENTED_BUTTON_ACTIVE_CLASS
+                : SEGMENTED_BUTTON_INACTIVE_CLASS,
             )}
-            onPress={() => setTranscriptMode("n")}
+            onClick={() => setTranscriptMode("n")}
           >
             N
-          </DocumentDetailSegment>
-          <DocumentDetailSegment
+          </button>
+          <button
+            type="button"
             aria-label="Show diplomatic transcription"
-            isActive={transcriptMode === "d"}
             className={cn(
-              "h-s28 min-w-s28 rounded-none rounded-r-[4px] px-s8 leading-4",
+              SEGMENTED_BUTTON_COMPACT_CLASS,
               transcriptMode === "d"
-                ? "!bg-brand-white !text-brand-black"
-                : "!text-brand-white/55 data-hovered:!bg-brand-white/10",
+                ? SEGMENTED_BUTTON_ACTIVE_CLASS
+                : SEGMENTED_BUTTON_INACTIVE_CLASS,
             )}
-            onPress={() => setTranscriptMode("d")}
+            onClick={() => setTranscriptMode("d")}
           >
             D
-          </DocumentDetailSegment>
-        </DocumentDetailSegmentedControl>
-        <DocumentDetailToolButton
-          aria-label="Toggle transcript text"
-          className="min-w-s28 px-s4"
-          icon={<IconFontSizing className="h-s16 w-s16" />}
+          </button>
+        </div>
+        <ViewerZoomControl
+          label="Transcript"
+          value={transcriptZoom}
+          onChange={setTranscriptZoom}
         />
         <DocumentDetailToolButton
           aria-label="Reset transcript position"
@@ -1132,7 +1823,10 @@ function TranscriptCanvas() {
         />
       </DocumentDetailFloatingToolbar>
 
-      <div className="mx-auto flex max-w-114 flex-col gap-s4 pt-s24">
+      <div
+        className="mx-auto flex max-w-114 origin-top flex-col gap-s4 pt-s24 transition-transform duration-150 ease-out"
+        style={{ transform: `scale(${transcriptZoom / 100})` }}
+      >
         {TRANSCRIPT_LINE_WIDTHS.map((width, index) => (
           <DocumentDetailTranscriptLine
             key={`${index}-${width}`}
@@ -1148,11 +1842,17 @@ function TranscriptCanvas() {
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
+  const [primaryViewMode, setPrimaryViewMode] = React.useState<"scan" | "text">(
+    "scan",
+  );
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
     () => new Set(["inventory", "table-of-contents"]),
   );
   const [currentScan, setCurrentScan] = React.useState(23);
   const [currentSearchHit, setCurrentSearchHit] = React.useState(2);
+  const [activeTagTarget, setActiveTagTarget] =
+    React.useState<TagNavigationTarget>();
+  const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
 
   const maxScan = 156;
   const maxSearchHit = 19;
@@ -1179,6 +1879,38 @@ export function DocumentDetailViewerOverlayDemo() {
     });
     setIsSidebarExpanded(true);
   }, []);
+
+  const selectTagTarget = React.useCallback(
+    (target: TagNavigationTarget) => {
+      if (target.occurrences <= 0) {
+        return;
+      }
+
+      setActiveTagTarget(target);
+      setCurrentTagOccurrence(1);
+      setCurrentScan(getTagOccurrenceScan(target, 0, maxScan));
+    },
+    [maxScan],
+  );
+
+  const goToTagOccurrence = React.useCallback(
+    (nextOccurrence: number) => {
+      if (!activeTagTarget) {
+        return;
+      }
+
+      const clampedOccurrence = Math.min(
+        Math.max(nextOccurrence, 1),
+        activeTagTarget.occurrences,
+      );
+
+      setCurrentTagOccurrence(clampedOccurrence);
+      setCurrentScan(
+        getTagOccurrenceScan(activeTagTarget, clampedOccurrence - 1, maxScan),
+      );
+    },
+    [activeTagTarget, maxScan],
+  );
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -1222,11 +1954,11 @@ export function DocumentDetailViewerOverlayDemo() {
             <ExpandedMetadataSidebar
               expandedSections={expandedSections}
               onToggleSection={toggleSidebarSection}
+              activeTagTargetId={activeTagTarget?.id}
+              onSelectTagTarget={selectTagTarget}
             />
           ) : (
-            <CollapsedMetadataRail
-              onExpandSection={expandSidebarSection}
-            />
+            <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
           )}
         </div>
 
@@ -1254,22 +1986,38 @@ export function DocumentDetailViewerOverlayDemo() {
             />
             <ContentWarningTopBarControl />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailSegmentedControl className="h-s36 gap-0 overflow-hidden rounded-[6px] bg-transparent p-0">
-              <DocumentDetailSegment
-                isActive
-                className="h-s36 rounded-none rounded-l-[6px] border-r border-brand-black/70 px-s12 text-sm leading-5"
-                icon={<IconScan className="h-[18px] w-[18px]" />}
+            <div
+              className={SEGMENTED_SURFACE_REGULAR_CLASS}
+              role="group"
+              aria-label="Primary viewer mode controls"
+            >
+              <button
+                type="button"
+                className={cn(
+                  SEGMENTED_BUTTON_REGULAR_CLASS,
+                  primaryViewMode === "scan"
+                    ? SEGMENTED_BUTTON_ACTIVE_CLASS
+                    : SEGMENTED_BUTTON_INACTIVE_CLASS,
+                )}
+                onClick={() => setPrimaryViewMode("scan")}
               >
-                Scan
-              </DocumentDetailSegment>
-              <DocumentDetailSegment
-                isActive
-                className="h-s36 rounded-none rounded-r-[6px] px-s12 text-sm leading-5"
-                icon={<IconTranscription className="h-[18px] w-[18px]" />}
+                <IconScan className="h-4.5 w-4.5" />
+                <span>Scan</span>
+              </button>
+              <button
+                type="button"
+                className={cn(
+                  SEGMENTED_BUTTON_REGULAR_CLASS,
+                  primaryViewMode === "text"
+                    ? SEGMENTED_BUTTON_ACTIVE_CLASS
+                    : SEGMENTED_BUTTON_INACTIVE_CLASS,
+                )}
+                onClick={() => setPrimaryViewMode("text")}
               >
-                Text
-              </DocumentDetailSegment>
-            </DocumentDetailSegmentedControl>
+                <IconTranscription className="h-4.5 w-4.5" />
+                <span>Text</span>
+              </button>
+            </div>
           </DocumentDetailBarGroup>
 
           <div className="flex-1" />
@@ -1344,7 +2092,8 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "!h-s36 justify-center gap-s96 border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            "h-s36! justify-center border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            activeTagTarget ? "gap-s48" : "gap-s96",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
@@ -1420,6 +2169,34 @@ export function DocumentDetailViewerOverlayDemo() {
               }}
             />
           </DocumentDetailBarGroup>
+          {activeTagTarget && (
+            <DocumentDetailBarGroup className="gap-s24">
+              <DocumentDetailToolButton
+                aria-label={`Previous ${activeTagTarget.label} occurrence`}
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconLeft className="h-s16 w-s16" />}
+                onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
+              />
+              <span className="inline-flex max-w-55 items-baseline leading-4">
+                <span className="mr-s4 truncate text-parchment-500">
+                  {activeTagTarget.label}
+                </span>
+                <NumericJumpField
+                  ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
+                  value={currentTagOccurrence}
+                  max={activeTagTarget.occurrences}
+                  onChange={goToTagOccurrence}
+                />
+                of {activeTagTarget.occurrences}
+              </span>
+              <DocumentDetailToolButton
+                aria-label={`Next ${activeTagTarget.label} occurrence`}
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconRight className="h-s16 w-s16" />}
+                onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+              />
+            </DocumentDetailBarGroup>
+          )}
         </DocumentDetailBottomBar>
       </DocumentDetailOverlay>
     </>

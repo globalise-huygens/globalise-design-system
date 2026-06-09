@@ -557,7 +557,7 @@ function DocumentDetailSegmentedControl({
   return (
     <div
       className={cn(
-        "inline-flex h-s36 items-center gap-s4 rounded-[4px] bg-brand-white/10 p-s4 text-brand-white",
+        "inline-flex h-s36 shrink-0 items-center gap-s4 rounded-[4px] bg-brand-white/10 p-s4 text-brand-white",
         className,
       )}
       {...props}
@@ -582,7 +582,7 @@ const DocumentDetailSegment = React.forwardRef<
   <AriaButton
     ref={ref}
     className={cn(
-      "inline-flex h-s28 items-center justify-center gap-s4 rounded-[4px] px-s8 font-sans text-xs text-brand-black transition-colors data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-brand-black",
+      "inline-flex h-s28 shrink-0 items-center justify-center gap-s4 whitespace-nowrap rounded-[4px] px-s8 font-sans text-xs text-brand-black transition-colors data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-brand-black",
       !isActive &&
         "bg-transparent text-brand-white data-hovered:bg-brand-white/10",
       isActive &&
