@@ -921,16 +921,22 @@ function ArchivePanel() {
 function TableOfContentsEntry({
   title,
   isSelected = false,
+  isExpanded = false,
   buttonRef,
+  onToggle,
 }: {
   title: string;
   isSelected?: boolean;
+  isExpanded?: boolean;
   buttonRef?: React.Ref<HTMLButtonElement>;
+  onToggle?: () => void;
 }) {
   return (
     <button
       ref={buttonRef}
       type="button"
+      aria-expanded={onToggle ? isExpanded : undefined}
+      onClick={onToggle}
       className={cn(
         "grid w-full grid-cols-[1rem_minmax(0,1fr)_1.5rem] items-start gap-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors hover:text-brand-white/75",
         isSelected && "border-t border-neutral-500 font-bold",
@@ -938,7 +944,7 @@ function TableOfContentsEntry({
     >
       <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
       <span className="min-w-0">{title}</span>
-      <SidebarDisclosureIcon isExpanded={isSelected} />
+      {onToggle && <SidebarDisclosureIcon isExpanded={isExpanded} />}
     </button>
   );
 }
@@ -1014,6 +1020,8 @@ function TableOfContentsScanCard({
 
 function TableOfContentsPanel() {
   const [resultsOnly, setResultsOnly] = React.useState(false);
+  const [isSelectedDocumentExpanded, setIsSelectedDocumentExpanded] =
+    React.useState(true);
   const selectedDocumentRef = React.useRef<HTMLButtonElement>(null);
   const activeScanRef = React.useRef<HTMLDivElement>(null);
 
@@ -1093,33 +1101,41 @@ function TableOfContentsPanel() {
           <TableOfContentsEntry
             title={SELECTED_TOC_ENTRY}
             isSelected
+            isExpanded={isSelectedDocumentExpanded}
             buttonRef={selectedDocumentRef}
+            onToggle={() =>
+              setIsSelectedDocumentExpanded((current) => !current)
+            }
           />
 
-          <div className="flex flex-col gap-s10 px-s24 py-s2">
-            {SELECTED_TOC_METADATA.map(([label, value, suffix]) => (
-              <TableOfContentsMetadataRow
-                key={label}
-                label={label}
-                value={value}
-                suffix={suffix}
-              />
-            ))}
-          </div>
+          {isSelectedDocumentExpanded && (
+            <>
+              <div className="flex flex-col gap-s10 px-s24 py-s2">
+                {SELECTED_TOC_METADATA.map(([label, value, suffix]) => (
+                  <TableOfContentsMetadataRow
+                    key={label}
+                    label={label}
+                    value={value}
+                    suffix={suffix}
+                  />
+                ))}
+              </div>
 
-          <div className="flex flex-col overflow-hidden px-s2">
-            {visibleScans.map((scan) => (
-              <TableOfContentsScanCard
-                key={scan.id}
-                id={scan.id}
-                scan={scan.scan}
-                snippet={scan.snippet}
-                cardRef={
-                  scan.scan === ACTIVE_TOC_SCAN ? activeScanRef : undefined
-                }
-              />
-            ))}
-          </div>
+              <div className="flex flex-col overflow-hidden px-s2">
+                {visibleScans.map((scan) => (
+                  <TableOfContentsScanCard
+                    key={scan.id}
+                    id={scan.id}
+                    scan={scan.scan}
+                    snippet={scan.snippet}
+                    cardRef={
+                      scan.scan === ACTIVE_TOC_SCAN ? activeScanRef : undefined
+                    }
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {visibleAfterEntries.map((item) => (
@@ -1138,14 +1154,7 @@ function IdentifiedPanel({
   onSelectTagTarget: (target: TagNavigationTarget) => void;
 }) {
   const [expandedClassifiedCategories, setExpandedClassifiedCategories] =
-    React.useState<Set<string>>(
-      () =>
-        new Set(
-          CLASSIFIED_ENTITY_TAG_GROUPS.filter(
-            (group) => group.subcategories.length > 0,
-          ).map((group) => group.category),
-        ),
-    );
+    React.useState<Set<string>>(() => new Set());
   const [entityQuery, setEntityQuery] = React.useState("");
   const [entitySort, setEntitySort] = React.useState<
     "sequential" | "alphabet" | "amount"
@@ -1841,7 +1850,7 @@ function TranscriptCanvas() {
 
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
   const [primaryViewMode, setPrimaryViewMode] = React.useState<"scan" | "text">(
     "scan",
   );
