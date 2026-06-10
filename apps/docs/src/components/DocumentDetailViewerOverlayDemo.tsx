@@ -830,8 +830,8 @@ function InventoryMetadataRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-[5rem_minmax(0,1fr)] gap-s12 text-xs leading-4">
-      <div className="text-[10px] leading-3 text-neutral-500">{label}</div>
+    <div className="grid grid-cols-[5rem_minmax(0,1fr)] gap-s12 text-sm leading-5">
+      <div className="pt-px text-xs leading-4 text-neutral-500">{label}</div>
       <div className="min-w-0 text-brand-white">{children}</div>
     </div>
   );
@@ -848,23 +848,29 @@ function InventoryHierarchyRow({
 }) {
   return (
     <div
-      className="flex h-s24 items-center text-xs leading-4 text-brand-white"
-      style={{ paddingLeft: level * 18 }}
+      className="flex min-h-s28 items-start text-sm leading-5 text-brand-white"
+      style={{ paddingLeft: level * 8 }}
     >
-      {level > 0 && (
-        <span className="mr-s8 w-s12 shrink-0 text-right text-neutral-500">
-          ↳
-        </span>
-      )}
       {isCurrent ? (
         <>
-          <span className="mr-s8 text-neutral-400">→</span>
-          <span className="border border-neutral-500 bg-neutral-600 px-s4 leading-5">
+          <span className="mr-s8 w-s12 shrink-0 text-right text-neutral-400">
+            →
+          </span>
+          <span className="border border-neutral-500 bg-neutral-600 px-s4 text-sm leading-5">
             {label}
           </span>
         </>
       ) : (
-        <span className="whitespace-nowrap">{label}</span>
+        <>
+          {level > 0 && (
+            <span className="mr-s8 w-s12 shrink-0 text-right text-neutral-500">
+              ↳
+            </span>
+          )}
+          <span className="min-w-0 flex-1 whitespace-normal break-words">
+            {label}
+          </span>
+        </>
       )}
     </div>
   );
@@ -902,8 +908,8 @@ function ArchivePanel() {
         </InventoryMetadataRow>
       </div>
 
-      <div className="overflow-x-auto px-s24 py-s8 [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]">
-        <div className="flex w-200.25 flex-col gap-s2">
+      <div className="px-s24 py-s8">
+        <div className="flex w-full flex-col gap-s4">
           {INVENTORY_HIERARCHY.map((item) => (
             <InventoryHierarchyRow
               key={`${item.level}-${item.label}`}
