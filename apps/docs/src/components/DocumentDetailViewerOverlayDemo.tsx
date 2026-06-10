@@ -845,7 +845,7 @@ function CollapsedMetadataRail({
         <DocumentDetailRailButton
           key={item.label}
           aria-label={`Expand ${item.label}`}
-          className="h-s72 border-b-0"
+          className="border-b-0"
           icon={item.icon}
           label={item.railLabel}
           onPress={() => onExpandSection(item.id)}
@@ -2517,7 +2517,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailTopBar
           className={[
-            "relative justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-200 ease-out",
+            "relative h-s64 justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-200 ease-out",
             isSidebarExpanded
               ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
               : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
