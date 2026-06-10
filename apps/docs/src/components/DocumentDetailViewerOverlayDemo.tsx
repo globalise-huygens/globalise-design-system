@@ -27,6 +27,7 @@ import {
   IconChevronDown,
   IconClose,
   IconCommodity,
+  IconCopy,
   IconDashboardGear,
   IconDate,
   IconDocument,
@@ -56,7 +57,6 @@ import {
   IconWifiHome,
   IconZoomIn,
   IconZoomOut,
-  ObjectCardReferenceItem,
 } from "@globalise/design-system";
 import Image from "next/image";
 import * as React from "react";
@@ -245,9 +245,121 @@ const TABLE_OF_CONTENTS = [
 const SELECTED_TOC_ENTRY =
   "26 March 1702 • 26 • missive van den independent fiscael tot cormandel Hendrick beiker, aan haer Ed=ls de hooge req: tot batavia gesz de dato 22:' meij 1702:";
 
+const ACTIVE_TOC_DOCUMENT_ID = "document-1702-03-26-26";
 const ACTIVE_TOC_SCAN = 23;
+const INVENTORY_URI = "#inventory-1664";
+const SELECTED_DOCUMENT_URI = `#${ACTIVE_TOC_DOCUMENT_ID}`;
 
-const SELECTED_TOC_METADATA = [
+interface TableOfContentsScan {
+  documentScan: number;
+  archiveScan: number;
+  pages: number[];
+  id: string;
+  snippet?: React.ReactNode;
+  hasResults: boolean;
+}
+
+type TableOfContentsMetadata = Array<[string, string, string?]>;
+
+interface TableOfContentsDocument {
+  id: string;
+  title: string;
+  hasResults?: boolean;
+  scans: TableOfContentsScan[];
+  metadata?: TableOfContentsMetadata;
+}
+
+interface SelectedScanReference {
+  archiveScan: number;
+  documentScan: number;
+  documentScanTotal: number;
+}
+
+function getScanUri(archiveScan: number) {
+  return `#scan-${archiveScan}`;
+}
+
+function getDocumentUri(documentId: string) {
+  return `#${documentId}`;
+}
+
+function getNaIdentifierUrl(scanId: string) {
+  return `https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/invnr/1664/file/${scanId}`;
+}
+
+function getShortNaIdentifier(scanId: string) {
+  return scanId.replace("NL-HaNA_1.04.02_1664_", "");
+}
+
+function getDocumentScanCount(title: string) {
+  const scanCountMatch = title.match(/•\s*(\d+)\s*•/);
+
+  return scanCountMatch ? Number(scanCountMatch[1]) : 1;
+}
+
+function getDocumentDate(title: string) {
+  const dateMatch = title.match(/^([^•]+?)\s*•/);
+
+  return dateMatch ? dateMatch[1].trim() : "1702";
+}
+
+function getDocumentType(title: string) {
+  return title.toLowerCase().includes("register") ? "Register" : "Letter";
+}
+
+function getDocumentCreator(title: string) {
+  const creatorMatch = title.match(/\bvan den ([^,]+?)(?:,|\s+aen|\s+aan)/i);
+
+  if (!creatorMatch) {
+    return "Unknown";
+  }
+
+  return creatorMatch[1].replace(/\s+/g, " ").trim();
+}
+
+function createDocumentMetadata(title: string): TableOfContentsMetadata {
+  return [
+    ["Type", getDocumentType(title)],
+    ["Creator", getDocumentCreator(title)],
+    ["Date", getDocumentDate(title)],
+    ["Location", "Padang", "[GLOB_64]"],
+    ["TANAP", "TANAP Digitized Index (2026-04-10)"],
+  ];
+}
+
+function createTocScans({
+  count,
+  startArchiveScan,
+  snippets = {},
+  hasResults = false,
+  doublePageScans = [],
+}: {
+  count: number;
+  startArchiveScan: number;
+  snippets?: Record<number, React.ReactNode>;
+  hasResults?: boolean;
+  doublePageScans?: number[];
+}) {
+  return Array.from({ length: count }, (_, index) => {
+    const documentScan = index + 1;
+    const archiveScan = startArchiveScan + index;
+    const snippet = snippets[documentScan];
+    const pages = doublePageScans.includes(documentScan)
+      ? [documentScan * 2 - 1, documentScan * 2]
+      : [documentScan];
+
+    return {
+      documentScan,
+      archiveScan,
+      pages,
+      id: `NL-HaNA_1.04.02_1664_${archiveScan}`,
+      snippet,
+      hasResults: Boolean(snippet) || (hasResults && documentScan === 1),
+    };
+  });
+}
+
+const SELECTED_TOC_METADATA: TableOfContentsMetadata = [
   ["Type", "Letter"],
   ["Creator", "Hendrick Beiker"],
   ["Date", "1702-01-01 - 1702-12-31 to 1703-01-01 - 1703-12-31"],
@@ -323,15 +435,16 @@ const TOC_SCAN_SNIPPETS: Record<number, React.ReactNode> = {
   ),
 };
 
-const TOC_SCANS = Array.from({ length: 26 }, (_, index) => {
-  const scan = index + 1;
-
-  return {
-    scan,
-    id: `NL-HaNA_1.04.02_1664_${1338 + scan}`,
-    snippet: TOC_SCAN_SNIPPETS[scan],
-  };
+const TOC_SCANS = createTocScans({
+  count: 26,
+  startArchiveScan: 1339,
+  snippets: TOC_SCAN_SNIPPETS,
+  doublePageScans: [8, 23],
 });
+
+const ACTIVE_TOC_ARCHIVE_SCAN =
+  TOC_SCANS.find((scan) => scan.documentScan === ACTIVE_TOC_SCAN)
+    ?.archiveScan ?? 1339;
 
 const TABLE_OF_CONTENTS_AFTER_SELECTED = [
   {
@@ -384,6 +497,89 @@ const TABLE_OF_CONTENTS_AFTER_SELECTED = [
     title: "19 Januar 1703 • 39 • Register der papieren",
   },
 ];
+
+function createTocDocument(
+  item: { title: string; hasResults?: boolean },
+  index: number,
+  group: "before" | "after",
+): TableOfContentsDocument {
+  const scanCount = getDocumentScanCount(item.title);
+  const startArchiveScan =
+    group === "before" ? 1210 + index * 32 : 1365 + index * 32;
+
+  return {
+    id: `document-${group}-${index + 1}`,
+    title: item.title,
+    hasResults: item.hasResults,
+    metadata: createDocumentMetadata(item.title),
+    scans: createTocScans({
+      count: scanCount,
+      startArchiveScan,
+      hasResults: item.hasResults,
+    }),
+  };
+}
+
+const TABLE_OF_CONTENTS_DOCUMENTS: TableOfContentsDocument[] = [
+  ...TABLE_OF_CONTENTS.map((item, index) =>
+    createTocDocument(item, index, "before"),
+  ),
+  {
+    id: ACTIVE_TOC_DOCUMENT_ID,
+    title: SELECTED_TOC_ENTRY,
+    hasResults: true,
+    scans: TOC_SCANS,
+    metadata: SELECTED_TOC_METADATA,
+  },
+  ...TABLE_OF_CONTENTS_AFTER_SELECTED.map((item, index) =>
+    createTocDocument(item, index, "after"),
+  ),
+];
+
+function getScanReference(
+  document: TableOfContentsDocument,
+  scan: TableOfContentsScan,
+): SelectedScanReference {
+  return {
+    archiveScan: scan.archiveScan,
+    documentScan: scan.documentScan,
+    documentScanTotal: document.scans.length,
+  };
+}
+
+function getDocumentByArchiveScan(archiveScan: number) {
+  return TABLE_OF_CONTENTS_DOCUMENTS.find((document) =>
+    document.scans.some((scan) => scan.archiveScan === archiveScan),
+  );
+}
+
+function getScanReferenceByArchiveScan(archiveScan: number) {
+  const document = getDocumentByArchiveScan(archiveScan);
+  const scan = document?.scans.find(
+    (documentScan) => documentScan.archiveScan === archiveScan,
+  );
+
+  return document && scan ? getScanReference(document, scan) : undefined;
+}
+
+function getScanReferenceByDocumentScan(
+  archiveScan: number,
+  documentScan: number,
+) {
+  const document = getDocumentByArchiveScan(archiveScan);
+
+  if (!document) {
+    return undefined;
+  }
+
+  const clampedDocumentScan = Math.min(
+    Math.max(documentScan, 1),
+    document.scans.length,
+  );
+  const scan = document.scans[clampedDocumentScan - 1];
+
+  return scan ? getScanReference(document, scan) : undefined;
+}
 
 const CLASSIFIED_ENTITY_TAG_GROUPS = [
   {
@@ -822,6 +1018,51 @@ function ContentWarningTopBarControl() {
   );
 }
 
+function CopyUriButton({
+  uri,
+  label,
+  className,
+}: {
+  uri: string;
+  label: string;
+  className?: string;
+}) {
+  const [hasCopied, setHasCopied] = React.useState(false);
+
+  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
+    const uriToCopy =
+      typeof window === "undefined" || uri.startsWith("http")
+        ? uri
+        : new URL(uri, window.location.href).toString();
+
+    try {
+      await navigator.clipboard.writeText(uriToCopy);
+      setHasCopied(true);
+      window.setTimeout(() => setHasCopied(false), 1600);
+    } catch {
+      setHasCopied(false);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      aria-label={hasCopied ? "Copied URI" : label}
+      title={hasCopied ? "Copied URI" : label}
+      onClick={handleCopy}
+      className={cn(
+        "inline-flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white/45 transition-colors hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        hasCopied && "text-brand-white",
+        className,
+      )}
+    >
+      <IconCopy className="h-s12 w-s12" />
+    </button>
+  );
+}
+
 function InventoryMetadataRow({
   label,
   children,
@@ -856,8 +1097,15 @@ function InventoryHierarchyRow({
           <span className="mr-s8 w-s12 shrink-0 text-right text-neutral-400">
             →
           </span>
-          <span className="border border-neutral-500 bg-neutral-600 px-s4 text-sm leading-5">
-            {label}
+          <span className="inline-flex min-w-0 items-center gap-s4">
+            <span className="border border-neutral-500 bg-neutral-600 px-s4 text-sm leading-5">
+              {label}
+            </span>
+            <CopyUriButton
+              uri={INVENTORY_URI}
+              label={`Copy inventory ${label} URI`}
+              className="h-s20 w-s20"
+            />
           </span>
         </>
       ) : (
@@ -867,7 +1115,7 @@ function InventoryHierarchyRow({
               ↳
             </span>
           )}
-          <span className="min-w-0 flex-1 whitespace-normal break-words">
+          <span className="min-w-0 flex-1 whitespace-normal wrap-break-words">
             {label}
           </span>
         </>
@@ -930,28 +1178,50 @@ function TableOfContentsEntry({
   isExpanded = false,
   buttonRef,
   onToggle,
+  onSelect,
+  trailingAction,
 }: {
   title: string;
   isSelected?: boolean;
   isExpanded?: boolean;
   buttonRef?: React.Ref<HTMLButtonElement>;
   onToggle?: () => void;
+  onSelect?: () => void;
+  trailingAction?: React.ReactNode;
 }) {
   return (
-    <button
-      ref={buttonRef}
-      type="button"
-      aria-expanded={onToggle ? isExpanded : undefined}
-      onClick={onToggle}
+    <div
       className={cn(
-        "grid w-full grid-cols-[1rem_minmax(0,1fr)_1.5rem] items-start gap-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors hover:text-brand-white/75",
-        isSelected && "border-t border-neutral-500 font-bold",
+        "group grid w-full grid-cols-[minmax(0,1fr)_1.5rem_1.5rem] items-start border-t border-brand-white/10",
       )}
     >
-      <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
-      <span className="min-w-0">{title}</span>
-      {onToggle && <SidebarDisclosureIcon isExpanded={isExpanded} />}
-    </button>
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-current={isSelected ? "true" : undefined}
+        onClick={onSelect}
+        className={cn(
+          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+          isSelected &&
+            "bg-brand-white font-bold text-brand-black hover:text-brand-black",
+        )}
+      >
+        <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
+        <span className="min-w-0">{title}</span>
+      </button>
+      {trailingAction && (
+        <div className="flex justify-end py-s10">{trailingAction}</div>
+      )}
+      <button
+        type="button"
+        aria-label={isExpanded ? "Collapse document" : "Expand document"}
+        aria-expanded={isExpanded}
+        onClick={onToggle}
+        className="flex h-s40 w-s24 items-start justify-center py-s12 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+      >
+        <SidebarDisclosureIcon isExpanded={isExpanded} />
+      </button>
+    </div>
   );
 }
 
@@ -986,72 +1256,259 @@ function TableOfContentsMetadataRow({
 }
 
 function TableOfContentsScanCard({
-  id,
   scan,
   snippet,
   cardRef,
+  isSelected = false,
+  onSelect,
 }: {
-  id: string;
-  scan: number;
+  scan: TableOfContentsScan;
   snippet?: React.ReactNode;
   cardRef?: React.Ref<HTMLDivElement>;
+  isSelected?: boolean;
+  onSelect: () => void;
 }) {
   return (
-    <div ref={cardRef}>
-      <ObjectCardReferenceItem
-        className="border-brand-white/20 py-s12"
-        title={`${id} · scan ${scan}`}
-        archiveId="NA Identifier"
-        href="#"
-        image={
-          <div className="relative h-full w-full overflow-hidden bg-neutral-700">
-            <Image
-              src="/images/document-detail-manuscript.png"
-              alt=""
-              fill
-              sizes="80px"
-              className="object-contain p-s4"
+    <div
+      ref={cardRef}
+      role="button"
+      tabIndex={0}
+      aria-current={isSelected ? "true" : undefined}
+      onClick={onSelect}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSelect();
+        }
+      }}
+      className={cn(
+        "group cursor-pointer border-b border-brand-white/20 py-s12 transition-colors hover:bg-brand-white/[0.03] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        isSelected &&
+          "mx-s4 bg-brand-white px-s8 text-brand-black hover:bg-brand-white",
+      )}
+    >
+      <div className="flex items-center gap-s16">
+        <div className="relative flex h-s80 w-s96 shrink-0 items-center justify-center overflow-hidden">
+          <Image
+            src="/images/document-detail-manuscript.png"
+            alt=""
+            fill
+            sizes="96px"
+            className="object-contain"
+          />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-center gap-s6 whitespace-nowrap">
+            <span
+              className={cn(
+                "font-sans text-sm leading-5 text-brand-white",
+                isSelected && "text-brand-black",
+              )}
+            >
+              Scan {scan.archiveScan}
+            </span>
+            <span
+              className={cn(
+                "text-xs leading-4 text-neutral-500",
+                isSelected && "text-brand-black/45",
+              )}
+            >
+              |
+            </span>
+            <span
+              className={cn(
+                "text-xs leading-4 text-neutral-400",
+                isSelected && "text-brand-black/60",
+              )}
+            >
+              Scan {scan.documentScan}
+            </span>
+            <CopyUriButton
+              uri={getScanUri(scan.archiveScan)}
+              label={`Copy archive scan ${scan.archiveScan} URI`}
+              className={cn(
+                "h-s20 w-s20 shrink-0",
+                isSelected &&
+                  "text-brand-black/55 hover:bg-brand-black/8 hover:text-brand-black",
+              )}
             />
           </div>
-        }
-        snippet={
-          snippet ? (
-            <span className="[&_strong]:font-semibold">{snippet}</span>
-          ) : undefined
-        }
-      />
+
+          {snippet && (
+            <div
+              className={cn(
+                "mt-s4 bg-neutral-700 px-s8 py-s4",
+                isSelected && "bg-brand-black/10",
+              )}
+            >
+              <div
+                className={cn(
+                  "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold",
+                  isSelected && "text-brand-black/70",
+                )}
+              >
+                {snippet}
+              </div>
+            </div>
+          )}
+          {!snippet && scan.hasResults && (
+            <span
+              className={cn(
+                "mt-s4 inline-flex bg-neutral-700 px-s4 py-s2 font-sans text-[10px] leading-3 text-neutral-200",
+                isSelected && "bg-brand-black/10 text-brand-black/70",
+              )}
+            >
+              Result
+            </span>
+          )}
+
+          <a
+            href={getNaIdentifierUrl(scan.id)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(event) => event.stopPropagation()}
+            className={cn(
+              "mt-s4 inline-flex max-w-full items-center gap-s4 font-sans text-xs leading-4 text-neutral-400 underline-offset-2 hover:text-brand-white hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+              isSelected && "text-brand-black/60 hover:text-brand-black",
+            )}
+          >
+            <span className="min-w-0 truncate">
+              NA Identifier: {getShortNaIdentifier(scan.id)}
+            </span>
+            <IconExternalLink className="h-s12 w-s12 shrink-0" />
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
 
-function TableOfContentsPanel() {
+function TableOfContentsPanel({
+  selectedScan,
+  onSelectScan,
+}: {
+  selectedScan: SelectedScanReference;
+  onSelectScan: (scan: SelectedScanReference) => void;
+}) {
   const [resultsOnly, setResultsOnly] = React.useState(false);
-  const [isSelectedDocumentExpanded, setIsSelectedDocumentExpanded] =
-    React.useState(true);
+  const [expandedDocumentIds, setExpandedDocumentIds] = React.useState<
+    Set<string>
+  >(() => new Set([ACTIVE_TOC_DOCUMENT_ID]));
+  const [selectedDocumentId, setSelectedDocumentId] = React.useState(
+    ACTIVE_TOC_DOCUMENT_ID,
+  );
+  const [selectedArchiveScan, setSelectedArchiveScan] = React.useState(
+    ACTIVE_TOC_ARCHIVE_SCAN,
+  );
   const selectedDocumentRef = React.useRef<HTMLButtonElement>(null);
   const activeScanRef = React.useRef<HTMLDivElement>(null);
 
-  const visibleBeforeEntries = resultsOnly
-    ? TABLE_OF_CONTENTS.filter((item) => item.hasResults)
-    : TABLE_OF_CONTENTS;
-  const visibleAfterEntries = resultsOnly
-    ? TABLE_OF_CONTENTS_AFTER_SELECTED.filter((item) => item.hasResults)
-    : TABLE_OF_CONTENTS_AFTER_SELECTED;
-  const visibleScans = resultsOnly
-    ? TOC_SCANS.filter((scan) => scan.snippet)
-    : TOC_SCANS;
+  const visibleDocuments = resultsOnly
+    ? TABLE_OF_CONTENTS_DOCUMENTS.filter((document) =>
+        document.scans.some((scan) => scan.hasResults),
+      )
+    : TABLE_OF_CONTENTS_DOCUMENTS;
+
+  const selectedDocument = TABLE_OF_CONTENTS_DOCUMENTS.find(
+    (document) => document.id === selectedDocumentId,
+  );
+  const selectedTocScan = selectedDocument?.scans.find(
+    (scan) => scan.archiveScan === selectedArchiveScan,
+  );
+
+  React.useEffect(() => {
+    const nextSelectedDocument = TABLE_OF_CONTENTS_DOCUMENTS.find((document) =>
+      document.scans.some((scan) => scan.archiveScan === selectedScan.archiveScan),
+    );
+
+    if (!nextSelectedDocument) {
+      return;
+    }
+
+    setSelectedDocumentId(nextSelectedDocument.id);
+    setSelectedArchiveScan(selectedScan.archiveScan);
+    setExpandedDocumentIds((current) => {
+      const next = new Set(current);
+      next.add(nextSelectedDocument.id);
+      return next;
+    });
+  }, [selectedScan.archiveScan]);
+
+  React.useEffect(() => {
+    window.requestAnimationFrame(() => {
+      activeScanRef.current?.scrollIntoView({
+        block: "nearest",
+        behavior: "smooth",
+      });
+    });
+  }, [selectedArchiveScan]);
+
+  const expandDocument = React.useCallback((documentId: string) => {
+    setExpandedDocumentIds((current) => {
+      const next = new Set(current);
+      next.add(documentId);
+      return next;
+    });
+  }, []);
+
+  const toggleDocument = (documentId: string) => {
+    setExpandedDocumentIds((current) => {
+      const next = new Set(current);
+
+      if (next.has(documentId)) {
+        next.delete(documentId);
+      } else {
+        next.add(documentId);
+      }
+
+      return next;
+    });
+  };
+
+  const selectDocument = (document: TableOfContentsDocument) => {
+    const firstVisibleScan =
+      (resultsOnly && document.scans.find((scan) => scan.hasResults)) ||
+      document.scans[0];
+
+    setSelectedDocumentId(document.id);
+    expandDocument(document.id);
+
+    if (firstVisibleScan) {
+      setSelectedArchiveScan(firstVisibleScan.archiveScan);
+      onSelectScan(getScanReference(document, firstVisibleScan));
+    }
+  };
+
+  const selectScan = (
+    document: TableOfContentsDocument,
+    scan: TableOfContentsScan,
+  ) => {
+    setSelectedDocumentId(document.id);
+    setSelectedArchiveScan(scan.archiveScan);
+    onSelectScan(getScanReference(document, scan));
+    expandDocument(document.id);
+  };
 
   const scrollToSelectedDocument = () => {
-    selectedDocumentRef.current?.scrollIntoView({
-      block: "center",
-      behavior: "smooth",
+    expandDocument(selectedDocumentId);
+
+    window.requestAnimationFrame(() => {
+      selectedDocumentRef.current?.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
     });
   };
 
   const scrollToActiveScan = () => {
-    activeScanRef.current?.scrollIntoView({
-      block: "center",
-      behavior: "smooth",
+    expandDocument(selectedDocumentId);
+
+    window.requestAnimationFrame(() => {
+      activeScanRef.current?.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
     });
   };
 
@@ -1076,8 +1533,8 @@ function TableOfContentsPanel() {
           <div className="flex items-center gap-s12">
             <button
               type="button"
-              aria-label="Jump to active document"
-              title="Jump to active document"
+              aria-label="Jump to selected document"
+              title="Jump to selected document"
               onClick={scrollToSelectedDocument}
               className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
@@ -1086,67 +1543,85 @@ function TableOfContentsPanel() {
             </button>
             <button
               type="button"
-              aria-label={`Jump to active scan page ${ACTIVE_TOC_SCAN}`}
-              title={`Jump to active scan page ${ACTIVE_TOC_SCAN}`}
+              aria-label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
+              title={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
               onClick={scrollToActiveScan}
               className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <IconScan className="h-s12 w-s12" />
-              {ACTIVE_TOC_SCAN}
+              {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
             </button>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col px-s24 pb-s32">
-        {visibleBeforeEntries.map((item) => (
-          <TableOfContentsEntry key={item.title} title={item.title} />
-        ))}
+        {visibleDocuments.map((document) => {
+          const isExpanded = expandedDocumentIds.has(document.id);
+          const isSelectedDocument = document.id === selectedDocumentId;
+          const visibleScans = resultsOnly
+            ? document.scans.filter((scan) => scan.hasResults)
+            : document.scans;
 
-        <div className="flex flex-col gap-s12">
-          <TableOfContentsEntry
-            title={SELECTED_TOC_ENTRY}
-            isSelected
-            isExpanded={isSelectedDocumentExpanded}
-            buttonRef={selectedDocumentRef}
-            onToggle={() =>
-              setIsSelectedDocumentExpanded((current) => !current)
-            }
-          />
-
-          {isSelectedDocumentExpanded && (
-            <>
-              <div className="flex flex-col gap-s10 px-s24 py-s2">
-                {SELECTED_TOC_METADATA.map(([label, value, suffix]) => (
-                  <TableOfContentsMetadataRow
-                    key={label}
-                    label={label}
-                    value={value}
-                    suffix={suffix}
-                  />
-                ))}
-              </div>
-
-              <div className="flex flex-col overflow-hidden px-s2">
-                {visibleScans.map((scan) => (
-                  <TableOfContentsScanCard
-                    key={scan.id}
-                    id={scan.id}
-                    scan={scan.scan}
-                    snippet={scan.snippet}
-                    cardRef={
-                      scan.scan === ACTIVE_TOC_SCAN ? activeScanRef : undefined
+          return (
+            <div key={document.id} className="flex flex-col gap-s12">
+              <TableOfContentsEntry
+                title={document.title}
+                isSelected={isSelectedDocument}
+                isExpanded={isExpanded}
+                buttonRef={isSelectedDocument ? selectedDocumentRef : undefined}
+                onSelect={() => selectDocument(document)}
+                onToggle={() => toggleDocument(document.id)}
+                trailingAction={
+                  <CopyUriButton
+                    uri={
+                      document.id === ACTIVE_TOC_DOCUMENT_ID
+                        ? SELECTED_DOCUMENT_URI
+                        : getDocumentUri(document.id)
                     }
+                    label="Copy document URI"
                   />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+                }
+              />
 
-        {visibleAfterEntries.map((item) => (
-          <TableOfContentsEntry key={item.title} title={item.title} />
-        ))}
+              {isExpanded && (
+                <>
+                  <div className="flex flex-col gap-s10 px-s24 py-s2">
+                    {document.metadata?.map(([label, value, suffix]) => (
+                      <TableOfContentsMetadataRow
+                        key={label}
+                        label={label}
+                        value={value}
+                        suffix={suffix}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col overflow-hidden px-s2">
+                    {visibleScans.map((scan) => (
+                      <TableOfContentsScanCard
+                        key={scan.id}
+                        scan={scan}
+                        snippet={scan.snippet}
+                        isSelected={
+                          isSelectedDocument &&
+                          scan.archiveScan === selectedArchiveScan
+                        }
+                        onSelect={() => selectScan(document, scan)}
+                        cardRef={
+                          isSelectedDocument &&
+                          scan.archiveScan === selectedArchiveScan
+                            ? activeScanRef
+                            : undefined
+                        }
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -1482,11 +1957,15 @@ function ExpandedMetadataSidebar({
   onToggleSection,
   activeTagTargetId,
   onSelectTagTarget,
+  selectedScan,
+  onSelectScan,
 }: {
   expandedSections: Set<string>;
   onToggleSection: (sectionId: string) => void;
   activeTagTargetId?: string;
   onSelectTagTarget: (target: TagNavigationTarget) => void;
+  selectedScan: SelectedScanReference;
+  onSelectScan: (scan: SelectedScanReference) => void;
 }) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
@@ -1508,7 +1987,12 @@ function ExpandedMetadataSidebar({
           onToggle={() => onToggleSection(item.id)}
         >
           {item.id === "inventory" && <ArchivePanel />}
-          {item.id === "table-of-contents" && <TableOfContentsPanel />}
+          {item.id === "table-of-contents" && (
+            <TableOfContentsPanel
+              selectedScan={selectedScan}
+              onSelectScan={onSelectScan}
+            />
+          )}
           {item.id === "identified" && (
             <IdentifiedPanel
               activeTagTargetId={activeTagTargetId}
@@ -1863,14 +2347,40 @@ export function DocumentDetailViewerOverlayDemo() {
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
     () => new Set(["inventory", "table-of-contents"]),
   );
-  const [currentScan, setCurrentScan] = React.useState(23);
+  const [currentScan, setCurrentScan] = React.useState(ACTIVE_TOC_SCAN);
+  const [currentArchiveScan, setCurrentArchiveScan] = React.useState(
+    ACTIVE_TOC_ARCHIVE_SCAN,
+  );
+  const [currentDocumentScanTotal, setCurrentDocumentScanTotal] =
+    React.useState(TOC_SCANS.length);
   const [currentSearchHit, setCurrentSearchHit] = React.useState(2);
   const [activeTagTarget, setActiveTagTarget] =
     React.useState<TagNavigationTarget>();
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
 
-  const maxScan = 156;
   const maxSearchHit = 19;
+
+  const selectViewerScan = React.useCallback((scan: SelectedScanReference) => {
+    setCurrentScan(scan.documentScan);
+    setCurrentArchiveScan(scan.archiveScan);
+    setCurrentDocumentScanTotal(scan.documentScanTotal);
+  }, []);
+
+  const setViewerScan = React.useCallback(
+    (nextScan: number | ((current: number) => number)) => {
+      const nextDocumentScan =
+        typeof nextScan === "function" ? nextScan(currentScan) : nextScan;
+      const nextScanReference = getScanReferenceByDocumentScan(
+        currentArchiveScan,
+        nextDocumentScan,
+      );
+
+      if (nextScanReference) {
+        selectViewerScan(nextScanReference);
+      }
+    },
+    [currentArchiveScan, currentScan, selectViewerScan],
+  );
 
   const toggleSidebarSection = React.useCallback((sectionId: string) => {
     setExpandedSections((current) => {
@@ -1903,9 +2413,9 @@ export function DocumentDetailViewerOverlayDemo() {
 
       setActiveTagTarget(target);
       setCurrentTagOccurrence(1);
-      setCurrentScan(getTagOccurrenceScan(target, 0, maxScan));
+      setViewerScan(getTagOccurrenceScan(target, 0, currentDocumentScanTotal));
     },
-    [maxScan],
+    [currentDocumentScanTotal, setViewerScan],
   );
 
   const goToTagOccurrence = React.useCallback(
@@ -1920,12 +2430,32 @@ export function DocumentDetailViewerOverlayDemo() {
       );
 
       setCurrentTagOccurrence(clampedOccurrence);
-      setCurrentScan(
-        getTagOccurrenceScan(activeTagTarget, clampedOccurrence - 1, maxScan),
+      setViewerScan(
+        getTagOccurrenceScan(
+          activeTagTarget,
+          clampedOccurrence - 1,
+          currentDocumentScanTotal,
+        ),
       );
     },
-    [activeTagTarget, maxScan],
+    [activeTagTarget, currentDocumentScanTotal, setViewerScan],
   );
+
+  React.useEffect(() => {
+    const scanReference = getScanReferenceByArchiveScan(currentArchiveScan);
+
+    if (!scanReference) {
+      return;
+    }
+
+    if (
+      scanReference.documentScan !== currentScan ||
+      scanReference.documentScanTotal !== currentDocumentScanTotal
+    ) {
+      setCurrentScan(scanReference.documentScan);
+      setCurrentDocumentScanTotal(scanReference.documentScanTotal);
+    }
+  }, [currentArchiveScan, currentDocumentScanTotal, currentScan]);
 
   React.useEffect(() => {
     window.dispatchEvent(
@@ -1944,6 +2474,12 @@ export function DocumentDetailViewerOverlayDemo() {
       );
     };
   }, []);
+
+  const selectedScanReference = {
+    archiveScan: currentArchiveScan,
+    documentScan: currentScan,
+    documentScanTotal: currentDocumentScanTotal,
+  };
 
   return (
     <>
@@ -1971,6 +2507,8 @@ export function DocumentDetailViewerOverlayDemo() {
               onToggleSection={toggleSidebarSection}
               activeTagTargetId={activeTagTarget?.id}
               onSelectTagTarget={selectTagTarget}
+              selectedScan={selectedScanReference}
+              onSelectScan={selectViewerScan}
             />
           ) : (
             <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
@@ -2119,39 +2657,43 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-label="First scan"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeftFirst className="h-s16 w-s16" />}
-              onPress={() => setCurrentScan(1)}
+              onPress={() => setViewerScan(1)}
             />
             <DocumentDetailToolButton
               aria-label="Previous scan"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
-                setCurrentScan((current) => Math.max(current - 1, 1));
+                setViewerScan((current) => Math.max(current - 1, 1));
               }}
             />
-            <span className="inline-flex items-baseline leading-4">
-              Scan
+            <span className="inline-flex items-baseline gap-s8 leading-4">
+              <span>Scan {currentArchiveScan}</span>
+              <span className="text-neutral-500">|</span>
+              <span>Scan</span>
               <NumericJumpField
-                ariaLabel="Go to scan"
+                ariaLabel="Go to document scan"
                 value={currentScan}
-                max={maxScan}
-                onChange={setCurrentScan}
+                max={currentDocumentScanTotal}
+                onChange={setViewerScan}
               />
-              of {maxScan}
+              of {currentDocumentScanTotal}
             </span>
             <DocumentDetailToolButton
               aria-label="Next scan"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
-                setCurrentScan((current) => Math.min(current + 1, maxScan));
+                setViewerScan((current) =>
+                  Math.min(current + 1, currentDocumentScanTotal),
+                );
               }}
             />
             <DocumentDetailToolButton
               aria-label="Last scan"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRightLast className="h-s16 w-s16" />}
-              onPress={() => setCurrentScan(maxScan)}
+              onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
           <DocumentDetailBarGroup className="gap-s24">
