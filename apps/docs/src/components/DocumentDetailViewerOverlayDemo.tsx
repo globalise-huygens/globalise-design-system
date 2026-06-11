@@ -2341,9 +2341,8 @@ function TranscriptCanvas() {
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
-  const [primaryViewMode, setPrimaryViewMode] = React.useState<"scan" | "text">(
-    "scan",
-  );
+  const [isScanVisible, setIsScanVisible] = React.useState(true);
+  const [isTextVisible, setIsTextVisible] = React.useState(true);
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
     () => new Set(["inventory", "table-of-contents"]),
   );
@@ -2381,6 +2380,26 @@ export function DocumentDetailViewerOverlayDemo() {
     },
     [currentArchiveScan, currentScan, selectViewerScan],
   );
+
+  const toggleScanViewer = React.useCallback(() => {
+    setIsScanVisible((current) => {
+      if (current && !isTextVisible) {
+        return current;
+      }
+
+      return !current;
+    });
+  }, [isTextVisible]);
+
+  const toggleTextViewer = React.useCallback(() => {
+    setIsTextVisible((current) => {
+      if (current && !isScanVisible) {
+        return current;
+      }
+
+      return !current;
+    });
+  }, [isScanVisible]);
 
   const toggleSidebarSection = React.useCallback((sectionId: string) => {
     setExpandedSections((current) => {
@@ -2546,26 +2565,28 @@ export function DocumentDetailViewerOverlayDemo() {
             >
               <button
                 type="button"
+                aria-pressed={isScanVisible}
                 className={cn(
                   SEGMENTED_BUTTON_REGULAR_CLASS,
-                  primaryViewMode === "scan"
+                  isScanVisible
                     ? SEGMENTED_BUTTON_ACTIVE_CLASS
                     : SEGMENTED_BUTTON_INACTIVE_CLASS,
                 )}
-                onClick={() => setPrimaryViewMode("scan")}
+                onClick={toggleScanViewer}
               >
                 <IconScan className="h-4.5 w-4.5" />
                 <span>Scan</span>
               </button>
               <button
                 type="button"
+                aria-pressed={isTextVisible}
                 className={cn(
                   SEGMENTED_BUTTON_REGULAR_CLASS,
-                  primaryViewMode === "text"
+                  isTextVisible
                     ? SEGMENTED_BUTTON_ACTIVE_CLASS
                     : SEGMENTED_BUTTON_INACTIVE_CLASS,
                 )}
-                onClick={() => setPrimaryViewMode("text")}
+                onClick={toggleTextViewer}
               >
                 <IconTranscription className="h-4.5 w-4.5" />
                 <span>Text</span>
@@ -2633,13 +2654,28 @@ export function DocumentDetailViewerOverlayDemo() {
               : "pl-overlay-document-viewer-rail-width",
           ].join(" ")}
         >
-          <DocumentDetailSplitViewer>
-            <DocumentDetailViewerPane className="relative border-r border-brand-black">
-              <ManuscriptCanvas />
-            </DocumentDetailViewerPane>
-            <DocumentDetailViewerPane className="relative border-r-0">
-              <TranscriptCanvas />
-            </DocumentDetailViewerPane>
+          <DocumentDetailSplitViewer
+            className={cn(
+              isScanVisible && isTextVisible
+                ? "lg:grid-cols-2"
+                : "lg:grid-cols-1",
+            )}
+          >
+            {isScanVisible && (
+              <DocumentDetailViewerPane
+                className={cn(
+                  "relative",
+                  isTextVisible ? "border-r border-brand-black" : "border-r-0",
+                )}
+              >
+                <ManuscriptCanvas />
+              </DocumentDetailViewerPane>
+            )}
+            {isTextVisible && (
+              <DocumentDetailViewerPane className="relative border-r-0">
+                <TranscriptCanvas />
+              </DocumentDetailViewerPane>
+            )}
           </DocumentDetailSplitViewer>
         </DocumentDetailBody>
 
