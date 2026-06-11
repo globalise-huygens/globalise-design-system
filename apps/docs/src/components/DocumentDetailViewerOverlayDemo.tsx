@@ -95,16 +95,16 @@ const TRANSCRIPT_LINE_WIDTHS = [
 ];
 
 const FLOATING_TOOLBAR_REVEAL_CLASS =
-  "bg-brand-black/35 text-brand-white/45 shadow-none transition-[background-color,box-shadow,color] duration-150 hover:bg-brand-black hover:text-brand-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.28)] focus-within:bg-brand-black focus-within:text-brand-white focus-within:shadow-[0_4px_16px_rgba(0,0,0,0.28)]";
+  "bg-brand-black/65 text-brand-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.16)] transition-[background-color,box-shadow,color] duration-100 ease-out hover:bg-brand-black/90 hover:text-brand-white hover:shadow-[0_6px_20px_rgba(0,0,0,0.22)] focus-within:bg-brand-black/90 focus-within:text-brand-white focus-within:shadow-[0_6px_20px_rgba(0,0,0,0.22)] motion-reduce:transition-none";
 
 const TOP_BAR_ICON_BUTTON_CLASS =
-  "h-s36 min-w-s36 px-0 [&>svg]:h-[18px] [&>svg]:w-[18px]";
+  "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
 const BOTTOM_BAR_ICON_BUTTON_CLASS =
-  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 [&>svg]:h-s16 [&>svg]:w-s16";
+  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
 
 const EDITABLE_NUMBER_INPUT_CLASS =
-  "mx-[2px] inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-[2px] pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+  "mx-[2px] inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-[2px] pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors duration-75 ease-out [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 motion-reduce:transition-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 
 const SEGMENTED_SURFACE_COMPACT_CLASS =
   "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
@@ -118,10 +118,10 @@ const SEGMENTED_BUTTON_INACTIVE_CLASS =
   "text-brand-white/65 hover:bg-brand-white/10 hover:text-brand-white";
 
 const SEGMENTED_BUTTON_COMPACT_CLASS =
-  "inline-flex h-s28 min-w-s36 shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 px-s8 text-xs leading-4 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 last:border-r-0";
+  "inline-flex h-s28 min-w-s36 shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 px-s8 text-xs leading-4 transition-colors duration-100 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0";
 
 const SEGMENTED_BUTTON_REGULAR_CLASS =
-  "inline-flex h-s36 shrink-0 items-center justify-center gap-s4 whitespace-nowrap border-r border-brand-black/70 px-s12 text-sm leading-5 transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 last:border-r-0";
+  "inline-flex h-s36 shrink-0 items-center justify-center gap-s4 whitespace-nowrap border-r border-brand-black/70 px-s12 text-sm leading-5 transition-colors duration-100 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0";
 const CONTENT_WARNING_TEXT =
   "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
 
@@ -257,6 +257,7 @@ interface TableOfContentsScan {
   id: string;
   snippet?: React.ReactNode;
   hasResults: boolean;
+  hitCount: number;
 }
 
 type TableOfContentsMetadata = Array<[string, string, string?]>;
@@ -277,6 +278,8 @@ interface SelectedScanReference {
 
 interface SearchHitReference extends SelectedScanReference {
   hit: number;
+  hitOccurrence: number;
+  scanHitTotal: number;
 }
 
 function getScanUri(archiveScan: number) {
@@ -347,7 +350,15 @@ function createTocScans({
   return Array.from({ length: count }, (_, index) => {
     const documentScan = index + 1;
     const archiveScan = startArchiveScan + index;
-    const snippet = snippets[documentScan];
+    const defaultSnippet =
+      hasResults && documentScan === 1 ? (
+        <>
+          overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
+          Gansenhoef,
+        </>
+      ) : undefined;
+    const snippet = snippets[documentScan] ?? defaultSnippet;
+    const hitCount = snippet ? 1 : 0;
     const pages = doublePageScans.includes(documentScan)
       ? [documentScan * 2 - 1, documentScan * 2]
       : [documentScan];
@@ -358,7 +369,8 @@ function createTocScans({
       pages,
       id: `NL-HaNA_1.04.02_1664_${archiveScan}`,
       snippet,
-      hasResults: Boolean(snippet) || (hasResults && documentScan === 1),
+      hasResults: hitCount > 0,
+      hitCount,
     };
   });
 }
@@ -551,14 +563,26 @@ function getScanReference(
   };
 }
 
-function getDocumentByArchiveScan(archiveScan: number) {
-  return TABLE_OF_CONTENTS_DOCUMENTS.find((document) =>
+function getDocumentByArchiveScan(
+  archiveScan: number,
+  documentScanTotal?: number,
+) {
+  const matchingDocuments = TABLE_OF_CONTENTS_DOCUMENTS.filter((document) =>
     document.scans.some((scan) => scan.archiveScan === archiveScan),
+  );
+
+  return (
+    matchingDocuments.find(
+      (document) => document.scans.length === documentScanTotal,
+    ) ?? matchingDocuments[0]
   );
 }
 
-function getScanReferenceByArchiveScan(archiveScan: number) {
-  const document = getDocumentByArchiveScan(archiveScan);
+function getScanReferenceByArchiveScan(
+  archiveScan: number,
+  documentScanTotal?: number,
+) {
+  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
   const scan = document?.scans.find(
     (documentScan) => documentScan.archiveScan === archiveScan,
   );
@@ -569,8 +593,9 @@ function getScanReferenceByArchiveScan(archiveScan: number) {
 function getScanReferenceByDocumentScan(
   archiveScan: number,
   documentScan: number,
+  documentScanTotal?: number,
 ) {
-  const document = getDocumentByArchiveScan(archiveScan);
+  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
 
   if (!document) {
     return undefined;
@@ -587,13 +612,23 @@ function getScanReferenceByDocumentScan(
 
 const SEARCH_HITS: SearchHitReference[] = TABLE_OF_CONTENTS_DOCUMENTS.flatMap(
   (document) =>
-    document.scans
-      .filter((scan) => scan.hasResults)
-      .map((scan) => getScanReference(document, scan)),
-).map((scan, index) => ({
-  ...scan,
-  hit: index + 1,
-}));
+    document.scans.flatMap((scan) =>
+      Array.from({ length: scan.hitCount }, (_, index) => ({
+        ...getScanReference(document, scan),
+        hitOccurrence: index + 1,
+        scanHitTotal: scan.hitCount,
+      })),
+    ),
+)
+  .sort(
+    (first, second) =>
+      first.archiveScan - second.archiveScan ||
+      first.hitOccurrence - second.hitOccurrence,
+  )
+  .map((scan, index) => ({
+    ...scan,
+    hit: index + 1,
+  }));
 
 function getSearchHitByIndex(hit: number) {
   const clampedHit = Math.min(Math.max(hit, 1), SEARCH_HITS.length);
@@ -853,7 +888,7 @@ function SidebarDisclosureIcon({
   return (
     <IconChevronDown
       className={cn(
-        "h-s20 w-s20 text-current transition-transform duration-150",
+        "h-s20 w-s20 text-current transition-transform duration-100 ease-out motion-reduce:transition-none",
         isExpanded && "rotate-180",
       )}
     />
@@ -1036,7 +1071,7 @@ function ContentWarningTopBarControl() {
           <p className="text-xs leading-5">{CONTENT_WARNING_TEXT}</p>
           <a
             href="#"
-            className="mt-s12 inline-flex text-xs leading-4 underline underline-offset-2 transition-colors hover:text-vermilion-400"
+            className="mt-s12 inline-flex text-xs leading-4 underline underline-offset-2 transition-colors duration-100 ease-out hover:text-vermilion-400 motion-reduce:transition-none"
           >
             Read more about problematic content
           </a>
@@ -1081,7 +1116,7 @@ function CopyUriButton({
       title={hasCopied ? "Copied URI" : label}
       onClick={handleCopy}
       className={cn(
-        "inline-flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white/45 transition-colors hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "inline-flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
         hasCopied && "text-brand-white",
         className,
       )}
@@ -1229,9 +1264,8 @@ function TableOfContentsEntry({
         aria-current={isSelected ? "true" : undefined}
         onClick={onSelect}
         className={cn(
-          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-          isSelected &&
-            "bg-brand-white font-bold text-brand-black hover:text-brand-black",
+          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 px-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
+          isSelected && "bg-neutral-700 font-bold hover:bg-neutral-700",
         )}
       >
         <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
@@ -1245,7 +1279,7 @@ function TableOfContentsEntry({
         aria-label={isExpanded ? "Collapse document" : "Expand document"}
         aria-expanded={isExpanded}
         onClick={onToggle}
-        className="flex h-s40 w-s24 items-start justify-center py-s12 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        className="flex h-s40 w-s24 items-start justify-center py-s12 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none"
       >
         <SidebarDisclosureIcon isExpanded={isExpanded} />
       </button>
@@ -1310,9 +1344,8 @@ function TableOfContentsScanCard({
         }
       }}
       className={cn(
-        "group cursor-pointer border-b border-brand-white/20 py-s12 transition-colors hover:bg-brand-white/[0.03] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-        isSelected &&
-          "mx-s4 bg-brand-white px-s8 text-brand-black hover:bg-brand-white",
+        "group cursor-pointer border-b border-brand-white/20 px-s12 py-s12 transition-colors duration-75 ease-out hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
+        isSelected && "bg-neutral-700 hover:bg-neutral-700",
       )}
     >
       <div className="flex items-center gap-s16">
@@ -1331,7 +1364,7 @@ function TableOfContentsScanCard({
             <span
               className={cn(
                 "font-sans text-sm leading-5 text-brand-white",
-                isSelected && "text-brand-black",
+                isSelected && "text-brand-white",
               )}
             >
               Scan {scan.archiveScan}
@@ -1339,7 +1372,7 @@ function TableOfContentsScanCard({
             <span
               className={cn(
                 "text-xs leading-4 text-neutral-500",
-                isSelected && "text-brand-black/45",
+                isSelected && "text-brand-white/45",
               )}
             >
               |
@@ -1347,7 +1380,7 @@ function TableOfContentsScanCard({
             <span
               className={cn(
                 "text-xs leading-4 text-neutral-400",
-                isSelected && "text-brand-black/60",
+                isSelected && "text-brand-white/60",
               )}
             >
               Scan {scan.documentScan}
@@ -1358,7 +1391,7 @@ function TableOfContentsScanCard({
               className={cn(
                 "h-s20 w-s20 shrink-0",
                 isSelected &&
-                  "text-brand-black/55 hover:bg-brand-black/8 hover:text-brand-black",
+                  "text-brand-white/55 hover:bg-brand-white/8 hover:text-brand-white",
               )}
             />
           </div>
@@ -1367,28 +1400,18 @@ function TableOfContentsScanCard({
             <div
               className={cn(
                 "mt-s4 bg-neutral-700 px-s8 py-s4",
-                isSelected && "bg-brand-black/10",
+                isSelected && "bg-neutral-600",
               )}
             >
               <div
                 className={cn(
-                  "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold",
-                  isSelected && "text-brand-black/70",
+                  "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold [&_strong]:text-parchment-500",
+                  isSelected && "text-brand-white/80",
                 )}
               >
                 {snippet}
               </div>
             </div>
-          )}
-          {!snippet && scan.hasResults && (
-            <span
-              className={cn(
-                "mt-s4 inline-flex bg-neutral-700 px-s4 py-s2 font-sans text-[10px] leading-3 text-neutral-200",
-                isSelected && "bg-brand-black/10 text-brand-black/70",
-              )}
-            >
-              Search hit
-            </span>
           )}
 
           <a
@@ -1398,7 +1421,7 @@ function TableOfContentsScanCard({
             onClick={(event) => event.stopPropagation()}
             className={cn(
               "mt-s4 inline-flex max-w-full items-center gap-s4 font-sans text-xs leading-4 text-neutral-400 underline-offset-2 hover:text-brand-white hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-              isSelected && "text-brand-black/60 hover:text-brand-black",
+              isSelected && "text-brand-white/55 hover:text-brand-white",
             )}
           >
             <span className="min-w-0 truncate">
@@ -1447,7 +1470,10 @@ function TableOfContentsPanel({
 
   React.useEffect(() => {
     const nextSelectedDocument = TABLE_OF_CONTENTS_DOCUMENTS.find((document) =>
-      document.scans.some((scan) => scan.archiveScan === selectedScan.archiveScan),
+      document.scans.length === selectedScan.documentScanTotal &&
+      document.scans.some(
+        (scan) => scan.archiveScan === selectedScan.archiveScan,
+      ),
     );
 
     if (!nextSelectedDocument) {
@@ -1461,13 +1487,13 @@ function TableOfContentsPanel({
       next.add(nextSelectedDocument.id);
       return next;
     });
-  }, [selectedScan.archiveScan]);
+  }, [selectedScan.archiveScan, selectedScan.documentScanTotal]);
 
   React.useEffect(() => {
     window.requestAnimationFrame(() => {
       activeScanRef.current?.scrollIntoView({
         block: "nearest",
-        behavior: "smooth",
+        behavior: "auto",
       });
     });
   }, [selectedArchiveScan]);
@@ -1543,7 +1569,7 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <label className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:text-brand-white/75">
+        <label className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/75 motion-reduce:transition-none">
           <input
             type="checkbox"
             checked={searchHitsOnly}
@@ -1564,7 +1590,7 @@ function TableOfContentsPanel({
               aria-label="Jump to selected document"
               title="Jump to selected document"
               onClick={scrollToSelectedDocument}
-              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
             >
               <IconDocument className="h-s12 w-s12" />
               Doc
@@ -1574,7 +1600,7 @@ function TableOfContentsPanel({
               aria-label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
               title={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
               onClick={scrollToActiveScan}
-              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
             >
               <IconScan className="h-s12 w-s12" />
               {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
@@ -1782,7 +1808,7 @@ function IdentifiedPanel({
                   type="button"
                   disabled={group.count <= 0}
                   className={cn(
-                    "flex min-w-0 items-center gap-s8 px-s8 text-left text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:text-brand-white/30 disabled:hover:bg-transparent",
+                    "flex min-w-0 items-center gap-s8 px-s8 text-left text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none disabled:cursor-not-allowed disabled:text-brand-white/30 disabled:hover:bg-transparent",
                     activeTagTargetId === `classified:${group.category}` &&
                       "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
                   )}
@@ -1799,12 +1825,12 @@ function IdentifiedPanel({
                     aria-expanded={expandedClassifiedCategories.has(
                       group.category,
                     )}
-                    className="flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white transition-colors hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
                     onClick={() => toggleClassifiedCategory(group.category)}
                   >
                     <IconChevronDown
                       className={cn(
-                        "h-s16 w-s16 transition-transform",
+                        "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
                         expandedClassifiedCategories.has(group.category) &&
                           "rotate-180",
                       )}
@@ -1819,7 +1845,7 @@ function IdentifiedPanel({
                     key={`${group.category}-${subcategory.label}`}
                     type="button"
                     className={cn(
-                      "ml-s24 flex h-s24 min-w-0 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      "ml-s24 flex h-s24 min-w-0 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
                       activeTagTargetId ===
                         `classified:${group.category}:${subcategory.label}` &&
                         "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
@@ -1901,7 +1927,7 @@ function IdentifiedPanel({
                 type="button"
                 role="checkbox"
                 aria-checked={isTypeGroupingEnabled}
-                className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
                 onClick={() => setIsTypeGroupingEnabled((current) => !current)}
               >
                 <span
@@ -1925,7 +1951,7 @@ function IdentifiedPanel({
                     ? "First to last"
                     : "Last to first"
                 }
-                className="flex h-s28 w-s28 items-center justify-center text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex h-s28 w-s28 items-center justify-center text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
                 onClick={() =>
                   setEntitySortDirection((current) =>
                     current === "ascending" ? "descending" : "ascending",
@@ -1934,7 +1960,7 @@ function IdentifiedPanel({
               >
                 <IconSwap
                   className={cn(
-                    "h-s16 w-s16 transition-transform",
+                    "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
                     entitySortDirection === "ascending"
                       ? "rotate-90"
                       : "-rotate-90",
@@ -1951,7 +1977,7 @@ function IdentifiedPanel({
               key={entity.name}
               type="button"
               className={cn(
-                "flex h-s24 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "flex h-s24 items-center gap-s8 px-s8 text-left text-xs leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
                 activeTagTargetId === `identified:${entity.name}` &&
                   "bg-brand-white/10 text-parchment-500 hover:text-parchment-500",
               )}
@@ -2201,7 +2227,7 @@ function ViewerZoomControl({
       <button
         type="button"
         aria-label={`${label} zoom out`}
-        className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60"
+        className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
         onClick={() => changeZoom(-step)}
       >
         <IconZoomOut className="h-s16 w-s16" />
@@ -2218,7 +2244,7 @@ function ViewerZoomControl({
       <button
         type="button"
         aria-label={`${label} zoom in`}
-        className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60"
+        className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
         onClick={() => changeZoom(step)}
       >
         <IconZoomIn className="h-s16 w-s16" />
@@ -2266,7 +2292,7 @@ function ManuscriptCanvas() {
       </DocumentDetailFloatingToolbar>
 
       <div
-        className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-150 ease-out"
+        className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-100 ease-out motion-reduce:transition-none"
         style={{
           transform: `scale(${scanZoom / 100})`,
           transformOrigin: "center center",
@@ -2351,7 +2377,7 @@ function TranscriptCanvas() {
       </DocumentDetailFloatingToolbar>
 
       <div
-        className="mx-auto flex max-w-114 origin-top flex-col gap-s4 pt-s24 transition-transform duration-150 ease-out"
+        className="mx-auto flex max-w-114 origin-top flex-col gap-s4 pt-s24 transition-transform duration-100 ease-out motion-reduce:transition-none"
         style={{ transform: `scale(${transcriptZoom / 100})` }}
       >
         {TRANSCRIPT_LINE_WIDTHS.map((width, index) => (
@@ -2407,13 +2433,19 @@ export function DocumentDetailViewerOverlayDemo() {
       const nextScanReference = getScanReferenceByDocumentScan(
         currentArchiveScan,
         nextDocumentScan,
+        currentDocumentScanTotal,
       );
 
       if (nextScanReference) {
         selectViewerScan(nextScanReference);
       }
     },
-    [currentArchiveScan, currentScan, selectViewerScan],
+    [
+      currentArchiveScan,
+      currentDocumentScanTotal,
+      currentScan,
+      selectViewerScan,
+    ],
   );
 
   const toggleScanViewer = React.useCallback(() => {
@@ -2510,7 +2542,10 @@ export function DocumentDetailViewerOverlayDemo() {
   );
 
   React.useEffect(() => {
-    const scanReference = getScanReferenceByArchiveScan(currentArchiveScan);
+    const scanReference = getScanReferenceByArchiveScan(
+      currentArchiveScan,
+      currentDocumentScanTotal,
+    );
 
     if (!scanReference) {
       return;
@@ -2563,7 +2598,7 @@ export function DocumentDetailViewerOverlayDemo() {
         <div
           id="document-detail-sidebar"
           className={[
-            "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-200 ease-out",
+            "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-150 ease-out motion-reduce:transition-none",
             isSidebarExpanded
               ? "w-overlay-document-viewer-sidebar-width"
               : "w-overlay-document-viewer-rail-width",
@@ -2585,7 +2620,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailTopBar
           className={[
-            "relative h-s64 justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-200 ease-out",
+            "relative h-s64 justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
             isSidebarExpanded
               ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
               : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
@@ -2697,7 +2732,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBody
           className={[
-            "transition-[padding-left] duration-200 ease-out",
+            "transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
@@ -2730,7 +2765,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "h-s36! justify-center border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-200 ease-out",
+            "h-s36! justify-center border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
             activeTagTarget ? "gap-s48" : "gap-s96",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
