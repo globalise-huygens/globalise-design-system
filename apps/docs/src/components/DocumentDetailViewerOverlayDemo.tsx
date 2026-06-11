@@ -275,6 +275,10 @@ interface SelectedScanReference {
   documentScanTotal: number;
 }
 
+interface SearchHitReference extends SelectedScanReference {
+  hit: number;
+}
+
 function getScanUri(archiveScan: number) {
   return `#scan-${archiveScan}`;
 }
@@ -579,6 +583,30 @@ function getScanReferenceByDocumentScan(
   const scan = document.scans[clampedDocumentScan - 1];
 
   return scan ? getScanReference(document, scan) : undefined;
+}
+
+const SEARCH_HITS: SearchHitReference[] = TABLE_OF_CONTENTS_DOCUMENTS.flatMap(
+  (document) =>
+    document.scans
+      .filter((scan) => scan.hasResults)
+      .map((scan) => getScanReference(document, scan)),
+).map((scan, index) => ({
+  ...scan,
+  hit: index + 1,
+}));
+
+function getSearchHitByIndex(hit: number) {
+  const clampedHit = Math.min(Math.max(hit, 1), SEARCH_HITS.length);
+
+  return SEARCH_HITS[clampedHit - 1];
+}
+
+function getSearchHitIndexByArchiveScan(archiveScan: number) {
+  const hitIndex = SEARCH_HITS.findIndex(
+    (hit) => hit.archiveScan === archiveScan,
+  );
+
+  return hitIndex >= 0 ? hitIndex + 1 : undefined;
 }
 
 const CLASSIFIED_ENTITY_TAG_GROUPS = [
@@ -1359,7 +1387,7 @@ function TableOfContentsScanCard({
                 isSelected && "bg-brand-black/10 text-brand-black/70",
               )}
             >
-              Result
+              Search hit
             </span>
           )}
 
@@ -1391,7 +1419,7 @@ function TableOfContentsPanel({
   selectedScan: SelectedScanReference;
   onSelectScan: (scan: SelectedScanReference) => void;
 }) {
-  const [resultsOnly, setResultsOnly] = React.useState(false);
+  const [searchHitsOnly, setSearchHitsOnly] = React.useState(false);
   const [expandedDocumentIds, setExpandedDocumentIds] = React.useState<
     Set<string>
   >(() => new Set([ACTIVE_TOC_DOCUMENT_ID]));
@@ -1404,7 +1432,7 @@ function TableOfContentsPanel({
   const selectedDocumentRef = React.useRef<HTMLButtonElement>(null);
   const activeScanRef = React.useRef<HTMLDivElement>(null);
 
-  const visibleDocuments = resultsOnly
+  const visibleDocuments = searchHitsOnly
     ? TABLE_OF_CONTENTS_DOCUMENTS.filter((document) =>
         document.scans.some((scan) => scan.hasResults),
       )
@@ -1468,7 +1496,7 @@ function TableOfContentsPanel({
 
   const selectDocument = (document: TableOfContentsDocument) => {
     const firstVisibleScan =
-      (resultsOnly && document.scans.find((scan) => scan.hasResults)) ||
+      (searchHitsOnly && document.scans.find((scan) => scan.hasResults)) ||
       document.scans[0];
 
     setSelectedDocumentId(document.id);
@@ -1518,12 +1546,12 @@ function TableOfContentsPanel({
         <label className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors hover:text-brand-white/75">
           <input
             type="checkbox"
-            checked={resultsOnly}
-            onChange={(event) => setResultsOnly(event.target.checked)}
+            checked={searchHitsOnly}
+            onChange={(event) => setSearchHitsOnly(event.target.checked)}
             className="peer sr-only"
           />
           <span className="h-s12 w-s12 shrink-0 bg-neutral-700 peer-checked:bg-brand-white peer-checked:shadow-[inset_0_0_0_2px_var(--neutral-800)]" />
-          <span>Results</span>
+          <span>Search hits</span>
         </label>
 
         <div className="flex shrink-0 items-center gap-s12">
@@ -1559,7 +1587,7 @@ function TableOfContentsPanel({
         {visibleDocuments.map((document) => {
           const isExpanded = expandedDocumentIds.has(document.id);
           const isSelectedDocument = document.id === selectedDocumentId;
-          const visibleScans = resultsOnly
+          const visibleScans = searchHitsOnly
             ? document.scans.filter((scan) => scan.hasResults)
             : document.scans;
 
@@ -2352,17 +2380,24 @@ export function DocumentDetailViewerOverlayDemo() {
   );
   const [currentDocumentScanTotal, setCurrentDocumentScanTotal] =
     React.useState(TOC_SCANS.length);
-  const [currentSearchHit, setCurrentSearchHit] = React.useState(2);
+  const [currentSearchHit, setCurrentSearchHit] = React.useState(
+    () => getSearchHitIndexByArchiveScan(ACTIVE_TOC_ARCHIVE_SCAN) ?? 1,
+  );
   const [activeTagTarget, setActiveTagTarget] =
     React.useState<TagNavigationTarget>();
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
 
-  const maxSearchHit = 19;
+  const maxSearchHit = SEARCH_HITS.length;
 
   const selectViewerScan = React.useCallback((scan: SelectedScanReference) => {
     setCurrentScan(scan.documentScan);
     setCurrentArchiveScan(scan.archiveScan);
     setCurrentDocumentScanTotal(scan.documentScanTotal);
+    const searchHit = getSearchHitIndexByArchiveScan(scan.archiveScan);
+
+    if (searchHit) {
+      setCurrentSearchHit(searchHit);
+    }
   }, []);
 
   const setViewerScan = React.useCallback(
@@ -2435,6 +2470,20 @@ export function DocumentDetailViewerOverlayDemo() {
       setViewerScan(getTagOccurrenceScan(target, 0, currentDocumentScanTotal));
     },
     [currentDocumentScanTotal, setViewerScan],
+  );
+
+  const goToSearchHit = React.useCallback(
+    (nextSearchHit: number) => {
+      const searchHit = getSearchHitByIndex(nextSearchHit);
+
+      if (!searchHit) {
+        return;
+      }
+
+      setCurrentSearchHit(searchHit.hit);
+      selectViewerScan(searchHit);
+    },
+    [selectViewerScan],
   );
 
   const goToTagOccurrence = React.useCallback(
@@ -2738,7 +2787,7 @@ export function DocumentDetailViewerOverlayDemo() {
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
-                setCurrentSearchHit((current) => Math.max(current - 1, 1));
+                goToSearchHit(currentSearchHit - 1);
               }}
             />
             <span className="inline-flex items-baseline leading-4">
@@ -2747,7 +2796,7 @@ export function DocumentDetailViewerOverlayDemo() {
                 ariaLabel="Go to search hit"
                 value={currentSearchHit}
                 max={maxSearchHit}
-                onChange={setCurrentSearchHit}
+                onChange={goToSearchHit}
               />
               of {maxSearchHit}
             </span>
@@ -2756,9 +2805,7 @@ export function DocumentDetailViewerOverlayDemo() {
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
-                setCurrentSearchHit((current) =>
-                  Math.min(current + 1, maxSearchHit),
-                );
+                goToSearchHit(currentSearchHit + 1);
               }}
             />
           </DocumentDetailBarGroup>
