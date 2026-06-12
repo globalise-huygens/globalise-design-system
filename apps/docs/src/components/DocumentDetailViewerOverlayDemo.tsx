@@ -6,8 +6,8 @@ import {
   DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
-  DocumentDetailIconRail,
   DocumentDetailCheckbox,
+  DocumentDetailIconRail,
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
@@ -18,18 +18,19 @@ import {
   DocumentDetailSegmentedToggleItem,
   DocumentDetailSplitViewer,
   DocumentDetailToolButton,
-  DocumentDetailTopBar,
   DocumentDetailTooltip,
+  DocumentDetailTopBar,
   DocumentDetailViewerPane,
+  IconClose,
+  IconEntities,
+  IconEntityDocument,
   IconEvents,
   IconExpandSection,
-  IconClose,
-  IconLayoutElements,
-  IconEntityDocument,
   IconExternalLink,
-  IconPairedPage,
+  IconLayoutElements,
   IconLeft,
   IconLeftFirst,
+  IconPairedPage,
   IconPictureInPicture,
   IconRight,
   IconRightLast,
@@ -38,7 +39,6 @@ import {
   IconSidebar,
   IconSwap,
   IconTranscription,
-  IconEntities,
 } from "@globalise/design-system";
 import Image from "next/image";
 import * as React from "react";
@@ -48,8 +48,8 @@ import {
   CopyUriButton,
   ManuscriptCanvas,
   NumericJumpField,
-  TOP_BAR_ICON_BUTTON_CLASS,
   TooltipIconButton,
+  TOP_BAR_ICON_BUTTON_CLASS,
   TranscriptCanvas,
 } from "./document-detail-overlay-demo/controls";
 import {
@@ -57,16 +57,6 @@ import {
   ACTIVE_TOC_DOCUMENT_ID,
   ACTIVE_TOC_SCAN,
   CLASSIFIED_ENTITY_TAG_GROUPS,
-  IDENTIFIED_ENTITY_TAGS,
-  INVENTORY_HIERARCHY,
-  INVENTORY_METADATA,
-  INVENTORY_SETTLEMENTS,
-  INVENTORY_URI,
-  SEARCH_HITS,
-  SELECTED_DOCUMENT_URI,
-  SIDEBAR_ITEMS,
-  TABLE_OF_CONTENTS_DOCUMENTS,
-  TOC_SCANS,
   getDocumentUri,
   getNaIdentifierUrl,
   getScanReference,
@@ -77,10 +67,20 @@ import {
   getSearchHitIndexByArchiveScan,
   getShortNaIdentifier,
   getTagOccurrenceScan,
+  IDENTIFIED_ENTITY_TAGS,
+  INVENTORY_HIERARCHY,
+  INVENTORY_METADATA,
+  INVENTORY_SETTLEMENTS,
+  INVENTORY_URI,
+  SEARCH_HITS,
+  SELECTED_DOCUMENT_URI,
   type SelectedScanReference,
+  SIDEBAR_ITEMS,
+  TABLE_OF_CONTENTS_DOCUMENTS,
   type TableOfContentsDocument,
   type TableOfContentsScan,
   type TagNavigationTarget,
+  TOC_SCANS,
 } from "./document-detail-overlay-demo/data";
 
 function SidebarDisclosureIcon({
@@ -304,7 +304,7 @@ function TableOfContentsEntry({
   buttonRef,
   onToggle,
   onSelect,
-  trailingAction,
+  copyAction,
 }: {
   title: string;
   isSelected?: boolean;
@@ -312,13 +312,13 @@ function TableOfContentsEntry({
   buttonRef?: React.Ref<HTMLButtonElement>;
   onToggle?: () => void;
   onSelect?: () => void;
-  trailingAction?: React.ReactNode;
+  copyAction?: React.ReactNode;
 }) {
   return (
     <div
       className={cn(
-        "group relative grid w-full grid-cols-[minmax(0,1fr)_1.75rem_1.5rem] items-start border-t border-brand-white/10 before:absolute before:bottom-s8 before:left-0 before:top-s8 before:w-px before:bg-transparent hover:before:bg-brand-white/30",
-        isSelected && "before:w-[2px] before:bg-brand-white",
+        "group relative grid w-full grid-cols-[minmax(0,1fr)_1.25rem_1.5rem] items-start border-t border-brand-white/10 before:absolute before:bottom-s8 before:left-0 before:top-s8 before:w-px before:bg-transparent hover:before:bg-brand-white/30",
+        isSelected && "before:w-0.5 before:bg-brand-white",
       )}
     >
       <button
@@ -327,15 +327,15 @@ function TableOfContentsEntry({
         aria-current={isSelected ? "true" : undefined}
         onClick={onSelect}
         className={cn(
-          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 px-s8 py-s12 text-left text-sm font-normal leading-4 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
+          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 py-s12 pl-s8 pr-s4 text-left text-sm font-normal leading-4 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
         )}
       >
         <IconEntityDocument className="mt-px h-s16 w-s16 shrink-0" />
         <span className="min-w-0">{title}</span>
       </button>
-      {trailingAction && (
-        <div className="flex h-s40 items-start justify-center pt-s10">
-          {trailingAction}
+      {copyAction && (
+        <div className="flex h-s40 items-start justify-center pt-s12">
+          {copyAction}
         </div>
       )}
       <button
@@ -508,11 +508,12 @@ function TableOfContentsPanel({
   );
 
   React.useEffect(() => {
-    const nextSelectedDocument = TABLE_OF_CONTENTS_DOCUMENTS.find((document) =>
-      document.scans.length === selectedScan.documentScanTotal &&
-      document.scans.some(
-        (scan) => scan.archiveScan === selectedScan.archiveScan,
-      ),
+    const nextSelectedDocument = TABLE_OF_CONTENTS_DOCUMENTS.find(
+      (document) =>
+        document.scans.length === selectedScan.documentScanTotal &&
+        document.scans.some(
+          (scan) => scan.archiveScan === selectedScan.archiveScan,
+        ),
     );
 
     if (!nextSelectedDocument) {
@@ -665,14 +666,14 @@ function TableOfContentsPanel({
                 buttonRef={isSelectedDocument ? selectedDocumentRef : undefined}
                 onSelect={() => selectDocument(document)}
                 onToggle={() => toggleDocument(document.id)}
-                trailingAction={
+                copyAction={
                   <CopyUriButton
                     uri={
                       document.id === ACTIVE_TOC_DOCUMENT_ID
                         ? SELECTED_DOCUMENT_URI
                         : getDocumentUri(document.id)
                     }
-                    label="Copy document URI"
+                    label="Copy URI"
                   />
                 }
               />
@@ -1322,9 +1323,7 @@ export function DocumentDetailViewerOverlayDemo() {
             <TooltipIconButton
               aria-controls="document-detail-sidebar"
               aria-expanded={isSidebarExpanded}
-              aria-label={
-                isSidebarExpanded ? "Close sidebar" : "Open sidebar"
-              }
+              aria-label={isSidebarExpanded ? "Close sidebar" : "Open sidebar"}
               tooltip={isSidebarExpanded ? "Closes sidebar" : "Opens sidebar"}
               isActive={isSidebarExpanded}
               className={TOP_BAR_ICON_BUTTON_CLASS}
