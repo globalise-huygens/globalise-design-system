@@ -15,13 +15,13 @@ import {
   type ModalOverlayProps as AriaModalOverlayProps,
   NumberField as AriaNumberField,
   type NumberFieldProps as AriaNumberFieldProps,
-  Tooltip as AriaTooltip,
-  TooltipTrigger as AriaTooltipTrigger,
-  type TooltipProps as AriaTooltipProps,
   ToggleButton as AriaToggleButton,
   ToggleButtonGroup as AriaToggleButtonGroup,
   type ToggleButtonGroupProps as AriaToggleButtonGroupProps,
   type ToggleButtonProps as AriaToggleButtonProps,
+  Tooltip as AriaTooltip,
+  type TooltipProps as AriaTooltipProps,
+  TooltipTrigger as AriaTooltipTrigger,
 } from "react-aria-components";
 
 /* -------------------------------------------------------------------------- */
@@ -370,8 +370,10 @@ function DocumentDetailFloatingToolbar({
 /*  DocumentDetailPopoverSurface                                              */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailPopoverSurfaceProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+export interface DocumentDetailPopoverSurfaceProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   variant?: "default" | "warning" | "accent";
   size?: "compact" | "default" | "wide";
   icon?: React.ReactNode;
@@ -434,8 +436,10 @@ function DocumentDetailPopoverSurface({
 /*  DocumentDetailTooltip                                                      */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailTooltipProps
-  extends Omit<AriaTooltipProps, "children" | "className"> {
+export interface DocumentDetailTooltipProps extends Omit<
+  AriaTooltipProps,
+  "children" | "className"
+> {
   children: React.ReactNode;
   label: React.ReactNode;
   className?: string;
@@ -718,8 +722,10 @@ DocumentDetailSegment.displayName = "DocumentDetailSegment";
 /*  DocumentDetailSegmentedToggleGroup                                         */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailSegmentedToggleGroupProps
-  extends Omit<AriaToggleButtonGroupProps, "className" | "style"> {
+export interface DocumentDetailSegmentedToggleGroupProps extends Omit<
+  AriaToggleButtonGroupProps,
+  "className" | "style"
+> {
   className?: string;
   size?: "compact" | "regular";
   children?: React.ReactNode;
@@ -746,8 +752,10 @@ function DocumentDetailSegmentedToggleGroup({
   );
 }
 
-export interface DocumentDetailSegmentedToggleItemProps
-  extends Omit<AriaToggleButtonProps, "children" | "className" | "style"> {
+export interface DocumentDetailSegmentedToggleItemProps extends Omit<
+  AriaToggleButtonProps,
+  "children" | "className" | "style"
+> {
   className?: string;
   icon?: React.ReactNode;
   size?: "compact" | "regular";
@@ -757,33 +765,26 @@ export interface DocumentDetailSegmentedToggleItemProps
 const DocumentDetailSegmentedToggleItem = React.forwardRef<
   HTMLButtonElement,
   DocumentDetailSegmentedToggleItemProps
->(
-  (
-    { className, icon, size = "regular", children, ...props },
-    ref,
-  ) => (
-    <AriaToggleButton
-      ref={ref}
-      className={({ isSelected }) =>
-        cn(
-          "inline-flex shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 font-sans transition-colors duration-100 ease-out data-focus-visible:outline-none data-focus-visible:ring-1 data-focus-visible:ring-inset data-focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0",
-          size === "compact" &&
-            "h-s28 min-w-s36 gap-s4 px-s8 text-xs leading-4",
-          size === "regular" &&
-            "h-s36 gap-s4 px-s12 text-sm leading-5",
-          isSelected
-            ? "bg-brand-white text-brand-black"
-            : "text-brand-white/65 data-hovered:bg-brand-white/10 data-hovered:text-brand-white",
-          className,
-        )
-      }
-      {...props}
-    >
-      {icon}
-      {children && <span>{children}</span>}
-    </AriaToggleButton>
-  ),
-);
+>(({ className, icon, size = "regular", children, ...props }, ref) => (
+  <AriaToggleButton
+    ref={ref}
+    className={({ isSelected }) =>
+      cn(
+        "inline-flex shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 font-sans transition-colors duration-100 ease-out data-focus-visible:outline-none data-focus-visible:ring-1 data-focus-visible:ring-inset data-focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0",
+        size === "compact" && "h-s28 min-w-s36 gap-s4 px-s8 text-xs leading-4",
+        size === "regular" && "h-s36 gap-s4 px-s12 text-sm leading-5",
+        isSelected
+          ? "bg-brand-white text-brand-black"
+          : "text-brand-white/65 data-hovered:bg-brand-white/10 data-hovered:text-brand-white",
+        className,
+      )
+    }
+    {...props}
+  >
+    {icon}
+    {children && <span>{children}</span>}
+  </AriaToggleButton>
+));
 DocumentDetailSegmentedToggleItem.displayName =
   "DocumentDetailSegmentedToggleItem";
 
@@ -791,8 +792,10 @@ DocumentDetailSegmentedToggleItem.displayName =
 /*  DocumentDetailCheckbox                                                     */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailCheckboxProps
-  extends Omit<AriaCheckboxProps, "children" | "className" | "style"> {
+export interface DocumentDetailCheckboxProps extends Omit<
+  AriaCheckboxProps,
+  "children" | "className" | "style"
+> {
   className?: string;
   indicatorClassName?: string;
   children?: React.ReactNode;
@@ -801,50 +804,44 @@ export interface DocumentDetailCheckboxProps
 const DocumentDetailCheckbox = React.forwardRef<
   HTMLLabelElement,
   DocumentDetailCheckboxProps
->(
-  (
-    { className, indicatorClassName, children, ...props },
-    ref,
-  ) => (
-    <AriaCheckbox
-      ref={ref}
-      className={({ isDisabled }) =>
-        cn(
-          "inline-flex h-s28 min-w-0 cursor-pointer items-center gap-s8 px-s2 font-sans text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out data-hovered:text-brand-white/75 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring motion-reduce:transition-none",
-          isDisabled && "cursor-not-allowed text-brand-white/30",
-          className,
-        )
-      }
-      {...props}
-    >
-      {({ isSelected, isIndeterminate }) => (
-        <>
-          <span
-            className={cn(
-              "flex h-s12 w-s12 shrink-0 items-center justify-center bg-neutral-700",
-              (isSelected || isIndeterminate) &&
-                "bg-brand-white shadow-[inset_0_0_0_2px_var(--neutral-800)]",
-              indicatorClassName,
-            )}
-            aria-hidden="true"
-          />
-          {children && <span>{children}</span>}
-        </>
-      )}
-    </AriaCheckbox>
-  ),
-);
+>(({ className, indicatorClassName, children, ...props }, ref) => (
+  <AriaCheckbox
+    ref={ref}
+    className={({ isDisabled }) =>
+      cn(
+        "inline-flex h-s28 min-w-0 cursor-pointer items-center gap-s8 px-s2 font-sans text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out data-hovered:text-brand-white/75 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring motion-reduce:transition-none",
+        isDisabled && "cursor-not-allowed text-brand-white/30",
+        className,
+      )
+    }
+    {...props}
+  >
+    {({ isSelected, isIndeterminate }) => (
+      <>
+        <span
+          className={cn(
+            "flex h-s12 w-s12 shrink-0 items-center justify-center bg-neutral-700",
+            (isSelected || isIndeterminate) &&
+              "bg-brand-white shadow-[inset_0_0_0_2px_var(--neutral-800)]",
+            indicatorClassName,
+          )}
+          aria-hidden="true"
+        />
+        {children && <span>{children}</span>}
+      </>
+    )}
+  </AriaCheckbox>
+));
 DocumentDetailCheckbox.displayName = "DocumentDetailCheckbox";
 
 /* -------------------------------------------------------------------------- */
 /*  DocumentDetailNumberField                                                  */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailNumberFieldProps
-  extends Omit<
-    AriaNumberFieldProps,
-    "children" | "className" | "style" | "formatOptions"
-  > {
+export interface DocumentDetailNumberFieldProps extends Omit<
+  AriaNumberFieldProps,
+  "children" | "className" | "style" | "formatOptions"
+> {
   className?: string;
   inputClassName?: string;
   suffix?: React.ReactNode;
@@ -909,8 +906,7 @@ DocumentDetailNumberField.displayName = "DocumentDetailNumberField";
 /*  DocumentDetailReferenceCard                                                */
 /* -------------------------------------------------------------------------- */
 
-export interface DocumentDetailReferenceCardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface DocumentDetailReferenceCardProps extends React.HTMLAttributes<HTMLDivElement> {
   isSelected?: boolean;
   thumbnail?: React.ReactNode;
   heading: React.ReactNode;
@@ -962,9 +958,7 @@ const DocumentDetailReferenceCard = React.forwardRef<
           </div>
 
           {snippet && (
-            <div className="mt-s4 bg-neutral-700 px-s8 py-s4">
-              {snippet}
-            </div>
+            <div className="mt-s4 bg-neutral-700 px-s8 py-s4">{snippet}</div>
           )}
 
           {meta && <div className="mt-s4 min-w-0">{meta}</div>}
@@ -1113,16 +1107,16 @@ export {
   DocumentDetailRailButton,
   DocumentDetailReferenceCard,
   DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
-  DocumentDetailSegmentedControl,
   DocumentDetailSidePanel,
   DocumentDetailSplitViewer,
   DocumentDetailTitle,
   DocumentDetailToolbar,
   DocumentDetailToolButton,
-  DocumentDetailTopBar,
   DocumentDetailTooltip,
+  DocumentDetailTopBar,
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewer,
