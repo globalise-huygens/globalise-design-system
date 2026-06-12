@@ -4,12 +4,14 @@ import {
   Grid,
   LogoNavbar,
   Navbar,
-  NavLink,
   NavLinks,
   NavSearchBar,
 } from "@globalise/design-system";
 import Link from "next/link";
 import React from "react";
+
+const navLinkClassName =
+  "text-sm font-medium leading-5 text-brand-white transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 export function SiteNavbar() {
   return (
@@ -26,10 +28,18 @@ export function SiteNavbar() {
           >
             <NavSearchBar placeholder="Search the archive" />
             <NavLinks>
-              <NavLink href="/docs/getting-started">Docs</NavLink>
-              <NavLink href="/docs/components">Components</NavLink>
-              <NavLink href="/docs/tokens">Tokens</NavLink>
-              <NavLink href="/example">Example</NavLink>
+              <Link href="/docs/getting-started" className={navLinkClassName}>
+                Docs
+              </Link>
+              <Link href="/docs/components" className={navLinkClassName}>
+                Components
+              </Link>
+              <Link href="/docs/tokens" className={navLinkClassName}>
+                Tokens
+              </Link>
+              <Link href="/example" className={navLinkClassName}>
+                Example
+              </Link>
             </NavLinks>
           </Navbar>
         </div>

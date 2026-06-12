@@ -2,7 +2,7 @@ name: Deploy Docs to GitHub Pages
 
 on:
   push:
-    branches: [main, fix/pr-release-blockers]
+    branches: [main, fix/pr-release-blockers, feat/document-detail-overlay-large-grid]
   workflow_dispatch:
 
 permissions:
