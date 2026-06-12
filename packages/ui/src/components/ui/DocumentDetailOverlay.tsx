@@ -942,8 +942,8 @@ const DocumentDetailReferenceCard = React.forwardRef<
       ref={ref}
       aria-current={isSelected ? "true" : undefined}
       className={cn(
-        "group border-b border-brand-white/20 px-s12 py-s12 transition-colors duration-75 ease-out hover:bg-brand-white/5 motion-reduce:transition-none",
-        isSelected && "bg-neutral-700 hover:bg-neutral-700",
+        "group relative border-b border-brand-white/20 px-s12 py-s12 transition-colors duration-75 ease-out before:absolute before:bottom-s12 before:left-0 before:top-s12 before:w-px before:bg-transparent hover:before:bg-brand-white/30 motion-reduce:transition-none",
+        isSelected && "before:w-[2px] before:bg-brand-white",
         className,
       )}
       {...props}
@@ -962,12 +962,7 @@ const DocumentDetailReferenceCard = React.forwardRef<
           </div>
 
           {snippet && (
-            <div
-              className={cn(
-                "mt-s4 bg-neutral-700 px-s8 py-s4",
-                isSelected && "bg-neutral-600",
-              )}
-            >
+            <div className="mt-s4 bg-neutral-700 px-s8 py-s4">
               {snippet}
             </div>
           )}

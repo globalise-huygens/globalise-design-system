@@ -208,7 +208,7 @@ export function CopyUriButton({
         aria-label={accessibleLabel}
         onClick={handleCopy}
         className={cn(
-          "inline-flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
+          "inline-flex h-s20 w-s20 shrink-0 items-center justify-center rounded-[2px] text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
           hasCopied && "text-brand-white",
           className,
         )}

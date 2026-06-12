@@ -317,7 +317,8 @@ function TableOfContentsEntry({
   return (
     <div
       className={cn(
-        "group grid w-full grid-cols-[minmax(0,1fr)_1.5rem_1.5rem] items-start border-t border-brand-white/10",
+        "group relative grid w-full grid-cols-[minmax(0,1fr)_1.75rem_1.5rem] items-start border-t border-brand-white/10 before:absolute before:bottom-s8 before:left-0 before:top-s8 before:w-px before:bg-transparent hover:before:bg-brand-white/30",
+        isSelected && "before:w-[2px] before:bg-brand-white",
       )}
     >
       <button
@@ -326,15 +327,16 @@ function TableOfContentsEntry({
         aria-current={isSelected ? "true" : undefined}
         onClick={onSelect}
         className={cn(
-          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 px-s8 py-s12 text-left text-sm leading-4 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
-          isSelected && "bg-neutral-700 font-bold hover:bg-neutral-700",
+          "grid w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-s8 px-s8 py-s12 text-left text-sm font-normal leading-4 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
         )}
       >
         <IconEntityDocument className="mt-px h-s16 w-s16 shrink-0" />
         <span className="min-w-0">{title}</span>
       </button>
       {trailingAction && (
-        <div className="flex justify-end py-s10">{trailingAction}</div>
+        <div className="flex h-s40 items-start justify-center pt-s10">
+          {trailingAction}
+        </div>
       )}
       <button
         type="button"
@@ -413,43 +415,27 @@ function TableOfContentsScanCard({
         </button>
       }
       heading={
-        <button
-          type="button"
-          aria-label={`Select archive scan ${scan.archiveScan}, document scan ${scan.documentScan}`}
-          onClick={onSelect}
-          className="inline-flex min-w-0 items-center gap-s6 text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-        >
-          <span className="font-sans text-sm leading-5 text-brand-white">
-            Scan {scan.archiveScan}
-          </span>
-          <span
-            className={cn(
-              "text-xs leading-4 text-neutral-500",
-              isSelected && "text-brand-white/45",
-            )}
+        <div className="inline-flex min-w-0 items-center gap-s6">
+          <button
+            type="button"
+            aria-label={`Select archive scan ${scan.archiveScan}, document scan ${scan.documentScan}`}
+            onClick={onSelect}
+            className="inline-flex min-w-0 items-baseline gap-s6 text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           >
-            |
-          </span>
-          <span
-            className={cn(
-              "text-xs leading-4 text-neutral-400",
-              isSelected && "text-brand-white/60",
-            )}
-          >
-            Scan {scan.documentScan}
-          </span>
-        </button>
-      }
-      actions={
-        <CopyUriButton
-          uri={getScanUri(scan.archiveScan)}
-          label={`Copy archive scan ${scan.archiveScan} URI`}
-          className={cn(
-            "h-s20 w-s20 shrink-0",
-            isSelected &&
-              "text-brand-white/55 hover:bg-brand-white/8 hover:text-brand-white",
-          )}
-        />
+            <span className="font-sans text-sm leading-5 text-brand-white">
+              Scan {scan.archiveScan}
+            </span>
+            <span className="text-xs leading-4 text-neutral-500">|</span>
+            <span className="text-xs leading-4 text-neutral-400">
+              Scan {scan.documentScan}
+            </span>
+          </button>
+          <CopyUriButton
+            uri={getScanUri(scan.archiveScan)}
+            label={`Copy archive scan ${scan.archiveScan} URI`}
+            className="h-s20 w-s20"
+          />
+        </div>
       }
       snippet={
         snippet ? (
@@ -462,7 +448,6 @@ function TableOfContentsScanCard({
             <span
               className={cn(
                 "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold [&_strong]:text-parchment-500",
-                isSelected && "text-brand-white/80",
               )}
             >
               {snippet}
@@ -477,7 +462,6 @@ function TableOfContentsScanCard({
           rel="noopener noreferrer"
           className={cn(
             "inline-flex max-w-full items-center gap-s4 font-sans text-xs leading-4 text-neutral-400 underline-offset-2 hover:text-brand-white hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-            isSelected && "text-brand-white/55 hover:text-brand-white",
           )}
         >
           <span className="min-w-0 truncate">
