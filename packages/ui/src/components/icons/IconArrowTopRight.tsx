@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function IconAdd(props: SVGProps<SVGSVGElement>) {
+export function IconArrowTopRight(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,7 @@ export function IconAdd(props: SVGProps<SVGSVGElement>) {
       fill="currentColor"
       {...props}
     >
-      <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+      <path d="m216-160-56-56 464-464H360v-80h400v400h-80v-264L216-160Z" />
     </svg>
   );
 }

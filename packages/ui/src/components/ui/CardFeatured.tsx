@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
-import { IconAdd } from "../icons/IconAdd";
+import { IconShowMore } from "../icons/IconShowMore";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
 export interface CardFeaturedItem {
@@ -127,7 +127,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
               onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}
             >
-              <IconAdd
+              <IconShowMore
                 className="h-s20 w-s20 text-brand-black"
                 aria-hidden="true"
               />

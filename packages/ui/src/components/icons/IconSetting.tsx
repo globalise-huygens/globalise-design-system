@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function IconTune(props: SVGProps<SVGSVGElement>) {
+export function IconSetting(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

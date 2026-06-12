@@ -1,6 +1,6 @@
 "use client";
 
-import { IconArrowRight } from "@/components/icons/IconArrowRight";
+import { IconArrowTopRight } from "@/components/icons/IconArrowTopRight";
 import { IconClose } from "@/components/icons/IconClose";
 import { IconExternalLink } from "@/components/icons/IconExternalLink";
 import { cn } from "@/lib/utils";
@@ -307,7 +307,7 @@ function ObjectCardListItem({
   if (href) {
     return (
       <AriaLink href={href} className={classes}>
-        <IconArrowRight className="absolute right-s8 top-s8 h-s12 w-s12 text-neutral-500" />
+        <IconArrowTopRight className="absolute right-s8 top-s8 h-s12 w-s12 text-neutral-500" />
         {children}
       </AriaLink>
     );

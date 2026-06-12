@@ -6,879 +6,82 @@ import {
   DocumentDetailBarGroup,
   DocumentDetailBody,
   DocumentDetailBottomBar,
-  DocumentDetailCanvas,
-  DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
+  DocumentDetailCheckbox,
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
   DocumentDetailRailButton,
-  DocumentDetailSegment,
-  DocumentDetailSegmentedControl,
+  DocumentDetailReferenceCard,
+  DocumentDetailSegmentedToggleGroup,
+  DocumentDetailSegmentedToggleItem,
   DocumentDetailSplitViewer,
   DocumentDetailToolButton,
   DocumentDetailTopBar,
-  DocumentDetailTranscriptCanvas,
-  DocumentDetailTranscriptLine,
+  DocumentDetailTooltip,
   DocumentDetailViewerPane,
-  IconBrightness,
-  IconCalendarClock,
-  IconChevronDown,
+  IconEvents,
+  IconExpandSection,
   IconClose,
-  IconCommodity,
-  IconCopy,
-  IconDashboardGear,
-  IconDate,
-  IconDocument,
-  IconDocumentFrameAlert,
-  IconDownloadTray,
+  IconLayoutElements,
+  IconEntityDocument,
   IconExternalLink,
-  IconFolderCopy,
-  IconImportContacts,
+  IconPairedPage,
   IconLeft,
   IconLeftFirst,
-  IconList,
-  IconOrganisation,
-  IconPerson,
   IconPictureInPicture,
-  IconPlace,
   IconRight,
   IconRightLast,
-  IconRotate,
   IconScan,
   IconSearch,
-  IconShip,
+  IconSidebar,
   IconSwap,
   IconTranscription,
-  IconTune,
-  IconViewModeGrid,
-  IconViewObjectTrack,
-  IconWifiHome,
-  IconZoomIn,
-  IconZoomOut,
+  IconEntities,
 } from "@globalise/design-system";
 import Image from "next/image";
 import * as React from "react";
-
-const TRANSCRIPT_LINE_WIDTHS = [
-  "18%",
-  "78%",
-  "96%",
-  "72%",
-  "52%",
-  "26%",
-  "66%",
-  "48%",
-  "56%",
-  "60%",
-  "38%",
-  "82%",
-  "84%",
-  "80%",
-  "82%",
-  "74%",
-  "68%",
-  "10%",
-  "66%",
-  "42%",
-  "64%",
-  "58%",
-  "66%",
-  "68%",
-  "38%",
-  "78%",
-  "88%",
-  "84%",
-  "82%",
-  "10%",
-];
-
-const FLOATING_TOOLBAR_REVEAL_CLASS =
-  "bg-brand-black/65 text-brand-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.16)] transition-[background-color,box-shadow,color] duration-100 ease-out hover:bg-brand-black/90 hover:text-brand-white hover:shadow-[0_6px_20px_rgba(0,0,0,0.22)] focus-within:bg-brand-black/90 focus-within:text-brand-white focus-within:shadow-[0_6px_20px_rgba(0,0,0,0.22)] motion-reduce:transition-none";
-
-const TOP_BAR_ICON_BUTTON_CLASS =
-  "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none [&>svg]:h-[18px] [&>svg]:w-[18px]";
-
-const BOTTOM_BAR_ICON_BUTTON_CLASS =
-  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
-
-const EDITABLE_NUMBER_INPUT_CLASS =
-  "mx-[2px] inline-block h-s16 self-baseline rounded-[2px] border-0 bg-transparent px-[2px] pb-0 pt-0 text-center font-sans text-xs leading-4 text-parchment-500 outline-none transition-colors duration-75 ease-out [appearance:textfield] hover:bg-brand-white/5 focus:bg-brand-white/10 focus:ring-1 focus:ring-parchment-500/50 motion-reduce:transition-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
-
-const SEGMENTED_SURFACE_COMPACT_CLASS =
-  "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
-
-const SEGMENTED_SURFACE_REGULAR_CLASS =
-  "inline-flex h-s36 shrink-0 items-center gap-0 overflow-hidden rounded-[6px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
-
-const SEGMENTED_BUTTON_ACTIVE_CLASS = "bg-brand-white text-brand-black";
-
-const SEGMENTED_BUTTON_INACTIVE_CLASS =
-  "text-brand-white/65 hover:bg-brand-white/10 hover:text-brand-white";
-
-const SEGMENTED_BUTTON_COMPACT_CLASS =
-  "inline-flex h-s28 min-w-s36 shrink-0 items-center justify-center whitespace-nowrap border-r border-brand-black/70 px-s8 text-xs leading-4 transition-colors duration-100 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0";
-
-const SEGMENTED_BUTTON_REGULAR_CLASS =
-  "inline-flex h-s36 shrink-0 items-center justify-center gap-s4 whitespace-nowrap border-r border-brand-black/70 px-s12 text-sm leading-5 transition-colors duration-100 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none last:border-r-0";
-const CONTENT_WARNING_TEXT =
-  "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
-
-const SIDEBAR_ITEMS = [
-  {
-    id: "inventory",
-    label: "Inventory",
-    badge: "1664",
-    railLabel: "1664",
-    icon: <IconFolderCopy className="h-s20 w-s20" />,
-  },
-  {
-    id: "table-of-contents",
-    label: "Table of Contents",
-    icon: <IconList className="h-s20 w-s20" />,
-  },
-  {
-    id: "identified",
-    label: "Entity tags",
-    count: "(376)",
-    railLabel: "376",
-    icon: <IconViewObjectTrack className="h-s20 w-s20" />,
-  },
-  {
-    id: "events",
-    label: "Event tags",
-    count: "(0)",
-    railLabel: "0",
-    icon: <IconCalendarClock className="h-s20 w-s20" />,
-  },
-];
-
-const INVENTORY_METADATA = [
-  {
-    label: "Title(s)",
-    value:
-      "1703. RRRRR. Veertiende boek: Batavia's ingekomen brievenboek, deel III: Sumatra's Westkust, Bengalen, Coromandel 1703",
-  },
-  {
-    label: "Date",
-    value: "1703-01-01 - 1703-12-31",
-  },
-];
-
-const INVENTORY_SETTLEMENTS = ["Batavia", "Goa"];
-
-const INVENTORY_HIERARCHY = [
-  {
-    level: 0,
-    label:
-      "1.04.02 Inventaris van het archief van de Verenigde Oost-Indische Compagnie (VOC)",
-  },
-  {
-    level: 1,
-    label: "Deel I Heren Zeventien en kamer Amsterdam",
-  },
-  {
-    level: 2,
-    label: "Deel I/E INGEKOMEN STUKKEN UIT",
-  },
-  {
-    level: 3,
-    label: "Deel-I-E.5 - Overgekomen brieven en papieren",
-  },
-  {
-    level: 4,
-    label:
-      "Deel-I-E.5.a - Overgekomen brieven en papieren uit Indië aan de Heren XVII en de kamer Amsterdam",
-  },
-  {
-    level: 5,
-    label:
-      "1056-3986 - Overgekomen brieven en papieren uit Indië aan de Heren XVII en de kamer Amsterdam",
-  },
-  {
-    level: 6,
-    label: "1664",
-    isCurrent: true,
-  },
-];
-
-const TABLE_OF_CONTENTS = [
-  {
-    title:
-      "Februar 1701 • 1 • wij in het afgeweken Jaar hebben gedaan geligt lb 4000. buskruit te weten uit de",
-  },
-  {
-    title: "03 March 1701 • 309 • Register der papieren",
-  },
-  {
-    title:
-      "15 March 1701 • 31 • D=o voor den secretaris joris van de velde in desselfs reijse na priaman den laasten november 1701",
-  },
-  {
-    title:
-      "04 April 1701 • 56 • missive van den oppercoopman en gesaghebber Encam en raad tot padang aen haer Ed„s de hoge reg: tot batavia gesz de dato 5=en februarij 1702",
-  },
-  {
-    title:
-      "27 August 1701 • 3 • translaat briefje door op gem gesaghebberen raad, aen Radja nanda ende de verdere regenten tot priaman gesz",
-  },
-  {
-    title:
-      "08 September 1701 • 2 • briefje vanden oppercoopman en gesaghebber Anthonij Encam ende den raad tot padang aen haer Ed=s de hooge Regeringe tot batavia, aen haer Ed=s de hooge regeringe tot batavia gesz de dato 22 feb 1702 verdere regenten tot priaman gesz",
-    hasResults: true,
-  },
-  {
-    title:
-      "09 September 1701 • 2 • Instructie den vaandrager Hans michiel schreuder ter narigt mede gegeven in syne Commissie na Indrapoura den 21=e april 1701",
-  },
-  {
-    title:
-      "12 December 1701 • 98 • nader ditto van den coopman Jordaan Teding wegens sijne verrigtinge en ontmoeting der plaatse voorsz",
-    hasResults: true,
-  },
-  {
-    title: "28 December 1701 • 16 • Register der papieren",
-  },
-];
-
-const SELECTED_TOC_ENTRY =
-  "26 March 1702 • 26 • missive van den independent fiscael tot cormandel Hendrick beiker, aan haer Ed=ls de hooge req: tot batavia gesz de dato 22:' meij 1702:";
-
-const ACTIVE_TOC_DOCUMENT_ID = "document-1702-03-26-26";
-const ACTIVE_TOC_SCAN = 23;
-const INVENTORY_URI = "#inventory-1664";
-const SELECTED_DOCUMENT_URI = `#${ACTIVE_TOC_DOCUMENT_ID}`;
-
-interface TableOfContentsScan {
-  documentScan: number;
-  archiveScan: number;
-  pages: number[];
-  id: string;
-  snippet?: React.ReactNode;
-  hasResults: boolean;
-  hitCount: number;
-}
-
-type TableOfContentsMetadata = Array<[string, string, string?]>;
-
-interface TableOfContentsDocument {
-  id: string;
-  title: string;
-  hasResults?: boolean;
-  scans: TableOfContentsScan[];
-  metadata?: TableOfContentsMetadata;
-}
-
-interface SelectedScanReference {
-  archiveScan: number;
-  documentScan: number;
-  documentScanTotal: number;
-}
-
-interface SearchHitReference extends SelectedScanReference {
-  hit: number;
-  hitOccurrence: number;
-  scanHitTotal: number;
-}
-
-function getScanUri(archiveScan: number) {
-  return `#scan-${archiveScan}`;
-}
-
-function getDocumentUri(documentId: string) {
-  return `#${documentId}`;
-}
-
-function getNaIdentifierUrl(scanId: string) {
-  return `https://www.nationaalarchief.nl/onderzoeken/archief/1.04.02/invnr/1664/file/${scanId}`;
-}
-
-function getShortNaIdentifier(scanId: string) {
-  return scanId.replace("NL-HaNA_1.04.02_1664_", "");
-}
-
-function getDocumentScanCount(title: string) {
-  const scanCountMatch = title.match(/•\s*(\d+)\s*•/);
-
-  return scanCountMatch ? Number(scanCountMatch[1]) : 1;
-}
-
-function getDocumentDate(title: string) {
-  const dateMatch = title.match(/^([^•]+?)\s*•/);
-
-  return dateMatch ? dateMatch[1].trim() : "1702";
-}
-
-function getDocumentType(title: string) {
-  return title.toLowerCase().includes("register") ? "Register" : "Letter";
-}
-
-function getDocumentCreator(title: string) {
-  const creatorMatch = title.match(/\bvan den ([^,]+?)(?:,|\s+aen|\s+aan)/i);
-
-  if (!creatorMatch) {
-    return "Unknown";
-  }
-
-  return creatorMatch[1].replace(/\s+/g, " ").trim();
-}
-
-function createDocumentMetadata(title: string): TableOfContentsMetadata {
-  return [
-    ["Type", getDocumentType(title)],
-    ["Creator", getDocumentCreator(title)],
-    ["Date", getDocumentDate(title)],
-    ["Location", "Padang", "[GLOB_64]"],
-    ["TANAP", "TANAP Digitized Index (2026-04-10)"],
-  ];
-}
-
-function createTocScans({
-  count,
-  startArchiveScan,
-  snippets = {},
-  hasResults = false,
-  doublePageScans = [],
-}: {
-  count: number;
-  startArchiveScan: number;
-  snippets?: Record<number, React.ReactNode>;
-  hasResults?: boolean;
-  doublePageScans?: number[];
-}) {
-  return Array.from({ length: count }, (_, index) => {
-    const documentScan = index + 1;
-    const archiveScan = startArchiveScan + index;
-    const defaultSnippet =
-      hasResults && documentScan === 1 ? (
-        <>
-          overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
-          Gansenhoef,
-        </>
-      ) : undefined;
-    const snippet = snippets[documentScan] ?? defaultSnippet;
-    const hitCount = snippet ? 1 : 0;
-    const pages = doublePageScans.includes(documentScan)
-      ? [documentScan * 2 - 1, documentScan * 2]
-      : [documentScan];
-
-    return {
-      documentScan,
-      archiveScan,
-      pages,
-      id: `NL-HaNA_1.04.02_1664_${archiveScan}`,
-      snippet,
-      hasResults: hitCount > 0,
-      hitCount,
-    };
-  });
-}
-
-const SELECTED_TOC_METADATA: TableOfContentsMetadata = [
-  ["Type", "Letter"],
-  ["Creator", "Hendrick Beiker"],
-  ["Date", "1702-01-01 - 1702-12-31 to 1703-01-01 - 1703-12-31"],
-  ["Location", "Coromandel", "[GLOB_40]"],
-  ["TANAP", "TANAP Digitized Index (2026-04-10)"],
-];
-
-const TOC_SCAN_SNIPPETS: Record<number, React.ReactNode> = {
-  2: (
-    <>
-      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
-      Gansenhoef,
-    </>
-  ),
-  7: (
-    <>
-      Zeeland, mitsganders de <strong>prins Eugenius</strong>, den Bergh,
-      &apos;T Noord
-    </>
-  ),
-  8: (
-    <>
-      Voor Amsterdam T schip <strong>prins Eugenius</strong> deb berg: moorder
-    </>
-  ),
-  9: (
-    <>
-      batavia met de scheppen <strong>prins Eugenius</strong> en gansenhoev tot
-    </>
-  ),
-  11: (
-    <>
-      ontfangen per het schip <strong>prins Eugenius</strong> hpoog op october
-    </>
-  ),
-  12: (
-    <>
-      kunnen voldoen <strong>prins Eugenius</strong> den 21: Julij mitsgad
-    </>
-  ),
-  17: (
-    <>
-      Voor de proesdidiale Kamer <strong>prins Eugenius</strong> en Gansenhoef,
-    </>
-  ),
-  18: (
-    <>
-      is voldaan P:r de <strong>prins Eugenius</strong> op den 20:e Maart 1723
-    </>
-  ),
-  19: (
-    <>
-      de scheppen de <strong>prins Eugenius</strong> wendela.
-    </>
-  ),
-  21: (
-    <>
-      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
-      Gansenhoef,
-    </>
-  ),
-  23: (
-    <>
-      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
-      Gansenhoef,
-    </>
-  ),
-  24: (
-    <>
-      overgesonden de scheepen D&apos; <strong>prins Eugenius</strong> en
-      Gansenhoef,
-    </>
-  ),
-};
-
-const TOC_SCANS = createTocScans({
-  count: 26,
-  startArchiveScan: 1339,
-  snippets: TOC_SCAN_SNIPPETS,
-  doublePageScans: [8, 23],
-});
-
-const ACTIVE_TOC_ARCHIVE_SCAN =
-  TOC_SCANS.find((scan) => scan.documentScan === ACTIVE_TOC_SCAN)
-    ?.archiveScan ?? 1339;
-
-const TABLE_OF_CONTENTS_AFTER_SELECTED = [
-  {
-    title:
-      "06 April 1702 • 31 • d=o voor den opsiender der Equipagie dirk hiersz, en onderstuurman Jacob van Doorn den 3=e februarij deses jaars uyjtgesonden om te kruysten tusschen priaman en oulaccan",
-    hasResults: true,
-  },
-  {
-    title:
-      "15 April 1702 • 2 • Als voren translaat missive van den panglima en de twaalf ponglons tot padang aende Heer gouverneur generaal willem van Outhoorn tot batavia gesz",
-  },
-  {
-    title: "19 April 1702 • 4 • Ditto aen als voren",
-  },
-  {
-    title:
-      "21 April 1702 • 26 • D=o door radja soucca ampat uijt songi pagou, aen den panglima sirrinarra end'verdere pouglons van sillida gesz:",
-  },
-  {
-    title:
-      "17 September 1702 • 4 • DD=o door eenige hoofden tot padang aen maharadja jndra tot bat:a gesr",
-  },
-  {
-    title:
-      "29 September 1702 • 2 • missive van den oppercoopman en gesaghebber Anthonij ducam ende den raad tot padang aen haer Ed=s tot batavia gesz den 13=' maert 1702",
-    hasResults: true,
-  },
-  {
-    title:
-      "11 October 1702 • 53 • briefjes van den raad tot padang bij overlijden van den gesaghebber anthonij ducam aen haer edelens tot Batavia gesz de dato 26e maart anno 1702",
-    hasResults: true,
-  },
-  {
-    title:
-      "31 October 1702 • 34 • rendement der vercogte coopmanschappen tot padang in een rondjaar ofte thedert primo september onno 1700 tot ultimo augustus anno passado",
-  },
-  {
-    title:
-      "01 November 1702 • 4 • item van als voren der comptoirs primo Chinco in opgem. Tijt",
-  },
-  {
-    title:
-      "11 November 1702 • 4 • item van als voren der comptoire banos in voorsz tijt",
-  },
-  {
-    title:
-      "12 December 1702 • 2 • Als voren translaat missive van den panglima en de twaalf ponglons tot padang aende Heer gouverneur generaal willem van Outhoorn tot batavia gesz",
-  },
-  {
-    title: "19 Januar 1703 • 39 • Register der papieren",
-  },
-];
-
-function createTocDocument(
-  item: { title: string; hasResults?: boolean },
-  index: number,
-  group: "before" | "after",
-): TableOfContentsDocument {
-  const scanCount = getDocumentScanCount(item.title);
-  const startArchiveScan =
-    group === "before" ? 1210 + index * 32 : 1365 + index * 32;
-
-  return {
-    id: `document-${group}-${index + 1}`,
-    title: item.title,
-    hasResults: item.hasResults,
-    metadata: createDocumentMetadata(item.title),
-    scans: createTocScans({
-      count: scanCount,
-      startArchiveScan,
-      hasResults: item.hasResults,
-    }),
-  };
-}
-
-const TABLE_OF_CONTENTS_DOCUMENTS: TableOfContentsDocument[] = [
-  ...TABLE_OF_CONTENTS.map((item, index) =>
-    createTocDocument(item, index, "before"),
-  ),
-  {
-    id: ACTIVE_TOC_DOCUMENT_ID,
-    title: SELECTED_TOC_ENTRY,
-    hasResults: true,
-    scans: TOC_SCANS,
-    metadata: SELECTED_TOC_METADATA,
-  },
-  ...TABLE_OF_CONTENTS_AFTER_SELECTED.map((item, index) =>
-    createTocDocument(item, index, "after"),
-  ),
-];
-
-function getScanReference(
-  document: TableOfContentsDocument,
-  scan: TableOfContentsScan,
-): SelectedScanReference {
-  return {
-    archiveScan: scan.archiveScan,
-    documentScan: scan.documentScan,
-    documentScanTotal: document.scans.length,
-  };
-}
-
-function getDocumentByArchiveScan(
-  archiveScan: number,
-  documentScanTotal?: number,
-) {
-  const matchingDocuments = TABLE_OF_CONTENTS_DOCUMENTS.filter((document) =>
-    document.scans.some((scan) => scan.archiveScan === archiveScan),
-  );
-
-  return (
-    matchingDocuments.find(
-      (document) => document.scans.length === documentScanTotal,
-    ) ?? matchingDocuments[0]
-  );
-}
-
-function getScanReferenceByArchiveScan(
-  archiveScan: number,
-  documentScanTotal?: number,
-) {
-  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
-  const scan = document?.scans.find(
-    (documentScan) => documentScan.archiveScan === archiveScan,
-  );
-
-  return document && scan ? getScanReference(document, scan) : undefined;
-}
-
-function getScanReferenceByDocumentScan(
-  archiveScan: number,
-  documentScan: number,
-  documentScanTotal?: number,
-) {
-  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
-
-  if (!document) {
-    return undefined;
-  }
-
-  const clampedDocumentScan = Math.min(
-    Math.max(documentScan, 1),
-    document.scans.length,
-  );
-  const scan = document.scans[clampedDocumentScan - 1];
-
-  return scan ? getScanReference(document, scan) : undefined;
-}
-
-const SEARCH_HITS: SearchHitReference[] = TABLE_OF_CONTENTS_DOCUMENTS.flatMap(
-  (document) =>
-    document.scans.flatMap((scan) =>
-      Array.from({ length: scan.hitCount }, (_, index) => ({
-        ...getScanReference(document, scan),
-        hitOccurrence: index + 1,
-        scanHitTotal: scan.hitCount,
-      })),
-    ),
-)
-  .sort(
-    (first, second) =>
-      first.archiveScan - second.archiveScan ||
-      first.hitOccurrence - second.hitOccurrence,
-  )
-  .map((scan, index) => ({
-    ...scan,
-    hit: index + 1,
-  }));
-
-function getSearchHitByIndex(hit: number) {
-  const clampedHit = Math.min(Math.max(hit, 1), SEARCH_HITS.length);
-
-  return SEARCH_HITS[clampedHit - 1];
-}
-
-function getSearchHitIndexByArchiveScan(archiveScan: number) {
-  const hitIndex = SEARCH_HITS.findIndex(
-    (hit) => hit.archiveScan === archiveScan,
-  );
-
-  return hitIndex >= 0 ? hitIndex + 1 : undefined;
-}
-
-const CLASSIFIED_ENTITY_TAG_GROUPS = [
-  {
-    category: "Persons",
-    count: 496,
-    icon: <IconPerson className="h-s16 w-s16" />,
-    firstScan: 2,
-    scanStride: 3,
-    subcategories: [
-      { label: "by Name", count: 298, firstScan: 2, scanStride: 3 },
-      { label: "by Attributes", count: 45, firstScan: 6, scanStride: 5 },
-      { label: "by Profession", count: 58, firstScan: 9, scanStride: 4 },
-      { label: "by Civic Status", count: 106, firstScan: 12, scanStride: 6 },
-      {
-        label: "by Ethno-Religious Appellation",
-        count: 106,
-        firstScan: 15,
-        scanStride: 7,
-      },
-    ],
-  },
-  {
-    category: "Organisations",
-    count: 71,
-    icon: <IconOrganisation className="h-s16 w-s16" />,
-    firstScan: 1,
-    scanStride: 4,
-    subcategories: [
-      { label: "by Name", count: 71, firstScan: 1, scanStride: 4 },
-    ],
-  },
-  {
-    category: "Ships",
-    count: 67,
-    icon: <IconShip className="h-s16 w-s16" />,
-    firstScan: 23,
-    scanStride: 2,
-    subcategories: [
-      { label: "by Name", count: 106, firstScan: 23, scanStride: 2 },
-      { label: "by Type", count: 106, firstScan: 28, scanStride: 5 },
-    ],
-  },
-  {
-    category: "Commodities",
-    count: 51,
-    icon: <IconCommodity className="h-s16 w-s16" />,
-    firstScan: 20,
-    scanStride: 6,
-    subcategories: [
-      { label: "by Name", count: 106, firstScan: 20, scanStride: 6 },
-      { label: "by Qualifier", count: 106, firstScan: 26, scanStride: 4 },
-    ],
-  },
-  {
-    category: "Dates",
-    count: 46,
-    icon: <IconDate className="h-s16 w-s16" />,
-    firstScan: 31,
-    scanStride: 3,
-    subcategories: [],
-  },
-  {
-    category: "Places",
-    count: 34,
-    icon: <IconPlace className="h-s16 w-s16" />,
-    firstScan: 8,
-    scanStride: 4,
-    subcategories: [
-      { label: "by Name", count: 106, firstScan: 8, scanStride: 4 },
-      { label: "by Location Form", count: 106, firstScan: 13, scanStride: 5 },
-    ],
-  },
-  {
-    category: "Polities",
-    count: 0,
-    icon: <IconOrganisation className="h-s16 w-s16" />,
-    firstScan: 1,
-    scanStride: 1,
-    subcategories: [],
-  },
-  {
-    category: "Documents",
-    count: 2,
-    icon: <IconDocument className="h-s16 w-s16" />,
-    firstScan: 19,
-    scanStride: 23,
-    subcategories: [],
-  },
-  {
-    category: "Quantity",
-    count: 2,
-    icon: <IconList className="h-s16 w-s16" />,
-    firstScan: 44,
-    scanStride: 11,
-    subcategories: [],
-  },
-];
-
-const IDENTIFIED_ENTITY_TAGS = [
-  {
-    name: "Joan Maetsuijker",
-    type: "Person",
-    icon: <IconPerson className="h-s16 w-s16" />,
-    classifiedAs: ["Joan Maetsuijker", "gouverneur generaal"],
-    occurrences: 496,
-    firstScan: 2,
-    scanStride: 3,
-  },
-  {
-    name: "Person X",
-    type: "Person",
-    icon: <IconPerson className="h-s16 w-s16" />,
-    classifiedAs: ["persoon X", "oppercoopman"],
-    occurrences: 138,
-    firstScan: 4,
-    scanStride: 5,
-  },
-  {
-    name: "Person Z",
-    type: "Person",
-    icon: <IconPerson className="h-s16 w-s16" />,
-    classifiedAs: ["persoon Z"],
-    occurrences: 76,
-    firstScan: 6,
-    scanStride: 7,
-  },
-  {
-    name: "VOC",
-    type: "Organisation",
-    icon: <IconOrganisation className="h-s16 w-s16" />,
-    classifiedAs: ["VOC", "Oost-Indische Compagnie"],
-    occurrences: 71,
-    firstScan: 1,
-    scanStride: 4,
-  },
-  {
-    name: "Prins Eugenius",
-    type: "Ship",
-    icon: <IconShip className="h-s16 w-s16" />,
-    classifiedAs: ["prins Eugenius", "D' prins Eugenius"],
-    occurrences: 67,
-    firstScan: 23,
-    scanStride: 2,
-  },
-  {
-    name: "Person A",
-    type: "Person",
-    icon: <IconPerson className="h-s16 w-s16" />,
-    classifiedAs: ["persoon A"],
-    occurrences: 56,
-    firstScan: 12,
-    scanStride: 3,
-  },
-  {
-    name: "Person B",
-    type: "Person",
-    icon: <IconPerson className="h-s16 w-s16" />,
-    classifiedAs: ["persoon B"],
-    occurrences: 56,
-    firstScan: 15,
-    scanStride: 4,
-  },
-  {
-    name: "Ship V",
-    type: "Ship",
-    icon: <IconShip className="h-s16 w-s16" />,
-    classifiedAs: ["schip V"],
-    occurrences: 53,
-    firstScan: 18,
-    scanStride: 5,
-  },
-  {
-    name: "Cinnamon",
-    type: "Commodity",
-    icon: <IconCommodity className="h-s16 w-s16" />,
-    classifiedAs: ["cinnamon", "kaneel"],
-    occurrences: 51,
-    firstScan: 20,
-    scanStride: 6,
-  },
-  {
-    name: "March",
-    type: "Date",
-    icon: <IconDate className="h-s16 w-s16" />,
-    classifiedAs: ["maart", "March"],
-    occurrences: 46,
-    firstScan: 31,
-    scanStride: 3,
-  },
-  {
-    name: "Batavia",
-    type: "Place",
-    icon: <IconPlace className="h-s16 w-s16" />,
-    classifiedAs: ["batavia", "tot batavia"],
-    occurrences: 34,
-    firstScan: 8,
-    scanStride: 4,
-  },
-  {
-    name: "India",
-    type: "Place",
-    icon: <IconPlace className="h-s16 w-s16" />,
-    classifiedAs: ["Indie", "India"],
-    occurrences: 33,
-    firstScan: 11,
-    scanStride: 5,
-  },
-  {
-    name: "Thing YUH",
-    type: "Commodity",
-    icon: <IconCommodity className="h-s16 w-s16" />,
-    classifiedAs: ["thing YUH"],
-    occurrences: 1,
-    firstScan: 56,
-    scanStride: 1,
-  },
-];
-
-type TagNavigationTarget = {
-  id: string;
-  label: string;
-  occurrences: number;
-  firstScan: number;
-  scanStride: number;
-  kind: "Classified" | "Identified";
-};
-
-function getTagOccurrenceScan(
-  target: TagNavigationTarget,
-  occurrenceIndex: number,
-  maxScan: number,
-) {
-  return (
-    ((target.firstScan + occurrenceIndex * target.scanStride - 1) % maxScan) + 1
-  );
-}
+import {
+  BOTTOM_BAR_ICON_BUTTON_CLASS,
+  ContentWarningTopBarControl,
+  CopyUriButton,
+  ManuscriptCanvas,
+  NumericJumpField,
+  TOP_BAR_ICON_BUTTON_CLASS,
+  TooltipIconButton,
+  TranscriptCanvas,
+} from "./document-detail-overlay-demo/controls";
+import {
+  ACTIVE_TOC_ARCHIVE_SCAN,
+  ACTIVE_TOC_DOCUMENT_ID,
+  ACTIVE_TOC_SCAN,
+  CLASSIFIED_ENTITY_TAG_GROUPS,
+  IDENTIFIED_ENTITY_TAGS,
+  INVENTORY_HIERARCHY,
+  INVENTORY_METADATA,
+  INVENTORY_SETTLEMENTS,
+  INVENTORY_URI,
+  SEARCH_HITS,
+  SELECTED_DOCUMENT_URI,
+  SIDEBAR_ITEMS,
+  TABLE_OF_CONTENTS_DOCUMENTS,
+  TOC_SCANS,
+  getDocumentUri,
+  getNaIdentifierUrl,
+  getScanReference,
+  getScanReferenceByArchiveScan,
+  getScanReferenceByDocumentScan,
+  getScanUri,
+  getSearchHitByIndex,
+  getSearchHitIndexByArchiveScan,
+  getShortNaIdentifier,
+  getTagOccurrenceScan,
+  type SelectedScanReference,
+  type TableOfContentsDocument,
+  type TableOfContentsScan,
+  type TagNavigationTarget,
+} from "./document-detail-overlay-demo/data";
 
 function SidebarDisclosureIcon({
   isExpanded = false,
@@ -886,7 +89,7 @@ function SidebarDisclosureIcon({
   isExpanded?: boolean;
 }) {
   return (
-    <IconChevronDown
+    <IconExpandSection
       className={cn(
         "h-s20 w-s20 text-current transition-transform duration-100 ease-out motion-reduce:transition-none",
         isExpanded && "rotate-180",
@@ -982,147 +185,6 @@ function ExpandedSidebarSection({
         </div>
       )}
     </>
-  );
-}
-
-function ContentWarningTopBarControl() {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
-  const [isPinned, setIsPinned] = React.useState(false);
-  const rootRef = React.useRef<HTMLDivElement>(null);
-  const popoverId = React.useId();
-  const titleId = React.useId();
-  const isOpen = isHovered || hasFocusWithin || isPinned;
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setIsPinned(false);
-        setIsHovered(false);
-        setHasFocusWithin(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsPinned(false);
-        setIsHovered(false);
-        setHasFocusWithin(false);
-      }
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen]);
-
-  return (
-    <div
-      ref={rootRef}
-      className="relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setHasFocusWithin(true)}
-      onBlur={(event) => {
-        const nextFocusedElement = event.relatedTarget;
-
-        if (
-          !(nextFocusedElement instanceof Node) ||
-          !event.currentTarget.contains(nextFocusedElement)
-        ) {
-          setHasFocusWithin(false);
-        }
-      }}
-    >
-      <DocumentDetailToolButton
-        aria-controls={popoverId}
-        aria-expanded={isOpen}
-        aria-label="Content warning"
-        className={cn(
-          TOP_BAR_ICON_BUTTON_CLASS,
-          "text-vermilion-500 data-hovered:bg-vermilion-500/10 data-focus-visible:ring-vermilion-500",
-          isOpen && "bg-vermilion-500/10",
-        )}
-        icon={<IconDocumentFrameAlert className="h-s16 w-s16" />}
-        onPress={() => setIsPinned((current) => !current)}
-      />
-
-      {isOpen && (
-        <div
-          id={popoverId}
-          role="dialog"
-          aria-labelledby={titleId}
-          className="absolute left-0 top-[calc(100%+var(--s8))] z-30 w-[min(380px,calc(100vw-var(--s32)))] border border-vermilion-500/35 bg-neutral-900 p-s16 font-sans text-vermilion-500 shadow-[0_16px_32px_rgba(0,0,0,0.36)]"
-        >
-          <div className="mb-s8 flex items-center gap-s8">
-            <IconDocumentFrameAlert className="h-s16 w-s16 shrink-0" />
-            <h2 id={titleId} className="text-sm leading-5">
-              Content Warning
-            </h2>
-          </div>
-          <p className="text-xs leading-5">{CONTENT_WARNING_TEXT}</p>
-          <a
-            href="#"
-            className="mt-s12 inline-flex text-xs leading-4 underline underline-offset-2 transition-colors duration-100 ease-out hover:text-vermilion-400 motion-reduce:transition-none"
-          >
-            Read more about problematic content
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function CopyUriButton({
-  uri,
-  label,
-  className,
-}: {
-  uri: string;
-  label: string;
-  className?: string;
-}) {
-  const [hasCopied, setHasCopied] = React.useState(false);
-
-  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
-    const uriToCopy =
-      typeof window === "undefined" || uri.startsWith("http")
-        ? uri
-        : new URL(uri, window.location.href).toString();
-
-    try {
-      await navigator.clipboard.writeText(uriToCopy);
-      setHasCopied(true);
-      window.setTimeout(() => setHasCopied(false), 1600);
-    } catch {
-      setHasCopied(false);
-    }
-  };
-
-  return (
-    <button
-      type="button"
-      aria-label={hasCopied ? "Copied URI" : label}
-      title={hasCopied ? "Copied URI" : label}
-      onClick={handleCopy}
-      className={cn(
-        "inline-flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
-        hasCopied && "text-brand-white",
-        className,
-      )}
-    >
-      <IconCopy className="h-s12 w-s12" />
-    </button>
   );
 }
 
@@ -1268,7 +330,7 @@ function TableOfContentsEntry({
           isSelected && "bg-neutral-700 font-bold hover:bg-neutral-700",
         )}
       >
-        <IconDocument className="mt-px h-s16 w-s16 shrink-0" />
+        <IconEntityDocument className="mt-px h-s16 w-s16 shrink-0" />
         <span className="min-w-0">{title}</span>
       </button>
       {trailingAction && (
@@ -1331,25 +393,16 @@ function TableOfContentsScanCard({
   onSelect: () => void;
 }) {
   return (
-    <div
+    <DocumentDetailReferenceCard
       ref={cardRef}
-      role="button"
-      tabIndex={0}
-      aria-current={isSelected ? "true" : undefined}
-      onClick={onSelect}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          onSelect();
-        }
-      }}
-      className={cn(
-        "group cursor-pointer border-b border-brand-white/20 px-s12 py-s12 transition-colors duration-75 ease-out hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
-        isSelected && "bg-neutral-700 hover:bg-neutral-700",
-      )}
-    >
-      <div className="flex items-center gap-s16">
-        <div className="relative flex h-s80 w-s96 shrink-0 items-center justify-center overflow-hidden">
+      isSelected={isSelected}
+      thumbnail={
+        <button
+          type="button"
+          aria-label={`Select archive scan ${scan.archiveScan}, document scan ${scan.documentScan}`}
+          onClick={onSelect}
+          className="absolute inset-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
           <Image
             src="/images/document-detail-manuscript.png"
             alt=""
@@ -1357,81 +410,83 @@ function TableOfContentsScanCard({
             sizes="96px"
             className="object-contain"
           />
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <div className="flex min-w-0 items-center gap-s6 whitespace-nowrap">
-            <span
-              className={cn(
-                "font-sans text-sm leading-5 text-brand-white",
-                isSelected && "text-brand-white",
-              )}
-            >
-              Scan {scan.archiveScan}
-            </span>
-            <span
-              className={cn(
-                "text-xs leading-4 text-neutral-500",
-                isSelected && "text-brand-white/45",
-              )}
-            >
-              |
-            </span>
-            <span
-              className={cn(
-                "text-xs leading-4 text-neutral-400",
-                isSelected && "text-brand-white/60",
-              )}
-            >
-              Scan {scan.documentScan}
-            </span>
-            <CopyUriButton
-              uri={getScanUri(scan.archiveScan)}
-              label={`Copy archive scan ${scan.archiveScan} URI`}
-              className={cn(
-                "h-s20 w-s20 shrink-0",
-                isSelected &&
-                  "text-brand-white/55 hover:bg-brand-white/8 hover:text-brand-white",
-              )}
-            />
-          </div>
-
-          {snippet && (
-            <div
-              className={cn(
-                "mt-s4 bg-neutral-700 px-s8 py-s4",
-                isSelected && "bg-neutral-600",
-              )}
-            >
-              <div
-                className={cn(
-                  "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold [&_strong]:text-parchment-500",
-                  isSelected && "text-brand-white/80",
-                )}
-              >
-                {snippet}
-              </div>
-            </div>
-          )}
-
-          <a
-            href={getNaIdentifierUrl(scan.id)}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(event) => event.stopPropagation()}
+        </button>
+      }
+      heading={
+        <button
+          type="button"
+          aria-label={`Select archive scan ${scan.archiveScan}, document scan ${scan.documentScan}`}
+          onClick={onSelect}
+          className="inline-flex min-w-0 items-center gap-s6 text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
+          <span className="font-sans text-sm leading-5 text-brand-white">
+            Scan {scan.archiveScan}
+          </span>
+          <span
             className={cn(
-              "mt-s4 inline-flex max-w-full items-center gap-s4 font-sans text-xs leading-4 text-neutral-400 underline-offset-2 hover:text-brand-white hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-              isSelected && "text-brand-white/55 hover:text-brand-white",
+              "text-xs leading-4 text-neutral-500",
+              isSelected && "text-brand-white/45",
             )}
           >
-            <span className="min-w-0 truncate">
-              NA Identifier: {getShortNaIdentifier(scan.id)}
+            |
+          </span>
+          <span
+            className={cn(
+              "text-xs leading-4 text-neutral-400",
+              isSelected && "text-brand-white/60",
+            )}
+          >
+            Scan {scan.documentScan}
+          </span>
+        </button>
+      }
+      actions={
+        <CopyUriButton
+          uri={getScanUri(scan.archiveScan)}
+          label={`Copy archive scan ${scan.archiveScan} URI`}
+          className={cn(
+            "h-s20 w-s20 shrink-0",
+            isSelected &&
+              "text-brand-white/55 hover:bg-brand-white/8 hover:text-brand-white",
+          )}
+        />
+      }
+      snippet={
+        snippet ? (
+          <button
+            type="button"
+            aria-label={`Select archive scan ${scan.archiveScan}`}
+            onClick={onSelect}
+            className="block w-full text-left focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          >
+            <span
+              className={cn(
+                "line-clamp-2 font-serif text-xs italic leading-4 text-neutral-200 [&_strong]:font-semibold [&_strong]:text-parchment-500",
+                isSelected && "text-brand-white/80",
+              )}
+            >
+              {snippet}
             </span>
-            <IconExternalLink className="h-s12 w-s12 shrink-0" />
-          </a>
-        </div>
-      </div>
-    </div>
+          </button>
+        ) : undefined
+      }
+      meta={
+        <a
+          href={getNaIdentifierUrl(scan.id)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            "inline-flex max-w-full items-center gap-s4 font-sans text-xs leading-4 text-neutral-400 underline-offset-2 hover:text-brand-white hover:underline focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+            isSelected && "text-brand-white/55 hover:text-brand-white",
+          )}
+        >
+          <span className="min-w-0 truncate">
+            NA Identifier: {getShortNaIdentifier(scan.id)}
+          </span>
+          <IconExternalLink className="h-s12 w-s12 shrink-0" />
+        </a>
+      }
+    />
   );
 }
 
@@ -1569,42 +624,42 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <label className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/75 motion-reduce:transition-none">
-          <input
-            type="checkbox"
-            checked={searchHitsOnly}
-            onChange={(event) => setSearchHitsOnly(event.target.checked)}
-            className="peer sr-only"
-          />
-          <span className="h-s12 w-s12 shrink-0 bg-neutral-700 peer-checked:bg-brand-white peer-checked:shadow-[inset_0_0_0_2px_var(--neutral-800)]" />
-          <span>Search hits</span>
-        </label>
+        <DocumentDetailCheckbox
+          isSelected={searchHitsOnly}
+          onChange={setSearchHitsOnly}
+        >
+          Search hits
+        </DocumentDetailCheckbox>
 
         <div className="flex shrink-0 items-center gap-s12">
           <span className="text-[10px] leading-3 text-brand-white/45">
             Jump
           </span>
           <div className="flex items-center gap-s12">
-            <button
-              type="button"
-              aria-label="Jump to selected document"
-              title="Jump to selected document"
-              onClick={scrollToSelectedDocument}
-              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
+            <DocumentDetailTooltip label="Jump to selected document">
+              <button
+                type="button"
+                aria-label="Jump to selected document"
+                onClick={scrollToSelectedDocument}
+                className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
+              >
+                <IconEntityDocument className="h-s12 w-s12" />
+                Doc
+              </button>
+            </DocumentDetailTooltip>
+            <DocumentDetailTooltip
+              label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
             >
-              <IconDocument className="h-s12 w-s12" />
-              Doc
-            </button>
-            <button
-              type="button"
-              aria-label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
-              title={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
-              onClick={scrollToActiveScan}
-              className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
-            >
-              <IconScan className="h-s12 w-s12" />
-              {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
-            </button>
+              <button
+                type="button"
+                aria-label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
+                onClick={scrollToActiveScan}
+                className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
+              >
+                <IconScan className="h-s12 w-s12" />
+                {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
+              </button>
+            </DocumentDetailTooltip>
           </div>
         </div>
       </div>
@@ -1797,7 +852,7 @@ function IdentifiedPanel({
             </h3>
             <span className="text-sm leading-5 text-brand-white/45">19096</span>
           </div>
-          <IconChevronDown className="h-s16 w-s16 rotate-180 text-brand-white" />
+          <IconExpandSection className="h-s16 w-s16 rotate-180 text-brand-white" />
         </div>
 
         <div className="flex flex-col gap-s4">
@@ -1828,7 +883,7 @@ function IdentifiedPanel({
                     className="flex h-s24 w-s24 shrink-0 items-center justify-center text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
                     onClick={() => toggleClassifiedCategory(group.category)}
                   >
-                    <IconChevronDown
+                    <IconExpandSection
                       className={cn(
                         "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
                         expandedClassifiedCategories.has(group.category) &&
@@ -1874,13 +929,14 @@ function IdentifiedPanel({
             </h3>
             <span className="text-sm leading-5 text-brand-white/45">18191</span>
           </div>
-          <IconChevronDown className="h-s16 w-s16 rotate-180 text-brand-white" />
+          <IconExpandSection className="h-s16 w-s16 rotate-180 text-brand-white" />
         </div>
 
         <div className="mb-s12 flex flex-col gap-s8">
           <label className="flex h-s28 items-center gap-s8 border border-brand-white/10 bg-neutral-800 px-s8 text-xs leading-4 text-brand-white">
             <IconSearch className="h-s12 w-s12 shrink-0 text-brand-white/55" />
             <input
+              aria-label="Search entities"
               value={entityQuery}
               onChange={(event) => setEntityQuery(event.target.value)}
               placeholder="Search entities"
@@ -1893,80 +949,78 @@ function IdentifiedPanel({
             onClick={(event) => event.stopPropagation()}
             onPointerDown={(event) => event.stopPropagation()}
           >
-            <div
-              className={SEGMENTED_SURFACE_COMPACT_CLASS}
-              role="group"
+            <DocumentDetailSegmentedToggleGroup
+              size="compact"
               aria-label="Entity sort controls"
+              selectionMode="single"
+              disallowEmptySelection
+              selectedKeys={new Set([entitySort])}
+              onSelectionChange={(keys) => {
+                const [nextSort] = Array.from(keys);
+
+                if (
+                  nextSort === "sequential" ||
+                  nextSort === "alphabet" ||
+                  nextSort === "amount"
+                ) {
+                  setEntitySort(nextSort);
+                }
+              }}
             >
               {[
                 ["sequential", "Sequential"],
                 ["alphabet", "Alphabet"],
                 ["amount", "Amount"],
               ].map(([value, label]) => (
-                <button
+                <DocumentDetailSegmentedToggleItem
                   key={value}
-                  type="button"
-                  className={cn(
-                    SEGMENTED_BUTTON_COMPACT_CLASS,
-                    "min-w-0 px-s8 text-[10px] leading-3",
-                    entitySort === value
-                      ? SEGMENTED_BUTTON_ACTIVE_CLASS
-                      : SEGMENTED_BUTTON_INACTIVE_CLASS,
-                  )}
-                  onClick={() =>
-                    setEntitySort(value as "sequential" | "alphabet" | "amount")
-                  }
+                  id={value}
+                  size="compact"
+                  className="min-w-0 px-s8 text-[10px] leading-3"
                 >
                   {label}
-                </button>
+                </DocumentDetailSegmentedToggleItem>
               ))}
-            </div>
+            </DocumentDetailSegmentedToggleGroup>
 
             <div className="flex items-center gap-s8">
-              <button
-                type="button"
-                role="checkbox"
-                aria-checked={isTypeGroupingEnabled}
-                className="inline-flex h-s28 min-w-0 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
-                onClick={() => setIsTypeGroupingEnabled((current) => !current)}
+              <DocumentDetailCheckbox
+                isSelected={isTypeGroupingEnabled}
+                onChange={setIsTypeGroupingEnabled}
               >
-                <span
-                  className={cn(
-                    "h-s12 w-s12 shrink-0 bg-neutral-700",
-                    isTypeGroupingEnabled &&
-                      "bg-brand-white shadow-[inset_0_0_0_2px_var(--neutral-800)]",
-                  )}
-                />
-                <span>Type</span>
-              </button>
-              <button
-                type="button"
-                aria-label={
-                  entitySortDirection === "ascending"
-                    ? "Sort last to first"
-                    : "Sort first to last"
-                }
-                title={
+                Type
+              </DocumentDetailCheckbox>
+              <DocumentDetailTooltip
+                label={
                   entitySortDirection === "ascending"
                     ? "First to last"
                     : "Last to first"
                 }
-                className="flex h-s28 w-s28 items-center justify-center text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
-                onClick={() =>
-                  setEntitySortDirection((current) =>
-                    current === "ascending" ? "descending" : "ascending",
-                  )
-                }
               >
-                <IconSwap
-                  className={cn(
-                    "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
+                <button
+                  type="button"
+                  aria-label={
                     entitySortDirection === "ascending"
-                      ? "rotate-90"
-                      : "-rotate-90",
-                  )}
-                />
-              </button>
+                      ? "Sort last to first"
+                      : "Sort first to last"
+                  }
+                  className="flex h-s28 w-s28 items-center justify-center text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
+                  onClick={() =>
+                    setEntitySortDirection((current) =>
+                      current === "ascending" ? "descending" : "ascending",
+                    )
+                  }
+                >
+                  <IconSwap
+                    className={cn(
+                      "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
+                      entitySortDirection === "ascending"
+                        ? "rotate-90"
+                        : "-rotate-90",
+                    )}
+                  />
+                </button>
+              </DocumentDetailTooltip>
             </div>
           </div>
         </div>
@@ -2060,338 +1114,6 @@ function ExpandedMetadataSidebar({
   );
 }
 
-function IconButton({
-  label,
-  children,
-  className,
-}: {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className={cn(
-        "flex h-9 w-7 items-center justify-center text-brand-white",
-        className,
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-function NumericJumpField({
-  value,
-  onChange,
-  ariaLabel,
-  max,
-}: {
-  value: number;
-  onChange: (nextValue: number) => void;
-  ariaLabel: string;
-  max: number;
-}) {
-  const [draftValue, setDraftValue] = React.useState(String(value));
-
-  const commitValue = React.useCallback(() => {
-    const parsedValue = Number.parseInt(draftValue, 10);
-    const nextValue = Number.isNaN(parsedValue)
-      ? value
-      : Math.min(Math.max(parsedValue, 1), max);
-
-    onChange(nextValue);
-    setDraftValue(String(nextValue));
-  }, [draftValue, max, onChange, value]);
-
-  React.useEffect(() => {
-    setDraftValue(String(value));
-  }, [value]);
-
-  return (
-    <input
-      type="number"
-      min={1}
-      max={max}
-      value={draftValue}
-      aria-label={ariaLabel}
-      onChange={(event) => {
-        setDraftValue(event.target.value.replace(/\D/g, ""));
-      }}
-      onBlur={commitValue}
-      onFocus={(event) => event.currentTarget.select()}
-      onKeyDown={(event) => {
-        if (event.key === "Enter") {
-          event.currentTarget.blur();
-        }
-
-        if (event.key === "Escape") {
-          setDraftValue(String(value));
-          event.currentTarget.blur();
-        }
-      }}
-      className={EDITABLE_NUMBER_INPUT_CLASS}
-      style={{ width: `${String(max).length + 0.5}ch` }}
-    />
-  );
-}
-
-function ZoomPercentageField({
-  value,
-  onChange,
-  ariaLabel,
-  min = 25,
-  max = 400,
-}: {
-  value: number;
-  onChange: (nextValue: number) => void;
-  ariaLabel: string;
-  min?: number;
-  max?: number;
-}) {
-  const [draftValue, setDraftValue] = React.useState(String(value));
-
-  const commitValue = React.useCallback(() => {
-    const parsedValue = Number.parseInt(draftValue, 10);
-    const nextValue = Number.isNaN(parsedValue)
-      ? value
-      : Math.min(Math.max(parsedValue, min), max);
-
-    onChange(nextValue);
-    setDraftValue(String(nextValue));
-  }, [draftValue, max, min, onChange, value]);
-
-  React.useEffect(() => {
-    setDraftValue(String(value));
-  }, [value]);
-
-  return (
-    <span className="inline-flex h-s16 w-full items-baseline justify-center leading-4">
-      <input
-        type="number"
-        min={min}
-        max={max}
-        value={draftValue}
-        aria-label={ariaLabel}
-        onChange={(event) => {
-          setDraftValue(event.target.value.replace(/\D/g, ""));
-        }}
-        onBlur={commitValue}
-        onFocus={(event) => event.currentTarget.select()}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            event.currentTarget.blur();
-          }
-
-          if (event.key === "Escape") {
-            setDraftValue(String(value));
-            event.currentTarget.blur();
-          }
-        }}
-        className={cn(EDITABLE_NUMBER_INPUT_CLASS, "mx-0")}
-        style={{ width: `${String(max).length + 1}ch` }}
-      />
-      <span className="ml-px text-xs leading-4 text-parchment-500">%</span>
-    </span>
-  );
-}
-
-function ViewerZoomControl({
-  value,
-  onChange,
-  label,
-}: {
-  value: number;
-  onChange: (nextValue: number) => void;
-  label: string;
-}) {
-  const minZoom = 25;
-  const maxZoom = 400;
-  const step = 10;
-
-  const changeZoom = React.useCallback(
-    (delta: number) => {
-      onChange(Math.min(Math.max(value + delta, minZoom), maxZoom));
-    },
-    [onChange, value],
-  );
-
-  return (
-    <div
-      className={cn(SEGMENTED_SURFACE_COMPACT_CLASS, "text-brand-white")}
-      role="group"
-      aria-label={`${label} zoom controls`}
-    >
-      <button
-        type="button"
-        aria-label={`${label} zoom out`}
-        className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
-        onClick={() => changeZoom(-step)}
-      >
-        <IconZoomOut className="h-s16 w-s16" />
-      </button>
-      <div className="flex h-s28 w-s56 items-center justify-center px-s4">
-        <ZoomPercentageField
-          ariaLabel={`${label} zoom percentage`}
-          value={value}
-          onChange={onChange}
-          min={minZoom}
-          max={maxZoom}
-        />
-      </div>
-      <button
-        type="button"
-        aria-label={`${label} zoom in`}
-        className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
-        onClick={() => changeZoom(step)}
-      >
-        <IconZoomIn className="h-s16 w-s16" />
-      </button>
-    </div>
-  );
-}
-
-function ManuscriptCanvas() {
-  const [scanZoom, setScanZoom] = React.useState(100);
-
-  return (
-    <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
-      <DocumentDetailFloatingToolbar className={FLOATING_TOOLBAR_REVEAL_CLASS}>
-        <ViewerZoomControl
-          label="Scan"
-          value={scanZoom}
-          onChange={setScanZoom}
-        />
-        <DocumentDetailToolButton
-          aria-label="Rotate scan"
-          className="min-w-s28 px-s4"
-          icon={<IconRotate className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Adjust scan brightness"
-          className="min-w-s28 px-s4"
-          icon={<IconBrightness className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Reset scan position"
-          className="min-w-s28 px-s4"
-          icon={<IconWifiHome className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Tune scan"
-          className="min-w-s28 px-s4"
-          icon={<IconTune className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Download scan"
-          className="min-w-s28 px-s4"
-          icon={<IconDownloadTray className="h-s16 w-s16" />}
-        />
-      </DocumentDetailFloatingToolbar>
-
-      <div
-        className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-100 ease-out motion-reduce:transition-none"
-        style={{
-          transform: `scale(${scanZoom / 100})`,
-          transformOrigin: "center center",
-        }}
-      >
-        <Image
-          src="/images/document-detail-manuscript.png"
-          alt="Manuscript scan preview"
-          fill
-          className="object-contain"
-          sizes="(min-width: 1280px) 44vw, 80vw"
-        />
-      </div>
-    </DocumentDetailCanvas>
-  );
-}
-
-function TranscriptCanvas() {
-  const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
-  const [transcriptZoom, setTranscriptZoom] = React.useState(100);
-
-  return (
-    <DocumentDetailTranscriptCanvas>
-      <DocumentDetailFloatingToolbar
-        className={cn(
-          "left-auto right-s24 gap-s4 px-s4",
-          FLOATING_TOOLBAR_REVEAL_CLASS,
-        )}
-      >
-        <div
-          className={SEGMENTED_SURFACE_COMPACT_CLASS}
-          role="group"
-          aria-label="Transcript mode controls"
-        >
-          <button
-            type="button"
-            aria-label="Show normalized transcription"
-            className={cn(
-              SEGMENTED_BUTTON_COMPACT_CLASS,
-              transcriptMode === "n"
-                ? SEGMENTED_BUTTON_ACTIVE_CLASS
-                : SEGMENTED_BUTTON_INACTIVE_CLASS,
-            )}
-            onClick={() => setTranscriptMode("n")}
-          >
-            N
-          </button>
-          <button
-            type="button"
-            aria-label="Show diplomatic transcription"
-            className={cn(
-              SEGMENTED_BUTTON_COMPACT_CLASS,
-              transcriptMode === "d"
-                ? SEGMENTED_BUTTON_ACTIVE_CLASS
-                : SEGMENTED_BUTTON_INACTIVE_CLASS,
-            )}
-            onClick={() => setTranscriptMode("d")}
-          >
-            D
-          </button>
-        </div>
-        <ViewerZoomControl
-          label="Transcript"
-          value={transcriptZoom}
-          onChange={setTranscriptZoom}
-        />
-        <DocumentDetailToolButton
-          aria-label="Reset transcript position"
-          className="min-w-s28 px-s4"
-          icon={<IconWifiHome className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Tune transcript"
-          className="min-w-s28 px-s4"
-          icon={<IconTune className="h-s16 w-s16" />}
-        />
-        <DocumentDetailToolButton
-          aria-label="Download transcript"
-          className="min-w-s28 px-s4"
-          icon={<IconDownloadTray className="h-s16 w-s16" />}
-        />
-      </DocumentDetailFloatingToolbar>
-
-      <div
-        className="mx-auto flex max-w-114 origin-top flex-col gap-s4 pt-s24 transition-transform duration-100 ease-out motion-reduce:transition-none"
-        style={{ transform: `scale(${transcriptZoom / 100})` }}
-      >
-        {TRANSCRIPT_LINE_WIDTHS.map((width, index) => (
-          <DocumentDetailTranscriptLine
-            key={`${index}-${width}`}
-            index={index + 1}
-            width={width}
-          />
-        ))}
-      </div>
-    </DocumentDetailTranscriptCanvas>
-  );
-}
-
 export function DocumentDetailViewerOverlayDemo() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
@@ -2447,26 +1169,6 @@ export function DocumentDetailViewerOverlayDemo() {
       selectViewerScan,
     ],
   );
-
-  const toggleScanViewer = React.useCallback(() => {
-    setIsScanVisible((current) => {
-      if (current && !isTextVisible) {
-        return current;
-      }
-
-      return !current;
-    });
-  }, [isTextVisible]);
-
-  const toggleTextViewer = React.useCallback(() => {
-    setIsTextVisible((current) => {
-      if (current && !isScanVisible) {
-        return current;
-      }
-
-      return !current;
-    });
-  }, [isScanVisible]);
 
   const toggleSidebarSection = React.useCallback((sectionId: string) => {
     setExpandedSections((current) => {
@@ -2627,7 +1329,7 @@ export function DocumentDetailViewerOverlayDemo() {
           ].join(" ")}
         >
           <DocumentDetailBarGroup className="gap-s8">
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-controls="document-detail-sidebar"
               aria-expanded={isSidebarExpanded}
               aria-label={
@@ -2635,94 +1337,113 @@ export function DocumentDetailViewerOverlayDemo() {
                   ? "Collapse metadata sidebar"
                   : "Expand metadata sidebar"
               }
+              tooltip={
+                isSidebarExpanded
+                  ? "Collapse metadata sidebar"
+                  : "Expand metadata sidebar"
+              }
               isActive={isSidebarExpanded}
               className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconViewModeGrid className="h-s16 w-s16" />}
+              icon={<IconSidebar className="h-s16 w-s16" />}
               onPress={() => setIsSidebarExpanded((current) => !current)}
             />
             <ContentWarningTopBarControl />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <div
-              className={SEGMENTED_SURFACE_REGULAR_CLASS}
-              role="group"
+            <DocumentDetailSegmentedToggleGroup
               aria-label="Primary viewer mode controls"
+              selectionMode="multiple"
+              selectedKeys={
+                new Set([
+                  ...(isScanVisible ? ["scan"] : []),
+                  ...(isTextVisible ? ["text"] : []),
+                ])
+              }
+              onSelectionChange={(keys) => {
+                const nextKeys = new Set(Array.from(keys).map(String));
+
+                if (nextKeys.size === 0) {
+                  return;
+                }
+
+                setIsScanVisible(nextKeys.has("scan"));
+                setIsTextVisible(nextKeys.has("text"));
+              }}
             >
-              <button
-                type="button"
-                aria-pressed={isScanVisible}
-                className={cn(
-                  SEGMENTED_BUTTON_REGULAR_CLASS,
-                  isScanVisible
-                    ? SEGMENTED_BUTTON_ACTIVE_CLASS
-                    : SEGMENTED_BUTTON_INACTIVE_CLASS,
-                )}
-                onClick={toggleScanViewer}
+              <DocumentDetailTooltip
+                label={isScanVisible ? "Hide scan viewer" : "Show scan viewer"}
               >
-                <IconScan className="h-4.5 w-4.5" />
-                <span>Scan</span>
-              </button>
-              <button
-                type="button"
-                aria-pressed={isTextVisible}
-                className={cn(
-                  SEGMENTED_BUTTON_REGULAR_CLASS,
-                  isTextVisible
-                    ? SEGMENTED_BUTTON_ACTIVE_CLASS
-                    : SEGMENTED_BUTTON_INACTIVE_CLASS,
-                )}
-                onClick={toggleTextViewer}
+                <DocumentDetailSegmentedToggleItem
+                  id="scan"
+                  icon={<IconScan className="h-4.5 w-4.5" />}
+                >
+                  Scan
+                </DocumentDetailSegmentedToggleItem>
+              </DocumentDetailTooltip>
+              <DocumentDetailTooltip
+                label={isTextVisible ? "Hide text viewer" : "Show text viewer"}
               >
-                <IconTranscription className="h-4.5 w-4.5" />
-                <span>Text</span>
-              </button>
-            </div>
+                <DocumentDetailSegmentedToggleItem
+                  id="text"
+                  icon={<IconTranscription className="h-4.5 w-4.5" />}
+                >
+                  Text
+                </DocumentDetailSegmentedToggleItem>
+              </DocumentDetailTooltip>
+            </DocumentDetailSegmentedToggleGroup>
           </DocumentDetailBarGroup>
 
           <div className="flex-1" />
 
           <DocumentDetailBarGroup className="gap-s8">
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Swap panes"
+              tooltip="Swap scan and text panes"
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconSwap className="h-s16 w-s16" />}
             />
-            <DocumentDetailToolButton
-              aria-label="Picture in picture"
-              isDisabled
+            <TooltipIconButton
+              aria-disabled="true"
+              aria-label="Picture in picture unavailable"
+              tooltip="Picture in picture is unavailable in this view"
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
                 "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
               )}
               icon={<IconPictureInPicture className="h-s16 w-s16" />}
             />
-            <DocumentDetailToolButton
-              aria-label="Open document"
-              isDisabled
+            <TooltipIconButton
+              aria-disabled="true"
+              aria-label="Open document unavailable"
+              tooltip="Open document is unavailable in this view"
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
                 "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
               )}
-              icon={<IconImportContacts className="h-s16 w-s16" />}
+              icon={<IconPairedPage className="h-s16 w-s16" />}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Object tracking"
+              tooltip="Show object and entity tracking"
               className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconViewObjectTrack className="h-s16 w-s16" />}
+              icon={<IconEntities className="h-s16 w-s16" />}
             />
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Date metadata"
+              tooltip="Show date metadata"
               className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconCalendarClock className="h-s16 w-s16" />}
+              icon={<IconEvents className="h-s16 w-s16" />}
             />
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Settings"
+              tooltip="Open viewer settings"
               className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconDashboardGear className="h-s16 w-s16" />}
+              icon={<IconLayoutElements className="h-s16 w-s16" />}
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Close document detail viewer"
+              tooltip="Close viewer"
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconClose className="h-s16 w-s16" />}
               onPress={() => setIsOpen(false)}

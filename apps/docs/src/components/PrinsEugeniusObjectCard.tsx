@@ -2,10 +2,10 @@
 
 import {
   EntityBadge,
-  IconAdd,
+  IconShowMore,
   IconCopy,
   IconDownload,
-  IconShip,
+  IconEntityShip,
   ObjectCard,
   ObjectCardAction,
   ObjectCardBody,
@@ -186,7 +186,7 @@ export function PrinsEugeniusObjectCard({
   return (
     <ObjectCard className={className}>
       <ObjectCardHeader onClose={onClose}>
-        <EntityBadge type="ship" icon={<IconShip className="h-s12 w-s12" />}>
+        <EntityBadge type="ship" icon={<IconEntityShip className="h-s12 w-s12" />}>
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
@@ -233,7 +233,7 @@ export function PrinsEugeniusObjectCard({
 
           <ObjectCardAction
             variant="more"
-            icon={<IconAdd className="h-s12 w-s12" />}
+            icon={<IconShowMore className="h-s12 w-s12" />}
             onPress={() => setShowAllVoyages((isShowingAll) => !isShowingAll)}
           >
             {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}

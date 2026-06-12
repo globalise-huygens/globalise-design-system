@@ -121,16 +121,22 @@ export {
   DocumentDetailBody,
   DocumentDetailBottomBar,
   DocumentDetailCanvas,
+  DocumentDetailCheckbox,
   DocumentDetailControl,
   DocumentDetailFloatingToolbar,
   DocumentDetailIconRail,
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
+  DocumentDetailNumberField,
   DocumentDetailOverlay,
   DocumentDetailPanelHeader,
+  DocumentDetailPopoverSurface,
   DocumentDetailRailButton,
+  DocumentDetailReferenceCard,
   DocumentDetailSegment,
+  DocumentDetailSegmentedToggleGroup,
+  DocumentDetailSegmentedToggleItem,
   DocumentDetailSegmentedControl,
   DocumentDetailSidePanel,
   DocumentDetailSplitViewer,
@@ -138,6 +144,7 @@ export {
   DocumentDetailToolbar,
   DocumentDetailToolButton,
   DocumentDetailTopBar,
+  DocumentDetailTooltip,
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewer,
@@ -148,16 +155,22 @@ export type {
   DocumentDetailBodyProps,
   DocumentDetailBottomBarProps,
   DocumentDetailCanvasProps,
+  DocumentDetailCheckboxProps,
   DocumentDetailControlProps,
   DocumentDetailFloatingToolbarProps,
   DocumentDetailIconRailProps,
   DocumentDetailMetadataSidebarBadgeProps,
   DocumentDetailMetadataSidebarButtonProps,
   DocumentDetailMetadataSidebarProps,
+  DocumentDetailNumberFieldProps,
   DocumentDetailOverlayProps,
   DocumentDetailPanelHeaderProps,
+  DocumentDetailPopoverSurfaceProps,
   DocumentDetailRailButtonProps,
+  DocumentDetailReferenceCardProps,
   DocumentDetailSegmentedControlProps,
+  DocumentDetailSegmentedToggleGroupProps,
+  DocumentDetailSegmentedToggleItemProps,
   DocumentDetailSegmentProps,
   DocumentDetailSidePanelProps,
   DocumentDetailSplitViewerProps,
@@ -165,6 +178,7 @@ export type {
   DocumentDetailToolbarProps,
   DocumentDetailToolButtonProps,
   DocumentDetailTopBarProps,
+  DocumentDetailTooltipProps,
   DocumentDetailTranscriptCanvasProps,
   DocumentDetailTranscriptLineProps,
   DocumentDetailViewerPaneProps,
@@ -178,58 +192,47 @@ export { ArticleRow } from "./components/ui/ArticleRow";
 export type { ArticleRowProps } from "./components/ui/ArticleRow";
 
 // Icons
-export { IconAdd } from "./components/icons/IconAdd";
 export { IconArrowLeftAlt } from "./components/icons/IconArrowLeftAlt";
 export { IconArrowRight } from "./components/icons/IconArrowRight";
+export { IconArrowTopRight } from "./components/icons/IconArrowTopRight";
 export { IconBrightness } from "./components/icons/IconBrightness";
-export { IconCalendarClock } from "./components/icons/IconCalendarClock";
-export { IconCalendarClockLarge } from "./components/icons/IconCalendarClockLarge";
-export { IconChevronDown } from "./components/icons/IconChevronDown";
 export { IconClose } from "./components/icons/IconClose";
+export { IconContentWarning } from "./components/icons/IconContentWarning";
 export { IconCopy } from "./components/icons/IconCopy";
-export { IconDashboardGear } from "./components/icons/IconDashboardGear";
-export { IconDocumentFrameAlert } from "./components/icons/IconDocumentFrameAlert";
 export { IconDownload } from "./components/icons/IconDownload";
-export { IconDownloadTray } from "./components/icons/IconDownloadTray";
+export { IconEntities } from "./components/icons/IconEntities";
+export { IconEntityCommodity } from "./components/icons/IconEntityCommodity";
+export { IconEntityDate } from "./components/icons/IconEntityDate";
+export { IconEntityDimensions } from "./components/icons/IconEntityDimensions";
+export { IconEntityDocument } from "./components/icons/IconEntityDocument";
+export { IconEntityOrganisation } from "./components/icons/IconEntityOrganisation";
+export { IconEntityPerson } from "./components/icons/IconEntityPerson";
+export { IconEntityPlace } from "./components/icons/IconEntityPlace";
+export { IconEntityShip } from "./components/icons/IconEntityShip";
+export { IconEvents } from "./components/icons/IconEvents";
+export { IconExpandSection } from "./components/icons/IconExpandSection";
 export { IconExternalLink } from "./components/icons/IconExternalLink";
-export { IconFolderCopy } from "./components/icons/IconFolderCopy";
-export { IconFontSizing } from "./components/icons/IconFontSizing";
-export { IconImportContacts } from "./components/icons/IconImportContacts";
+export { IconInventory } from "./components/icons/IconInventory";
+export { IconLayoutElements } from "./components/icons/IconLayoutElements";
 export { IconLeft } from "./components/icons/IconLeft";
 export { IconLeftFirst } from "./components/icons/IconLeftFirst";
-export { IconList } from "./components/icons/IconList";
 export { IconMenu } from "./components/icons/IconMenu";
+export { IconPairedPage } from "./components/icons/IconPairedPage";
 export { IconPictureInPicture } from "./components/icons/IconPictureInPicture";
+export { IconReset } from "./components/icons/IconReset";
 export { IconRight } from "./components/icons/IconRight";
 export { IconRightLast } from "./components/icons/IconRightLast";
 export { IconRotate } from "./components/icons/IconRotate";
 export { IconScan } from "./components/icons/IconScan";
 export { IconSearch } from "./components/icons/IconSearch";
-export { IconSearchMinus } from "./components/icons/IconSearchMinus";
-export { IconSearchPlus } from "./components/icons/IconSearchPlus";
-export { IconShip } from "./components/icons/IconShip";
+export { IconSetting } from "./components/icons/IconSetting";
+export { IconShowMore } from "./components/icons/IconShowMore";
+export { IconSidebar } from "./components/icons/IconSidebar";
 export { IconSwap } from "./components/icons/IconSwap";
+export { IconTableOfContent } from "./components/icons/IconTableOfContent";
 export { IconTranscription } from "./components/icons/IconTranscription";
-export { IconTune } from "./components/icons/IconTune";
-export { IconViewModeGrid } from "./components/icons/IconViewModeGrid";
-export { IconViewObjectTrack } from "./components/icons/IconViewObjectTrack";
-export { IconViewObjectTrackLarge } from "./components/icons/IconViewObjectTrackLarge";
-export { IconWifiHome } from "./components/icons/IconWifiHome";
 export { IconZoomIn } from "./components/icons/IconZoomIn";
 export { IconZoomOut } from "./components/icons/IconZoomOut";
-export { IconPerson } from "./components/icons/IconPerson";
-export { IconPlace } from "./components/icons/IconPlace";
-export { IconCommodity } from "./components/icons/IconCommodity";
-export { IconDimensions } from "./components/icons/IconDimensions";
-export { IconOrganisation } from "./components/icons/IconOrganisation";
-export { IconDate } from "./components/icons/IconDate";
-export { IconDocument } from "./components/icons/IconDocument";
-export { IconDashboard2Gear } from "./components/icons/IconDashboard2Gear";
-export { IconPictureInPictureAlt } from "./components/icons/IconPictureInPictureAlt";
-export { IconImage } from "./components/icons/IconImage";
-export { IconFrameExclamation } from "./components/icons/IconFrameExclamation";
-export { IconSidebar } from "./components/icons/IconSidebar";
-export { IconSwapArrow } from "./components/icons/IconSwapArrow";
 
 // Logos
 export { LogoLockup } from "./components/logo/LogoLockup";

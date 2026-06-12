@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-export function IconDocumentFrameAlert(props: SVGProps<SVGSVGElement>) {
+export function IconContentWarning(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

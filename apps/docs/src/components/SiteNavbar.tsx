@@ -27,7 +27,7 @@ export function SiteNavbar() {
             <NavSearchBar placeholder="Search the archive" />
             <NavLinks>
               <NavLink href="/docs/getting-started">Docs</NavLink>
-              <NavLink href="/docs/components/button">Components</NavLink>
+              <NavLink href="/docs/components">Components</NavLink>
               <NavLink href="/docs/tokens">Tokens</NavLink>
               <NavLink href="/example">Example</NavLink>
             </NavLinks>

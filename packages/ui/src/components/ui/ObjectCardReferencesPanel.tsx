@@ -1,6 +1,6 @@
 "use client";
 
-import { IconArrowRight } from "@/components/icons/IconArrowRight";
+import { IconArrowTopRight } from "@/components/icons/IconArrowTopRight";
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import {
@@ -61,7 +61,7 @@ function ObjectCardReferenceItem({
             aria-label={`Open ${title}`}
             className="shrink-0 text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
           >
-            <IconArrowRight className="h-s12 w-s12" />
+            <IconArrowTopRight className="h-s12 w-s12" />
           </AriaLink>
         )}
       </div>

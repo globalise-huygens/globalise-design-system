@@ -37,15 +37,14 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   DocumentDetailViewer,
   DocumentDetailViewerPane,
   IconArrowLeftAlt,
-  IconChevronDown,
-  IconDocumentFrameAlert,
-  IconDownloadTray,
-  IconFolderCopy,
-  IconFontSizing,
-  IconList,
+  IconExpandSection,
+  IconContentWarning,
+  IconDownload,
+  IconInventory,
+  IconTableOfContent,
   IconScan,
   IconTranscription,
-  IconTune,
+  IconSetting,
   IconZoomIn,
   IconZoomOut,
 } from "@globalise/design-system";
@@ -61,7 +60,7 @@ A near-full shell overlay for document scan and transcription workflows. It comp
     </DocumentDetailBarGroup>
     <DocumentDetailTitle>NL-HaNA_1.04.02_3365_0215</DocumentDetailTitle>
     <DocumentDetailBarGroup>
-      <DocumentDetailToolButton aria-label="Download" icon={<IconDownloadTray />} />
+      <DocumentDetailToolButton aria-label="Download" icon={<IconDownload />} />
     </DocumentDetailBarGroup>
   </DocumentDetailTopBar>
 
@@ -69,22 +68,22 @@ A near-full shell overlay for document scan and transcription workflows. It comp
     <DocumentDetailMetadataSidebar>
       <DocumentDetailMetadataSidebarButton
         variant="warning"
-        icon={<IconDocumentFrameAlert />}
+        icon={<IconContentWarning />}
         label="Content Warning"
-        trailing={<IconChevronDown />}
+        trailing={<IconExpandSection />}
       />
       <DocumentDetailMetadataSidebarButton
-        icon={<IconFolderCopy />}
+        icon={<IconInventory />}
         label="Archive"
-        trailing={<IconChevronDown />}
+        trailing={<IconExpandSection />}
       >
         <DocumentDetailMetadataSidebarBadge>1664</DocumentDetailMetadataSidebarBadge>
       </DocumentDetailMetadataSidebarButton>
       <DocumentDetailMetadataSidebarButton
-        icon={<IconList />}
+        icon={<IconTableOfContent />}
         label="Table of Contents"
         count="(206)"
-        trailing={<IconChevronDown />}
+        trailing={<IconExpandSection />}
       />
     </DocumentDetailMetadataSidebar>
 
@@ -105,7 +104,7 @@ A near-full shell overlay for document scan and transcription workflows. It comp
                 icon={<IconZoomIn />}
               />
             </DocumentDetailSegmentedControl>
-            <DocumentDetailControl icon={<IconTune />}>Tune</DocumentDetailControl>
+            <DocumentDetailControl icon={<IconSetting />}>Tune</DocumentDetailControl>
           </DocumentDetailFloatingToolbar>
           {/* scan canvas */}
         </DocumentDetailCanvas>
@@ -113,7 +112,7 @@ A near-full shell overlay for document scan and transcription workflows. It comp
       <DocumentDetailViewerPane>
         <DocumentDetailTranscriptCanvas>
           <DocumentDetailFloatingToolbar>
-            <DocumentDetailToolButton icon={<IconFontSizing />}>Text</DocumentDetailToolButton>
+            <DocumentDetailToolButton icon={<IconTranscription />}>Text</DocumentDetailToolButton>
           </DocumentDetailFloatingToolbar>
           <DocumentDetailTranscriptLine index={1} width="72%" />
         </DocumentDetailTranscriptCanvas>

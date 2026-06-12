@@ -16,6 +16,7 @@ const navigation = [
   {
     title: "Components",
     items: [
+      { title: "Overview", href: "/docs/components" },
       { title: "Button", href: "/docs/components/button" },
       { title: "Typography", href: "/docs/components/typography" },
       { title: "Layout Patterns", href: "/docs/components/layout-patterns" },
@@ -43,6 +44,10 @@ const navigation = [
       {
         title: "Document Detail Overlay",
         href: "/docs/components/document-detail-overlay",
+      },
+      {
+        title: "Document Detail Controls",
+        href: "/docs/components/document-detail-controls",
       },
       {
         title: "Newsletter Signup",
