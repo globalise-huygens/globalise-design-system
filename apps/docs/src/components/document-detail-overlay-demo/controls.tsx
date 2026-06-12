@@ -315,16 +315,14 @@ function ViewerZoomControl({
       role="group"
       aria-label={`${label} zoom controls`}
     >
-      <DocumentDetailTooltip label={`Zoom ${label.toLowerCase()} out`}>
-        <button
-          type="button"
-          aria-label={`${label} zoom out`}
-          className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
-          onClick={() => changeZoom(-step)}
-        >
-          <IconZoomOut className="h-s16 w-s16" />
-        </button>
-      </DocumentDetailTooltip>
+      <button
+        type="button"
+        aria-label={`${label} zoom out`}
+        className="flex h-s28 w-s36 items-center justify-center border-r border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
+        onClick={() => changeZoom(-step)}
+      >
+        <IconZoomOut className="h-s16 w-s16" />
+      </button>
       <div className="flex h-s28 w-s56 items-center justify-center px-s4">
         <ZoomPercentageField
           ariaLabel={`${label} zoom percentage`}
@@ -334,16 +332,14 @@ function ViewerZoomControl({
           max={maxZoom}
         />
       </div>
-      <DocumentDetailTooltip label={`Zoom ${label.toLowerCase()} in`}>
-        <button
-          type="button"
-          aria-label={`${label} zoom in`}
-          className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
-          onClick={() => changeZoom(step)}
-        >
-          <IconZoomIn className="h-s16 w-s16" />
-        </button>
-      </DocumentDetailTooltip>
+      <button
+        type="button"
+        aria-label={`${label} zoom in`}
+        className="flex h-s28 w-s36 items-center justify-center border-l border-brand-black/60 text-current transition-colors duration-75 ease-out hover:bg-brand-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-brand-white/60 motion-reduce:transition-none"
+        onClick={() => changeZoom(step)}
+      >
+        <IconZoomIn className="h-s16 w-s16" />
+      </button>
     </div>
   );
 }
@@ -361,31 +357,25 @@ export function ManuscriptCanvas() {
         />
         <TooltipIconButton
           aria-label="Rotate scan"
-          tooltip="Rotate scan"
+          tooltip="Rotate 90˚ clockwise"
           className="min-w-s28 px-s4"
           icon={<IconRotate className="h-s16 w-s16" />}
         />
         <TooltipIconButton
-          aria-label="Adjust scan brightness"
-          tooltip="Adjust scan brightness"
-          className="min-w-s28 px-s4"
-          icon={<IconBrightness className="h-s16 w-s16" />}
-        />
-        <TooltipIconButton
-          aria-label="Reset scan position"
-          tooltip="Reset scan position"
+          aria-label="Reset scan viewer"
+          tooltip="Reset everything"
           className="min-w-s28 px-s4"
           icon={<IconReset className="h-s16 w-s16" />}
         />
         <TooltipIconButton
-          aria-label="Tune scan"
-          tooltip="Tune scan display"
+          aria-label="Change scan settings"
+          tooltip="Change settings"
           className="min-w-s28 px-s4"
           icon={<IconSetting className="h-s16 w-s16" />}
         />
         <TooltipIconButton
           aria-label="Download scan"
-          tooltip="Download scan"
+          tooltip="Download"
           className="min-w-s28 px-s4"
           icon={<IconDownload className="h-s16 w-s16" />}
         />
@@ -436,20 +426,40 @@ export function TranscriptCanvas() {
             }
           }}
         >
-          <DocumentDetailTooltip label="Show normalized transcription">
+          <DocumentDetailTooltip
+            label={
+              transcriptMode === "n"
+                ? "Currently viewing the transcription normalized"
+                : "Switch to showing the transcription normalized"
+            }
+          >
             <DocumentDetailSegmentedToggleItem
               id="n"
               size="compact"
-              aria-label="Show normalized transcription"
+              aria-label={
+                transcriptMode === "n"
+                  ? "Currently viewing the transcription normalized"
+                  : "Switch to showing the transcription normalized"
+              }
             >
               N
             </DocumentDetailSegmentedToggleItem>
           </DocumentDetailTooltip>
-          <DocumentDetailTooltip label="Show diplomatic transcription">
+          <DocumentDetailTooltip
+            label={
+              transcriptMode === "d"
+                ? "Currently viewing the transcription diplomatic"
+                : "Switch to showing the transcription diplomatic"
+            }
+          >
             <DocumentDetailSegmentedToggleItem
               id="d"
               size="compact"
-              aria-label="Show diplomatic transcription"
+              aria-label={
+                transcriptMode === "d"
+                  ? "Currently viewing the transcription diplomatic"
+                  : "Switch to showing the transcription diplomatic"
+              }
             >
               D
             </DocumentDetailSegmentedToggleItem>
@@ -461,20 +471,26 @@ export function TranscriptCanvas() {
           onChange={setTranscriptZoom}
         />
         <TooltipIconButton
-          aria-label="Reset transcript position"
-          tooltip="Reset transcript position"
+          aria-label="Change transcription viewing mode"
+          tooltip="Change viewing mode"
+          className="min-w-s28 px-s4"
+          icon={<IconBrightness className="h-s16 w-s16" />}
+        />
+        <TooltipIconButton
+          aria-label="Reset transcription viewer"
+          tooltip="Reset everything"
           className="min-w-s28 px-s4"
           icon={<IconReset className="h-s16 w-s16" />}
         />
         <TooltipIconButton
-          aria-label="Tune transcript"
-          tooltip="Adjust transcript display"
+          aria-label="Change transcription settings"
+          tooltip="Change settings"
           className="min-w-s28 px-s4"
           icon={<IconSetting className="h-s16 w-s16" />}
         />
         <TooltipIconButton
           aria-label="Download transcript"
-          tooltip="Download transcript"
+          tooltip="Download"
           className="min-w-s28 px-s4"
           icon={<IconDownload className="h-s16 w-s16" />}
         />

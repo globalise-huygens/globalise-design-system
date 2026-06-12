@@ -1119,6 +1119,12 @@ export function DocumentDetailViewerOverlayDemo() {
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
   const [isScanVisible, setIsScanVisible] = React.useState(true);
   const [isTextVisible, setIsTextVisible] = React.useState(true);
+  const [areEntityTagsHighlighted, setAreEntityTagsHighlighted] =
+    React.useState(false);
+  const [areEventTagsHighlighted, setAreEventTagsHighlighted] =
+    React.useState(false);
+  const [areLayoutElementsHighlighted, setAreLayoutElementsHighlighted] =
+    React.useState(false);
   const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
     () => new Set(["inventory", "table-of-contents"]),
   );
@@ -1333,15 +1339,9 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-controls="document-detail-sidebar"
               aria-expanded={isSidebarExpanded}
               aria-label={
-                isSidebarExpanded
-                  ? "Collapse metadata sidebar"
-                  : "Expand metadata sidebar"
+                isSidebarExpanded ? "Close sidebar" : "Open sidebar"
               }
-              tooltip={
-                isSidebarExpanded
-                  ? "Collapse metadata sidebar"
-                  : "Expand metadata sidebar"
-              }
+              tooltip={isSidebarExpanded ? "Closes sidebar" : "Opens sidebar"}
               isActive={isSidebarExpanded}
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconSidebar className="h-s16 w-s16" />}
@@ -1369,20 +1369,34 @@ export function DocumentDetailViewerOverlayDemo() {
               }}
             >
               <DocumentDetailTooltip
-                label={isScanVisible ? "Hide scan viewer" : "Show scan viewer"}
+                label={
+                  isScanVisible ? "Closes scan viewer" : "Opens scan viewer"
+                }
               >
                 <DocumentDetailSegmentedToggleItem
                   id="scan"
+                  aria-label={
+                    isScanVisible ? "Close scan viewer" : "Open scan viewer"
+                  }
                   icon={<IconScan className="h-4.5 w-4.5" />}
                 >
                   Scan
                 </DocumentDetailSegmentedToggleItem>
               </DocumentDetailTooltip>
               <DocumentDetailTooltip
-                label={isTextVisible ? "Hide text viewer" : "Show text viewer"}
+                label={
+                  isTextVisible
+                    ? "Closes transcription viewer"
+                    : "Opens transcription viewer"
+                }
               >
                 <DocumentDetailSegmentedToggleItem
                   id="text"
+                  aria-label={
+                    isTextVisible
+                      ? "Close transcription viewer"
+                      : "Open transcription viewer"
+                  }
                   icon={<IconTranscription className="h-4.5 w-4.5" />}
                 >
                   Text
@@ -1396,14 +1410,14 @@ export function DocumentDetailViewerOverlayDemo() {
           <DocumentDetailBarGroup className="min-w-0 justify-self-end gap-s8">
             <TooltipIconButton
               aria-label="Swap panes"
-              tooltip="Swap scan and text panes"
+              tooltip="Swaps scan and transcription viewer"
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconSwap className="h-s16 w-s16" />}
             />
             <TooltipIconButton
               aria-disabled="true"
               aria-label="Picture in picture unavailable"
-              tooltip="Picture in picture is unavailable in this view"
+              tooltip="Small window is unavailable in this view"
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
                 "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
@@ -1413,7 +1427,7 @@ export function DocumentDetailViewerOverlayDemo() {
             <TooltipIconButton
               aria-disabled="true"
               aria-label="Open document unavailable"
-              tooltip="Open document is unavailable in this view"
+              tooltip="Paired page view is unavailable in this view"
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
                 "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
@@ -1422,27 +1436,59 @@ export function DocumentDetailViewerOverlayDemo() {
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <TooltipIconButton
-              aria-label="Object tracking"
-              tooltip="Show object and entity tracking"
+              aria-label={
+                areEntityTagsHighlighted
+                  ? "Hide entity tags"
+                  : "Highlight entity tags"
+              }
+              tooltip={
+                areEntityTagsHighlighted
+                  ? "Hide entity tags"
+                  : "Highlight entity tags"
+              }
+              isActive={areEntityTagsHighlighted}
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconEntities className="h-s16 w-s16" />}
+              onPress={() => setAreEntityTagsHighlighted((current) => !current)}
             />
             <TooltipIconButton
-              aria-label="Date metadata"
-              tooltip="Show date metadata"
+              aria-label={
+                areEventTagsHighlighted
+                  ? "Hide event tags"
+                  : "Highlight event tags"
+              }
+              tooltip={
+                areEventTagsHighlighted
+                  ? "Hide event tags"
+                  : "Highlight event tags"
+              }
+              isActive={areEventTagsHighlighted}
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconEvents className="h-s16 w-s16" />}
+              onPress={() => setAreEventTagsHighlighted((current) => !current)}
             />
             <TooltipIconButton
-              aria-label="Settings"
-              tooltip="Open viewer settings"
+              aria-label={
+                areLayoutElementsHighlighted
+                  ? "Hide layout elements"
+                  : "Highlight layout elements and show line numbers"
+              }
+              tooltip={
+                areLayoutElementsHighlighted
+                  ? "Hide layout elements"
+                  : "Highlight layout elements and show line numbers"
+              }
+              isActive={areLayoutElementsHighlighted}
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconLayoutElements className="h-s16 w-s16" />}
+              onPress={() =>
+                setAreLayoutElementsHighlighted((current) => !current)
+              }
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <TooltipIconButton
               aria-label="Close document detail viewer"
-              tooltip="Close viewer"
+              tooltip="Close window"
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconClose className="h-s16 w-s16" />}
               onPress={() => setIsOpen(false)}

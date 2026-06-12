@@ -447,7 +447,7 @@ function DocumentDetailTooltip({
   children,
   label,
   className,
-  delay = 600,
+  delay = 350,
   closeDelay = 80,
   placement = "bottom",
   offset = 8,
@@ -460,7 +460,7 @@ function DocumentDetailTooltip({
         placement={placement}
         offset={offset}
         className={cn(
-          "z-50 max-w-s64 border border-brand-white/20 bg-neutral-900 px-s8 py-s4 font-sans text-[10px] leading-3 text-neutral-200 shadow-[0_8px_20px_rgba(0,0,0,0.28)]",
+          "z-50 max-w-[240px] overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] uppercase leading-[10px] text-brand-white shadow-[0_6px_14px_0_rgba(0,0,0,0.25),0_25px_25px_0_rgba(0,0,0,0.22),0_56px_34px_0_rgba(0,0,0,0.13),0_100px_40px_0_rgba(0,0,0,0.04),0_156px_44px_0_rgba(0,0,0,0)]",
           className,
         )}
         {...props}

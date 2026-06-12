@@ -21,6 +21,8 @@ Reusable controls for dense document-viewer interfaces. These are styled wrapper
   DocumentDetailReferenceCard,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
+  DocumentDetailToolButton,
+  DocumentDetailTooltip,
   IconScan,
   IconTranscription,
 } from "@globalise/design-system";
@@ -42,6 +44,12 @@ Reusable controls for dense document-viewer interfaces. These are styled wrapper
 <DocumentDetailCheckbox isSelected={searchHitsOnly} onChange={setSearchHitsOnly}>
   Search hits
 </DocumentDetailCheckbox>
+
+<DocumentDetailTooltip label="Swaps scan and transcription viewer">
+  <DocumentDetailToolButton aria-label="Swap viewers">
+    Swap
+  </DocumentDetailToolButton>
+</DocumentDetailTooltip>
 
 <DocumentDetailNumberField
   aria-label="Go to scan"
@@ -67,6 +75,10 @@ Use `DocumentDetailSegmentedToggleGroup` for compact mutually exclusive or multi
 Use `DocumentDetailCheckbox` for binary filters, such as Search hits or Type grouping. It renders a React Aria checkbox rather than a button with checkbox styling.
 
 Use `DocumentDetailNumberField` for editable numeric navigation, including scan numbers, search-hit numbers, and zoom percentages. Always provide `aria-label`, `minValue`, and `maxValue`.
+
+Use `DocumentDetailTooltip` for all document-detail tooltips and short hover labels. Its neutral-700 surface, white/10 outline, uppercase 10px label, and layered shadow are the standard document-viewer hover style and are applied automatically. Do not hand-style tooltip surfaces in feature code; wrap the trigger in `DocumentDetailTooltip` and pass the text through `label`.
+
+Use `DocumentDetailPopoverSurface` for richer pinned or interactive popovers, such as the content-warning message. Keep tooltips for short non-interactive hints and popovers for content that contains links, longer copy, or interactive controls.
 
 Use `DocumentDetailReferenceCard` for repeated scan/document/object references. Keep navigation, copy, and external-link actions as separate interactive elements inside the card.
 
@@ -103,6 +115,12 @@ Use `DocumentDetailReferenceCard` for repeated scan/document/object references. 
       type: "HTMLDivElement props",
       description:
         "Reference row shell with slots for thumbnail, heading, actions, snippet, metadata, and footer.",
+    },
+    {
+      name: "DocumentDetailTooltip",
+      type: "TooltipProps",
+      description:
+        "React Aria tooltip trigger with the standard document-viewer hover surface applied by default.",
     },
   ]}
 />
