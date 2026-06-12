@@ -73,13 +73,16 @@ export const BOTTOM_BAR_ICON_BUTTON_CLASS =
 export const SEGMENTED_SURFACE_COMPACT_CLASS =
   "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
 
-export function ContentWarningTopBarControl() {
+export function ContentWarningTopBarControl({
+  className,
+}: {
+  className?: string;
+}) {
   const [isHovered, setIsHovered] = React.useState(false);
   const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
   const [isPinned, setIsPinned] = React.useState(false);
   const rootRef = React.useRef<HTMLDivElement>(null);
   const popoverId = React.useId();
-  const titleId = React.useId();
   const isOpen = isHovered || hasFocusWithin || isPinned;
 
   React.useEffect(() => {
@@ -115,7 +118,7 @@ export function ContentWarningTopBarControl() {
   return (
     <div
       ref={rootRef}
-      className="relative"
+      className={cn("relative", className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setHasFocusWithin(true)}
@@ -135,24 +138,23 @@ export function ContentWarningTopBarControl() {
         aria-expanded={isOpen}
         aria-label="Content warning"
         className={cn(
-          TOP_BAR_ICON_BUTTON_CLASS,
+          "h-s48 rounded-sm px-s12 font-sans text-sm leading-5",
           "text-vermilion-500 data-hovered:bg-vermilion-500/10 data-focus-visible:ring-vermilion-500",
           isOpen && "bg-vermilion-500/10",
         )}
         icon={<IconContentWarning className="h-s16 w-s16" />}
         onPress={() => setIsPinned((current) => !current)}
-      />
+      >
+        Content Warning
+      </DocumentDetailToolButton>
 
       {isOpen && (
         <DocumentDetailPopoverSurface
           id={popoverId}
           role="dialog"
-          aria-labelledby={titleId}
+          aria-label="Content warning details"
           variant="warning"
-          heading="Content Warning"
-          titleId={titleId}
-          icon={<IconContentWarning className="h-s16 w-s16" />}
-          className="absolute left-0 top-[calc(100%+var(--s8))] z-30"
+          className="absolute left-1/2 top-[calc(100%+var(--s8))] z-30 -translate-x-1/2"
           footer={
             <a
               href="#"

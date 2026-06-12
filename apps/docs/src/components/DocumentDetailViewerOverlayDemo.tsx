@@ -1322,13 +1322,13 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailTopBar
           className={[
-            "relative h-s64 justify-between border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
+            "relative grid h-s64 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
             isSidebarExpanded
               ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
               : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
           ].join(" ")}
         >
-          <DocumentDetailBarGroup className="gap-s8">
+          <DocumentDetailBarGroup className="min-w-0 justify-self-start gap-s8">
             <TooltipIconButton
               aria-controls="document-detail-sidebar"
               aria-expanded={isSidebarExpanded}
@@ -1347,7 +1347,6 @@ export function DocumentDetailViewerOverlayDemo() {
               icon={<IconSidebar className="h-s16 w-s16" />}
               onPress={() => setIsSidebarExpanded((current) => !current)}
             />
-            <ContentWarningTopBarControl />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <DocumentDetailSegmentedToggleGroup
               aria-label="Primary viewer mode controls"
@@ -1392,9 +1391,9 @@ export function DocumentDetailViewerOverlayDemo() {
             </DocumentDetailSegmentedToggleGroup>
           </DocumentDetailBarGroup>
 
-          <div className="flex-1" />
+          <ContentWarningTopBarControl className="z-40 justify-self-center" />
 
-          <DocumentDetailBarGroup className="gap-s8">
+          <DocumentDetailBarGroup className="min-w-0 justify-self-end gap-s8">
             <TooltipIconButton
               aria-label="Swap panes"
               tooltip="Swap scan and text panes"
