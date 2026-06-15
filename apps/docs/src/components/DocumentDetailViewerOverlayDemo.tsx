@@ -1099,6 +1099,7 @@ export function DocumentDetailViewerOverlayDemo() {
   const [isScanVisible, setIsScanVisible] = React.useState(true);
   const [isTextVisible, setIsTextVisible] = React.useState(true);
   const [isViewerOrderSwapped, setIsViewerOrderSwapped] = React.useState(false);
+  const [isPairedPageView, setIsPairedPageView] = React.useState(false);
   const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
   const [areEntityTagsHighlighted, setAreEntityTagsHighlighted] =
     React.useState(false);
@@ -1267,12 +1268,27 @@ export function DocumentDetailViewerOverlayDemo() {
     };
   }, []);
 
+  React.useEffect(() => {
+    if (isScanVisible && isTextVisible) {
+      setIsPairedPageView(false);
+    }
+  }, [isScanVisible, isTextVisible]);
+
   const selectedScanReference = {
     archiveScan: currentArchiveScan,
     documentScan: currentScan,
     documentScanTotal: currentDocumentScanTotal,
   };
   const canSwapViewers = isScanVisible && isTextVisible;
+  const canUsePairedPageView = isScanVisible !== isTextVisible;
+  const pairedScanReference =
+    isPairedPageView && currentScan < currentDocumentScanTotal
+      ? getScanReferenceByDocumentScan(
+          currentArchiveScan,
+          currentScan + 1,
+          currentDocumentScanTotal,
+        )
+      : null;
 
   const scanPane = isScanVisible ? (
     <DocumentDetailViewerPane
@@ -1287,6 +1303,11 @@ export function DocumentDetailViewerOverlayDemo() {
       <ManuscriptCanvas
         transcriptMode={transcriptMode}
         areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+        isPairedPageView={isPairedPageView}
+        currentArchiveScan={currentArchiveScan}
+        currentDocumentScan={currentScan}
+        pairedArchiveScan={pairedScanReference?.archiveScan}
+        pairedDocumentScan={pairedScanReference?.documentScan}
       />
     </DocumentDetailViewerPane>
   ) : null;
@@ -1303,6 +1324,11 @@ export function DocumentDetailViewerOverlayDemo() {
         transcriptMode={transcriptMode}
         onTranscriptModeChange={setTranscriptMode}
         areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+        isPairedPageView={isPairedPageView}
+        currentArchiveScan={currentArchiveScan}
+        currentDocumentScan={currentScan}
+        pairedArchiveScan={pairedScanReference?.archiveScan}
+        pairedDocumentScan={pairedScanReference?.documentScan}
       />
     </DocumentDetailViewerPane>
   ) : null;
@@ -1456,14 +1482,33 @@ export function DocumentDetailViewerOverlayDemo() {
               icon={<IconPictureInPicture className="h-s16 w-s16" />}
             />
             <TooltipIconButton
-              aria-disabled="true"
-              aria-label="Open document unavailable"
-              tooltip="Paired page view is unavailable in this view"
+              aria-disabled={!canUsePairedPageView}
+              aria-label={
+                canUsePairedPageView
+                  ? isPairedPageView
+                    ? "Disable paired page view"
+                    : "Enable paired page view"
+                  : "Paired page view unavailable"
+              }
+              tooltip={
+                canUsePairedPageView
+                  ? isPairedPageView
+                    ? "Disables paired page view"
+                    : "Enables paired page view"
+                  : "Paired page view is only available when one viewer is open"
+              }
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
-                "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+                !canUsePairedPageView &&
+                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
               )}
               icon={<IconPairedPage className="h-s16 w-s16" />}
+              isActive={isPairedPageView}
+              onPress={
+                canUsePairedPageView
+                  ? () => setIsPairedPageView((current) => !current)
+                  : undefined
+              }
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
             <TooltipIconButton

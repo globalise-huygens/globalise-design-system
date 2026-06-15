@@ -747,9 +747,19 @@ function TranscriptSettingsPopover({
 export function ManuscriptCanvas({
   transcriptMode: _transcriptMode,
   areLayoutElementsHighlighted: _areLayoutElementsHighlighted = false,
+  isPairedPageView = false,
+  currentArchiveScan,
+  currentDocumentScan,
+  pairedArchiveScan,
+  pairedDocumentScan,
 }: {
   transcriptMode: "n" | "d";
   areLayoutElementsHighlighted?: boolean;
+  isPairedPageView?: boolean;
+  currentArchiveScan: number;
+  currentDocumentScan: number;
+  pairedArchiveScan?: number;
+  pairedDocumentScan?: number;
 }) {
   const [scanZoom, setScanZoom] = React.useState(100);
   const [scanRotation, setScanRotation] = React.useState(0);
@@ -767,6 +777,15 @@ export function ManuscriptCanvas({
     setScanSaturation(100);
     setIsScanInverted(false);
   }, []);
+
+  const renderScanPage = React.useCallback(
+    (archiveScan: number, documentScan: number) => (
+      <div className="relative flex h-full w-full flex-col">
+        <DemoScanPage label={`Archive scan ${archiveScan}, document scan ${documentScan}`} />
+      </div>
+    ),
+    [],
+  );
 
   return (
     <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
@@ -825,7 +844,12 @@ export function ManuscriptCanvas({
       </DocumentDetailFloatingToolbar>
 
       <div
-        className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-100 ease-out motion-reduce:transition-none"
+        className={cn(
+          "relative transition-transform duration-100 ease-out motion-reduce:transition-none",
+          isPairedPageView
+            ? "grid h-full max-h-[calc(100%-var(--s32))] w-full max-w-[calc(100%-var(--s32))] grid-cols-2 gap-s16"
+            : "h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566",
+        )}
         style={{
           filter: `brightness(${scanBrightness}%) contrast(${scanContrast}%) saturate(${scanSaturation}%) invert(${
             isScanInverted ? 1 : 0
@@ -834,7 +858,22 @@ export function ManuscriptCanvas({
           transformOrigin: "center center",
         }}
       >
-        <DemoScanPage />
+        {isPairedPageView ? (
+          <>
+            <div className="relative h-full border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+              {renderScanPage(currentArchiveScan, currentDocumentScan)}
+            </div>
+            <div className="relative h-full border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+              {pairedArchiveScan && pairedDocumentScan
+                ? renderScanPage(pairedArchiveScan, pairedDocumentScan)
+                : renderScanPage(currentArchiveScan, currentDocumentScan)}
+            </div>
+          </>
+        ) : (
+          <div className="relative h-full border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
+            {renderScanPage(currentArchiveScan, currentDocumentScan)}
+          </div>
+        )}
       </div>
     </DocumentDetailCanvas>
   );
@@ -844,10 +883,20 @@ export function TranscriptCanvas({
   onTranscriptModeChange,
   transcriptMode,
   areLayoutElementsHighlighted = false,
+  isPairedPageView = false,
+  currentArchiveScan: _currentArchiveScan,
+  currentDocumentScan,
+  pairedArchiveScan: _pairedArchiveScan,
+  pairedDocumentScan,
 }: {
   onTranscriptModeChange: (nextMode: "n" | "d") => void;
   transcriptMode: "n" | "d";
   areLayoutElementsHighlighted?: boolean;
+  isPairedPageView?: boolean;
+  currentArchiveScan: number;
+  currentDocumentScan: number;
+  pairedArchiveScan?: number;
+  pairedDocumentScan?: number;
 }) {
   const [transcriptZoom, setTranscriptZoom] = React.useState(100);
   const [transcriptViewerMode, setTranscriptViewerMode] = React.useState<
@@ -916,6 +965,149 @@ export function TranscriptCanvas({
     groups[line.block].push(line);
     return groups;
   }, {});
+
+  const renderDiplomaticTranscriptPage = React.useCallback(
+    () => (
+      <div className="relative min-h-[1120px] px-s24 py-s24">
+        {DIPLOMATIC_FRAGMENTS.map((fragment) => (
+          <div
+            key={fragment.id}
+            className={cn(
+              DIPLOMATIC_FRAGMENT_BASE_CLASS,
+              fragment.className,
+              transcriptTypographyClassName,
+            )}
+            style={{
+              left: fragment.left,
+              top: fragment.top,
+              width: fragment.width,
+              lineHeight: `${transcriptLineHeight}%`,
+              letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.04}em`,
+            }}
+          >
+            {areLayoutElementsHighlighted ? (
+              <>
+                <span
+                  className={cn(
+                    "absolute left-[-28px] top-[3px] min-w-s20 text-right",
+                    annotationLineClassName,
+                  )}
+                >
+                  {fragment.lineNumber}
+                </span>
+                <span
+                  className={cn(
+                    "absolute left-0 top-[-14px]",
+                    annotationLabelClassName,
+                  )}
+                >
+                  {fragment.label}
+                </span>
+              </>
+            ) : null}
+            {fragment.text}
+          </div>
+        ))}
+      </div>
+    ),
+    [
+      annotationLabelClassName,
+      annotationLineClassName,
+      areLayoutElementsHighlighted,
+      transcriptLetterSpacing,
+      transcriptLineHeight,
+      transcriptTypographyClassName,
+    ],
+  );
+
+  const renderNormalizedTranscriptPage = React.useCallback(
+    () =>
+      areLayoutElementsHighlighted ? (
+        <div className="grid gap-s20 px-s24 py-s24">
+          {TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS.map((section) => {
+            const sectionLines = normalizedLinesByBlock[section.block] ?? [];
+
+            return (
+              <section key={section.block} className="grid gap-s8">
+                <span className={annotationLabelClassName}>{section.label}</span>
+                <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
+                  <div className="grid gap-s10 pt-[2px]">
+                    {sectionLines.map((line) => (
+                      <span
+                        key={`${section.block}-${line.lineNumber}-line-number`}
+                        className={cn("min-w-s24 text-right", annotationLineClassName)}
+                      >
+                        {line.lineNumber}
+                      </span>
+                    ))}
+                  </div>
+                  <div
+                    className={cn(
+                      "min-h-full",
+                      transcriptViewerTone.annotationRuleClassName,
+                    )}
+                  />
+                  <div className="grid gap-s10">
+                    {sectionLines.map((line) => (
+                      <p
+                        key={`${section.block}-${line.lineNumber}`}
+                        className={cn(
+                          section.className,
+                          "leading-[inherit]",
+                          transcriptTypographyClassName,
+                        )}
+                        style={{
+                          letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.03}em`,
+                          lineHeight: `${transcriptLineHeight}%`,
+                        }}
+                      >
+                        {line.text}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="grid gap-s10 px-s24 py-s24">
+          {TRANSCRIPT_NORMALIZED_LINES.map((line) => (
+            <div
+              key={`normalized-${line.lineNumber}`}
+              className="grid grid-cols-[minmax(0,1fr)] items-start"
+            >
+              <p
+                className={cn(
+                  line.block === "page-number"
+                    ? "text-[34px] font-medium leading-[1.2]"
+                    : line.block === "signature"
+                      ? "text-[24px] leading-[inherit]"
+                      : "text-[18px] leading-[inherit]",
+                  transcriptTypographyClassName,
+                )}
+                style={{
+                  letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.03}em`,
+                  lineHeight: `${transcriptLineHeight}%`,
+                }}
+              >
+                {line.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      ),
+    [
+      annotationLabelClassName,
+      annotationLineClassName,
+      areLayoutElementsHighlighted,
+      normalizedLinesByBlock,
+      transcriptLetterSpacing,
+      transcriptLineHeight,
+      transcriptTypographyClassName,
+      transcriptViewerTone.annotationRuleClassName,
+    ],
+  );
 
   return (
     <DocumentDetailTranscriptCanvas
@@ -1052,132 +1244,23 @@ export function TranscriptCanvas({
           className="min-h-full origin-top transition-transform duration-100 ease-out motion-reduce:transition-none"
           style={{ transform: `scale(${transcriptZoom / 100})` }}
         >
-          {transcriptMode === "d" ? (
-            <div className="relative min-h-[1120px] px-s24 py-s24">
-              {DIPLOMATIC_FRAGMENTS.map((fragment) => (
-                <div
-                  key={fragment.id}
-                  className={cn(
-                    DIPLOMATIC_FRAGMENT_BASE_CLASS,
-                    fragment.className,
-                    transcriptTypographyClassName,
-                  )}
-                  style={{
-                    left: fragment.left,
-                    top: fragment.top,
-                    width: fragment.width,
-                    lineHeight: `${transcriptLineHeight}%`,
-                    letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.04}em`,
-                  }}
-                >
-                  {areLayoutElementsHighlighted ? (
-                    <>
-                      <span
-                        className={cn(
-                          "absolute left-[-28px] top-[3px] min-w-s20 text-right",
-                          annotationLineClassName,
-                        )}
-                      >
-                        {fragment.lineNumber}
-                      </span>
-                      <span
-                        className={cn(
-                          "absolute left-0 top-[-14px]",
-                          annotationLabelClassName,
-                        )}
-                      >
-                        {fragment.label}
-                      </span>
-                    </>
-                  ) : null}
-                  {fragment.text}
-                </div>
-              ))}
+          {isPairedPageView ? (
+            <div className="grid min-h-full grid-cols-2 gap-s24 px-s24 py-s24">
+              <div className="min-w-0 border-r border-brand-black/20 pr-s12">
+                {transcriptMode === "d"
+                  ? renderDiplomaticTranscriptPage()
+                  : renderNormalizedTranscriptPage()}
+              </div>
+              <div className="min-w-0 pl-s12">
+                {transcriptMode === "d"
+                  ? renderDiplomaticTranscriptPage()
+                  : renderNormalizedTranscriptPage()}
+              </div>
             </div>
+          ) : transcriptMode === "d" ? (
+            renderDiplomaticTranscriptPage()
           ) : (
-            <>
-              {areLayoutElementsHighlighted ? (
-                <div className="grid gap-s20 px-s24 py-s24">
-                  {TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS.map((section) => {
-                    const sectionLines =
-                      normalizedLinesByBlock[section.block] ?? [];
-
-                    return (
-                      <section key={section.block} className="grid gap-s8">
-                        <span className={annotationLabelClassName}>
-                          {section.label}
-                        </span>
-                        <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
-                          <div className="grid gap-s10 pt-[2px]">
-                            {sectionLines.map((line) => (
-                              <span
-                                key={`${section.block}-${line.lineNumber}-line-number`}
-                                className={cn(
-                                  "min-w-s24 text-right",
-                                  annotationLineClassName,
-                                )}
-                              >
-                                {line.lineNumber}
-                              </span>
-                            ))}
-                          </div>
-                          <div
-                            className={cn(
-                              "min-h-full",
-                              transcriptViewerTone.annotationRuleClassName,
-                            )}
-                          />
-                          <div className="grid gap-s10">
-                            {sectionLines.map((line) => (
-                              <p
-                                key={`${section.block}-${line.lineNumber}`}
-                                className={cn(
-                                  section.className,
-                                  "leading-[inherit]",
-                                  transcriptTypographyClassName,
-                                )}
-                                style={{
-                                  letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.03}em`,
-                                  lineHeight: `${transcriptLineHeight}%`,
-                                }}
-                              >
-                                {line.text}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-                      </section>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="grid gap-s10 px-s24 py-s24">
-                  {TRANSCRIPT_NORMALIZED_LINES.map((line) => (
-                    <div
-                      key={`normalized-${line.lineNumber}`}
-                      className="grid grid-cols-[minmax(0,1fr)] items-start"
-                    >
-                      <p
-                        className={cn(
-                          line.block === "page-number"
-                            ? "text-[34px] font-medium leading-[1.2]"
-                            : line.block === "signature"
-                              ? "text-[24px] leading-[inherit]"
-                              : "text-[18px] leading-[inherit]",
-                          transcriptTypographyClassName,
-                        )}
-                        style={{
-                          letterSpacing: `${((transcriptLetterSpacing - 100) / 100) * 0.03}em`,
-                          lineHeight: `${transcriptLineHeight}%`,
-                        }}
-                      >
-                        {line.text}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
+            renderNormalizedTranscriptPage()
           )}
         </div>
       </div>
