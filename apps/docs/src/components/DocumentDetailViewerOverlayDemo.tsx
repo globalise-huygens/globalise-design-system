@@ -1098,6 +1098,7 @@ export function DocumentDetailViewerOverlayDemo() {
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
   const [isScanVisible, setIsScanVisible] = React.useState(true);
   const [isTextVisible, setIsTextVisible] = React.useState(true);
+  const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
   const [areEntityTagsHighlighted, setAreEntityTagsHighlighted] =
     React.useState(false);
   const [areEventTagsHighlighted, setAreEventTagsHighlighted] =
@@ -1495,12 +1496,19 @@ export function DocumentDetailViewerOverlayDemo() {
                   isTextVisible ? "border-r border-brand-black" : "border-r-0",
                 )}
               >
-                <ManuscriptCanvas />
+                <ManuscriptCanvas
+                  transcriptMode={transcriptMode}
+                  areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+                />
               </DocumentDetailViewerPane>
             )}
             {isTextVisible && (
               <DocumentDetailViewerPane className="relative border-r-0">
-                <TranscriptCanvas />
+                <TranscriptCanvas
+                  transcriptMode={transcriptMode}
+                  onTranscriptModeChange={setTranscriptMode}
+                  areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+                />
               </DocumentDetailViewerPane>
             )}
           </DocumentDetailSplitViewer>

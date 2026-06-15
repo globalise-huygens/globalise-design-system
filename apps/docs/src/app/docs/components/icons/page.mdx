@@ -29,6 +29,9 @@ import {
   IconLeft,
   IconLeftFirst,
   IconMenu,
+  IconModeDark,
+  IconModeLight,
+  IconModeSepia,
   IconPairedPage,
   IconPictureInPicture,
   IconReset,
@@ -43,7 +46,11 @@ import {
   IconSidebar,
   IconSwap,
   IconTableOfContent,
+  IconTextLine,
+  IconTextSpacing,
+  IconTextType,
   IconTranscription,
+  IconViewModeMenu,
   IconZoomIn,
   IconZoomOut,
 } from "@globalise/design-system";
@@ -108,6 +115,9 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
       { name: "Left", icon: <IconLeft className="w-6 h-6" /> },
       { name: "LeftFirst", icon: <IconLeftFirst className="w-6 h-6" /> },
       { name: "Menu", icon: <IconMenu className="w-6 h-6" /> },
+      { name: "ModeDark", icon: <IconModeDark className="w-6 h-6" /> },
+      { name: "ModeLight", icon: <IconModeLight className="w-6 h-6" /> },
+      { name: "ModeSepia", icon: <IconModeSepia className="w-6 h-6" /> },
       { name: "PairedPage", icon: <IconPairedPage className="w-6 h-6" /> },
       {
         name: "PictureInPicture",
@@ -128,9 +138,19 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
         name: "TableOfContent",
         icon: <IconTableOfContent className="w-6 h-6" />,
       },
+      { name: "TextLine", icon: <IconTextLine className="w-6 h-6" /> },
+      {
+        name: "TextSpacing",
+        icon: <IconTextSpacing className="w-6 h-6" />,
+      },
+      { name: "TextType", icon: <IconTextType className="w-6 h-6" /> },
       {
         name: "Transcription",
         icon: <IconTranscription className="w-6 h-6" />,
+      },
+      {
+        name: "ViewModeMenu",
+        icon: <IconViewModeMenu className="w-6 h-6" />,
       },
       { name: "ZoomIn", icon: <IconZoomIn className="w-6 h-6" /> },
       { name: "ZoomOut", icon: <IconZoomOut className="w-6 h-6" /> },
@@ -313,6 +333,21 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
     },
     { name: "IconMenu", type: "SVGSVGElement", description: "Menu icon." },
     {
+      name: "IconModeDark",
+      type: "SVGSVGElement",
+      description: "Dark transcript viewing mode icon.",
+    },
+    {
+      name: "IconModeLight",
+      type: "SVGSVGElement",
+      description: "Light transcript viewing mode icon.",
+    },
+    {
+      name: "IconModeSepia",
+      type: "SVGSVGElement",
+      description: "Sepia transcript viewing mode icon.",
+    },
+    {
       name: "IconPairedPage",
       type: "SVGSVGElement",
       description: "Paired or double-page scan icon.",
@@ -383,9 +418,29 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
       description: "Table of content section icon.",
     },
     {
+      name: "IconTextLine",
+      type: "SVGSVGElement",
+      description: "Transcript line-height setting icon.",
+    },
+    {
+      name: "IconTextSpacing",
+      type: "SVGSVGElement",
+      description: "Transcript letter-spacing setting icon.",
+    },
+    {
+      name: "IconTextType",
+      type: "SVGSVGElement",
+      description: "Transcript typeface setting icon.",
+    },
+    {
       name: "IconTranscription",
       type: "SVGSVGElement",
       description: "Text or transcription view mode icon.",
+    },
+    {
+      name: "IconViewModeMenu",
+      type: "SVGSVGElement",
+      description: "Transcript viewer mode menu icon.",
     },
     { name: "IconZoomIn", type: "SVGSVGElement", description: "Zoom in icon." },
     {
