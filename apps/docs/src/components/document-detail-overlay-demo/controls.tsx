@@ -13,10 +13,13 @@ import {
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   IconBrightness,
+  IconContrast,
   IconCopy,
   IconContentWarning,
   IconDownload,
+  IconInvert,
   IconRotate,
+  IconSaturation,
   IconSetting,
   IconReset,
   IconZoomIn,
@@ -344,8 +347,132 @@ function ViewerZoomControl({
   );
 }
 
+function ScanSettingsSlider({
+  label,
+  value,
+  onChange,
+  icon,
+}: {
+  label: string;
+  value: number;
+  onChange: (nextValue: number) => void;
+  icon: React.ReactNode;
+}) {
+  return (
+    <label className="grid grid-cols-[3.5rem_1fr] items-center gap-s4">
+      <span className="flex flex-col items-center gap-[3px] text-center font-sans text-[10px] font-medium leading-3 text-neutral-800">
+        <span className="flex h-[14px] w-[14px] items-center justify-center text-neutral-900">
+          {icon}
+        </span>
+        {label}
+      </span>
+      <input
+        type="range"
+        min={0}
+        max={200}
+        step={1}
+        value={value}
+        onChange={(event) => onChange(Number(event.currentTarget.value))}
+        className="h-s16 w-full accent-neutral-900"
+      />
+    </label>
+  );
+}
+
+function ScanSettingsPopover({
+  brightness,
+  contrast,
+  saturation,
+  isInverted,
+  onBrightnessChange,
+  onContrastChange,
+  onSaturationChange,
+  onInvertChange,
+}: {
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  isInverted: boolean;
+  onBrightnessChange: (nextValue: number) => void;
+  onContrastChange: (nextValue: number) => void;
+  onSaturationChange: (nextValue: number) => void;
+  onInvertChange: (nextValue: boolean) => void;
+}) {
+  return (
+    <div
+      role="dialog"
+      aria-label="Scan image settings"
+      className="absolute left-1/2 top-[calc(100%+var(--s8))] z-40 flex w-32 -translate-x-1/2 flex-col gap-s8 rounded-lg bg-brand-white p-s8 text-neutral-900 shadow-[0_8px_20px_rgba(0,0,0,0.28)]"
+    >
+      <ScanSettingsSlider
+        label="Brightness"
+        value={brightness}
+        onChange={onBrightnessChange}
+        icon={<IconBrightness className="h-[14px] w-[14px]" />}
+      />
+      <ScanSettingsSlider
+        label="Contrast"
+        value={contrast}
+        onChange={onContrastChange}
+        icon={<IconContrast className="h-[14px] w-[14px]" />}
+      />
+      <ScanSettingsSlider
+        label="Saturation"
+        value={saturation}
+        onChange={onSaturationChange}
+        icon={<IconSaturation className="h-[14px] w-[14px]" />}
+      />
+      <button
+        type="button"
+        aria-pressed={isInverted}
+        onClick={() => onInvertChange(!isInverted)}
+        className={cn(
+          "grid grid-cols-[3.5rem_1fr] items-center gap-s4 rounded-[3px] py-s2 text-left transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-neutral-900",
+          isInverted && "bg-neutral-200",
+        )}
+      >
+        <span className="flex flex-col items-center gap-[3px] text-center font-sans text-[10px] font-medium leading-3 text-neutral-800">
+          <span className="flex h-[14px] w-[14px] items-center justify-center text-neutral-900">
+            <IconInvert className="h-[14px] w-[14px]" />
+          </span>
+          Invert
+        </span>
+        <span
+          className={cn(
+            "flex h-s16 w-s28 items-center rounded-full bg-neutral-300 p-[2px]",
+            isInverted && "bg-neutral-900",
+          )}
+          aria-hidden="true"
+        >
+          <span
+            className={cn(
+              "h-s12 w-s12 rounded-full bg-brand-white transition-transform",
+              isInverted && "translate-x-3",
+            )}
+          />
+        </span>
+      </button>
+    </div>
+  );
+}
+
 export function ManuscriptCanvas() {
   const [scanZoom, setScanZoom] = React.useState(100);
+  const [scanRotation, setScanRotation] = React.useState(0);
+  const [scanBrightness, setScanBrightness] = React.useState(100);
+  const [scanContrast, setScanContrast] = React.useState(100);
+  const [scanSaturation, setScanSaturation] = React.useState(100);
+  const [isScanInverted, setIsScanInverted] = React.useState(false);
+  const [isScanSettingsOpen, setIsScanSettingsOpen] = React.useState(false);
+
+  const resetScanViewer = React.useCallback(() => {
+    setScanZoom(100);
+    setScanRotation(0);
+    setScanBrightness(100);
+    setScanContrast(100);
+    setScanSaturation(100);
+    setIsScanInverted(false);
+  }, []);
 
   return (
     <DocumentDetailCanvas className="bg-neutral-500 px-s24 py-s48">
@@ -360,19 +487,40 @@ export function ManuscriptCanvas() {
           tooltip="Rotate 90˚ clockwise"
           className="min-w-s28 px-s4"
           icon={<IconRotate className="h-s16 w-s16" />}
+          onPress={() => setScanRotation((rotation) => (rotation + 90) % 360)}
         />
         <TooltipIconButton
           aria-label="Reset scan viewer"
           tooltip="Reset everything"
           className="min-w-s28 px-s4"
           icon={<IconReset className="h-s16 w-s16" />}
+          onPress={resetScanViewer}
         />
-        <TooltipIconButton
-          aria-label="Change scan settings"
-          tooltip="Change settings"
-          className="min-w-s28 px-s4"
-          icon={<IconSetting className="h-s16 w-s16" />}
-        />
+        <div className="relative">
+          <DocumentDetailTooltip label="Change settings" placement="bottom">
+            <DocumentDetailToolButton
+              aria-label="Change scan settings"
+              aria-expanded={isScanSettingsOpen}
+              className="min-w-s28 px-s4"
+              icon={<IconSetting className="h-s16 w-s16" />}
+              onPress={() =>
+                setIsScanSettingsOpen((wasSettingsOpen) => !wasSettingsOpen)
+              }
+            />
+          </DocumentDetailTooltip>
+          {isScanSettingsOpen && (
+            <ScanSettingsPopover
+              brightness={scanBrightness}
+              contrast={scanContrast}
+              saturation={scanSaturation}
+              isInverted={isScanInverted}
+              onBrightnessChange={setScanBrightness}
+              onContrastChange={setScanContrast}
+              onSaturationChange={setScanSaturation}
+              onInvertChange={setIsScanInverted}
+            />
+          )}
+        </div>
         <TooltipIconButton
           aria-label="Download scan"
           tooltip="Download"
@@ -384,7 +532,10 @@ export function ManuscriptCanvas() {
       <div
         className="relative h-full max-h-[calc(100%-var(--s32))] aspect-1102/1566 border border-brand-black/70 bg-parchment-200 shadow-[0_8px_24px_rgba(0,0,0,0.28)] transition-transform duration-100 ease-out motion-reduce:transition-none"
         style={{
-          transform: `scale(${scanZoom / 100})`,
+          filter: `brightness(${scanBrightness}%) contrast(${scanContrast}%) saturate(${scanSaturation}%) invert(${
+            isScanInverted ? 1 : 0
+          })`,
+          transform: `scale(${scanZoom / 100}) rotate(${scanRotation}deg)`,
           transformOrigin: "center center",
         }}
       >
