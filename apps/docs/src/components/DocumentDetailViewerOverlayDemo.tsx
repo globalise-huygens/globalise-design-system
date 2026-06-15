@@ -99,6 +99,56 @@ function SidebarDisclosureIcon({
   );
 }
 
+function MiniWindowFrame({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="pointer-events-none absolute bottom-s16 right-s16 z-20 w-[132px] overflow-hidden border border-brand-black/30 bg-brand-white shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
+      <div className="flex h-s16 items-center justify-between border-b border-brand-black/10 bg-brand-white px-s6">
+        <span className="font-sans text-[8px] uppercase leading-[8px] text-neutral-500">
+          {label}
+        </span>
+        <span className="font-sans text-[8px] uppercase leading-[8px] text-brand-mint">
+          Mini
+        </span>
+      </div>
+      <div className="relative h-[92px] bg-brand-white">{children}</div>
+    </div>
+  );
+}
+
+function MiniTranscriptWindow() {
+  return (
+    <MiniWindowFrame label="Transcription">
+      <div className="flex h-full flex-col gap-[5px] px-s8 py-s8">
+        {Array.from({ length: 9 }, (_, index) => (
+          <span
+            key={index}
+            className={cn(
+              "block h-[2px] rounded-full bg-neutral-200",
+              index === 5 ? "w-[86%]" : index % 3 === 0 ? "w-[78%]" : "w-full",
+            )}
+          />
+        ))}
+      </div>
+      <div className="absolute bottom-s8 right-s8 h-[22px] w-[40px] border border-brand-mint/65 bg-brand-white/95" />
+    </MiniWindowFrame>
+  );
+}
+
+function MiniScanWindow() {
+  return (
+    <MiniWindowFrame label="Scan">
+      <DemoScanPage label="Mini scan preview" className="h-full w-full" />
+      <div className="absolute left-[34px] top-[20px] h-[32px] w-[46px] border border-brand-mint/75 bg-brand-mint/12" />
+    </MiniWindowFrame>
+  );
+}
+
 const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
   string,
   {
@@ -1467,6 +1517,7 @@ export function DocumentDetailViewerOverlayDemo() {
   const [isTextVisible, setIsTextVisible] = React.useState(true);
   const [isViewerOrderSwapped, setIsViewerOrderSwapped] = React.useState(false);
   const [isPairedPageView, setIsPairedPageView] = React.useState(false);
+  const [isMiniWindowEnabled, setIsMiniWindowEnabled] = React.useState(false);
   const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
   const [selectedEntityHighlightKeys, setSelectedEntityHighlightKeys] =
     React.useState<Set<string>>(() => new Set());
@@ -1641,6 +1692,12 @@ export function DocumentDetailViewerOverlayDemo() {
     }
   }, [isScanVisible, isTextVisible]);
 
+  React.useEffect(() => {
+    if (isScanVisible === isTextVisible) {
+      setIsMiniWindowEnabled(false);
+    }
+  }, [isScanVisible, isTextVisible]);
+
   const selectedScanReference = {
     archiveScan: currentArchiveScan,
     documentScan: currentScan,
@@ -1648,6 +1705,7 @@ export function DocumentDetailViewerOverlayDemo() {
   };
   const canSwapViewers = isScanVisible && isTextVisible;
   const canUsePairedPageView = isScanVisible !== isTextVisible;
+  const canUseMiniWindow = isScanVisible !== isTextVisible;
   const pairedScanReference =
     isPairedPageView && currentScan < currentDocumentScanTotal
       ? getScanReferenceByDocumentScan(
@@ -1676,6 +1734,7 @@ export function DocumentDetailViewerOverlayDemo() {
         pairedArchiveScan={pairedScanReference?.archiveScan}
         pairedDocumentScan={pairedScanReference?.documentScan}
       />
+      {isMiniWindowEnabled && <MiniTranscriptWindow />}
     </DocumentDetailViewerPane>
   ) : null;
 
@@ -1697,6 +1756,7 @@ export function DocumentDetailViewerOverlayDemo() {
         pairedArchiveScan={pairedScanReference?.archiveScan}
         pairedDocumentScan={pairedScanReference?.documentScan}
       />
+      {isMiniWindowEnabled && <MiniScanWindow />}
     </DocumentDetailViewerPane>
   ) : null;
 
@@ -1839,14 +1899,33 @@ export function DocumentDetailViewerOverlayDemo() {
               }
             />
             <TooltipIconButton
-              aria-disabled="true"
-              aria-label="Picture in picture unavailable"
-              tooltip="Small window is unavailable in this view"
+              aria-disabled={!canUseMiniWindow}
+              aria-label={
+                canUseMiniWindow
+                  ? isMiniWindowEnabled
+                    ? "Disable mini window"
+                    : "Enable mini window"
+                  : "Mini window unavailable"
+              }
+              tooltip={
+                canUseMiniWindow
+                  ? isMiniWindowEnabled
+                    ? "Closes mini window"
+                    : "Opens not active viewer in a small window"
+                  : "Mini window is only available when one viewer is open"
+              }
               className={cn(
                 TOP_BAR_ICON_BUTTON_CLASS,
-                "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+                !canUseMiniWindow &&
+                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
               )}
               icon={<IconPictureInPicture className="h-s16 w-s16" />}
+              isActive={isMiniWindowEnabled}
+              onPress={
+                canUseMiniWindow
+                  ? () => setIsMiniWindowEnabled((current) => !current)
+                  : undefined
+              }
             />
             <TooltipIconButton
               aria-disabled={!canUsePairedPageView}
