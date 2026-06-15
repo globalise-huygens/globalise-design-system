@@ -1098,6 +1098,7 @@ export function DocumentDetailViewerOverlayDemo() {
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
   const [isScanVisible, setIsScanVisible] = React.useState(true);
   const [isTextVisible, setIsTextVisible] = React.useState(true);
+  const [isViewerOrderSwapped, setIsViewerOrderSwapped] = React.useState(false);
   const [transcriptMode, setTranscriptMode] = React.useState<"n" | "d">("n");
   const [areEntityTagsHighlighted, setAreEntityTagsHighlighted] =
     React.useState(false);
@@ -1271,6 +1272,44 @@ export function DocumentDetailViewerOverlayDemo() {
     documentScan: currentScan,
     documentScanTotal: currentDocumentScanTotal,
   };
+  const canSwapViewers = isScanVisible && isTextVisible;
+
+  const scanPane = isScanVisible ? (
+    <DocumentDetailViewerPane
+      key="scan"
+      className={cn(
+        "relative",
+        isTextVisible && !isViewerOrderSwapped
+          ? "border-r border-brand-black"
+          : "border-r-0",
+      )}
+    >
+      <ManuscriptCanvas
+        transcriptMode={transcriptMode}
+        areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+      />
+    </DocumentDetailViewerPane>
+  ) : null;
+
+  const textPane = isTextVisible ? (
+    <DocumentDetailViewerPane
+      key="text"
+      className={cn(
+        "relative border-r-0",
+        isScanVisible && isViewerOrderSwapped && "border-r border-brand-black",
+      )}
+    >
+      <TranscriptCanvas
+        transcriptMode={transcriptMode}
+        onTranscriptModeChange={setTranscriptMode}
+        areLayoutElementsHighlighted={areLayoutElementsHighlighted}
+      />
+    </DocumentDetailViewerPane>
+  ) : null;
+
+  const viewerPanes = isViewerOrderSwapped
+    ? [textPane, scanPane]
+    : [scanPane, textPane];
 
   return (
     <>
@@ -1387,10 +1426,24 @@ export function DocumentDetailViewerOverlayDemo() {
 
           <DocumentDetailBarGroup className="min-w-0 justify-self-end gap-s8">
             <TooltipIconButton
-              aria-label="Swap panes"
-              tooltip="Swaps scan and transcription viewer"
-              className={TOP_BAR_ICON_BUTTON_CLASS}
+              aria-disabled={!canSwapViewers}
+              aria-label={canSwapViewers ? "Swap panes" : "Swapping panes unavailable"}
+              tooltip={
+                canSwapViewers
+                  ? "Swaps scan and transcription viewer"
+                  : "Swapping is only available when both viewers are open"
+              }
+              className={cn(
+                TOP_BAR_ICON_BUTTON_CLASS,
+                !canSwapViewers &&
+                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+              )}
               icon={<IconSwap className="h-s16 w-s16" />}
+              onPress={
+                canSwapViewers
+                  ? () => setIsViewerOrderSwapped((current) => !current)
+                  : undefined
+              }
             />
             <TooltipIconButton
               aria-disabled="true"
@@ -1489,28 +1542,7 @@ export function DocumentDetailViewerOverlayDemo() {
                 : "lg:grid-cols-1",
             )}
           >
-            {isScanVisible && (
-              <DocumentDetailViewerPane
-                className={cn(
-                  "relative",
-                  isTextVisible ? "border-r border-brand-black" : "border-r-0",
-                )}
-              >
-                <ManuscriptCanvas
-                  transcriptMode={transcriptMode}
-                  areLayoutElementsHighlighted={areLayoutElementsHighlighted}
-                />
-              </DocumentDetailViewerPane>
-            )}
-            {isTextVisible && (
-              <DocumentDetailViewerPane className="relative border-r-0">
-                <TranscriptCanvas
-                  transcriptMode={transcriptMode}
-                  onTranscriptModeChange={setTranscriptMode}
-                  areLayoutElementsHighlighted={areLayoutElementsHighlighted}
-                />
-              </DocumentDetailViewerPane>
-            )}
+            {viewerPanes}
           </DocumentDetailSplitViewer>
         </DocumentDetailBody>
 
