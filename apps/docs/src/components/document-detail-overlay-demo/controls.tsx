@@ -3,6 +3,7 @@
 import {
   cn,
   DocumentDetailCanvas,
+  DocumentDetailCheckbox,
   DocumentDetailFloatingToolbar,
   DocumentDetailNumberField,
   DocumentDetailPopoverSurface,
@@ -348,24 +349,32 @@ function ViewerZoomControl({
 }
 
 function ScanSettingsSlider({
-  label,
+  tooltip,
   value,
   onChange,
   icon,
 }: {
-  label: string;
+  tooltip: string;
   value: number;
   onChange: (nextValue: number) => void;
   icon: React.ReactNode;
 }) {
+  const isDefaultValue = value === 100;
+  const valueText = `${value}%${isDefaultValue ? ", default" : ""}`;
+
   return (
-    <label className="grid grid-cols-[3.5rem_1fr] items-center gap-s4">
-      <span className="flex flex-col items-center gap-[3px] text-center font-sans text-[10px] font-medium leading-3 text-neutral-800">
-        <span className="flex h-[14px] w-[14px] items-center justify-center text-neutral-900">
-          {icon}
-        </span>
-        {label}
-      </span>
+    <label className="group/scan-setting grid grid-cols-[24px_minmax(0,1fr)_32px] items-center gap-s8 px-0 py-0">
+      <DocumentDetailTooltip label={tooltip} placement="left">
+        <button
+          type="button"
+          aria-label={tooltip}
+          className="flex h-s24 w-s24 items-center justify-center text-brand-white/80 transition-colors duration-75 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-white/60"
+        >
+          <span className="flex h-[14px] w-[14px] items-center justify-center">
+            {icon}
+          </span>
+        </button>
+      </DocumentDetailTooltip>
       <input
         type="range"
         min={0}
@@ -373,8 +382,18 @@ function ScanSettingsSlider({
         step={1}
         value={value}
         onChange={(event) => onChange(Number(event.currentTarget.value))}
-        className="h-s16 w-full accent-neutral-900"
+        className="h-s16 w-full appearance-none bg-transparent accent-brand-white focus:outline-none [&::-moz-range-thumb]:h-s12 [&::-moz-range-thumb]:w-s12 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-brand-white [&::-moz-range-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)] [&::-moz-range-track]:h-[2px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-brand-white/20 [&::-webkit-slider-runnable-track]:h-[2px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-brand-white/20 [&::-webkit-slider-thumb]:mt-[-5px] [&::-webkit-slider-thumb]:h-s12 [&::-webkit-slider-thumb]:w-s12 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-white [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)]"
+        aria-label={tooltip}
+        aria-valuetext={valueText}
       />
+      <span
+        className={cn(
+          "text-right font-sans text-[10px] leading-3 opacity-0 transition-opacity duration-75 group-hover/scan-setting:opacity-100 group-focus-within/scan-setting:opacity-100",
+          isDefaultValue ? "text-neutral-500" : "text-brand-white/80",
+        )}
+      >
+        {value}%
+      </span>
     </label>
   );
 }
@@ -399,60 +418,47 @@ function ScanSettingsPopover({
   onInvertChange: (nextValue: boolean) => void;
 }) {
   return (
-    <div
+    <DocumentDetailPopoverSurface
       role="dialog"
       aria-label="Scan image settings"
-      className="absolute left-1/2 top-[calc(100%+var(--s8))] z-40 flex w-32 -translate-x-1/2 flex-col gap-s8 rounded-lg bg-brand-white p-s8 text-neutral-900 shadow-[0_8px_20px_rgba(0,0,0,0.28)]"
+      size="compact"
+      className="absolute left-1/2 top-[calc(100%+var(--s8))] z-40 flex w-44 -translate-x-1/2 flex-col gap-s8 rounded-none border-brand-white/10 bg-brand-black/90 p-s8 shadow-[0_8px_20px_rgba(0,0,0,0.32)]"
     >
       <ScanSettingsSlider
-        label="Brightness"
+        tooltip="Adjust scan brightness"
         value={brightness}
         onChange={onBrightnessChange}
         icon={<IconBrightness className="h-[14px] w-[14px]" />}
       />
       <ScanSettingsSlider
-        label="Contrast"
+        tooltip="Adjust scan contrast"
         value={contrast}
         onChange={onContrastChange}
         icon={<IconContrast className="h-[14px] w-[14px]" />}
       />
       <ScanSettingsSlider
-        label="Saturation"
+        tooltip="Adjust scan saturation"
         value={saturation}
         onChange={onSaturationChange}
         icon={<IconSaturation className="h-[14px] w-[14px]" />}
       />
-      <button
-        type="button"
-        aria-pressed={isInverted}
-        onClick={() => onInvertChange(!isInverted)}
-        className={cn(
-          "grid grid-cols-[3.5rem_1fr] items-center gap-s4 rounded-[3px] py-s2 text-left transition-colors hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-neutral-900",
-          isInverted && "bg-neutral-200",
-        )}
-      >
-        <span className="flex flex-col items-center gap-[3px] text-center font-sans text-[10px] font-medium leading-3 text-neutral-800">
-          <span className="flex h-[14px] w-[14px] items-center justify-center text-neutral-900">
+      <div className="grid grid-cols-[24px_minmax(0,1fr)] items-center gap-s8">
+        <span className="flex h-s24 w-s24 items-center justify-center text-brand-white/80">
+          <span className="flex h-[14px] w-[14px] items-center justify-center">
             <IconInvert className="h-[14px] w-[14px]" />
           </span>
-          Invert
         </span>
-        <span
-          className={cn(
-            "flex h-s16 w-s28 items-center rounded-full bg-neutral-300 p-[2px]",
-            isInverted && "bg-neutral-900",
-          )}
-          aria-hidden="true"
-        >
-          <span
-            className={cn(
-              "h-s12 w-s12 rounded-full bg-brand-white transition-transform",
-              isInverted && "translate-x-3",
-            )}
+        <DocumentDetailTooltip label="Invert scan colours" placement="left">
+          <DocumentDetailCheckbox
+            isSelected={isInverted}
+            onChange={onInvertChange}
+            aria-label="Invert scan colours"
+            className="h-s24 justify-self-start px-0 text-xs leading-4 text-brand-white"
+            indicatorClassName="bg-neutral-600"
           />
-        </span>
-      </button>
-    </div>
+        </DocumentDetailTooltip>
+      </div>
+    </DocumentDetailPopoverSurface>
   );
 }
 
