@@ -40,7 +40,6 @@ import {
   IconSwap,
   IconTranscription,
 } from "@globalise/design-system";
-import Image from "next/image";
 import * as React from "react";
 import {
   BOTTOM_BAR_ICON_BUTTON_CLASS,
@@ -52,6 +51,7 @@ import {
   TOP_BAR_ICON_BUTTON_CLASS,
   TranscriptCanvas,
 } from "./document-detail-overlay-demo/controls";
+import { DemoScanPage } from "./document-detail-overlay-demo/DemoScanPage";
 import {
   ACTIVE_TOC_ARCHIVE_SCAN,
   ACTIVE_TOC_DOCUMENT_ID,
@@ -405,13 +405,7 @@ function TableOfContentsScanCard({
           onClick={onSelect}
           className="absolute inset-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
-          <Image
-            src="/images/document-detail-manuscript.png"
-            alt=""
-            fill
-            sizes="96px"
-            className="object-contain"
-          />
+          <DemoScanPage label="Scan thumbnail placeholder" />
         </button>
       }
       heading={

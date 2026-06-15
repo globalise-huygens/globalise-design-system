@@ -12,8 +12,8 @@ import {
   IconScan,
   IconTranscription,
 } from "@globalise/design-system";
-import Image from "next/image";
 import * as React from "react";
+import { DemoScanPage } from "@/components/document-detail-overlay-demo/DemoScanPage";
 
 export function DocumentDetailControlsDemo() {
   const [visibleViewers, setVisibleViewers] = React.useState(
@@ -92,15 +92,7 @@ export function DocumentDetailControlsDemo() {
       <div className="max-w-128">
         <DocumentDetailReferenceCard
           isSelected
-          thumbnail={
-            <Image
-              src="/images/document-detail-manuscript.png"
-              alt=""
-              fill
-              sizes="96px"
-              className="object-contain"
-            />
-          }
+          thumbnail={<DemoScanPage label="Scan thumbnail placeholder" />}
           heading={
             <span className="inline-flex min-w-0 items-center gap-s6">
               <span className="font-sans text-sm leading-5 text-brand-white">

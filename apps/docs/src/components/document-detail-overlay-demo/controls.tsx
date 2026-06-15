@@ -22,8 +22,8 @@ import {
   IconZoomIn,
   IconZoomOut,
 } from "@globalise/design-system";
-import Image from "next/image";
 import * as React from "react";
+import { DemoScanPage } from "./DemoScanPage";
 
 const TRANSCRIPT_LINE_WIDTHS = [
   "18%",
@@ -388,13 +388,7 @@ export function ManuscriptCanvas() {
           transformOrigin: "center center",
         }}
       >
-        <Image
-          src="/images/document-detail-manuscript.png"
-          alt="Manuscript scan preview"
-          fill
-          className="object-contain"
-          sizes="(min-width: 1280px) 44vw, 80vw"
-        />
+        <DemoScanPage />
       </div>
     </DocumentDetailCanvas>
   );
