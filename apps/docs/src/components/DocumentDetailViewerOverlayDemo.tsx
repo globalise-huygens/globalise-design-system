@@ -838,7 +838,7 @@ function TableOfContentsScanCard({
             </span>
             <span className="text-xs leading-4 text-neutral-500">|</span>
             <span className="text-xs leading-4 text-neutral-400">
-              Scan {scan.documentScan}
+              in doc. {scan.documentScan}
             </span>
           </button>
           <CopyUriButton
@@ -1020,18 +1020,24 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <DocumentDetailCheckbox
-          isSelected={searchHitsOnly}
-          onChange={setSearchHitsOnly}
-        >
-          Search hits
-        </DocumentDetailCheckbox>
+        <DocumentDetailTooltip label="Show only documents and scans with search hits">
+          <DocumentDetailCheckbox
+            aria-label="Show only documents and scans with search hits"
+            isSelected={searchHitsOnly}
+            onChange={setSearchHitsOnly}
+          >
+            Hits only
+          </DocumentDetailCheckbox>
+        </DocumentDetailTooltip>
 
-        <div className="flex shrink-0 items-center gap-s12">
+        <div
+          aria-label="Jump to current selection"
+          className="flex shrink-0 items-center gap-s8"
+        >
           <span className="text-[10px] leading-3 text-brand-white/45">
-            Jump
+            Go to
           </span>
-          <div className="flex items-center gap-s12">
+          <div className="flex items-center gap-s8">
             <DocumentDetailTooltip label="Jump to selected document">
               <button
                 type="button"
@@ -1044,16 +1050,16 @@ function TableOfContentsPanel({
               </button>
             </DocumentDetailTooltip>
             <DocumentDetailTooltip
-              label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
+              label={`Jump to selected document scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
             >
               <button
                 type="button"
-                aria-label={`Jump to selected scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
+                aria-label={`Jump to selected document scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
                 onClick={scrollToActiveScan}
                 className="inline-flex h-s28 items-center gap-s8 px-s2 text-[10px] leading-3 text-brand-white transition-colors duration-75 ease-out hover:bg-brand-white/5 hover:text-brand-white/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none"
               >
                 <IconScan className="h-s12 w-s12" />
-                {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
+                Scan {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
               </button>
             </DocumentDetailTooltip>
           </div>
@@ -2052,7 +2058,7 @@ export function DocumentDetailViewerOverlayDemo() {
             <span className="inline-flex items-baseline gap-s8 leading-4">
               <span>Scan {currentArchiveScan}</span>
               <span className="text-neutral-500">|</span>
-              <span>Scan</span>
+              <span>in doc.</span>
               <NumericJumpField
                 ariaLabel="Go to document scan"
                 value={currentScan}
