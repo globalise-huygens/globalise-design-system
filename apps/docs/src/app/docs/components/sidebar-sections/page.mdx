@@ -1,0 +1,34 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import {
+  DocumentDetailMetadataSidebar,
+  DocumentDetailMetadataSidebarBadge,
+  DocumentDetailMetadataSidebarButton,
+  IconTableOfContent,
+} from "@globalise/design-system";
+
+# Sidebar Sections
+
+Reusable sidebar row and section primitives for document metadata, tables of contents, search filters, and future sidebars.
+
+## Preview
+
+<ComponentPreview className="p-0! items-stretch!">
+  <DocumentDetailMetadataSidebar className="h-64 border-r-0">
+    <DocumentDetailMetadataSidebarButton
+      icon={<IconTableOfContent className="h-s16 w-s16" />}
+      label="Table of contents"
+      count={<DocumentDetailMetadataSidebarBadge>12</DocumentDetailMetadataSidebarBadge>}
+    />
+  </DocumentDetailMetadataSidebar>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`<DocumentDetailMetadataSidebar>
+  <DocumentDetailMetadataSidebarButton
+    icon={<IconTableOfContent />}
+    label="Table of contents"
+    count={<DocumentDetailMetadataSidebarBadge>12</DocumentDetailMetadataSidebarBadge>}
+  />
+</DocumentDetailMetadataSidebar>`} />

@@ -377,13 +377,15 @@ export function NumericJumpField({
   onChange,
   ariaLabel,
   max,
+  tooltip,
 }: {
   value: number;
   onChange: (nextValue: number) => void;
   ariaLabel: string;
   max: number;
+  tooltip?: React.ReactNode;
 }) {
-  return (
+  const field = (
     <DocumentDetailNumberField
       aria-label={ariaLabel}
       value={value}
@@ -393,6 +395,12 @@ export function NumericJumpField({
       onChange={(nextValue: number) => onChange(Math.round(nextValue))}
     />
   );
+
+  if (!tooltip) {
+    return field;
+  }
+
+  return <DocumentDetailTooltip label={tooltip}>{field}</DocumentDetailTooltip>;
 }
 
 function ZoomPercentageField({

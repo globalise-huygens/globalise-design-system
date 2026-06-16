@@ -107,14 +107,18 @@ export type {
 } from "./components/ui/ObjectCard";
 
 export {
-  ObjectCardReferenceItem,
-  ObjectCardReferencesPanel,
-} from "./components/ui/ObjectCardReferencesPanel";
+  ReferencePanel,
+  ReferencePanelHeader,
+  ReferencePanelItem,
+  ReferencePanelList,
+} from "./components/ui/ReferencePanel";
 export type {
-  ObjectCardReference,
-  ObjectCardReferenceItemProps,
-  ObjectCardReferencesPanelProps,
-} from "./components/ui/ObjectCardReferencesPanel";
+  ReferencePanelItemProps,
+  ReferencePanelItemData,
+  ReferencePanelListProps,
+  ReferencePanelHeaderProps,
+  ReferencePanelProps,
+} from "./components/ui/ReferencePanel";
 
 export {
   DocumentDetailBarGroup,

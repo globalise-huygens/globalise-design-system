@@ -41,7 +41,7 @@ A composable card built on React Aria Components for displaying entity detail ov
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferencesPanel,
+  ReferencePanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
@@ -84,14 +84,15 @@ A composable card built on React Aria Components for displaying entity detail ov
         </ObjectCardFooter>
       </ObjectCardPanel>
 
-      <ObjectCardReferencesPanel
+      <ReferencePanel
         title="References (1,234)"
-        references={[
+        items={[
           {
             title: "p.264",
             snippet: "in 't geheel p:r de prins Eugenius...",
-            archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+            metadata: "NL-HaNA 1.04.02 · 10070_0054 · 264",
             href: "#",
+            uri: "https://example.com/reference/1764-0054-264",
           },
         ]}
       />
@@ -199,9 +200,9 @@ Grid-aware overlay shell for ObjectCard and future document scan/page viewer lay
   ]}
 />
 
-## References Panel
+## Reference Panel
 
-Right-side panel for references today, with a custom-content path for future vertical page ToC or document overview content.
+Right-side panel for references, scan hits, page ToC rows, and voyage references.
 
 <PropsTable
   props={[
@@ -212,14 +213,14 @@ Right-side panel for references today, with a custom-content path for future ver
       description: "Panel section heading.",
     },
     {
-      name: "references",
-      type: "ObjectCardReference[]",
-      description: "Reference rows rendered with `ObjectCardReferenceItem`.",
+      name: "items",
+      type: "ReferencePanelItemData[]",
+      description: "Reference rows rendered with `ReferencePanelItem`.",
     },
     {
       name: "children",
       type: "ReactNode",
-      description: "Custom content rendered before mapped references.",
+      description: "Custom content rendered before mapped items.",
     },
     {
       name: "emptyState",
@@ -376,20 +377,20 @@ Pre-styled card for list entries (voyages, etc.). Optionally wraps in RAC `Link`
   ]}
 />
 
-### ObjectCardReferenceItem
+### ReferencePanelItem
 
-Pre-styled reference row with optional image, snippet, archive ID, and external link.
+Pre-styled reference row with optional thumbnail, snippet, metadata, external link, and copy URI action.
 
 <PropsTable
   props={[
     {
       name: "title",
-      type: "string",
+      type: "ReactNode",
       required: true,
       description: "Reference title.",
     },
     {
-      name: "image",
+      name: "thumbnail",
       type: "ReactNode",
       description: "Thumbnail image element.",
     },
@@ -399,14 +400,19 @@ Pre-styled reference row with optional image, snippet, archive ID, and external 
       description: "Text excerpt.",
     },
     {
-      name: "archiveId",
-      type: "string",
-      description: "Archive identifier string.",
+      name: "metadata",
+      type: "ReactNode",
+      description: "Identifier, route, date, or other secondary row content.",
     },
     {
       name: "href",
       type: "string",
       description: "External link — renders an icon via RAC Link.",
+    },
+    {
+      name: "uri",
+      type: "string",
+      description: "URI copied by the copy action.",
     },
   ]}
 />

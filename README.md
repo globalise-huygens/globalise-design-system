@@ -119,7 +119,7 @@ export function Page() {
 | `CardGlance`                | Stats/at-a-glance card with colour accent                   |
 | `ObjectCardOverlay`         | Grid-aware modal overlay shell for entity detail views      |
 | `ObjectCard`                | Composable entity detail card shell for entity detail views |
-| `ObjectCardReferencesPanel` | Prebuilt references column for object card layouts          |
+| `ReferencePanel`           | Prebuilt reference column for object card layouts           |
 
 ### Content
 
@@ -247,7 +247,7 @@ import {
 
 ### ObjectCard
 
-The Object Card family combines `ObjectCardOverlay`, `ObjectCard`, `ObjectCardReferencesPanel`, and the layout/content primitives below to build entity detail overlays for **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** records.
+The Object Card family combines `ObjectCardOverlay`, `ObjectCard`, `ReferencePanel`, and the layout/content primitives below to build entity detail overlays for **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** records.
 
 ```tsx
 import {
@@ -262,7 +262,7 @@ import {
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferencesPanel,
+  ReferencePanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
@@ -295,14 +295,15 @@ import {
       </ObjectCardFooter>
     </ObjectCardPanel>
 
-    <ObjectCardReferencesPanel
+    <ReferencePanel
       title="References (1,234)"
-      references={[
+      items={[
         {
           title: "p.264",
           snippet: "in 't geheel p:r de prins Eugenius...",
-          archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+          metadata: "NL-HaNA 1.04.02 · 10070_0054 · 264",
           href: "#",
+          uri: "https://example.com/reference/1764-0054-264",
         },
       ]}
     />

@@ -68,23 +68,27 @@ export function DocumentDetailControlsDemo() {
           </DocumentDetailSegmentedToggleItem>
         </DocumentDetailSegmentedToggleGroup>
 
-        <DocumentDetailCheckbox
-          isSelected={searchHitsOnly}
-          onChange={setSearchHitsOnly}
-        >
-          Search hits
-        </DocumentDetailCheckbox>
+        <DocumentDetailTooltip label="Show search hits only">
+          <DocumentDetailCheckbox
+            isSelected={searchHitsOnly}
+            onChange={setSearchHitsOnly}
+          >
+            Search hits
+          </DocumentDetailCheckbox>
+        </DocumentDetailTooltip>
 
         <span className="inline-flex items-baseline gap-s6 text-xs leading-4 text-neutral-300">
           Scan
-          <DocumentDetailNumberField
-            aria-label="Go to scan"
-            value={scan}
-            minValue={1}
-            maxValue={156}
-            digits={3}
-            onChange={(nextScan) => setScan(Math.round(nextScan))}
-          />
+          <DocumentDetailTooltip label="Type a scan number">
+            <DocumentDetailNumberField
+              aria-label="Go to scan"
+              value={scan}
+              minValue={1}
+              maxValue={156}
+              digits={3}
+              onChange={(nextScan) => setScan(Math.round(nextScan))}
+            />
+          </DocumentDetailTooltip>
           of 156
         </span>
       </div>

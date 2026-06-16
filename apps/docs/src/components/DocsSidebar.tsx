@@ -38,16 +38,40 @@ const navigation = [
         href: "/docs/components/object-card-overlay",
       },
       {
-        title: "Object Card References Panel",
-        href: "/docs/components/object-card-references-panel",
+        title: "Reference Panel",
+        href: "/docs/components/reference-panel",
       },
       {
         title: "Document Detail Overlay",
         href: "/docs/components/document-detail-overlay",
       },
       {
-        title: "Document Detail Controls",
-        href: "/docs/components/document-detail-controls",
+        title: "Tooltip",
+        href: "/docs/components/tooltip",
+      },
+      {
+        title: "Segmented Buttons",
+        href: "/docs/components/segmented-buttons",
+      },
+      {
+        title: "Checkbox",
+        href: "/docs/components/checkbox",
+      },
+      {
+        title: "Toolbars",
+        href: "/docs/components/toolbars",
+      },
+      {
+        title: "Dropdown / Popover",
+        href: "/docs/components/dropdown-popover",
+      },
+      {
+        title: "Sidebar Sections",
+        href: "/docs/components/sidebar-sections",
+      },
+      {
+        title: "Entity Highlight Menu",
+        href: "/docs/components/entity-highlight-menu",
       },
       {
         title: "Newsletter Signup",

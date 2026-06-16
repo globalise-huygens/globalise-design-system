@@ -1,0 +1,31 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import {
+  DocumentDetailPopoverSurface,
+  IconContentWarning,
+} from "@globalise/design-system";
+
+# Dropdown / Popover
+
+Reusable popover surface for pinned, interactive, or longer document-viewer content.
+
+## Preview
+
+<ComponentPreview className="bg-neutral-900">
+  <DocumentDetailPopoverSurface
+    heading="Content warning"
+    icon={<IconContentWarning className="h-s16 w-s16" />}
+    variant="warning"
+  >
+    This scan contains language copied from historical records.
+  </DocumentDetailPopoverSurface>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`<DocumentDetailPopoverSurface
+  heading="Entity highlights"
+  size="compact"
+>
+  Menu content
+</DocumentDetailPopoverSurface>`} />

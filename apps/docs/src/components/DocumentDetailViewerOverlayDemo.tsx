@@ -1020,7 +1020,7 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <DocumentDetailTooltip label="Show only documents and scans with search hits">
+        <DocumentDetailTooltip label="Show search hits only">
           <DocumentDetailCheckbox
             aria-label="Show only documents and scans with search hits"
             isSelected={searchHitsOnly}
@@ -1038,7 +1038,7 @@ function TableOfContentsPanel({
             Go to
           </span>
           <div className="flex items-center gap-s8">
-            <DocumentDetailTooltip label="Jump to selected document">
+            <DocumentDetailTooltip label="Go to current document">
               <button
                 type="button"
                 aria-label="Jump to selected document"
@@ -1050,7 +1050,7 @@ function TableOfContentsPanel({
               </button>
             </DocumentDetailTooltip>
             <DocumentDetailTooltip
-              label={`Jump to selected document scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
+              label={`Go to current scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
             >
               <button
                 type="button"
@@ -2041,14 +2041,18 @@ export function DocumentDetailViewerOverlayDemo() {
           ].join(" ")}
         >
           <DocumentDetailBarGroup className="gap-s24">
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="First scan"
+              tooltip="Go to first scan"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeftFirst className="h-s16 w-s16" />}
               onPress={() => setViewerScan(1)}
             />
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Previous scan"
+              tooltip="Go to previous scan"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
@@ -2064,11 +2068,14 @@ export function DocumentDetailViewerOverlayDemo() {
                 value={currentScan}
                 max={currentDocumentScanTotal}
                 onChange={setViewerScan}
+                tooltip="Type a scan number in this document"
               />
               of {currentDocumentScanTotal}
             </span>
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Next scan"
+              tooltip="Go to next scan"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
@@ -2077,16 +2084,20 @@ export function DocumentDetailViewerOverlayDemo() {
                 );
               }}
             />
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Last scan"
+              tooltip="Go to last scan"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRightLast className="h-s16 w-s16" />}
               onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
           <DocumentDetailBarGroup className="gap-s24">
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Previous search hit"
+              tooltip="Go to previous search hit"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
@@ -2100,11 +2111,14 @@ export function DocumentDetailViewerOverlayDemo() {
                 value={currentSearchHit}
                 max={maxSearchHit}
                 onChange={goToSearchHit}
+                tooltip="Type a search hit number"
               />
               of {maxSearchHit}
             </span>
-            <DocumentDetailToolButton
+            <TooltipIconButton
               aria-label="Next search hit"
+              tooltip="Go to next search hit"
+              tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
@@ -2114,8 +2128,10 @@ export function DocumentDetailViewerOverlayDemo() {
           </DocumentDetailBarGroup>
           {activeTagTarget && (
             <DocumentDetailBarGroup className="gap-s24">
-              <DocumentDetailToolButton
+              <TooltipIconButton
                 aria-label={`Previous ${activeTagTarget.label} occurrence`}
+                tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                tooltipPlacement="top"
                 className={BOTTOM_BAR_ICON_BUTTON_CLASS}
                 icon={<IconLeft className="h-s16 w-s16" />}
                 onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
@@ -2129,11 +2145,14 @@ export function DocumentDetailViewerOverlayDemo() {
                   value={currentTagOccurrence}
                   max={activeTagTarget.occurrences}
                   onChange={goToTagOccurrence}
+                  tooltip={`Type a ${activeTagTarget.label} occurrence number`}
                 />
                 of {activeTagTarget.occurrences}
               </span>
-              <DocumentDetailToolButton
+              <TooltipIconButton
                 aria-label={`Next ${activeTagTarget.label} occurrence`}
+                tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                tooltipPlacement="top"
                 className={BOTTOM_BAR_ICON_BUTTON_CLASS}
                 icon={<IconRight className="h-s16 w-s16" />}
                 onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}

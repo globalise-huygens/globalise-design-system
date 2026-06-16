@@ -1,0 +1,69 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import {
+  DocumentDetailSegmentedToggleGroup,
+  DocumentDetailSegmentedToggleItem,
+  IconScan,
+  IconTranscription,
+} from "@globalise/design-system";
+
+# Segmented Buttons
+
+Material 3-style React Aria toggle groups for compact viewer mode choices.
+
+## Preview
+
+<ComponentPreview className="bg-neutral-900">
+  <DocumentDetailSegmentedToggleGroup
+    aria-label="Viewer visibility"
+    selectionMode="multiple"
+    defaultSelectedKeys={["scan", "text"]}
+  >
+    <DocumentDetailSegmentedToggleItem id="scan" icon={<IconScan className="h-s16 w-s16" />}>
+      Scan
+    </DocumentDetailSegmentedToggleItem>
+    <DocumentDetailSegmentedToggleItem id="text" icon={<IconTranscription className="h-s16 w-s16" />}>
+      Text
+    </DocumentDetailSegmentedToggleItem>
+  </DocumentDetailSegmentedToggleGroup>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`<DocumentDetailSegmentedToggleGroup
+  aria-label="Viewer visibility"
+  selectionMode="multiple"
+  selectedKeys={selectedKeys}
+  onSelectionChange={setSelectedKeys}
+>
+  <DocumentDetailSegmentedToggleItem id="scan" icon={<IconScan />}>
+    Scan
+  </DocumentDetailSegmentedToggleItem>
+  <DocumentDetailSegmentedToggleItem id="text" icon={<IconTranscription />}>
+    Text
+  </DocumentDetailSegmentedToggleItem>
+</DocumentDetailSegmentedToggleGroup>`} />
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "selectionMode",
+      type: '"single" | "multiple"',
+      description: "React Aria selection mode.",
+    },
+    {
+      name: "size",
+      type: '"regular" | "compact"',
+      default: '"regular"',
+      description: "Group density.",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description: "Optional leading icon on each item.",
+    },
+  ]}
+/>
