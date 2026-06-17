@@ -5,7 +5,8 @@ Copy-ready starter for integrating `@globalise/design-system` into a React-only 
 - React 19 + React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + Vite router plugin
+- TanStack Router
+- TanStack Query
 - Tailwind CSS v4
 
 ## Quick start (inside this folder)
@@ -31,4 +32,5 @@ pnpm dev
 ```
 
 - If this template is moved to another path, adjust the `@source` relative path accordingly.
+- If this template is copied outside this monorepo after publication, replace `"@globalise/design-system": "workspace:*"` with the published npm version.
 - If your target repo already has a router setup, keep its route tree and copy only styling + design system imports first.

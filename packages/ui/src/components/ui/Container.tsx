@@ -1,36 +1,25 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-const containerVariants = cva("mx-auto w-full", {
-  variants: {
-    size: {
-      shell: "max-w-shell-max",
-      content: "max-w-card-max",
-      narrow: "max-w-sidebar-width",
-      full: "max-w-none",
-    },
-    inset: {
-      page: "px-shell-margin",
-      none: "px-0",
-    },
-  },
-  defaultVariants: {
-    size: "shell",
-    inset: "page",
-  },
-});
+type ContainerSize = "shell" | "content" | "narrow" | "full";
+type ContainerInset = "page" | "none";
 
-export interface ContainerProps
-  extends
-    React.ComponentPropsWithRef<"div">,
-    VariantProps<typeof containerVariants> {}
+function containerVariants({ className }: { className?: string } = {}) {
+  return cn("gds-container", className);
+}
+
+export interface ContainerProps extends React.ComponentPropsWithRef<"div"> {
+  size?: ContainerSize;
+  inset?: ContainerInset;
+}
 
 const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
   ({ className, size, inset, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(containerVariants({ size, inset }), className)}
+      className={containerVariants({ className })}
+      data-inset={inset ?? "page"}
+      data-size={size ?? "shell"}
       {...props}
     />
   ),

@@ -1,36 +1,23 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps,
 } from "react-aria-components";
 
-const dividerVariants = cva(
-  "border-0 outline outline-1 outline-offset-[-0.50px]",
-  {
-    variants: {
-      orientation: {
-        horizontal: "h-0 w-full",
-        vertical: "w-0 self-stretch",
-      },
-      color: {
-        light: "outline-brand-white/50",
-        dark: "outline-brand-black/50",
-      },
-    },
-    defaultVariants: {
-      orientation: "horizontal",
-      color: "light",
-    },
-  },
-);
+type DividerColor = "light" | "dark";
 
-export interface DividerProps
-  extends
-    Omit<AriaSeparatorProps, "className" | "style" | "orientation">,
-    VariantProps<typeof dividerVariants> {
+function dividerVariants({ className }: { className?: string } = {}) {
+  return cn("gds-divider", className);
+}
+
+export interface DividerProps extends Omit<
+  AriaSeparatorProps,
+  "className" | "style" | "orientation"
+> {
   className?: string;
+  color?: DividerColor;
+  orientation?: AriaSeparatorProps["orientation"];
 }
 
 const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
@@ -38,7 +25,9 @@ const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
     <AriaSeparator
       ref={ref}
       orientation={orientation ?? "horizontal"}
-      className={cn(dividerVariants({ orientation, color }), className)}
+      className={dividerVariants({ className })}
+      data-color={color ?? "light"}
+      data-orientation={orientation ?? "horizontal"}
       {...props}
     />
   ),

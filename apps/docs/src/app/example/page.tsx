@@ -1,3 +1,4 @@
+import { DocumentDetailViewerOverlayDemo } from "@/components/DocumentDetailViewerOverlayDemo";
 import { GridGuideToggle } from "@/components/GridGuideToggle";
 import { HomeFeatured } from "@/components/HomeFeatured";
 import { ObjectCardExampleOverlay } from "@/components/ObjectCardExampleOverlay";
@@ -143,6 +144,7 @@ export default function HomePage() {
               </Typography>
               <HomeFeatured />
               <ObjectCardExampleOverlay />
+              <DocumentDetailViewerOverlayDemo />
             </div>
           </div>
         </Grid>

@@ -1,0 +1,162 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import {
+  referencePanelCss,
+  ReferencePanel,
+  ReferencePanelItem,
+} from "@globalise/design-system";
+
+# Reference Panel
+
+A reusable reference list for object cards, document tables of contents, scan hits, and voyage references. The item layout uses the document-viewer scan card language: active left border, optional thumbnail, compact heading/action row, optional two-line snippet, metadata row, link action, and copy URI action.
+
+## Preview
+
+<ComponentPreview className="docs-preview-edge">
+  <div className="docs-preview-reference-shell">
+    <ReferencePanel
+      title="References (2)"
+      items={[
+        {
+          id: "1764-0054-264",
+          title: "1764 · 0054 · p.264",
+          snippet:
+            "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
+          metadata: "NL-HaNA 1.04.02 · 10070",
+          href: "#",
+          uri: "https://example.com/reference/1764-0054-264",
+        },
+        {
+          id: "1764-0054-265",
+          title: "1764 · 0054 · p.265",
+          snippet:
+            "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
+          metadata: "NL-HaNA 1.04.02 · 10070",
+          href: "#",
+          uri: "https://example.com/reference/1764-0054-265",
+        },
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+## Voyage Rows
+
+<ComponentPreview className="docs-preview-edge">
+  <div className="docs-preview-voyage-shell">
+    <ReferencePanelItem
+      title="Texel (NL) -> Jakarta (ID)"
+      metadata="12 Nov 1703 - 3 Jul 1704 · Capt. Klaas Nanningsz. Sanderus · ~230 crew"
+      href="#"
+      uri="https://example.com/voyage/prins-eugenius-1"
+    />
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock code={`import { ReferencePanel } from "@globalise/design-system";
+
+const references = [
+{
+id: "1764-0054-264",
+title: "1764 · 0054 · p.264",
+snippet: "in 't geheel p:r de prins Eugenius...",
+metadata: "NL-HaNA 1.04.02 · 10070",
+href: "#",
+hrefType: "internal",
+uri: "https://example.com/reference/1764-0054-264",
+},
+];
+
+<ReferencePanel title="References (1)" items={references} />`} />
+
+## CSS Recipe
+
+<CodeBlock code={referencePanelCss} language="css" />
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "ReactNode",
+      default: '"References"',
+      description: "Panel section heading.",
+    },
+    {
+      name: "items",
+      type: "ReferencePanelItemData[]",
+      description: "Reference rows rendered with `ReferencePanelItem`.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Custom content rendered before mapped items.",
+    },
+    {
+      name: "emptyState",
+      type: "ReactNode",
+      description: "Content shown when no items or children are provided.",
+    },
+    {
+      name: "onCopyUri",
+      type: "(uri: string) => void",
+      description:
+        "Optional copy handler. Without it, the item writes `uri` to the clipboard.",
+    },
+  ]}
+/>
+
+## Item Props
+
+<PropsTable
+  props={[
+    {
+      name: "title",
+      type: "ReactNode",
+      description: "Primary row heading.",
+    },
+    {
+      name: "thumbnail",
+      type: "ReactNode",
+      description: "Optional compact thumbnail slot.",
+    },
+    {
+      name: "snippet",
+      type: "ReactNode",
+      description: "Optional two-line quote or result snippet.",
+    },
+    {
+      name: "metadata",
+      type: "ReactNode",
+      description: "Identifier, voyage details, or secondary row content.",
+    },
+    {
+      name: "href",
+      type: "string",
+      description:
+        "Optional row action. Use internal links for scans, voyages, and object cards.",
+    },
+    {
+      name: "hrefType",
+      type: '"internal" | "external"',
+      default: '"internal"',
+      description:
+        "Controls the action icon and link behavior. External links use the boxed external-link icon and open in a new tab; internal links use the arrow-top-right icon.",
+    },
+    {
+      name: "uri",
+      type: "string",
+      description: "Optional URI copied by the copy action.",
+    },
+    {
+      name: "isActive",
+      type: "boolean",
+      default: "false",
+      description: "Marks the row with the active left border.",
+    },
+  ]}
+/>

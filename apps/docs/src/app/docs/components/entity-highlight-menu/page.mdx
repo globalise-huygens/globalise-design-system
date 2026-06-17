@@ -1,0 +1,33 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { EntityHighlightMenuPreview } from "@/components/EntityHighlightMenuPreview";
+import {
+  IconEntities,
+  popoverCss,
+  checkboxCss,
+} from "@globalise/design-system";
+
+# Entity Highlight Menu
+
+Dropdown menu pattern for entity highlight categories. It is driven by category rows with icons, counts, group selection, and optional child rows.
+
+## Preview
+
+<ComponentPreview>
+  <EntityHighlightMenuPreview />
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock
+  code={`<DocumentDetailEntityHighlightMenu
+  categories={categories}
+  selectedKeys={selectedKeys}
+  onSelectedKeysChange={setSelectedKeys}
+  triggerIcon={<IconEntities />}
+/>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={`${popoverCss}\n\n${checkboxCss}`} language="css" />

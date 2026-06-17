@@ -1,0 +1,54 @@
+import { CodeBlock } from "@/components/CodeBlock";
+import { ComponentPreview } from "@/components/ComponentPreview";
+import { PropsTable } from "@/components/PropsTable";
+import { checkboxCss, DocumentDetailCheckbox } from "@globalise/design-system";
+
+# Checkbox
+
+Compact React Aria checkbox for document filters, entity menus, and sidebar toggles.
+
+## Preview
+
+<ComponentPreview>
+  <div className="docs-preview-checkbox-row">
+    <DocumentDetailCheckbox defaultSelected>Search hits</DocumentDetailCheckbox>
+    <DocumentDetailCheckbox isIndeterminate>Mixed</DocumentDetailCheckbox>
+  </div>
+</ComponentPreview>
+
+## Usage
+
+<CodeBlock
+  code={`<DocumentDetailCheckbox
+  isSelected={searchHitsOnly}
+  onChange={setSearchHitsOnly}
+>
+  Search hits
+</DocumentDetailCheckbox>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={checkboxCss} language="css" />
+
+## Props
+
+<PropsTable
+  props={[
+    {
+      name: "isSelected",
+      type: "boolean",
+      description: "Controlled selected state.",
+    },
+    {
+      name: "isIndeterminate",
+      type: "boolean",
+      description: "Mixed state for grouped filters.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      description: "Optional label text.",
+    },
+  ]}
+/>

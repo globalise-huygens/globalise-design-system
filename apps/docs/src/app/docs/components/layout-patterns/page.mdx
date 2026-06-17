@@ -37,6 +37,7 @@ Defaults in this pattern:
 - Major content rhythm: `gap-s24`
 - Tight related rows: `gap-s12`
 - Card/panel internal padding: `p-s24`
+- Use `s*` spacing tokens for margins, padding, gaps, and component dimensions; reserve arbitrary values for optical details only.
 
 ## Pattern 2: Section withContainer (simple content)
 
@@ -71,11 +72,12 @@ Use `Section` spacing first. Add extra top margin only when a transition needs a
 
 ## Anti-patterns
 
-| Anti-pattern                                  | Why it hurts                                                   | Preferred approach                                     |
-| --------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
-| `Section` -> `Grid` -> `Container`            | Double wraps horizontal constraints and causes alignment drift | Use either `Grid` slots or `withContainer`             |
-| Ad-hoc `col-start-*` values repeated per page | Layout roles become inconsistent and hard to maintain          | Use shared `slot-*` classes                            |
-| Random `mt-*` spacing between siblings        | Vertical rhythm drifts between pages                           | Use `spacing` on `Section`, then `gap-s24` / `gap-s12` |
+| Anti-pattern                                      | Why it hurts                                                            | Preferred approach                                     |
+| ------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------ |
+| `Section` -> `Grid` -> `Container`                | Double wraps horizontal constraints and causes alignment drift          | Use either `Grid` slots or `withContainer`             |
+| Ad-hoc `col-start-*` values repeated per page     | Layout roles become inconsistent and hard to maintain                   | Use shared `slot-*` classes                            |
+| Random `mt-*` spacing between siblings            | Vertical rhythm drifts between pages                                    | Use `spacing` on `Section`, then `gap-s24` / `gap-s12` |
+| Arbitrary spacing such as `gap-2.5` or `p-[18px]` | It breaks the shared 4px/8px rhythm and is hard to translate from Figma | Add or reuse an `s*` token                             |
 
 ## Related docs
 

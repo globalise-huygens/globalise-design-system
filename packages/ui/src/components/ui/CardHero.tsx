@@ -1,26 +1,18 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
-const cardHeroVariants = cva("", {
-  variants: {
-    hoverColor: {
-      turquoise: "bg-brand-turquoise",
-      vermilion: "bg-brand-vermilion",
-      mint: "bg-brand-mint",
-      parchment: "bg-brand-parchment",
-    },
-  },
-  defaultVariants: {
-    hoverColor: "turquoise",
-  },
-});
+type CardHeroColor = "turquoise" | "vermilion" | "mint" | "parchment";
 
-interface CardHeroBaseProps extends VariantProps<typeof cardHeroVariants> {
+function cardHeroVariants({ className }: { className?: string } = {}) {
+  return cn("gds-card-hero__hover", className);
+}
+
+interface CardHeroBaseProps {
   label: string;
   title: string;
+  hoverColor?: CardHeroColor;
   className?: string;
   children?: React.ReactNode;
 }
@@ -39,10 +31,7 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
   const { className, hoverColor, label, title, children } = props;
   const href = "href" in props ? props.href : undefined;
   const [touched, setTouched] = React.useState(false);
-  const sharedClassName = cn(
-    "group relative overflow-hidden transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-black",
-    className,
-  );
+  const sharedClassName = cn("gds-card-hero", className);
 
   const handleTouchStart = () => setTouched(true);
   const handleTouchEnd = () => setTouched(false);
@@ -50,33 +39,22 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
   const content = (
     <>
       <div
-        className={cn(
-          "absolute inset-0 transition-opacity duration-300 group-hover:opacity-0 group-focus-visible:opacity-0",
-          touched && "opacity-0",
-        )}
+        className="gds-card-hero__media"
+        data-hidden={touched ? "true" : undefined}
       >
         {children}
       </div>
 
       <div
-        className={cn(
-          "absolute inset-0 p-3 flex flex-col justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100",
-          touched && "opacity-100",
-          cardHeroVariants({ hoverColor }),
-        )}
+        className={cardHeroVariants()}
+        data-color={hoverColor ?? "turquoise"}
+        data-visible={touched ? "true" : undefined}
       >
-        <div className="flex flex-col gap-2">
-          <span className="text-xs text-brand-black/60 leading-tight font-sans">
-            {label}
-          </span>
-          <span className="font-serif font-medium text-lg leading-tight tracking-tight text-brand-black whitespace-pre-line">
-            {title}
-          </span>
+        <div className="gds-card-hero__copy">
+          <span className="gds-card-hero__label">{label}</span>
+          <span className="gds-card-hero__title">{title}</span>
         </div>
-        <IconArrowRight
-          className="h-5 w-5 text-brand-black"
-          aria-hidden="true"
-        />
+        <IconArrowRight className="gds-card-hero__icon" aria-hidden="true" />
       </div>
     </>
   );
@@ -98,7 +76,8 @@ const CardHero = React.forwardRef<HTMLElement, CardHeroProps>((props, ref) => {
   return (
     <AriaButton
       ref={ref as React.RefObject<HTMLButtonElement>}
-      className={cn(sharedClassName, "cursor-pointer text-left")}
+      className={sharedClassName}
+      data-clickable="true"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >

@@ -8,7 +8,7 @@ interface CardArticleBaseProps {
   label: string;
   /** Card title */
   title: string;
-  /** Image element (typically Next.js Image) */
+  /** Image element rendered at the top of the card */
   image?: React.ReactNode;
   className?: string;
 }
@@ -28,18 +28,12 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
 
     const content = (
       <>
-        {image && (
-          <div className="relative w-full h-40 overflow-hidden">{image}</div>
-        )}
-        <div className="flex flex-col gap-2.5">
-          <span className="text-xs font-sans uppercase leading-[1.1] opacity-50">
-            {label}
-          </span>
-          <span className="text-lg font-normal font-serif leading-[1.25] tracking-[-0.02em]">
-            {title}
-          </span>
+        {image && <div className="gds-card-article__image">{image}</div>}
+        <div className="gds-card-article__copy">
+          <span className="gds-card-article__label">{label}</span>
+          <span className="gds-card-article__title">{title}</span>
         </div>
-        <IconArrowRight className="h-[18px] w-[18px]" aria-hidden="true" />
+        <IconArrowRight className="gds-card-article__icon" aria-hidden="true" />
       </>
     );
 
@@ -48,10 +42,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
         <AriaLink
           href={href}
           ref={ref as React.RefObject<HTMLAnchorElement>}
-          className={cn(
-            "group flex flex-col gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-            className,
-          )}
+          className={cn("gds-card-article", className)}
         >
           {content}
         </AriaLink>
@@ -61,7 +52,7 @@ const CardArticle = React.forwardRef<HTMLElement, CardArticleProps>(
     return (
       <div
         ref={ref as React.RefObject<HTMLDivElement>}
-        className={cn("group flex flex-col gap-4", className)}
+        className={cn("gds-card-article", className)}
         {...(props as React.HTMLAttributes<HTMLDivElement>)}
       >
         {content}

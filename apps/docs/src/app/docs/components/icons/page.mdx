@@ -2,23 +2,57 @@ import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import {
-  IconAdd,
+  IconArrowLeftAlt,
   IconArrowRight,
-  IconChevronDown,
+  IconArrowTopRight,
+  IconBrightness,
   IconClose,
+  IconContentWarning,
+  IconContrast,
   IconCopy,
   IconDownload,
+  IconEntities,
+  IconEntityCommodity,
+  IconEntityDate,
+  IconEntityDimensions,
+  IconEntityDocument,
+  IconEntityOrganisation,
+  IconEntityPerson,
+  IconEntityPlace,
+  IconEntityShip,
+  IconEvents,
+  IconExpandSection,
   IconExternalLink,
+  IconInventory,
+  IconInvert,
+  IconLayoutElements,
+  IconLeft,
+  IconLeftFirst,
   IconMenu,
+  IconModeDark,
+  IconModeLight,
+  IconModeSepia,
+  IconPairedPage,
+  IconPictureInPicture,
+  IconReset,
+  IconRight,
+  IconRightLast,
+  IconRotate,
+  IconScan,
+  IconSaturation,
   IconSearch,
-  IconShip,
-  IconPerson,
-  IconPlace,
-  IconCommodity,
-  IconDimensions,
-  IconOrganisation,
-  IconDate,
-  IconDocument,
+  IconSetting,
+  IconShowMore,
+  IconSidebar,
+  IconSwap,
+  IconTableOfContent,
+  IconTextLine,
+  IconTextSpacing,
+  IconTextType,
+  IconTranscription,
+  IconViewModeMenu,
+  IconZoomIn,
+  IconZoomOut,
 } from "@globalise/design-system";
 
 # Icons
@@ -29,74 +63,103 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
 
 <ComponentPreview>
   <div className="grid w-full grid-cols-4 gap-8 text-brand-white sm:grid-cols-6">
-    <div className="flex flex-col items-center gap-2">
-      <IconAdd className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Add</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconArrowRight className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">ArrowRight</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconChevronDown className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">ChevronDown</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconClose className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Close</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconCopy className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Copy</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconDownload className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Download</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconExternalLink className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">ExternalLink</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconMenu className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Menu</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconSearch className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Search</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconShip className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Ship</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconPerson className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Person</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconPlace className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Place</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconCommodity className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Commodity</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconDimensions className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Dimensions</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconOrganisation className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Organisation</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconDate className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Date</span>
-    </div>
-    <div className="flex flex-col items-center gap-2">
-      <IconDocument className="w-6 h-6" />
-      <span className="text-xs text-brand-white/50">Document</span>
-    </div>
+    {[
+      { name: "ArrowLeftAlt", icon: <IconArrowLeftAlt className="w-6 h-6" /> },
+      { name: "ArrowRight", icon: <IconArrowRight className="w-6 h-6" /> },
+      {
+        name: "ArrowTopRight",
+        icon: <IconArrowTopRight className="w-6 h-6" />,
+      },
+      { name: "Brightness", icon: <IconBrightness className="w-6 h-6" /> },
+      { name: "Close", icon: <IconClose className="w-6 h-6" /> },
+      {
+        name: "ContentWarning",
+        icon: <IconContentWarning className="w-6 h-6 text-brand-vermilion" />,
+      },
+      { name: "Contrast", icon: <IconContrast className="w-6 h-6" /> },
+      { name: "Copy", icon: <IconCopy className="w-6 h-6" /> },
+      { name: "Download", icon: <IconDownload className="w-6 h-6" /> },
+      { name: "Entities", icon: <IconEntities className="w-6 h-6" /> },
+      {
+        name: "EntityCommodity",
+        icon: <IconEntityCommodity className="w-6 h-6" />,
+      },
+      { name: "EntityDate", icon: <IconEntityDate className="w-6 h-6" /> },
+      {
+        name: "EntityDimensions",
+        icon: <IconEntityDimensions className="w-6 h-6" />,
+      },
+      {
+        name: "EntityDocument",
+        icon: <IconEntityDocument className="w-6 h-6" />,
+      },
+      {
+        name: "EntityOrganisation",
+        icon: <IconEntityOrganisation className="w-6 h-6" />,
+      },
+      { name: "EntityPerson", icon: <IconEntityPerson className="w-6 h-6" /> },
+      { name: "EntityPlace", icon: <IconEntityPlace className="w-6 h-6" /> },
+      { name: "EntityShip", icon: <IconEntityShip className="w-6 h-6" /> },
+      { name: "Events", icon: <IconEvents className="w-6 h-6" /> },
+      {
+        name: "ExpandSection",
+        icon: <IconExpandSection className="w-6 h-6" />,
+      },
+      { name: "ExternalLink", icon: <IconExternalLink className="w-6 h-6" /> },
+      { name: "Inventory", icon: <IconInventory className="w-6 h-6" /> },
+      { name: "Invert", icon: <IconInvert className="w-6 h-6" /> },
+      {
+        name: "LayoutElements",
+        icon: <IconLayoutElements className="w-6 h-6" />,
+      },
+      { name: "Left", icon: <IconLeft className="w-6 h-6" /> },
+      { name: "LeftFirst", icon: <IconLeftFirst className="w-6 h-6" /> },
+      { name: "Menu", icon: <IconMenu className="w-6 h-6" /> },
+      { name: "ModeDark", icon: <IconModeDark className="w-6 h-6" /> },
+      { name: "ModeLight", icon: <IconModeLight className="w-6 h-6" /> },
+      { name: "ModeSepia", icon: <IconModeSepia className="w-6 h-6" /> },
+      { name: "PairedPage", icon: <IconPairedPage className="w-6 h-6" /> },
+      {
+        name: "PictureInPicture",
+        icon: <IconPictureInPicture className="w-6 h-6" />,
+      },
+      { name: "Reset", icon: <IconReset className="w-6 h-6" /> },
+      { name: "Right", icon: <IconRight className="w-6 h-6" /> },
+      { name: "RightLast", icon: <IconRightLast className="w-6 h-6" /> },
+      { name: "Rotate", icon: <IconRotate className="w-6 h-6" /> },
+      { name: "Scan", icon: <IconScan className="w-6 h-6" /> },
+      { name: "Saturation", icon: <IconSaturation className="w-6 h-6" /> },
+      { name: "Search", icon: <IconSearch className="w-6 h-6" /> },
+      { name: "Setting", icon: <IconSetting className="w-6 h-6" /> },
+      { name: "ShowMore", icon: <IconShowMore className="w-6 h-6" /> },
+      { name: "Sidebar", icon: <IconSidebar className="w-6 h-6" /> },
+      { name: "Swap", icon: <IconSwap className="w-6 h-6" /> },
+      {
+        name: "TableOfContent",
+        icon: <IconTableOfContent className="w-6 h-6" />,
+      },
+      { name: "TextLine", icon: <IconTextLine className="w-6 h-6" /> },
+      {
+        name: "TextSpacing",
+        icon: <IconTextSpacing className="w-6 h-6" />,
+      },
+      { name: "TextType", icon: <IconTextType className="w-6 h-6" /> },
+      {
+        name: "Transcription",
+        icon: <IconTranscription className="w-6 h-6" />,
+      },
+      {
+        name: "ViewModeMenu",
+        icon: <IconViewModeMenu className="w-6 h-6" />,
+      },
+      { name: "ZoomIn", icon: <IconZoomIn className="w-6 h-6" /> },
+      { name: "ZoomOut", icon: <IconZoomOut className="w-6 h-6" /> },
+    ].map(({ name, icon }) => (
+      <div key={name} className="flex flex-col items-center gap-2">
+        {icon}
+        <span className="text-xs text-brand-white/50">{name}</span>
+      </div>
+    ))}
   </div>
 </ComponentPreview>
 
@@ -126,10 +189,10 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
 
 <ComponentPreview>
   <div className="flex gap-6">
-    <IconAdd className="w-8 h-8 text-brand-turquoise" />
-    <IconAdd className="w-8 h-8 text-brand-vermilion" />
-    <IconAdd className="w-8 h-8 text-brand-mint" />
-    <IconAdd className="w-8 h-8 text-brand-white" />
+    <IconShowMore className="w-8 h-8 text-brand-turquoise" />
+    <IconShowMore className="w-8 h-8 text-brand-vermilion" />
+    <IconShowMore className="w-8 h-8 text-brand-mint" />
+    <IconShowMore className="w-8 h-8 text-brand-white" />
   </div>
 </ComponentPreview>
 
@@ -138,24 +201,40 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
 <PropsTable
   props={[
     {
-      name: "IconAdd",
+      name: "IconArrowLeftAlt",
       type: "SVGSVGElement",
-      description: "Plus / add icon.",
+      description: "Back arrow used in document viewer navigation.",
     },
     {
       name: "IconArrowRight",
       type: "SVGSVGElement",
-      description: "Right arrow.",
+      description:
+        "Horizontal right arrow for directional navigation and CTAs.",
     },
     {
-      name: "IconChevronDown",
+      name: "IconArrowTopRight",
       type: "SVGSVGElement",
-      description: "Downward chevron.",
+      description: "Diagonal arrow for open-link or internal-link affordances.",
+    },
+    {
+      name: "IconBrightness",
+      type: "SVGSVGElement",
+      description: "Brightness adjustment icon.",
     },
     {
       name: "IconClose",
       type: "SVGSVGElement",
-      description: "Close / dismiss.",
+      description: "Close or dismiss.",
+    },
+    {
+      name: "IconContentWarning",
+      type: "SVGSVGElement",
+      description: "Content warning indicator.",
+    },
+    {
+      name: "IconContrast",
+      type: "SVGSVGElement",
+      description: "Contrast adjustment icon.",
     },
     {
       name: "IconCopy",
@@ -165,64 +244,211 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
     {
       name: "IconDownload",
       type: "SVGSVGElement",
-      description: "Download / save.",
+      description: "Download or save.",
+    },
+    {
+      name: "IconEntities",
+      type: "SVGSVGElement",
+      description: "Entity tags section icon.",
+    },
+    {
+      name: "IconEntityCommodity",
+      type: "SVGSVGElement",
+      description: "Commodity entity icon.",
+    },
+    {
+      name: "IconEntityDate",
+      type: "SVGSVGElement",
+      description: "Date entity icon.",
+    },
+    {
+      name: "IconEntityDimensions",
+      type: "SVGSVGElement",
+      description: "Dimensions entity icon.",
+    },
+    {
+      name: "IconEntityDocument",
+      type: "SVGSVGElement",
+      description: "Document entity icon.",
+    },
+    {
+      name: "IconEntityOrganisation",
+      type: "SVGSVGElement",
+      description: "Organisation entity icon.",
+    },
+    {
+      name: "IconEntityPerson",
+      type: "SVGSVGElement",
+      description: "Person entity icon.",
+    },
+    {
+      name: "IconEntityPlace",
+      type: "SVGSVGElement",
+      description: "Place entity icon.",
+    },
+    {
+      name: "IconEntityShip",
+      type: "SVGSVGElement",
+      description: "Ship entity icon.",
+    },
+    {
+      name: "IconEvents",
+      type: "SVGSVGElement",
+      description: "Event tags section icon.",
+    },
+    {
+      name: "IconExpandSection",
+      type: "SVGSVGElement",
+      description: "Expand or collapse a section.",
     },
     {
       name: "IconExternalLink",
       type: "SVGSVGElement",
-      description: "External link (open in new tab).",
+      description: "External link or open in new tab.",
     },
     {
-      name: "IconMenu",
+      name: "IconInventory",
       type: "SVGSVGElement",
-      description: "Hamburger menu icon.",
+      description: "Inventory metadata section icon.",
+    },
+    {
+      name: "IconInvert",
+      type: "SVGSVGElement",
+      description: "Invert image colours icon.",
+    },
+    {
+      name: "IconLayoutElements",
+      type: "SVGSVGElement",
+      description: "Layout elements or viewer configuration icon.",
+    },
+    {
+      name: "IconLeft",
+      type: "SVGSVGElement",
+      description: "Previous pagination arrow.",
+    },
+    {
+      name: "IconLeftFirst",
+      type: "SVGSVGElement",
+      description: "First-page pagination arrow.",
+    },
+    { name: "IconMenu", type: "SVGSVGElement", description: "Menu icon." },
+    {
+      name: "IconModeDark",
+      type: "SVGSVGElement",
+      description: "Dark transcript viewing mode icon.",
+    },
+    {
+      name: "IconModeLight",
+      type: "SVGSVGElement",
+      description: "Light transcript viewing mode icon.",
+    },
+    {
+      name: "IconModeSepia",
+      type: "SVGSVGElement",
+      description: "Sepia transcript viewing mode icon.",
+    },
+    {
+      name: "IconPairedPage",
+      type: "SVGSVGElement",
+      description: "Paired or double-page scan icon.",
+    },
+    {
+      name: "IconPictureInPicture",
+      type: "SVGSVGElement",
+      description: "Picture-in-picture view icon.",
+    },
+    {
+      name: "IconReset",
+      type: "SVGSVGElement",
+      description: "Reset viewer position or zoom.",
+    },
+    {
+      name: "IconRight",
+      type: "SVGSVGElement",
+      description: "Next pagination arrow.",
+    },
+    {
+      name: "IconRightLast",
+      type: "SVGSVGElement",
+      description: "Last-page pagination arrow.",
+    },
+    {
+      name: "IconRotate",
+      type: "SVGSVGElement",
+      description: "Rotate viewer icon.",
+    },
+    {
+      name: "IconScan",
+      type: "SVGSVGElement",
+      description: "Scan view mode icon.",
+    },
+    {
+      name: "IconSaturation",
+      type: "SVGSVGElement",
+      description: "Saturation adjustment icon.",
     },
     {
       name: "IconSearch",
       type: "SVGSVGElement",
-      description: "Search / magnifying glass.",
+      description: "Search or magnifying glass.",
     },
     {
-      name: "IconShip",
+      name: "IconSetting",
       type: "SVGSVGElement",
-      description: "Ship entity badge icon.",
+      description: "Viewer settings icon.",
     },
     {
-      name: "IconPerson",
+      name: "IconShowMore",
       type: "SVGSVGElement",
-      description: "Person entity badge icon.",
+      description: "Show more or reveal additional actions.",
     },
     {
-      name: "IconPlace",
+      name: "IconSidebar",
       type: "SVGSVGElement",
-      description: "Place entity badge icon.",
+      description: "Sidebar toggle icon.",
     },
     {
-      name: "IconCommodity",
+      name: "IconSwap",
       type: "SVGSVGElement",
-      description: "Commodity entity badge icon.",
+      description: "Swap or reorder panes.",
     },
     {
-      name: "IconDimensions",
+      name: "IconTableOfContent",
       type: "SVGSVGElement",
-      description: "Dimensions entity badge icon.",
+      description: "Table of content section icon.",
     },
     {
-      name: "IconOrganisation",
+      name: "IconTextLine",
       type: "SVGSVGElement",
-      description: "Organisation entity badge icon.",
+      description: "Transcript line-height setting icon.",
     },
     {
-      name: "IconDate",
+      name: "IconTextSpacing",
       type: "SVGSVGElement",
-      description: "Date entity badge icon.",
+      description: "Transcript letter-spacing setting icon.",
     },
     {
-      name: "IconDocument",
+      name: "IconTextType",
       type: "SVGSVGElement",
-      description: "Document entity badge icon.",
+      description: "Transcript typeface setting icon.",
+    },
+    {
+      name: "IconTranscription",
+      type: "SVGSVGElement",
+      description: "Text or transcription view mode icon.",
+    },
+    {
+      name: "IconViewModeMenu",
+      type: "SVGSVGElement",
+      description: "Transcript viewer mode menu icon.",
+    },
+    { name: "IconZoomIn", type: "SVGSVGElement", description: "Zoom in icon." },
+    {
+      name: "IconZoomOut",
+      type: "SVGSVGElement",
+      description: "Zoom out icon.",
     },
   ]}
 />
 
-All icons accept standard `React.SVGProps<SVGSVGElement>` and forward refs.
+All icons accept standard `React.SVGProps<SVGSVGElement>`.

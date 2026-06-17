@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
-import { IconAdd } from "../icons/IconAdd";
+import { IconShowMore } from "../icons/IconShowMore";
 import { IconArrowRight } from "../icons/IconArrowRight";
 
 export interface CardFeaturedItem {
@@ -34,64 +34,51 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
     const [expandedIndex, setExpandedIndex] = React.useState(defaultExpanded);
 
     return (
-      <div
-        ref={ref}
-        className={cn("flex flex-col lg:flex-row", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn("gds-card-featured", className)} {...props}>
         {items.map((item, index) => {
           const isExpanded = index === expandedIndex;
-          const textColor = item.darkBackground
-            ? "text-brand-white"
-            : "text-brand-black";
 
           if (isExpanded) {
-            const expandedClassName =
-              "relative flex flex-1 cursor-pointer flex-col justify-end overflow-hidden p-panel-pad transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)";
-
             const expandedContent = (
               <>
                 {/* Background: image or solid color */}
                 {item.image ? (
                   <>
                     {item.image}
-                    <div className="absolute inset-0 bg-linear-to-b from-transparent from-45% to-brand-black/50" />
+                    <div className="gds-card-featured__overlay" />
                   </>
                 ) : (
                   <div
-                    className="absolute inset-0"
+                    className="gds-card-featured__solid"
                     style={{ backgroundColor: item.color }}
                   />
                 )}
 
                 {/* Content */}
-                <div className="relative flex flex-col gap-s16">
-                  <div className="flex flex-col gap-s8">
+                <div className="gds-card-featured__content">
+                  <div className="gds-card-featured__copy">
                     <span
-                      className={cn(
-                        "text-xs leading-[1.35] font-sans opacity-60",
-                        textColor,
-                      )}
+                      className="gds-card-featured__label"
+                      data-on-dark={item.darkBackground ? "true" : undefined}
                     >
                       {item.label}
                     </span>
                     <span
-                      className={cn(
-                        "font-serif font-medium text-[32px] leading-[1.1] tracking-[-0.96px] whitespace-pre-line",
-                        textColor,
-                      )}
+                      className="gds-card-featured__title"
+                      data-on-dark={item.darkBackground ? "true" : undefined}
                     >
                       {item.title}
                     </span>
                   </div>
                   <span
-                    className={cn(
-                      "inline-flex items-center gap-s8 text-sm font-medium",
-                      textColor,
-                    )}
+                    className="gds-card-featured__cta"
+                    data-on-dark={item.darkBackground ? "true" : undefined}
                   >
                     {item.cta}{" "}
-                    <IconArrowRight className="h-5 w-5" aria-hidden="true" />
+                    <IconArrowRight
+                      className="gds-card-featured__cta-icon"
+                      aria-hidden="true"
+                    />
                   </span>
                 </div>
               </>
@@ -102,7 +89,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
                 <AriaLink
                   key={index}
                   href={item.href}
-                  className={expandedClassName}
+                  className="gds-card-featured__expanded"
                 >
                   {expandedContent}
                 </AriaLink>
@@ -110,7 +97,7 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
             }
 
             return (
-              <div key={index} className={expandedClassName}>
+              <div key={index} className="gds-card-featured__expanded">
                 {expandedContent}
               </div>
             );
@@ -119,16 +106,16 @@ const CardFeatured = React.forwardRef<HTMLDivElement, CardFeaturedProps>(
           return (
             <AriaButton
               key={index}
-              className="flex w-full cursor-pointer flex-col items-start gap-s8 overflow-hidden p-s12 text-left transition-all duration-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black) lg:w-30"
+              className="gds-card-featured__collapsed"
               style={{ backgroundColor: item.color }}
               onPress={() => setExpandedIndex(index)}
               aria-label={`Expand ${item.label}: ${item.title.replace(/\n/g, " ")}`}
             >
-              <IconAdd
-                className="h-5 w-5 text-brand-black"
+              <IconShowMore
+                className="gds-card-featured__collapsed-icon"
                 aria-hidden="true"
               />
-              <span className="font-serif text-base font-medium leading-[1.3] tracking-[-0.3px] text-brand-black">
+              <span className="gds-card-featured__collapsed-title">
                 {item.title.replace(/\n/g, " ")}
               </span>
             </AriaButton>

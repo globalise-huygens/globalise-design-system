@@ -16,6 +16,7 @@ const navigation = [
   {
     title: "Components",
     items: [
+      { title: "Overview", href: "/docs/components" },
       { title: "Button", href: "/docs/components/button" },
       { title: "Typography", href: "/docs/components/typography" },
       { title: "Layout Patterns", href: "/docs/components/layout-patterns" },
@@ -37,8 +38,40 @@ const navigation = [
         href: "/docs/components/object-card-overlay",
       },
       {
-        title: "Object Card References Panel",
-        href: "/docs/components/object-card-references-panel",
+        title: "Reference Panel",
+        href: "/docs/components/reference-panel",
+      },
+      {
+        title: "Document Detail Overlay",
+        href: "/docs/components/document-detail-overlay",
+      },
+      {
+        title: "Tooltip",
+        href: "/docs/components/tooltip",
+      },
+      {
+        title: "Segmented Buttons",
+        href: "/docs/components/segmented-buttons",
+      },
+      {
+        title: "Checkbox",
+        href: "/docs/components/checkbox",
+      },
+      {
+        title: "Toolbars",
+        href: "/docs/components/toolbars",
+      },
+      {
+        title: "Dropdown / Popover",
+        href: "/docs/components/dropdown-popover",
+      },
+      {
+        title: "Sidebar Sections",
+        href: "/docs/components/sidebar-sections",
+      },
+      {
+        title: "Entity Highlight Menu",
+        href: "/docs/components/entity-highlight-menu",
       },
       {
         title: "Newsletter Signup",

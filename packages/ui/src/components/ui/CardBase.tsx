@@ -1,37 +1,28 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-const cardBaseVariants = cva(
-  "flex flex-col overflow-hidden text-card-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-card",
-        turquoise: "bg-brand-turquoise text-brand-black",
-        vermilion: "bg-brand-vermilion text-brand-black",
-        mint: "bg-brand-mint text-brand-black",
-        parchment: "bg-brand-parchment text-brand-black",
-        overlay:
-          "relative bg-gradient-to-b from-brand-black/0 to-brand-black/50 text-brand-white",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
+type CardBaseVariant =
+  | "default"
+  | "turquoise"
+  | "vermilion"
+  | "mint"
+  | "parchment"
+  | "overlay";
 
-export interface CardBaseProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof cardBaseVariants> {}
+function cardBaseVariants({ className }: { className?: string } = {}) {
+  return cn("gds-card-base", className);
+}
+
+export interface CardBaseProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: CardBaseVariant;
+}
 
 const CardBase = React.forwardRef<HTMLDivElement, CardBaseProps>(
   ({ className, variant, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(cardBaseVariants({ variant }), className)}
+      className={cardBaseVariants({ className })}
+      data-variant={variant ?? "default"}
       {...props}
     />
   ),
@@ -44,7 +35,7 @@ const CardBaseHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col gap-s8 p-panel-pad", className)}
+    className={cn("gds-card-base__header", className)}
     {...props}
   />
 ));
@@ -54,14 +45,7 @@ const CardBaseTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "font-serif font-medium text-3xl leading-8 tracking-[-0.03em]",
-      className,
-    )}
-    {...props}
-  />
+  <div ref={ref} className={cn("gds-card-base__title", className)} {...props} />
 ));
 CardBaseTitle.displayName = "CardBaseTitle";
 
@@ -71,7 +55,7 @@ const CardBaseDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("gds-card-base__description", className)}
     {...props}
   />
 ));
@@ -81,7 +65,11 @@ const CardBaseContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-panel-pad pt-0", className)} {...props} />
+  <div
+    ref={ref}
+    className={cn("gds-card-base__content", className)}
+    {...props}
+  />
 ));
 CardBaseContent.displayName = "CardBaseContent";
 
@@ -91,7 +79,7 @@ const CardBaseFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-panel-pad pt-0", className)}
+    className={cn("gds-card-base__footer", className)}
     {...props}
   />
 ));

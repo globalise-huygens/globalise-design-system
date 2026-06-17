@@ -44,15 +44,12 @@ const GridGuide = React.forwardRef<HTMLDivElement, GridGuideProps>(
       <div
         ref={ref}
         aria-hidden="true"
-        className={cn(
-          "pointer-events-none fixed inset-0 z-9999 mx-auto grid w-full max-w-shell-max grid-cols-[repeat(var(--shell-cols),minmax(0,1fr))] gap-x-shell-gutter px-shell-margin",
-          className,
-        )}
+        className={cn("gds-grid-guide", className)}
         {...props}
       >
         {showRhythm && (
           <div
-            className="absolute inset-0"
+            className="gds-grid-guide__rhythm"
             style={{
               backgroundImage:
                 "repeating-linear-gradient(to bottom, rgba(255,255,255,0.10) 0px, rgba(255,255,255,0.10) 1px, transparent 1px, transparent 8px)",
@@ -64,12 +61,12 @@ const GridGuide = React.forwardRef<HTMLDivElement, GridGuideProps>(
           Array.from({ length: columnCount }).map((_, i) => (
             <div
               key={i}
-              className={cn(
-                "h-full border-x border-brand-white/6",
+              className="gds-grid-guide__column"
+              data-outside={
                 i + 1 < contentBand.start || i + 1 > contentBand.end
-                  ? "bg-brand-white/2"
-                  : "bg-brand-turquoise/4",
-              )}
+                  ? "true"
+                  : undefined
+              }
             />
           ))}
       </div>

@@ -2,26 +2,26 @@
 
 import {
   EntityBadge,
-  IconAdd,
+  IconShowMore,
   IconCopy,
   IconDownload,
-  IconShip,
+  IconEntityShip,
   ObjectCard,
   ObjectCardAction,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardFooter,
   ObjectCardHeader,
-  ObjectCardListItem,
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  type ObjectCardReference,
-  ObjectCardReferencesPanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
+  type ReferencePanelItemData,
+  ReferencePanel,
+  ReferencePanelItem,
 } from "@globalise/design-system";
 import Image from "next/image";
 import { useState } from "react";
@@ -85,86 +85,116 @@ function ManuscriptScan() {
   );
 }
 
-const references: ObjectCardReference[] = [
+const references: ReferencePanelItemData[] = [
   {
+    id: "1764-0054-264",
     title: "1764 · 0054 · p.264",
     snippet:
       "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
-    archiveId: "NL-HaNA 1.04.02 · 10070",
+    metadata: "NL-HaNA 1.04.02 · 10070",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1764 0054 page 264",
+    uri: "https://example.com/reference/1764-0054-264",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1764-0054-265",
     title: "1764 · 0054 · p.265",
     snippet:
       "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
-    archiveId: "NL-HaNA 1.04.02 · 10070",
+    metadata: "NL-HaNA 1.04.02 · 10070",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1764 0054 page 265",
+    uri: "https://example.com/reference/1764-0054-265",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1764-0054-266",
     title: "1764 · 0054 · p.266",
     snippet:
       "aangaande het schip de prins Eugenius gerapporteerd dat hetzelve in...",
-    archiveId: "NL-HaNA 1.04.02 · 10070",
+    metadata: "NL-HaNA 1.04.02 · 10070",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1764 0054 page 266",
+    uri: "https://example.com/reference/1764-0054-266",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1764-0061-14",
     title: "1764 · 0061 · p.14",
     snippet:
       "den schipper van de prins Eugenius verklaart dat het schip behouden...",
-    archiveId: "NL-HaNA 1.04.02 · 10070",
+    metadata: "NL-HaNA 1.04.02 · 10070",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1764 0061 page 14",
+    uri: "https://example.com/reference/1764-0061-14",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1765-0012-91",
     title: "1765 · 0012 · p.91",
     snippet:
       "de goederen op de prins Eugenius zijn in goede staat te Batavia aangekomen...",
-    archiveId: "NL-HaNA 1.04.02 · 10071",
+    metadata: "NL-HaNA 1.04.02 · 10071",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1765 0012 page 91",
+    uri: "https://example.com/reference/1765-0012-91",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1765-0012-92",
     title: "1765 · 0012 · p.92",
     snippet:
       "met het schip prins Eugenius zijn diverse kisten zijde overgebracht...",
-    archiveId: "NL-HaNA 1.04.02 · 10071",
+    metadata: "NL-HaNA 1.04.02 · 10071",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1765 0012 page 92",
+    uri: "https://example.com/reference/1765-0012-92",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1766-0027-11",
     title: "1766 · 0027 · p.11",
     snippet:
       "rapport van de equipage omtrent schade aan mast en tuigage op zee...",
-    archiveId: "NL-HaNA 1.04.02 · 10073",
+    metadata: "NL-HaNA 1.04.02 · 10073",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1766 0027 page 11",
+    uri: "https://example.com/reference/1766-0027-11",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1766-0027-12",
     title: "1766 · 0027 · p.12",
     snippet:
       "de kamer Amsterdam verzoekt nadere opgave van lading en bemanning...",
-    archiveId: "NL-HaNA 1.04.02 · 10073",
+    metadata: "NL-HaNA 1.04.02 · 10073",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1766 0027 page 12",
+    uri: "https://example.com/reference/1766-0027-12",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1767-0048-203",
     title: "1767 · 0048 · p.203",
     snippet:
       "uittreksel betreffende de reis van Texel naar Batavia met vertraging...",
-    archiveId: "NL-HaNA 1.04.02 · 10076",
+    metadata: "NL-HaNA 1.04.02 · 10076",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1767 0048 page 203",
+    uri: "https://example.com/reference/1767-0048-203",
+    thumbnail: <ManuscriptScan />,
   },
   {
+    id: "1767-0048-204",
     title: "1767 · 0048 · p.204",
     snippet:
       "verklaring van de stuurman over verlies van proviand gedurende storm...",
-    archiveId: "NL-HaNA 1.04.02 · 10076",
+    metadata: "NL-HaNA 1.04.02 · 10076",
     href: "#",
-    image: <ManuscriptScan />,
+    hrefLabel: "Open reference 1767 0048 page 204",
+    uri: "https://example.com/reference/1767-0048-204",
+    thumbnail: <ManuscriptScan />,
   },
 ];
 
@@ -186,7 +216,10 @@ export function PrinsEugeniusObjectCard({
   return (
     <ObjectCard className={className}>
       <ObjectCardHeader onClose={onClose}>
-        <EntityBadge type="ship" icon={<IconShip className="h-s12 w-s12" />}>
+        <EntityBadge
+          type="ship"
+          icon={<IconEntityShip className="h-s12 w-s12" />}
+        >
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
@@ -209,31 +242,30 @@ export function PrinsEugeniusObjectCard({
           </ObjectCardSection>
 
           <ObjectCardSection title="Voyages (7)" scrollable>
-            <div className="flex flex-col gap-s8">
+            <div className="overflow-hidden border-t border-brand-white/20">
               {visibleVoyages.map((voyage, index) => (
-                <ObjectCardListItem key={index} href="#">
-                  <span className="pr-s16 font-sans text-xs leading-(--s16) text-neutral-400">
-                    {voyage.dates}
-                  </span>
-                  <span className="font-serif text-xs font-semibold leading-(--s12) text-neutral-200">
-                    {voyage.route}
-                  </span>
-                  <div className="flex items-center justify-between">
-                    <span className="font-sans text-xs leading-(--s12) text-neutral-400">
-                      {voyage.captain}
+                <ReferencePanelItem
+                  key={index}
+                  title={voyage.route}
+                  metadata={
+                    <span className="flex flex-wrap items-center justify-between gap-x-s12 gap-y-s4">
+                      <span>{voyage.dates}</span>
+                      <span>{voyage.captain}</span>
+                      <span>{voyage.crew}</span>
                     </span>
-                    <span className="font-sans text-xs leading-(--s12) text-neutral-400">
-                      {voyage.crew}
-                    </span>
-                  </div>
-                </ObjectCardListItem>
+                  }
+                  href="#"
+                  hrefLabel={`Open voyage ${voyage.route}`}
+                  hrefType="internal"
+                  uri={`https://example.com/voyage/prins-eugenius-${index + 1}`}
+                />
               ))}
             </div>
           </ObjectCardSection>
 
           <ObjectCardAction
             variant="more"
-            icon={<IconAdd className="h-s12 w-s12" />}
+            icon={<IconShowMore className="h-s12 w-s12" />}
             onPress={() => setShowAllVoyages((isShowingAll) => !isShowingAll)}
           >
             {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
@@ -260,10 +292,7 @@ export function PrinsEugeniusObjectCard({
           </ObjectCardFooter>
         </ObjectCardPanel>
 
-        <ObjectCardReferencesPanel
-          title="References (1,234)"
-          references={references}
-        />
+        <ReferencePanel title="References (1,234)" items={references} />
       </ObjectCardBody>
     </ObjectCard>
   );

@@ -1,6 +1,6 @@
 # Getting Started
 
-The Globalise Design System is a React component library built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and Tailwind CSS v4. It provides the UI building blocks for the Globalise project ecosystem.
+The Globalise Design System is a React component library built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and plain CSS. It provides the UI building blocks for the Globalise project ecosystem.
 
 > **Status:** This package is in active development (`v0.1.0`) and is **not yet published to npm**. It is currently only available within this monorepo. The instructions below describe the intended setup for when the package is released.
 
@@ -41,7 +41,7 @@ Or in your CSS file:
 @import "@globalise/design-system/styles.css";
 ```
 
-> The stylesheet provides design tokens only. The project itself must have its own Tailwind CSS v4 setup as the component classes are not pre-compiled.
+> The stylesheet includes design tokens and component CSS. Consumers do not need Tailwind to render the package components.
 
 ### 3. Install fonts
 
@@ -71,7 +71,7 @@ export default function Page() {
 }
 ```
 
-### React + Vite + TanStack Router setup (Research Portal baseline)
+### React + Vite + TanStack setup (Research Portal baseline)
 
 If you are integrating into a React-only app (not Next.js), use the stack below:
 
@@ -79,8 +79,9 @@ If you are integrating into a React-only app (not Next.js), use the stack below:
 - React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + `@tanstack/router-plugin`
-- Tailwind CSS v4
+- TanStack Router
+- TanStack Query
+- Tailwind CSS v4 in the current example app only
 
 This repository includes a copy-ready starter at:
 
@@ -89,42 +90,37 @@ This repository includes a copy-ready starter at:
 #### Vite config
 
 ```ts
-import tailwindcss from "@tailwindcss/vite";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [
-    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react()],
 });
 ```
 
 #### Global styles
 
 ```css
-@import "tailwindcss";
 @import "@globalise/design-system/styles.css";
-
-/* Let Tailwind detect classes used by the design-system package */
-@source "../node_modules/@globalise/design-system/dist";
 ```
 
 #### App entry
 
 ```tsx
 import "./styles.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { router } from "./router";
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );
 ```
@@ -141,11 +137,10 @@ const nextConfig = {
 
 ## Requirements
 
-| Dependency   | Version  |
-| ------------ | -------- |
-| React        | ≥ 19.0.0 |
-| React DOM    | ≥ 19.0.0 |
-| Tailwind CSS | ≥ 4.0.0  |
+| Dependency | Version  |
+| ---------- | -------- |
+| React      | ≥ 18.0.0 |
+| React DOM  | ≥ 18.0.0 |
 
 ### Verified integration baseline
 
@@ -153,19 +148,20 @@ const nextConfig = {
 - React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + Vite plugin
+- TanStack Router
+- TanStack Query
 - Tailwind CSS v4
 
 ## What is currently included (updates will follow)
 
 - Layout primitives: `Grid`, `Container`, `Section`, `Divider`
 - Cards: `CardHero`, `CardFeatured`, `CardGlance`, `CardArticle`, `CardBase`
-- Object card shells: `ObjectCardOverlay`, `ObjectCard`, `ObjectCardReferencesPanel`
-- Object card primitives: `ObjectCardHeader`, `ObjectCardTitle`, `ObjectCardStats`, `ObjectCardStat`, `ObjectCardBody`, `ObjectCardPanel`, `ObjectCardSection`, `ObjectCardPropertyList`, `ObjectCardProperty`, `ObjectCardListItem`, `ObjectCardFooter`, `ObjectCardAction`, `ObjectCardExternalLink`, `ObjectCardReferenceItem`
+- Object card shells: `ObjectCardOverlay`, `ObjectCard`, `ReferencePanel`
+- Object card primitives: `ObjectCardHeader`, `ObjectCardTitle`, `ObjectCardStats`, `ObjectCardStat`, `ObjectCardBody`, `ObjectCardPanel`, `ObjectCardSection`, `ObjectCardPropertyList`, `ObjectCardProperty`, `ObjectCardListItem`, `ObjectCardFooter`, `ObjectCardAction`, `ObjectCardExternalLink`, `ReferencePanelItem`
 - Navigation: `Navbar`, `NavLink`, `NavLinks`, `NavSearchBar`
 - Content: `Typography`, `Button`, `NewsletterSignup`, `SearchBar`, `ArticleRow`
-- Icons: `IconAdd`, `IconArrowRight`, `IconChevronDown`, `IconClose`, `IconMenu`, `IconSearch`
+- Icons: `IconShowMore`, `IconArrowRight`, `IconExpandSection`, `IconClose`, `IconMenu`, `IconSearch`
 - Logos: `Logomark`, `Logotype`, `LogoLockup`, `LogoNavbar`
-- Dev tools: `GridGuide` (12-column overlay for alignment checking)
+- Dev tools: `GridGuide` (responsive 4 / 8 / 16-column overlay for alignment checking)
 - Design tokens for brand colours, colour scales, typography, and spacing
 - Full TypeScript support with exported types for every component

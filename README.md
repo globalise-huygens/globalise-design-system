@@ -1,6 +1,6 @@
 # @globalise/design-system
 
-React component library for the [Globalise](https://globalise.huygens.knaw.nl/) project, built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and [Tailwind CSS v4](https://tailwindcss.com/).
+React component library for the [Globalise](https://globalise.huygens.knaw.nl/) project, built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and plain CSS.
 
 **[Documentation site →](https://globalise-huygens.github.io/globalise-design-system/)**
 
@@ -22,24 +22,19 @@ npm install @globalise/design-system
 
 ### Peer dependencies
 
-| Package       | Version |
-| ------------- | ------- |
-| `react`       | >= 18   |
-| `react-dom`   | >= 18   |
-| `tailwindcss` | >= 4    |
+| Package     | Version |
+| ----------- | ------- |
+| `react`     | >= 18   |
+| `react-dom` | >= 18   |
 
 ## Setup
 
-### 1. Import the design tokens
+### 1. Import the design system stylesheet
 
-Add the design system styles and Tailwind source scanning to your global CSS:
+Add the design system styles to your app entry or global CSS:
 
 ```css
-@import "tailwindcss";
 @import "@globalise/design-system/styles.css";
-
-/* Let Tailwind detect class names used by library components */
-@source "../node_modules/@globalise/design-system/dist";
 ```
 
 ### 2. Configure fonts
@@ -47,7 +42,7 @@ Add the design system styles and Tailwind source scanning to your global CSS:
 The design system uses **Noto Sans** (body/UI) and **Noto Serif** (headings/editorial). Set them up via your framework's font loading (e.g. `next/font/google`) or a `<link>` tag and map the CSS variables:
 
 ```css
-@theme inline {
+:root {
   --font-sans: var(--font-noto-sans);
   --font-serif: var(--font-noto-serif);
 }
@@ -64,8 +59,9 @@ This template includes:
 - React 19 + React DOM 19
 - TypeScript 5.9
 - Vite 8
-- TanStack Router + Vite router plugin
-- Tailwind CSS v4
+- TanStack Router
+- TanStack Query
+- Tailwind CSS v4 in the current example app only
 
 Use it as the baseline for transferring this design system into:
 
@@ -93,7 +89,7 @@ export function Page() {
 | Component        | Description                                          |
 | ---------------- | ---------------------------------------------------- |
 | `Container`      | Responsive max-width wrapper with horizontal padding |
-| `Grid`           | 12-column CSS grid                                   |
+| `Grid`           | Responsive 4 / 8 / 16-column CSS grid                |
 | `Section`        | Full-width band with background and spacing variants |
 | `SectionDivider` | Convenience divider inside a Container               |
 | `Divider`        | Semantic `<hr>` styled as a subtle white line        |
@@ -109,16 +105,16 @@ export function Page() {
 
 ### Cards
 
-| Component                   | Description                                                 |
-| --------------------------- | ----------------------------------------------------------- |
-| `CardBase`                  | Low-level card primitive with colour variants               |
-| `CardArticle`               | Article card with image, label, title, CTA                  |
-| `CardHero`                  | Full-bleed hero card with overlay                           |
-| `CardFeatured`              | Featured content card with tabbed items                     |
-| `CardGlance`                | Stats/at-a-glance card with colour accent                   |
-| `ObjectCardOverlay`         | Grid-aware modal overlay shell for entity detail views      |
-| `ObjectCard`                | Composable entity detail card shell for entity detail views |
-| `ObjectCardReferencesPanel` | Prebuilt references column for object card layouts          |
+| Component           | Description                                                 |
+| ------------------- | ----------------------------------------------------------- |
+| `CardBase`          | Low-level card primitive with colour variants               |
+| `CardArticle`       | Article card with image, label, title, CTA                  |
+| `CardHero`          | Full-bleed hero card with overlay                           |
+| `CardFeatured`      | Featured content card with tabbed items                     |
+| `CardGlance`        | Stats/at-a-glance card with colour accent                   |
+| `ObjectCardOverlay` | Grid-aware modal overlay shell for entity detail views      |
+| `ObjectCard`        | Composable entity detail card shell for entity detail views |
+| `ReferencePanel`    | Prebuilt reference column for object card layouts           |
 
 ### Content
 
@@ -246,7 +242,7 @@ import {
 
 ### ObjectCard
 
-The Object Card family combines `ObjectCardOverlay`, `ObjectCard`, `ObjectCardReferencesPanel`, and the layout/content primitives below to build entity detail overlays for **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** records.
+The Object Card family combines `ObjectCardOverlay`, `ObjectCard`, `ReferencePanel`, and the layout/content primitives below to build entity detail overlays for **Ship**, **Person**, **Concept**, **Voyage**, and **Letter** records.
 
 ```tsx
 import {
@@ -261,7 +257,7 @@ import {
   ObjectCardPanel,
   ObjectCardProperty,
   ObjectCardPropertyList,
-  ObjectCardReferencesPanel,
+  ReferencePanel,
   ObjectCardSection,
   ObjectCardStat,
   ObjectCardStats,
@@ -288,20 +284,21 @@ import {
         </ObjectCardPropertyList>
       </ObjectCardSection>
       <ObjectCardFooter>
-        <ObjectCardAction icon={<IconCopy className="h-3.5 w-3.5" />}>
+        <ObjectCardAction icon={<IconCopy className="h-s16 w-s16" />}>
           Copy URI
         </ObjectCardAction>
       </ObjectCardFooter>
     </ObjectCardPanel>
 
-    <ObjectCardReferencesPanel
+    <ReferencePanel
       title="References (1,234)"
-      references={[
+      items={[
         {
           title: "p.264",
           snippet: "in 't geheel p:r de prins Eugenius...",
-          archiveId: "NL-HaNA 1.04.02 · 10070_0054 · 264",
+          metadata: "NL-HaNA 1.04.02 · 10070_0054 · 264",
           href: "#",
+          uri: "https://example.com/reference/1764-0054-264",
         },
       ]}
     />
@@ -309,7 +306,7 @@ import {
 </ObjectCard>;
 ```
 
-Pair `ObjectCard` with `ObjectCardOverlay` when you want modal presentation aligned to the 12-column Globalise grid.
+Pair `ObjectCard` with `ObjectCardOverlay` when you want modal presentation aligned to the responsive Globalise shell grid.
 
 | Badge type | Color scheme |
 | ---------- | ------------ |

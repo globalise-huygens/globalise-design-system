@@ -3,14 +3,14 @@ import { PropsTable } from "@/components/PropsTable";
 import { CodeBlock } from "@/components/CodeBlock";
 import {
   EntityBadge,
-  IconCommodity,
-  IconDate,
-  IconDimensions,
-  IconDocument,
-  IconOrganisation,
-  IconPerson,
-  IconPlace,
-  IconShip,
+  IconEntityCommodity,
+  IconEntityDate,
+  IconEntityDimensions,
+  IconEntityDocument,
+  IconEntityOrganisation,
+  IconEntityPerson,
+  IconEntityPlace,
+  IconEntityShip,
 } from "@globalise/design-system";
 
 # Entity Badge
@@ -21,39 +21,45 @@ A reusable badge for marking entity types in transcription text, headers, and en
 
 <ComponentPreview>
   <div className="flex flex-wrap gap-3">
-    <EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+    <EntityBadge type="ship" icon={<IconEntityShip className="h-s16 w-s16" />}>
       Ship
     </EntityBadge>
-    <EntityBadge type="person" icon={<IconPerson className="h-3.5 w-3.5" />}>
+    <EntityBadge
+      type="person"
+      icon={<IconEntityPerson className="h-s16 w-s16" />}
+    >
       Person
     </EntityBadge>
-    <EntityBadge type="place" icon={<IconPlace className="h-3.5 w-3.5" />}>
+    <EntityBadge
+      type="place"
+      icon={<IconEntityPlace className="h-s16 w-s16" />}
+    >
       Place
     </EntityBadge>
     <EntityBadge
       type="commodity"
-      icon={<IconCommodity className="h-3.5 w-3.5" />}
+      icon={<IconEntityCommodity className="h-s16 w-s16" />}
     >
       Commodity
     </EntityBadge>
     <EntityBadge
       type="dimensions"
-      icon={<IconDimensions className="h-3.5 w-3.5" />}
+      icon={<IconEntityDimensions className="h-s16 w-s16" />}
     >
       Dimensions
     </EntityBadge>
     <EntityBadge
       type="organisation"
-      icon={<IconOrganisation className="h-3.5 w-3.5" />}
+      icon={<IconEntityOrganisation className="h-s16 w-s16" />}
     >
       Organisation
     </EntityBadge>
-    <EntityBadge type="date" icon={<IconDate className="h-3.5 w-3.5" />}>
+    <EntityBadge type="date" icon={<IconEntityDate className="h-s16 w-s16" />}>
       Date
     </EntityBadge>
     <EntityBadge
       type="document"
-      icon={<IconDocument className="h-3.5 w-3.5" />}
+      icon={<IconEntityDocument className="h-s16 w-s16" />}
     >
       Document
     </EntityBadge>
@@ -62,9 +68,9 @@ A reusable badge for marking entity types in transcription text, headers, and en
 
 ## Usage
 
-<CodeBlock code={`import { EntityBadge, IconShip } from "@globalise/design-system";
+<CodeBlock code={`import { EntityBadge, IconEntityShip } from "@globalise/design-system";
 
-<EntityBadge type="ship" icon={<IconShip className="h-3.5 w-3.5" />}>
+<EntityBadge type="ship" icon={<IconEntityShip className="h-s16 w-s16" />}>
   Ship
 </EntityBadge>`} />
 
@@ -82,7 +88,7 @@ A reusable badge for marking entity types in transcription text, headers, and en
       name: "icon",
       type: "ReactNode",
       description:
-        "Optional icon rendered before the label. Typically 14×14px.",
+        "Optional icon rendered before the label. Typically `h-s16 w-s16`.",
     },
   ]}
 />

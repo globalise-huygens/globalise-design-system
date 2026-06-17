@@ -10,7 +10,17 @@ export default defineConfig({
   treeshake: true,
   async onSuccess() {
     const { cpSync, readFileSync, writeFileSync } = await import("fs");
-    cpSync("src/styles/globals.css", "dist/styles.css");
+    const globalsCss = readFileSync("src/styles/globals.css", "utf-8");
+    const componentsCss = readFileSync("src/styles/components.css", "utf-8");
+    const documentDetailCss = readFileSync(
+      "src/styles/document-detail.css",
+      "utf-8",
+    );
+
+    writeFileSync(
+      "dist/styles.css",
+      `${globalsCss}\n\n${componentsCss}\n\n${documentDetailCss}`,
+    );
     cpSync("src/assets", "dist/assets", { recursive: true });
 
     // Prepend "use client" directive for React Server Components compatibility
