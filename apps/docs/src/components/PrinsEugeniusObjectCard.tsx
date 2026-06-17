@@ -2,6 +2,7 @@
 
 import {
   EntityBadge,
+  EntityTag,
   IconCopy,
   IconDownload,
   IconEntityShip,
@@ -237,10 +238,37 @@ export function PrinsEugeniusObjectCard({
         <ObjectCardPanel side="left">
           <ObjectCardSection sticky>
             <ObjectCardPropertyList>
-              <ObjectCardProperty label="Built" value="1703, Amsterdam" />
-              <ObjectCardProperty label="Laid up" value="1727, Batavia" />
+              <ObjectCardProperty
+                label="Built"
+                value={
+                  <>
+                    1703,{" "}
+                    <EntityTag type="place" href="#">
+                      Amsterdam
+                    </EntityTag>
+                  </>
+                }
+              />
+              <ObjectCardProperty
+                label="Laid up"
+                value={
+                  <>
+                    1727,{" "}
+                    <EntityTag type="place" href="#">
+                      Batavia
+                    </EntityTag>
+                  </>
+                }
+              />
               <ObjectCardProperty label="Weight" value="874 tons" />
-              <ObjectCardProperty label="Ship type" value="Ship" />
+              <ObjectCardProperty
+                label="Ship type"
+                value={
+                  <EntityTag type="ship" href="#">
+                    Ship
+                  </EntityTag>
+                }
+              />
             </ObjectCardPropertyList>
           </ObjectCardSection>
 

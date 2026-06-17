@@ -21,6 +21,7 @@ import {
   DocumentDetailTooltip,
   DocumentDetailTopBar,
   DocumentDetailViewerPane,
+  EntityTag,
   IconClose,
   IconEntities,
   IconEntityDocument,
@@ -51,7 +52,6 @@ import {
   TOP_BAR_ICON_BUTTON_CLASS,
   TranscriptCanvas,
 } from "./document-detail-overlay-demo/controls";
-import { DemoScanPage } from "./document-detail-overlay-demo/DemoScanPage";
 import {
   ACTIVE_TOC_ARCHIVE_SCAN,
   ACTIVE_TOC_DOCUMENT_ID,
@@ -82,6 +82,7 @@ import {
   type TagNavigationTarget,
   TOC_SCANS,
 } from "./document-detail-overlay-demo/data";
+import { DemoScanPage } from "./document-detail-overlay-demo/DemoScanPage";
 
 function SidebarDisclosureIcon({
   isExpanded = false,
@@ -391,9 +392,9 @@ function ArchivePanel() {
           {INVENTORY_SETTLEMENTS.map((settlement, index) => (
             <React.Fragment key={settlement}>
               {index > 0 && <span>, </span>}
-              <a href="#" className="underline underline-offset-2">
+              <EntityTag type="place" href="#" className="text-xs">
                 {settlement}
-              </a>
+              </EntityTag>
             </React.Fragment>
           ))}
         </InventoryMetadataRow>
@@ -493,9 +494,19 @@ function TableOfContentsMetadataRow({
       <div className="text-[10px] leading-3 text-neutral-500">{label}</div>
       <div className="min-w-0 text-brand-white">
         {label === "Type" || label === "Creator" || label === "Location" ? (
-          <a href="#" className="underline underline-offset-2">
+          <EntityTag
+            type={
+              label === "Location"
+                ? "place"
+                : label === "Type"
+                  ? "concept"
+                  : "organisation"
+            }
+            href="#"
+            className="text-xs"
+          >
             {value}
-          </a>
+          </EntityTag>
         ) : (
           value
         )}

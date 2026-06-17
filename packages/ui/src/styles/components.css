@@ -745,6 +745,75 @@
     justify-content: center;
   }
 
+  .gds-entity-tag {
+    position: relative;
+    display: inline-flex;
+    width: fit-content;
+    min-width: 0;
+    align-items: center;
+    gap: var(--s4);
+    color: inherit;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: var(--s20);
+    opacity: 0.86;
+    text-decoration: none;
+    transition:
+      color 150ms ease,
+      opacity 150ms ease;
+  }
+
+  .gds-entity-tag[href]:hover,
+  .gds-entity-tag[data-hovered] {
+    opacity: 1;
+  }
+
+  .gds-entity-tag[data-pressed] {
+    opacity: 0.72;
+  }
+
+  .gds-entity-tag[data-focus-visible] {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .gds-entity-tag__icon {
+    display: inline-flex;
+    width: 0.9em;
+    height: 0.9em;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    color: currentColor;
+  }
+
+  .gds-entity-tag__icon-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gds-entity-tag__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gds-entity-tag__label {
+    min-width: 0;
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .gds-entity-tag__label > :where(p) {
+    display: inline;
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    line-height: inherit;
+  }
+
   .gds-article-row {
     display: flex;
     align-items: stretch;

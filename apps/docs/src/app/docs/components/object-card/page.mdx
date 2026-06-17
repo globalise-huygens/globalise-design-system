@@ -32,6 +32,7 @@ A composable card built on React Aria Components for displaying entity detail ov
   ObjectCard,
   ObjectCardAction,
   EntityBadge,
+  EntityTag,
   ObjectCardBody,
   ObjectCardExternalLink,
   ObjectCardHeader,
@@ -76,8 +77,23 @@ A composable card built on React Aria Components for displaying entity detail ov
       <ObjectCardPanel side="left" className="gap-s48">
         <ObjectCardSection title="General Properties">
           <ObjectCardPropertyList>
-            <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+            <ObjectCardProperty
+              label="Built"
+              value={
+                <>
+                  1703, <EntityTag type="place" href="#">Amsterdam</EntityTag>
+                </>
+              }
+            />
             <ObjectCardProperty label="Weight" value="874 tons" />
+            <ObjectCardProperty
+              label="Ship type"
+              value={
+                <EntityTag type="ship" href="#">
+                  Ship
+                </EntityTag>
+              }
+            />
           </ObjectCardPropertyList>
         </ObjectCardSection>
 
@@ -160,7 +176,7 @@ Reusable badge for marking entity types in transcription text, headers, and enti
   props={[
     {
       name: "type",
-      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
+      type: '"ship" | "concept" | "voyage" | "letter" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document"',
       default: '"ship"',
       description: "Entity type, determines badge color and outline style.",
     },
