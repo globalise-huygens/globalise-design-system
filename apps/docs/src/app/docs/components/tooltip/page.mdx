@@ -5,6 +5,7 @@ import {
   DocumentDetailToolButton,
   DocumentDetailTooltip,
   IconCopy,
+  tooltipCss,
 } from "@globalise/design-system";
 
 # Tooltip
@@ -24,9 +25,15 @@ Small React Aria tooltip wrapper for dense document-viewer controls.
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailTooltip label="Copy scan URI">
+<CodeBlock
+  code={`<DocumentDetailTooltip label="Copy scan URI">
   <DocumentDetailToolButton aria-label="Copy scan URI" icon={<IconCopy />} />
-</DocumentDetailTooltip>`} />
+</DocumentDetailTooltip>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={tooltipCss} language="css" />
 
 ## Props
 

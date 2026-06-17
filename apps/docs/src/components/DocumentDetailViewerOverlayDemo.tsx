@@ -7,18 +7,17 @@ import {
   DocumentDetailBody,
   DocumentDetailBottomBar,
   DocumentDetailCheckbox,
+  DocumentDetailEntityHighlightMenu,
   DocumentDetailIconRail,
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
-  DocumentDetailPopoverSurface,
   DocumentDetailRailButton,
   DocumentDetailReferenceCard,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
   DocumentDetailSplitViewer,
-  DocumentDetailToolButton,
   DocumentDetailTooltip,
   DocumentDetailTopBar,
   DocumentDetailViewerPane,
@@ -204,315 +203,27 @@ const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
   },
 };
 
-function getEntityHighlightLeafKeys() {
-  return CLASSIFIED_ENTITY_TAG_GROUPS.flatMap((group) => {
-    if (group.count <= 0) {
-      return [];
-    }
+function getEntityHighlightCategories() {
+  return CLASSIFIED_ENTITY_TAG_GROUPS.map((group) => {
+    const scheme =
+      ENTITY_HIGHLIGHT_COLOR_SCHEMES[group.category] ??
+      ENTITY_HIGHLIGHT_COLOR_SCHEMES.Quantity;
 
-    if (group.subcategories.length === 0) {
-      return [group.category];
-    }
-
-    return group.subcategories.map((subcategory) =>
-      `${group.category}::${subcategory.label}`,
-    );
+    return {
+      id: group.category,
+      label: group.category,
+      count: group.count,
+      icon: group.icon,
+      rowClassName: scheme.rowClassName,
+      subRowClassName: scheme.subRowClassName,
+      textClassName: scheme.textClassName,
+      subcategories: group.subcategories.map((subcategory) => ({
+        id: `${group.category}::${subcategory.label}`,
+        label: subcategory.label,
+        count: subcategory.count,
+      })),
+    };
   });
-}
-
-function EntityHighlightsControl({
-  selectedKeys,
-  onSelectedKeysChange,
-}: {
-  selectedKeys: Set<string>;
-  onSelectedKeysChange: React.Dispatch<React.SetStateAction<Set<string>>>;
-}) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [expandedGroups, setExpandedGroups] = React.useState<Set<string>>(
-    () => new Set(),
-  );
-  const rootRef = React.useRef<HTMLDivElement>(null);
-  const allLeafKeys = React.useMemo(() => getEntityHighlightLeafKeys(), []);
-  const hasAnySelection = selectedKeys.size > 0;
-  const areAllHighlightsSelected =
-    allLeafKeys.length > 0 && selectedKeys.size === allLeafKeys.length;
-  const areHighlightsPartiallySelected =
-    hasAnySelection && !areAllHighlightsSelected;
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      return undefined;
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("pointerdown", handlePointerDown);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("pointerdown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen]);
-
-  const setAllHighlights = React.useCallback(
-    (isSelected: boolean) => {
-      onSelectedKeysChange(isSelected ? new Set(allLeafKeys) : new Set());
-    },
-    [allLeafKeys, onSelectedKeysChange],
-  );
-
-  const toggleLeafKey = React.useCallback(
-    (leafKey: string, isSelected: boolean) => {
-      onSelectedKeysChange((current) => {
-        const next = new Set(current);
-
-        if (isSelected) {
-          next.add(leafKey);
-        } else {
-          next.delete(leafKey);
-        }
-
-        return next;
-      });
-    },
-    [onSelectedKeysChange],
-  );
-
-  const toggleGroup = React.useCallback(
-    (
-      group: (typeof CLASSIFIED_ENTITY_TAG_GROUPS)[number],
-      isSelected: boolean,
-    ) => {
-      const groupLeafKeys =
-        group.subcategories.length === 0
-          ? [group.category]
-          : group.subcategories.map(
-              (subcategory) => `${group.category}::${subcategory.label}`,
-            );
-
-      onSelectedKeysChange((current) => {
-        const next = new Set(current);
-
-        groupLeafKeys.forEach((key) => {
-          if (isSelected) {
-            next.add(key);
-          } else {
-            next.delete(key);
-          }
-        });
-
-        return next;
-      });
-    },
-    [onSelectedKeysChange],
-  );
-
-  const toggleExpandedGroup = React.useCallback((groupName: string) => {
-    setExpandedGroups((current) => {
-      const next = new Set(current);
-
-      if (next.has(groupName)) {
-        next.delete(groupName);
-      } else {
-        next.add(groupName);
-      }
-
-      return next;
-    });
-  }, []);
-
-  return (
-    <div ref={rootRef} className="relative">
-      <DocumentDetailTooltip label="Entity highlights">
-        <DocumentDetailToolButton
-          aria-expanded={isOpen}
-          aria-label={
-            hasAnySelection ? "Open entity highlights" : "Enable entity highlights"
-          }
-          isActive={hasAnySelection}
-          className={TOP_BAR_ICON_BUTTON_CLASS}
-          icon={<IconEntities className="h-s16 w-s16" />}
-          onPress={() => {
-            if (!hasAnySelection) {
-              setAllHighlights(true);
-              setIsOpen(true);
-              return;
-            }
-
-            setIsOpen((current) => !current);
-          }}
-        />
-      </DocumentDetailTooltip>
-
-      {isOpen && (
-        <DocumentDetailPopoverSurface
-          role="dialog"
-          aria-label="Entity highlights"
-          size="compact"
-          className="absolute right-0 top-[calc(100%+var(--s8))] z-40 flex w-[320px] flex-col gap-s16 rounded-none border-brand-white/10 bg-neutral-800 p-s16 shadow-[0_8px_20px_rgba(0,0,0,0.32)]"
-        >
-          <div className="flex items-center justify-between gap-s8">
-            <div className="min-w-0">
-              <h3 className="font-sans text-sm leading-5 text-brand-white">
-                Entity highlights
-              </h3>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-s8">
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-s8 border border-brand-white/10 bg-brand-white/5 px-s8 py-s8">
-              <div className="min-w-0">
-                <div className="font-sans text-[11px] uppercase leading-3 text-brand-white">
-                  All entity highlights
-                </div>
-                <div className="text-[10px] leading-3 text-brand-white/45">
-                  Select or clear every classified entity highlight
-                </div>
-              </div>
-              <DocumentDetailCheckbox
-                aria-label="Toggle all entity highlights"
-                isSelected={areAllHighlightsSelected}
-                isIndeterminate={areHighlightsPartiallySelected}
-                onChange={(nextSelected) => setAllHighlights(nextSelected)}
-                className="h-s24 gap-0 px-0"
-              />
-            </div>
-
-            <div className="flex max-h-[392px] flex-col gap-s8 overflow-y-auto pr-s4 [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]">
-            {CLASSIFIED_ENTITY_TAG_GROUPS.map((group) => {
-              const scheme =
-                ENTITY_HIGHLIGHT_COLOR_SCHEMES[group.category] ??
-                ENTITY_HIGHLIGHT_COLOR_SCHEMES.Quantity;
-              const groupLeafKeys =
-                group.subcategories.length === 0
-                  ? [group.category]
-                  : group.subcategories.map(
-                      (subcategory) => `${group.category}::${subcategory.label}`,
-                    );
-              const selectedCount = groupLeafKeys.filter((key) =>
-                selectedKeys.has(key),
-              ).length;
-              const isSelected =
-                groupLeafKeys.length > 0 && selectedCount === groupLeafKeys.length;
-              const isIndeterminate =
-                selectedCount > 0 && selectedCount < groupLeafKeys.length;
-              const isExpanded = expandedGroups.has(group.category);
-
-              return (
-                <div key={group.category} className="flex flex-col gap-s8">
-                  <div
-                    className={cn(
-                      "grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-s8 border px-s8 py-s8",
-                      scheme.rowClassName,
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        "flex min-w-0 items-center gap-s8",
-                        scheme.textClassName,
-                      )}
-                    >
-                      <span className="shrink-0">{group.icon}</span>
-                      <span className="truncate font-sans text-[11px] uppercase leading-3">
-                        {group.category}
-                      </span>
-                    </div>
-                      <span
-                        className={cn(
-                          "text-[10px] leading-3",
-                          scheme.textClassName,
-                        )}
-                      >
-                        {group.count}
-                      </span>
-                      <div className="flex items-center gap-s4">
-                      {group.subcategories.length > 0 && (
-                        <button
-                          type="button"
-                          aria-label={`Toggle ${group.category} subcategories`}
-                          aria-expanded={isExpanded}
-                          className={cn(
-                            "flex h-s20 w-s20 items-center justify-center transition-colors duration-75 ease-out hover:bg-brand-black/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none",
-                            scheme.textClassName,
-                          )}
-                          onClick={() => toggleExpandedGroup(group.category)}
-                        >
-                          <IconExpandSection
-                            className={cn(
-                              "h-s12 w-s12 transition-transform duration-100 ease-out motion-reduce:transition-none",
-                              isExpanded && "rotate-180",
-                            )}
-                          />
-                        </button>
-                      )}
-                      <DocumentDetailCheckbox
-                        aria-label={`Toggle ${group.category} entity highlights`}
-                        isDisabled={group.count <= 0}
-                        isSelected={isSelected}
-                        isIndeterminate={isIndeterminate}
-                        onChange={(nextSelected) => toggleGroup(group, nextSelected)}
-                        className="h-s20 gap-0 px-0"
-                      />
-                    </div>
-                  </div>
-
-                  {isExpanded && group.subcategories.length > 0 && (
-                    <div className="ml-s16 flex flex-col gap-s8">
-                      {group.subcategories.map((subcategory) => {
-                        const leafKey = `${group.category}::${subcategory.label}`;
-
-                        return (
-                          <div
-                            key={leafKey}
-                            className={cn(
-                              "grid grid-cols-[minmax(0,1fr)_auto] items-center gap-s8 border px-s8 py-s8",
-                              scheme.subRowClassName,
-                            )}
-                          >
-                            <div
-                              className={cn(
-                                "flex min-w-0 items-center gap-s8",
-                                scheme.textClassName,
-                              )}
-                            >
-                              <span className="shrink-0">{group.icon}</span>
-                              <span className="truncate font-sans text-[10px] uppercase leading-3">
-                                {subcategory.label}
-                              </span>
-                            </div>
-                            <DocumentDetailCheckbox
-                              aria-label={`Toggle ${subcategory.label} entity highlights`}
-                              isSelected={selectedKeys.has(leafKey)}
-                              onChange={(nextSelected) =>
-                                toggleLeafKey(leafKey, nextSelected)
-                              }
-                              className="h-s20 gap-0 px-0"
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          </div>
-        </DocumentDetailPopoverSurface>
-      )}
-    </div>
-  );
 }
 
 interface CollapsedMetadataRailProps {
@@ -1548,6 +1259,10 @@ export function DocumentDetailViewerOverlayDemo() {
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
 
   const maxSearchHit = SEARCH_HITS.length;
+  const entityHighlightCategories = React.useMemo(
+    () => getEntityHighlightCategories(),
+    [],
+  );
 
   const selectViewerScan = React.useCallback((scan: SelectedScanReference) => {
     setCurrentScan(scan.documentScan);
@@ -1886,7 +1601,9 @@ export function DocumentDetailViewerOverlayDemo() {
           <DocumentDetailBarGroup className="min-w-0 justify-self-end gap-s8">
             <TooltipIconButton
               aria-disabled={!canSwapViewers}
-              aria-label={canSwapViewers ? "Swap panes" : "Swapping panes unavailable"}
+              aria-label={
+                canSwapViewers ? "Swap panes" : "Swapping panes unavailable"
+              }
               tooltip={
                 canSwapViewers
                   ? "Swaps scan and transcription viewer"
@@ -1963,9 +1680,12 @@ export function DocumentDetailViewerOverlayDemo() {
               }
             />
             <span className="font-sans text-xs text-brand-white/70">|</span>
-            <EntityHighlightsControl
+            <DocumentDetailEntityHighlightMenu
+              categories={entityHighlightCategories}
               selectedKeys={selectedEntityHighlightKeys}
               onSelectedKeysChange={setSelectedEntityHighlightKeys}
+              triggerIcon={<IconEntities className="h-s16 w-s16" />}
+              triggerClassName={TOP_BAR_ICON_BUTTON_CLASS}
             />
             <TooltipIconButton
               aria-label={

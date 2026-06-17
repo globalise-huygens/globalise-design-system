@@ -4,7 +4,6 @@ import { IconArrowTopRight } from "@/components/icons/IconArrowTopRight";
 import { IconClose } from "@/components/icons/IconClose";
 import { IconExternalLink } from "@/components/icons/IconExternalLink";
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
   Button as AriaButton,
@@ -29,12 +28,7 @@ const ObjectCard = React.forwardRef<HTMLElement, ObjectCardProps>(
   ({ className, ...props }, ref) => (
     <AriaDialog
       ref={ref}
-      className={cn(
-        "isolate flex min-h-0 w-full max-w-full flex-col overflow-hidden bg-neutral-800 outline-none",
-        "h-full max-h-full lg:inline-flex",
-        "shadow-[0px_6px_14px_0px_rgba(0,0,0,0.25),0px_25px_25px_0px_rgba(0,0,0,0.22),0px_56px_34px_0px_rgba(0,0,0,0.13),0px_100px_40px_0px_rgba(0,0,0,0.04),0px_156px_44px_0px_rgba(0,0,0,0.00)]",
-        className,
-      )}
+      className={cn("gds-object-card", className)}
       {...props}
     />
   ),
@@ -48,10 +42,7 @@ function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
     <AriaHeading
       slot="title"
       level={2}
-      className={cn(
-        "font-serif text-3xl font-medium leading-(--s32) text-brand-white",
-        className,
-      )}
+      className={cn("gds-object-card__title", className)}
       {...props}
     />
   );
@@ -69,20 +60,15 @@ function ObjectCardHeader({
   children,
 }: ObjectCardHeaderProps) {
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-10 flex shrink-0 flex-col gap-row-gap border-b border-brand-white/20 bg-neutral-800 px-panel-pad py-panel-pad",
-        className,
-      )}
-    >
+    <header className={cn("gds-object-card__header", className)}>
       {children}
       {onClose && (
         <AriaButton
           onPress={onClose}
           aria-label="Close"
-          className="absolute right-panel-pad top-panel-pad flex h-control w-control items-center justify-center text-brand-white transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring"
+          className="gds-object-card__close"
         >
-          <IconClose className="h-s12 w-s12" />
+          <IconClose className="gds-object-card__close-icon" />
         </AriaButton>
       )}
     </header>
@@ -96,14 +82,7 @@ export interface ObjectCardStatsProps {
 
 function ObjectCardStats({ className, children }: ObjectCardStatsProps) {
   return (
-    <div
-      className={cn(
-        "inline-flex flex-wrap items-center gap-x-s32 gap-y-s4",
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn("gds-object-card__stats", className)}>{children}</div>
   );
 }
 
@@ -114,14 +93,7 @@ export interface ObjectCardStatProps {
 
 function ObjectCardStat({ className, children }: ObjectCardStatProps) {
   return (
-    <span
-      className={cn(
-        "font-sans text-sm italic leading-(--s16) text-neutral-400",
-        className,
-      )}
-    >
-      {children}
-    </span>
+    <span className={cn("gds-object-card__stat", className)}>{children}</span>
   );
 }
 
@@ -132,41 +104,25 @@ export interface ObjectCardBodyProps {
 
 function ObjectCardBody({ className, children }: ObjectCardBodyProps) {
   return (
-    <div
-      className={cn(
-        "grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-12",
-        className,
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn("gds-object-card__body", className)}>{children}</div>
   );
 }
 
-const objectCardPanelVariants = cva(
-  "flex min-h-0 w-full flex-col overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:var(--neutral-500)_transparent]",
-  {
-    variants: {
-      side: {
-        left: "gap-section-gap border-b border-neutral-700 bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-6 lg:border-b-0 lg:border-r",
-        right: "bg-neutral-800 px-panel-pad pb-panel-pad pt-0 lg:col-span-6",
-      },
-    },
-    defaultVariants: {
-      side: "left",
-    },
-  },
-);
+type ObjectCardPanelSide = "left" | "right";
 
-export interface ObjectCardPanelProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof objectCardPanelVariants> {}
+function objectCardPanelVariants({ className }: { className?: string } = {}) {
+  return cn("gds-object-card__panel", className);
+}
+
+export interface ObjectCardPanelProps extends React.HTMLAttributes<HTMLDivElement> {
+  side?: ObjectCardPanelSide;
+}
 
 function ObjectCardPanel({ className, side, ...props }: ObjectCardPanelProps) {
   return (
     <div
-      className={cn(objectCardPanelVariants({ side }), className)}
+      className={objectCardPanelVariants({ className })}
+      data-side={side ?? "left"}
       {...props}
     />
   );
@@ -191,23 +147,23 @@ function ObjectCardSection({
   return (
     <Group
       aria-labelledby={title ? headingId : undefined}
-      className={cn(
-        "flex flex-col gap-row-gap",
-        sticky &&
-          "sticky top-0 z-20 -mx-panel-pad -mt-panel-pad bg-neutral-800 px-panel-pad pb-row-gap pt-panel-pad",
-        className,
-      )}
+      className={cn("gds-object-card__section", className)}
+      data-sticky={sticky ? "true" : undefined}
     >
       {title && (
         <AriaHeading
           level={3}
           id={headingId}
-          className="font-serif text-lg font-medium leading-[20px] text-brand-white"
+          className="gds-object-card__section-heading"
         >
           {title}
         </AriaHeading>
       )}
-      {scrollable ? <div className="min-h-0">{children}</div> : children}
+      {scrollable ? (
+        <div className="gds-object-card__section-scroll">{children}</div>
+      ) : (
+        children
+      )}
     </Group>
   );
 }
@@ -224,18 +180,9 @@ function ObjectCardProperty({
   className,
 }: ObjectCardPropertyProps) {
   return (
-    <div
-      className={cn(
-        "grid grid-cols-[7.5rem_minmax(0,1fr)] items-baseline gap-x-s24",
-        className,
-      )}
-    >
-      <dt className="font-sans text-xs font-normal uppercase leading-4 tracking-tight text-neutral-400">
-        {label}
-      </dt>
-      <dd className="min-w-0 truncate text-left font-sans text-sm font-medium leading-(--s20) text-brand-white">
-        {value}
-      </dd>
+    <div className={cn("gds-object-card__property", className)}>
+      <dt className="gds-object-card__property-label">{label}</dt>
+      <dd className="gds-object-card__property-value">{value}</dd>
     </div>
   );
 }
@@ -248,7 +195,10 @@ function ObjectCardPropertyList({
   ...props
 }: ObjectCardPropertyListProps) {
   return (
-    <dl className={cn("flex flex-col gap-row-gap", className)} {...props} />
+    <dl
+      className={cn("gds-object-card__property-list", className)}
+      {...props}
+    />
   );
 }
 
@@ -267,7 +217,7 @@ const ObjectCardExternalLink = React.forwardRef<
   const content = (
     <>
       <span>{children}</span>
-      <IconExternalLink className="h-s12 w-s12 text-brand-turquoise" />
+      <IconExternalLink className="gds-object-card__external-link-icon" />
     </>
   );
 
@@ -276,10 +226,7 @@ const ObjectCardExternalLink = React.forwardRef<
       ref={ref}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(
-        "inline-flex items-center justify-between font-sans text-sm font-medium leading-[20px] text-brand-turquoise transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
-        className,
-      )}
+      className={cn("gds-object-card__external-link", className)}
       {...props}
     >
       {content}
@@ -299,15 +246,12 @@ function ObjectCardListItem({
   href,
   children,
 }: ObjectCardListItemProps) {
-  const classes = cn(
-    "group relative flex flex-col gap-s8 overflow-hidden bg-neutral-700 px-s12 py-s16 transition-colors duration-200 group-data-hovered:bg-neutral-600",
-    className,
-  );
+  const classes = cn("gds-object-card__list-item", className);
 
   if (href) {
     return (
       <AriaLink href={href} className={classes}>
-        <IconArrowTopRight className="absolute right-s8 top-s8 h-s12 w-s12 text-neutral-500" />
+        <IconArrowTopRight className="gds-object-card__list-item-icon" />
         {children}
       </AriaLink>
     );
@@ -323,33 +267,25 @@ export interface ObjectCardFooterProps {
 
 function ObjectCardFooter({ className, children }: ObjectCardFooterProps) {
   return (
-    <div className={cn("flex flex-col gap-section-gap", className)}>
-      <AriaSeparator className="border-0 outline outline-neutral-700 outline-offset-[-0.50px]" />
-      <div className="flex items-start gap-section-gap">{children}</div>
+    <div className={cn("gds-object-card__footer", className)}>
+      <AriaSeparator className="gds-object-card__footer-divider" />
+      <div className="gds-object-card__footer-content">{children}</div>
     </div>
   );
 }
 
-const objectCardActionVariants = cva(
-  "inline-flex items-center font-sans transition-opacity data-hovered:opacity-80 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring",
-  {
-    variants: {
-      variant: {
-        default: "gap-s8 text-xs font-medium leading-(--s12) text-neutral-400",
-        more: "gap-s12 text-sm font-normal leading-(--s16) text-brand-white",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
+type ObjectCardActionVariant = "default" | "more";
 
-export interface ObjectCardActionProps
-  extends
-    Omit<AriaButtonProps, "className" | "style" | "children">,
-    VariantProps<typeof objectCardActionVariants> {
+function objectCardActionVariants({ className }: { className?: string } = {}) {
+  return cn("gds-object-card__action", className);
+}
+
+export interface ObjectCardActionProps extends Omit<
+  AriaButtonProps,
+  "className" | "style" | "children"
+> {
   className?: string;
+  variant?: ObjectCardActionVariant;
   icon?: React.ReactNode;
   children?: React.ReactNode;
 }
@@ -360,14 +296,11 @@ const ObjectCardAction = React.forwardRef<
 >(({ className, variant, icon, children, ...props }, ref) => (
   <AriaButton
     ref={ref}
-    className={cn(objectCardActionVariants({ variant }), className)}
+    className={objectCardActionVariants({ className })}
+    data-variant={variant ?? "default"}
     {...props}
   >
-    {icon && (
-      <span className="flex h-s16 w-s16 items-center justify-center">
-        {icon}
-      </span>
-    )}
+    {icon && <span className="gds-object-card__action-icon">{icon}</span>}
     <span>{children}</span>
   </AriaButton>
 ));

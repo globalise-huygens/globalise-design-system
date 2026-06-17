@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/CodeBlock";
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
-import { DocumentDetailCheckbox } from "@globalise/design-system";
+import { checkboxCss, DocumentDetailCheckbox } from "@globalise/design-system";
 
 # Checkbox
 
@@ -9,8 +9,8 @@ Compact React Aria checkbox for document filters, entity menus, and sidebar togg
 
 ## Preview
 
-<ComponentPreview className="bg-neutral-900">
-  <div className="flex gap-s16">
+<ComponentPreview>
+  <div className="docs-preview-checkbox-row">
     <DocumentDetailCheckbox defaultSelected>Search hits</DocumentDetailCheckbox>
     <DocumentDetailCheckbox isIndeterminate>Mixed</DocumentDetailCheckbox>
   </div>
@@ -18,12 +18,18 @@ Compact React Aria checkbox for document filters, entity menus, and sidebar togg
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailCheckbox
+<CodeBlock
+  code={`<DocumentDetailCheckbox
   isSelected={searchHitsOnly}
   onChange={setSearchHitsOnly}
 >
   Search hits
-</DocumentDetailCheckbox>`} />
+</DocumentDetailCheckbox>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={checkboxCss} language="css" />
 
 ## Props
 

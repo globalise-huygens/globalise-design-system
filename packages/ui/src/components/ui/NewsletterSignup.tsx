@@ -51,56 +51,42 @@ const NewsletterSignup = React.forwardRef<
     return (
       <AriaForm
         ref={ref}
-        className={cn("flex flex-col gap-s48", className)}
+        className={cn("gds-newsletter", className)}
         {...props}
       >
-        <div className="grid grid-cols-1 gap-s24 md:grid-cols-12">
-          <div className="flex flex-col gap-s24 md:col-span-8 lg:col-span-7">
-            <h3 className="scroll-m-20 font-serif font-medium text-4xl leading-10 tracking-[-0.03em] text-brand-black">
-              {heading}
-            </h3>
-            <p className="font-sans text-base font-normal leading-6 tracking-[-0.02em] text-brand-black">
-              {description}
-            </p>
+        <div className="gds-newsletter__intro-grid">
+          <div className="gds-newsletter__intro">
+            <h3 className="gds-newsletter__heading">{heading}</h3>
+            <p className="gds-newsletter__description">{description}</p>
           </div>
         </div>
 
-        <div className="grid h-auto grid-cols-1 overflow-hidden md:grid-cols-12 md:min-h-[336px]">
-          {image && (
-            <div className="relative h-48 w-full shrink-0 md:col-span-6 md:h-full">
-              {image}
-            </div>
-          )}
+        <div className="gds-newsletter__form-grid">
+          {image && <div className="gds-newsletter__image">{image}</div>}
           <div
-            className={cn(
-              "bg-brand-turquoise px-s32 py-s48 sm:px-s48 sm:py-s64",
-              "grid grid-cols-12 gap-y-s32",
-              image ? "md:col-span-6" : "md:col-span-12",
-            )}
+            className="gds-newsletter__panel"
+            data-has-image={image ? "true" : undefined}
           >
             <AriaTextField
               name={inputName}
               type="email"
               isRequired
               autoComplete="email"
-              className="col-span-12 grid grid-cols-12 items-end gap-s16 border-b border-brand-black pb-s12"
+              className="gds-newsletter__field"
             >
-              <AriaLabel className="sr-only">Email address</AriaLabel>
+              <AriaLabel className="gds-newsletter__label">
+                Email address
+              </AriaLabel>
               <AriaInput
                 placeholder={inputPlaceholder}
-                className="col-span-8 min-w-0 bg-transparent text-brand-black text-lg font-medium font-sans leading-6 placeholder:text-brand-black/80 focus:outline-none"
+                className="gds-newsletter__input"
               />
-              <AriaButton
-                type="submit"
-                className="col-span-4 justify-self-end text-brand-black text-lg font-semibold font-sans leading-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-brand-turquoise"
-              >
+              <AriaButton type="submit" className="gds-newsletter__submit">
                 {submitLabel}
               </AriaButton>
             </AriaTextField>
             {privacyText && (
-              <span className="col-span-12 text-brand-black text-sm font-normal font-sans leading-5 md:col-span-10">
-                {privacyText}
-              </span>
+              <span className="gds-newsletter__privacy">{privacyText}</span>
             )}
           </div>
         </div>

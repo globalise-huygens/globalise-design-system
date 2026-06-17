@@ -16,17 +16,11 @@ function SearchFieldContent({
 }: SearchFieldContentProps) {
   return (
     <>
-      <AriaLabel className="sr-only">{ariaLabel}</AriaLabel>
-      <IconSearch
-        className="h-s20 w-s20 shrink-0 text-brand-white"
-        aria-hidden="true"
-      />
+      <AriaLabel className="gds-search-field-label">{ariaLabel}</AriaLabel>
+      <IconSearch className="gds-search-field-icon" aria-hidden="true" />
       <AriaInput
         placeholder={placeholder}
-        className={cn(
-          "w-full bg-transparent font-serif text-sm leading-3 text-brand-white opacity-50 placeholder:text-brand-white placeholder:opacity-50 focus:opacity-100 focus:outline-none",
-          inputClassName,
-        )}
+        className={cn("gds-search-field-input", inputClassName)}
       />
     </>
   );

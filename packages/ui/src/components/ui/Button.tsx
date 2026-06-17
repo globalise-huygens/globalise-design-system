@@ -1,6 +1,5 @@
 import { IconArrowRight } from "@/components/icons/IconArrowRight";
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
   Button as AriaButton,
@@ -9,45 +8,30 @@ import {
   type LinkProps as AriaLinkProps,
 } from "react-aria-components";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-s8 whitespace-nowrap font-sans text-sm font-medium transition-colors data-focus-visible:outline-none data-focus-visible:ring-1 data-focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-s16 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-brand-white text-brand-black leading-4 data-hovered:bg-neutral-100 data-pressed:bg-neutral-200",
-        outline:
-          "outline outline-2 outline-offset-[-2px] outline-brand-white/50 text-brand-white leading-4 data-hovered:outline-brand-white/80 data-pressed:outline-brand-white data-pressed:bg-brand-white/5",
-        link: "font-normal leading-5 text-current gap-s8 [&_svg]:size-s20 data-hovered:opacity-80 data-pressed:opacity-60",
-        nav: "text-brand-white leading-5 data-hovered:opacity-80 data-pressed:opacity-60",
-      },
-      size: {
-        default: "h-s48 px-s56",
-        sm: "h-s36 px-s16 text-xs",
-        lg: "h-s56 px-s64 text-base",
-        icon: "h-s48 w-s48 px-0",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
+type ButtonVariant = "default" | "outline" | "link" | "nav";
+type ButtonSize = "default" | "sm" | "lg" | "icon";
 
-export interface ButtonProps
-  extends
-    Omit<AriaButtonProps, "className" | "style">,
-    VariantProps<typeof buttonVariants> {
+function buttonVariants({ className }: { className?: string } = {}) {
+  return cn("gds-button", className);
+}
+
+export interface ButtonProps extends Omit<
+  AriaButtonProps,
+  "className" | "style"
+> {
   className?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   as?: React.ElementType;
 }
 
-export interface ButtonLinkProps
-  extends
-    Omit<AriaLinkProps, "className" | "style">,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonLinkProps extends Omit<
+  AriaLinkProps,
+  "className" | "style"
+> {
   className?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -66,7 +50,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       const Comp = as;
       return (
         <Comp
-          className={cn(buttonVariants({ variant, size, className }))}
+          className={buttonVariants({ className })}
+          data-size={size ?? "default"}
+          data-variant={variant ?? "default"}
           ref={ref}
           {...props}
         >
@@ -76,7 +62,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
     return (
       <AriaButton
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={buttonVariants({ className })}
+        data-size={size ?? "default"}
+        data-variant={variant ?? "default"}
         ref={ref}
         {...props}
       >
@@ -101,7 +89,9 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
 
     return (
       <AriaLink
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={buttonVariants({ className })}
+        data-size={size ?? "default"}
+        data-variant={variant ?? "default"}
         ref={ref}
         {...props}
       >

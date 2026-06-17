@@ -1,11 +1,10 @@
 import { CodeBlock } from "@/components/CodeBlock";
 import { ComponentPreview } from "@/components/ComponentPreview";
+import { EntityHighlightMenuPreview } from "@/components/EntityHighlightMenuPreview";
 import {
-  DocumentDetailCheckbox,
-  DocumentDetailPopoverSurface,
   IconEntities,
-  IconEntityPerson,
-  IconEntityPlace,
+  popoverCss,
+  checkboxCss,
 } from "@globalise/design-system";
 
 # Entity Highlight Menu
@@ -14,40 +13,21 @@ Dropdown menu pattern for entity highlight categories. It is driven by category 
 
 ## Preview
 
-<ComponentPreview className="bg-neutral-900">
-  <DocumentDetailPopoverSurface
-    size="compact"
-    heading="Entity highlights"
-    icon={<IconEntities className="h-s16 w-s16" />}
-    className="flex flex-col gap-s8"
-  >
-    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-s8 border border-brand-white/10 bg-brand-white/5 px-s8 py-s8">
-      <span className="flex items-center gap-s8 text-[11px] uppercase text-brand-white">
-        <IconEntityPerson className="h-s12 w-s12" />
-        Person
-      </span>
-      <DocumentDetailCheckbox defaultSelected aria-label="Toggle person highlights" />
-    </div>
-    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-s8 border border-brand-white/10 bg-brand-white/5 px-s8 py-s8">
-      <span className="flex items-center gap-s8 text-[11px] uppercase text-brand-white">
-        <IconEntityPlace className="h-s12 w-s12" />
-        Place
-      </span>
-      <DocumentDetailCheckbox aria-label="Toggle place highlights" />
-    </div>
-  </DocumentDetailPopoverSurface>
+<ComponentPreview>
+  <EntityHighlightMenuPreview />
 </ComponentPreview>
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailPopoverSurface heading="Entity highlights" size="compact">
-  {categories.map((category) => (
-    <DocumentDetailCheckbox
-      key={category.id}
-      isSelected={selectedKeys.has(category.id)}
-      onChange={(isSelected) => updateCategory(category.id, isSelected)}
-    >
-      {category.label}
-    </DocumentDetailCheckbox>
-  ))}
-</DocumentDetailPopoverSurface>`} />
+<CodeBlock
+  code={`<DocumentDetailEntityHighlightMenu
+  categories={categories}
+  selectedKeys={selectedKeys}
+  onSelectedKeysChange={setSelectedKeys}
+  triggerIcon={<IconEntities />}
+/>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={`${popoverCss}\n\n${checkboxCss}`} language="css" />

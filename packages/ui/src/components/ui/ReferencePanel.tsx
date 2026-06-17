@@ -1,6 +1,7 @@
 "use client";
 
 import { IconCopy } from "@/components/icons/IconCopy";
+import { IconArrowTopRight } from "@/components/icons/IconArrowTopRight";
 import { IconExternalLink } from "@/components/icons/IconExternalLink";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -12,8 +13,10 @@ import {
 } from "react-aria-components";
 import { ObjectCardPanel, type ObjectCardPanelProps } from "./ObjectCard";
 
-export interface ReferencePanelItemProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+export interface ReferencePanelItemProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   isActive?: boolean;
   thumbnail?: React.ReactNode;
   title: React.ReactNode;
@@ -21,6 +24,7 @@ export interface ReferencePanelItemProps
   metadata?: React.ReactNode;
   href?: string;
   hrefLabel?: string;
+  hrefType?: "internal" | "external";
   uri?: string;
   copyLabel?: string;
   onCopyUri?: (uri: string) => void;
@@ -36,6 +40,7 @@ function ReferencePanelItem({
   metadata,
   href,
   hrefLabel = "Open reference",
+  hrefType = "internal",
   uri,
   copyLabel = "Copy URI",
   onCopyUri,
@@ -58,67 +63,64 @@ function ReferencePanelItem({
   return (
     <div
       aria-current={isActive ? "true" : undefined}
-      className={cn(
-        "group relative border-b border-brand-white/20 px-s12 py-s12 text-brand-white transition-colors duration-75 ease-out before:absolute before:bottom-s12 before:left-0 before:top-s12 before:w-px before:bg-transparent hover:before:bg-brand-white/30 motion-reduce:transition-none",
-        isActive && "before:w-[2px] before:bg-brand-white",
-        className,
-      )}
+      className={cn("gds-reference-panel-item", className)}
       {...props}
     >
       <div
-        className={cn(
-          "grid min-w-0 items-center gap-s16",
-          thumbnail ? "grid-cols-[5rem_minmax(0,1fr)]" : "grid-cols-1",
-        )}
+        className="gds-reference-panel-item__layout"
+        data-has-thumbnail={thumbnail ? "true" : "false"}
       >
         {thumbnail && (
-          <div className="relative flex h-s80 w-s80 shrink-0 items-center justify-center overflow-hidden">
-            {thumbnail}
-          </div>
+          <div className="gds-reference-panel-item__thumbnail">{thumbnail}</div>
         )}
 
-        <div className="min-w-0">
-          <div className="flex min-w-0 items-center gap-s6">
-            <div className="min-w-0 flex-1 font-serif text-sm font-medium leading-5 text-brand-white">
-              {title}
-            </div>
-            <div className="flex shrink-0 items-center gap-s4">
+        <div className="gds-reference-panel-item__body">
+          <div className="gds-reference-panel-item__header">
+            <div className="gds-reference-panel-item__title">{title}</div>
+            <div className="gds-reference-panel-item__actions">
               {actions}
               {uri && (
                 <AriaButton
                   aria-label={copyLabel}
                   onPress={handleCopyUri}
-                  className="inline-flex h-s20 w-s20 items-center justify-center text-brand-white/55 transition-colors data-hovered:text-brand-white data-focus-visible:outline-none data-focus-visible:ring-1 data-focus-visible:ring-ring"
+                  className="gds-reference-panel-item__action"
                 >
-                  <IconCopy className="h-s12 w-s12" />
+                  <IconCopy className="gds-reference-panel-item__action-icon" />
                 </AriaButton>
               )}
-              {href && (
+              {href && hrefType === "external" && (
                 <AriaLink
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={hrefLabel}
-                  className="inline-flex h-s20 w-s20 items-center justify-center text-brand-white/55 transition-colors data-hovered:text-brand-white data-focus-visible:outline-none data-focus-visible:ring-1 data-focus-visible:ring-ring"
+                  className="gds-reference-panel-item__action"
                 >
-                  <IconExternalLink className="h-s12 w-s12" />
+                  <IconExternalLink className="gds-reference-panel-item__action-icon" />
+                </AriaLink>
+              )}
+              {href && hrefType === "internal" && (
+                <AriaLink
+                  href={href}
+                  aria-label={hrefLabel}
+                  className="gds-reference-panel-item__action"
+                >
+                  <IconArrowTopRight className="gds-reference-panel-item__action-icon" />
                 </AriaLink>
               )}
             </div>
           </div>
 
           {snippet && (
-            <div className="mt-s4 bg-neutral-700 px-s8 py-s4">
-              <div className="line-clamp-2 font-serif text-xs italic leading-4 text-brand-white/80">
+            <div className="gds-reference-panel-item__snippet">
+              <div className="gds-reference-panel-item__snippet-text">
                 {snippet}
               </div>
             </div>
           )}
 
           {metadata && (
-            <div className="mt-s4 min-w-0 font-sans text-xs leading-4 text-neutral-400">
-              {metadata}
-            </div>
+            <div className="gds-reference-panel-item__metadata">{metadata}</div>
           )}
         </div>
       </div>
@@ -126,8 +128,10 @@ function ReferencePanelItem({
   );
 }
 
-export interface ReferencePanelHeaderProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+export interface ReferencePanelHeaderProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   title?: React.ReactNode;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   headingId?: string;
@@ -142,18 +146,12 @@ function ReferencePanelHeader({
   ...props
 }: ReferencePanelHeaderProps) {
   return (
-    <div
-      className={cn(
-        "sticky top-0 z-20 -mx-panel-pad -mt-panel-pad bg-neutral-800 px-panel-pad pb-row-gap pt-panel-pad",
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn("gds-reference-panel-header", className)} {...props}>
       {title && (
         <AriaHeading
           id={headingId}
           level={level}
-          className="font-serif text-lg font-medium leading-5 text-brand-white"
+          className="gds-reference-panel-header__heading"
         >
           {title}
         </AriaHeading>
@@ -163,14 +161,12 @@ function ReferencePanelHeader({
   );
 }
 
-export interface ReferencePanelListProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export interface ReferencePanelListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function ReferencePanelList({
-  className,
-  ...props
-}: ReferencePanelListProps) {
-  return <div className={cn("min-h-0", className)} {...props} />;
+function ReferencePanelList({ className, ...props }: ReferencePanelListProps) {
+  return (
+    <div className={cn("gds-reference-panel-list", className)} {...props} />
+  );
 }
 
 export interface ReferencePanelItemData {
@@ -182,13 +178,16 @@ export interface ReferencePanelItemData {
   metadata?: React.ReactNode;
   href?: string;
   hrefLabel?: string;
+  hrefType?: "internal" | "external";
   uri?: string;
   copyLabel?: string;
   actions?: React.ReactNode;
 }
 
-export interface ReferencePanelProps
-  extends Omit<ObjectCardPanelProps, "side" | "children" | "title"> {
+export interface ReferencePanelProps extends Omit<
+  ObjectCardPanelProps,
+  "side" | "children" | "title"
+> {
   title?: React.ReactNode;
   items?: ReferencePanelItemData[];
   children?: React.ReactNode;
@@ -210,10 +209,7 @@ function ReferencePanel({
 
   return (
     <ObjectCardPanel side="right" className={className} {...props}>
-      <section
-        aria-labelledby={headingId}
-        className="flex min-h-0 flex-1 flex-col gap-row-gap"
-      >
+      <section aria-labelledby={headingId} className="gds-reference-panel">
         <ReferencePanelHeader title={title} headingId={headingId} />
         {children}
         {hasItems ? (

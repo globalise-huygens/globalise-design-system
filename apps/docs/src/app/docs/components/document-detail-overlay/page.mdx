@@ -2,6 +2,7 @@ import { CodeBlock } from "@/components/CodeBlock";
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { DocumentDetailViewerOverlayDemo } from "@/components/DocumentDetailViewerOverlayDemo";
 import { PropsTable } from "@/components/PropsTable";
+import { documentPreviewCss } from "@globalise/design-system";
 
 # Document Detail Overlay
 
@@ -9,7 +10,7 @@ A near-full shell overlay for document scan and transcription workflows. It comp
 
 ## Preview
 
-<ComponentPreview className="min-h-80! p-6! items-center! justify-center!">
+<ComponentPreview className="docs-preview-overlay">
   <DocumentDetailViewerOverlayDemo />
 </ComponentPreview>
 
@@ -26,8 +27,6 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
   DocumentDetailOverlay,
-  DocumentDetailSegment,
-  DocumentDetailSegmentedControl,
   DocumentDetailSplitViewer,
   DocumentDetailTitle,
   DocumentDetailToolButton,
@@ -42,7 +41,6 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   IconDownload,
   IconInventory,
   IconTableOfContent,
-  IconScan,
   IconTranscription,
   IconSetting,
   IconZoomIn,
@@ -50,13 +48,10 @@ A near-full shell overlay for document scan and transcription workflows. It comp
 } from "@globalise/design-system";
 
 <DocumentDetailOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
-  <DocumentDetailTopBar className="justify-between px-s24">
+  <DocumentDetailTopBar>
     <DocumentDetailBarGroup>
       <DocumentDetailToolButton onPress={goBack} icon={<IconArrowLeftAlt />}>Back to search</DocumentDetailToolButton>
-      <DocumentDetailSegmentedControl>
-        <DocumentDetailSegment isActive icon={<IconScan />}>Scan</DocumentDetailSegment>
-        <DocumentDetailSegment icon={<IconTranscription />}>Text</DocumentDetailSegment>
-      </DocumentDetailSegmentedControl>
+      <DocumentDetailToolButton icon={<IconTranscription />}>Text</DocumentDetailToolButton>
     </DocumentDetailBarGroup>
     <DocumentDetailTitle>NL-HaNA_1.04.02_3365_0215</DocumentDetailTitle>
     <DocumentDetailBarGroup>
@@ -91,19 +86,9 @@ A near-full shell overlay for document scan and transcription workflows. It comp
       <DocumentDetailViewerPane>
         <DocumentDetailCanvas>
           <DocumentDetailFloatingToolbar>
-            <DocumentDetailSegmentedControl className="h-s28 gap-0 overflow-hidden rounded-lg bg-brand-white/10 p-0">
-              <DocumentDetailSegment
-                className="h-s28 w-s36 min-w-s36 rounded-none border-r border-brand-white/10 px-0"
-                icon={<IconZoomOut />}
-              />
-              <DocumentDetailSegment className="h-s28 min-w-s72 rounded-none border-r border-brand-white/10 px-s10">
-                <span className="w-full whitespace-nowrap text-center">100%</span>
-              </DocumentDetailSegment>
-              <DocumentDetailSegment
-                className="h-s28 w-s36 min-w-s36 rounded-none px-0"
-                icon={<IconZoomIn />}
-              />
-            </DocumentDetailSegmentedControl>
+            <DocumentDetailToolButton aria-label="Zoom out" icon={<IconZoomOut />} />
+            <DocumentDetailToolButton>100%</DocumentDetailToolButton>
+            <DocumentDetailToolButton aria-label="Zoom in" icon={<IconZoomIn />} />
             <DocumentDetailControl icon={<IconSetting />}>Tune</DocumentDetailControl>
           </DocumentDetailFloatingToolbar>
           {/* scan canvas */}
@@ -124,9 +109,13 @@ A near-full shell overlay for document scan and transcription workflows. It comp
   <DocumentDetailBottomBar>{/* status */}</DocumentDetailBottomBar>
 </DocumentDetailOverlay>`} />
 
+## CSS Recipe
+
+<CodeBlock code={documentPreviewCss} language="css" />
+
 ## Layout Notes
 
-The overlay modal now uses the same shell grid contract as pages: `repeat(var(--shell-cols), minmax(0, 1fr))` with `gap-x-shell-gutter`. The default desktop placement uses a near-full 16-column shell span (`xl:col-start-2 xl:col-span-14`) so the viewer occupies most of the viewport while still leaving edge context.
+The overlay modal now uses the same shell grid contract as pages: `repeat(var(--shell-cols), minmax(0, 1fr))` with `var(--shell-gutter)`. The default desktop placement uses `gds-document-detail-dialog-placement`, a near-full 16-column shell span, so the viewer occupies most of the viewport while still leaving edge context.
 
 Use `contentClassName` to replace shell placement for alternate page or dual-view variants. Use `dialogClassName` for visual styling on the frame itself.
 
@@ -155,8 +144,8 @@ The component family is intentionally split into reusable primitives: bars (`Doc
     {
       name: "contentClassName",
       type: "string",
-      default: '"slot-full-bleed xl:col-start-2 xl:col-span-14"',
-      description: "Shell-grid placement classes for the document frame.",
+      default: '"gds-document-detail-dialog-placement"',
+      description: "Shell-grid placement class for the document frame.",
     },
     {
       name: "modalClassName",

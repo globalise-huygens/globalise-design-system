@@ -4,7 +4,9 @@ import {
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
   DocumentDetailMetadataSidebarButton,
+  DocumentDetailSidebarSection,
   IconTableOfContent,
+  sidebarCss,
 } from "@globalise/design-system";
 
 # Sidebar Sections
@@ -13,22 +15,54 @@ Reusable sidebar row and section primitives for document metadata, tables of con
 
 ## Preview
 
-<ComponentPreview className="p-0! items-stretch!">
-  <DocumentDetailMetadataSidebar className="h-64 border-r-0">
+<ComponentPreview className="docs-preview-edge">
+  <DocumentDetailMetadataSidebar className="docs-preview-sidebar-compact">
     <DocumentDetailMetadataSidebarButton
-      icon={<IconTableOfContent className="h-s16 w-s16" />}
+      icon={<IconTableOfContent />}
       label="Table of contents"
-      count={<DocumentDetailMetadataSidebarBadge>12</DocumentDetailMetadataSidebarBadge>}
+      count={
+        <DocumentDetailMetadataSidebarBadge>
+          12
+        </DocumentDetailMetadataSidebarBadge>
+      }
     />
+  </DocumentDetailMetadataSidebar>
+</ComponentPreview>
+
+<ComponentPreview className="docs-preview-edge">
+  <DocumentDetailMetadataSidebar className="docs-preview-sidebar-tall">
+    <DocumentDetailSidebarSection
+      title="Search filters"
+      count="3"
+      defaultExpanded
+    >
+      Collapsible section content
+    </DocumentDetailSidebarSection>
   </DocumentDetailMetadataSidebar>
 </ComponentPreview>
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailMetadataSidebar>
+<CodeBlock
+  code={`<DocumentDetailMetadataSidebar>
   <DocumentDetailMetadataSidebarButton
     icon={<IconTableOfContent />}
     label="Table of contents"
     count={<DocumentDetailMetadataSidebarBadge>12</DocumentDetailMetadataSidebarBadge>}
   />
-</DocumentDetailMetadataSidebar>`} />
+</DocumentDetailMetadataSidebar>`}
+/>
+
+<CodeBlock
+  code={`<DocumentDetailSidebarSection
+  title="Search filters"
+  count="3"
+  defaultExpanded
+>
+  Collapsible section content
+</DocumentDetailSidebarSection>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={sidebarCss} language="css" />

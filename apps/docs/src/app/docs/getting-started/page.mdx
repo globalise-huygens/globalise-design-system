@@ -1,6 +1,6 @@
 # Getting Started
 
-The Globalise Design System is a React component library built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and Tailwind CSS v4. It provides the UI building blocks for the Globalise project ecosystem.
+The Globalise Design System is a React component library built with [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and plain CSS. It provides the UI building blocks for the Globalise project ecosystem.
 
 > **Status:** This package is in active development (`v0.1.0`) and is **not yet published to npm**. It is currently only available within this monorepo. The instructions below describe the intended setup for when the package is released.
 
@@ -41,7 +41,7 @@ Or in your CSS file:
 @import "@globalise/design-system/styles.css";
 ```
 
-> The stylesheet provides design tokens only. The project itself must have its own Tailwind CSS v4 setup as the component classes are not pre-compiled.
+> The stylesheet includes design tokens and component CSS. Consumers do not need Tailwind to render the package components.
 
 ### 3. Install fonts
 
@@ -81,7 +81,7 @@ If you are integrating into a React-only app (not Next.js), use the stack below:
 - Vite 8
 - TanStack Router
 - TanStack Query
-- Tailwind CSS v4
+- Tailwind CSS v4 in the current example app only
 
 This repository includes a copy-ready starter at:
 
@@ -90,23 +90,18 @@ This repository includes a copy-ready starter at:
 #### Vite config
 
 ```ts
-import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
 });
 ```
 
 #### Global styles
 
 ```css
-@import "tailwindcss";
 @import "@globalise/design-system/styles.css";
-
-/* Let Tailwind detect classes used by the design-system package */
-@source "../node_modules/@globalise/design-system/dist";
 ```
 
 #### App entry
@@ -142,11 +137,10 @@ const nextConfig = {
 
 ## Requirements
 
-| Dependency   | Version  |
-| ------------ | -------- |
-| React        | ≥ 18.0.0 |
-| React DOM    | ≥ 18.0.0 |
-| Tailwind CSS | ≥ 4.0.0  |
+| Dependency | Version  |
+| ---------- | -------- |
+| React      | ≥ 18.0.0 |
+| React DOM  | ≥ 18.0.0 |
 
 ### Verified integration baseline
 

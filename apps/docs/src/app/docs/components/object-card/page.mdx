@@ -110,10 +110,16 @@ Reusable badge for marking entity types in transcription text, headers, and enti
     <EntityBadge type="ship" icon={<IconEntityShip className="h-s16 w-s16" />}>
       Ship
     </EntityBadge>
-    <EntityBadge type="person" icon={<IconEntityPerson className="h-s16 w-s16" />}>
+    <EntityBadge
+      type="person"
+      icon={<IconEntityPerson className="h-s16 w-s16" />}
+    >
       Person
     </EntityBadge>
-    <EntityBadge type="place" icon={<IconEntityPlace className="h-s16 w-s16" />}>
+    <EntityBadge
+      type="place"
+      icon={<IconEntityPlace className="h-s16 w-s16" />}
+    >
       Place
     </EntityBadge>
     <EntityBadge
@@ -379,7 +385,7 @@ Pre-styled card for list entries (voyages, etc.). Optionally wraps in RAC `Link`
 
 ### ReferencePanelItem
 
-Pre-styled reference row with optional thumbnail, snippet, metadata, external link, and copy URI action.
+Pre-styled reference row with optional thumbnail, snippet, metadata, internal/external link action, and copy URI action.
 
 <PropsTable
   props={[
@@ -407,7 +413,14 @@ Pre-styled reference row with optional thumbnail, snippet, metadata, external li
     {
       name: "href",
       type: "string",
-      description: "External link — renders an icon via RAC Link.",
+      description: "Row action link.",
+    },
+    {
+      name: "hrefType",
+      type: '"internal" | "external"',
+      default: '"internal"',
+      description:
+        "Internal links use the arrow-top-right icon. External links use the boxed external-link icon and open in a new tab.",
     },
     {
       name: "uri",

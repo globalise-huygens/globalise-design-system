@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import {
   SearchField as AriaSearchField,
@@ -7,33 +6,20 @@ import {
 } from "react-aria-components";
 import { SearchFieldContent } from "./SearchFieldContent";
 
-const searchBarVariants = cva(
-  "flex items-center gap-s8 px-s16 backdrop-blur-[20px]",
-  {
-    variants: {
-      variant: {
-        default: "bg-brand-white/10",
-        subtle: "bg-brand-white/5",
-        solid: "bg-brand-white/20",
-      },
-      size: {
-        default: "h-rail",
-        sm: "h-control",
-        lg: "h-nav",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  },
-);
+type SearchBarVariant = "default" | "subtle" | "solid";
+type SearchBarSize = "default" | "sm" | "lg";
 
-export interface SearchBarProps
-  extends
-    Omit<AriaSearchFieldProps, "className" | "style">,
-    VariantProps<typeof searchBarVariants> {
+function searchBarVariants({ className }: { className?: string } = {}) {
+  return cn("gds-search-bar", className);
+}
+
+export interface SearchBarProps extends Omit<
+  AriaSearchFieldProps,
+  "className" | "style"
+> {
   className?: string;
+  variant?: SearchBarVariant;
+  size?: SearchBarSize;
   placeholder?: string;
 }
 
@@ -45,13 +31,15 @@ const SearchBar = React.forwardRef<HTMLDivElement, SearchBarProps>(
       <AriaSearchField
         ref={ref}
         aria-label={ariaLabel}
-        className={cn(searchBarVariants({ variant, size }), className)}
+        className={searchBarVariants({ className })}
+        data-size={size ?? "default"}
+        data-variant={variant ?? "default"}
         {...props}
       >
         <SearchFieldContent
           ariaLabel={ariaLabel}
           placeholder={placeholder}
-          inputClassName="font-medium"
+          inputClassName="gds-search-field-input--medium"
         />
       </AriaSearchField>
     );

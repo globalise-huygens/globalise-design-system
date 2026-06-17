@@ -47,10 +47,7 @@ const NavSearchBar = React.forwardRef<HTMLDivElement, NavSearchBarProps>(
       <AriaSearchField
         ref={ref}
         aria-label={ariaLabel}
-        className={cn(
-          "hidden h-control max-w-[28rem] flex-1 items-center gap-s8 bg-brand-white/10 px-s16 backdrop-blur-[20px] sm:mx-s16 sm:flex lg:mx-panel-pad",
-          className,
-        )}
+        className={cn("gds-nav-search", className)}
         {...props}
       >
         <SearchFieldContent ariaLabel={ariaLabel} placeholder={placeholder} />
@@ -75,14 +72,7 @@ export interface NavLinkProps extends Omit<
 
 const NavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
   ({ className, ...props }, ref) => (
-    <AriaLink
-      ref={ref}
-      className={cn(
-        "text-sm font-medium leading-5 text-brand-white transition-opacity hover:opacity-80",
-        className,
-      )}
-      {...props}
-    />
+    <AriaLink ref={ref} className={cn("gds-nav-link", className)} {...props} />
   ),
 );
 NavLink.displayName = "NavLink";
@@ -96,14 +86,7 @@ export interface NavLinksProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const NavLinks = React.forwardRef<HTMLDivElement, NavLinksProps>(
   ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        "hidden shrink-0 items-center justify-end gap-s16 sm:flex sm:gap-s40",
-        className,
-      )}
-      {...props}
-    />
+    <div ref={ref} className={cn("gds-nav-links", className)} {...props} />
   ),
 );
 NavLinks.displayName = "NavLinks";
@@ -124,26 +107,19 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     return (
-      <nav
-        ref={ref}
-        className={cn(
-          "relative mx-auto flex h-auto w-full max-w-shell-max flex-wrap items-center px-shell-margin py-s16 sm:h-nav sm:py-0",
-          className,
-        )}
-        {...props}
-      >
+      <nav ref={ref} className={cn("gds-navbar", className)} {...props}>
         {/* Top bar: logo + mobile toggle */}
-        <div className="flex w-full shrink-0 items-center justify-between sm:w-auto">
-          {logo && <div className="shrink-0">{logo}</div>}
+        <div className="gds-navbar__top">
+          {logo && <div className="gds-navbar__logo">{logo}</div>}
           <AriaButton
-            className="flex h-control w-control items-center justify-center text-brand-white sm:hidden"
+            className="gds-navbar__toggle"
             onPress={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? (
-              <IconClose className="h-s20 w-s20" />
+              <IconClose className="gds-navbar__toggle-icon" />
             ) : (
-              <IconMenu className="h-s20 w-s20" />
+              <IconMenu className="gds-navbar__toggle-icon" />
             )}
           </AriaButton>
         </div>
@@ -153,13 +129,13 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
 
         {/* Mobile expanded panel */}
         {mobileOpen && (
-          <div className="flex w-full flex-col gap-row-gap pb-s8 pt-row-gap sm:hidden">
+          <div className="gds-navbar__mobile-panel">
             {React.Children.map(children, (child) => {
               if (!React.isValidElement(child)) return null;
               const navType = getNavType(child);
               if (navType === "NavLinks") {
                 return (
-                  <div className="flex flex-col gap-row-gap">
+                  <div className="gds-navbar__mobile-links">
                     {
                       (
                         child as React.ReactElement<{
@@ -172,13 +148,12 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
               }
               if (navType === "NavSearchBar") {
                 return React.cloneElement(
-                  child as React.ReactElement<{ className?: string }>,
+                  child as React.ReactElement<{
+                    className?: string;
+                    "data-mobile"?: string;
+                  }>,
                   {
-                    className: cn(
-                      "mx-0 flex w-full max-w-none",
-                      (child as React.ReactElement<{ className?: string }>)
-                        .props.className,
-                    ),
+                    "data-mobile": "true",
                   },
                 );
               }

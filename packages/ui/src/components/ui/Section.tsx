@@ -1,29 +1,17 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Container, type ContainerProps } from "./Container";
 
-const sectionVariants = cva("py-s64 sm:py-s80", {
-  variants: {
-    background: {
-      dark: "bg-surface-dark text-text-on-dark",
-      light: "bg-surface-light text-text-on-light",
-    },
-    spacing: {
-      default: "lg:py-s112",
-      large: "lg:py-s120",
-    },
-  },
-  defaultVariants: {
-    background: "dark",
-    spacing: "default",
-  },
-});
+type SectionBackground = "dark" | "light";
+type SectionSpacing = "default" | "large";
 
-export interface SectionProps
-  extends
-    React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof sectionVariants> {
+function sectionVariants({ className }: { className?: string } = {}) {
+  return cn("gds-section", className);
+}
+
+export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
+  background?: SectionBackground;
+  spacing?: SectionSpacing;
   /** When true, wraps children in a shared Container automatically. */
   withContainer?: boolean;
   /** Container width preset used when withContainer is true. */
@@ -51,7 +39,9 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(
   ) => (
     <section
       ref={ref}
-      className={cn(sectionVariants({ background, spacing }), className)}
+      className={sectionVariants({ className })}
+      data-background={background ?? "dark"}
+      data-spacing={spacing ?? "default"}
       {...props}
     >
       {withContainer ? (

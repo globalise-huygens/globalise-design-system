@@ -2,6 +2,7 @@ import { CodeBlock } from "@/components/CodeBlock";
 import { ComponentPreview } from "@/components/ComponentPreview";
 import { PropsTable } from "@/components/PropsTable";
 import {
+  referencePanelCss,
   ReferencePanel,
   ReferencePanelItem,
 } from "@globalise/design-system";
@@ -12,8 +13,8 @@ A reusable reference list for object cards, document tables of contents, scan hi
 
 ## Preview
 
-<ComponentPreview className="p-0! items-stretch!">
-  <div className="w-full bg-neutral-900">
+<ComponentPreview className="docs-preview-edge">
+  <div className="docs-preview-reference-shell">
     <ReferencePanel
       title="References (2)"
       items={[
@@ -36,24 +37,17 @@ A reusable reference list for object cards, document tables of contents, scan hi
           uri: "https://example.com/reference/1764-0054-265",
         },
       ]}
-      className="min-h-96"
     />
   </div>
 </ComponentPreview>
 
 ## Voyage Rows
 
-<ComponentPreview className="p-0! items-stretch!">
-  <div className="w-full max-w-128 bg-neutral-900 p-s24">
+<ComponentPreview className="docs-preview-edge">
+  <div className="docs-preview-voyage-shell">
     <ReferencePanelItem
       title="Texel (NL) -> Jakarta (ID)"
-      metadata={
-        <span className="flex flex-wrap justify-between gap-s8">
-          <span>12 Nov 1703 - 3 Jul 1704</span>
-          <span>Capt. Klaas Nanningsz. Sanderus</span>
-          <span>~230 crew</span>
-        </span>
-      }
+      metadata="12 Nov 1703 - 3 Jul 1704 · Capt. Klaas Nanningsz. Sanderus · ~230 crew"
       href="#"
       uri="https://example.com/voyage/prins-eugenius-1"
     />
@@ -65,17 +59,22 @@ A reusable reference list for object cards, document tables of contents, scan hi
 <CodeBlock code={`import { ReferencePanel } from "@globalise/design-system";
 
 const references = [
-  {
-    id: "1764-0054-264",
-    title: "1764 · 0054 · p.264",
-    snippet: "in 't geheel p:r de prins Eugenius...",
-    metadata: "NL-HaNA 1.04.02 · 10070",
-    href: "#",
-    uri: "https://example.com/reference/1764-0054-264",
-  },
+{
+id: "1764-0054-264",
+title: "1764 · 0054 · p.264",
+snippet: "in 't geheel p:r de prins Eugenius...",
+metadata: "NL-HaNA 1.04.02 · 10070",
+href: "#",
+hrefType: "internal",
+uri: "https://example.com/reference/1764-0054-264",
+},
 ];
 
 <ReferencePanel title="References (1)" items={references} />`} />
+
+## CSS Recipe
+
+<CodeBlock code={referencePanelCss} language="css" />
 
 ## Props
 
@@ -138,7 +137,15 @@ const references = [
     {
       name: "href",
       type: "string",
-      description: "Optional external-link action.",
+      description:
+        "Optional row action. Use internal links for scans, voyages, and object cards.",
+    },
+    {
+      name: "hrefType",
+      type: '"internal" | "external"',
+      default: '"internal"',
+      description:
+        "Controls the action icon and link behavior. External links use the boxed external-link icon and open in a new tab; internal links use the arrow-top-right icon.",
     },
     {
       name: "uri",

@@ -144,8 +144,10 @@ const TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS = [
 
 const DIPLOMATIC_FRAGMENT_BASE_CLASS =
   "absolute whitespace-pre-wrap text-[16px] leading-none";
-const LAYOUT_ANNOTATION_LABEL_BASE_CLASS = "font-sans text-[10px] leading-[10px]";
-const LAYOUT_ANNOTATION_LINE_BASE_CLASS = "font-sans text-[11px] leading-[12px]";
+const LAYOUT_ANNOTATION_LABEL_BASE_CLASS =
+  "font-sans text-[10px] leading-[10px]";
+const LAYOUT_ANNOTATION_LINE_BASE_CLASS =
+  "font-sans text-[11px] leading-[12px]";
 
 const DIPLOMATIC_FRAGMENTS = [
   {
@@ -789,7 +791,9 @@ export function ManuscriptCanvas({
   const renderScanPage = React.useCallback(
     (archiveScan: number, documentScan: number) => (
       <div className="relative flex h-full w-full flex-col">
-        <DemoScanPage label={`Archive scan ${archiveScan}, document scan ${documentScan}`} />
+        <DemoScanPage
+          label={`Archive scan ${archiveScan}, document scan ${documentScan}`}
+        />
       </div>
     ),
     [],
@@ -1037,13 +1041,18 @@ export function TranscriptCanvas({
 
             return (
               <section key={section.block} className="grid gap-s8">
-                <span className={annotationLabelClassName}>{section.label}</span>
+                <span className={annotationLabelClassName}>
+                  {section.label}
+                </span>
                 <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
                   <div className="grid gap-s10 pt-[2px]">
                     {sectionLines.map((line) => (
                       <span
                         key={`${section.block}-${line.lineNumber}-line-number`}
-                        className={cn("min-w-s24 text-right", annotationLineClassName)}
+                        className={cn(
+                          "min-w-s24 text-right",
+                          annotationLineClassName,
+                        )}
                       >
                         {line.lineNumber}
                       </span>
@@ -1122,10 +1131,8 @@ export function TranscriptCanvas({
       className={transcriptViewerTone.backgroundClassName}
     >
       <DocumentDetailFloatingToolbar
-        className={cn(
-          "left-auto right-s24 gap-s4 px-s4",
-          FLOATING_TOOLBAR_REVEAL_CLASS,
-        )}
+        align="end"
+        className={cn("gap-s4 px-s4", FLOATING_TOOLBAR_REVEAL_CLASS)}
       >
         <DocumentDetailSegmentedToggleGroup
           size="compact"

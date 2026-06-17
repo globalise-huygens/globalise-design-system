@@ -216,7 +216,10 @@ export function PrinsEugeniusObjectCard({
   return (
     <ObjectCard className={className}>
       <ObjectCardHeader onClose={onClose}>
-        <EntityBadge type="ship" icon={<IconEntityShip className="h-s12 w-s12" />}>
+        <EntityBadge
+          type="ship"
+          icon={<IconEntityShip className="h-s12 w-s12" />}
+        >
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
@@ -253,6 +256,7 @@ export function PrinsEugeniusObjectCard({
                   }
                   href="#"
                   hrefLabel={`Open voyage ${voyage.route}`}
+                  hrefType="internal"
                   uri={`https://example.com/voyage/prins-eugenius-${index + 1}`}
                 />
               ))}

@@ -8,23 +8,16 @@ const ArticleRow = React.forwardRef<HTMLDivElement, ArticleRowProps>(
   ({ className, children, ...props }, ref) => {
     const items = React.Children.toArray(children);
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex items-stretch gap-section-gap flex-col lg:flex-row",
-          className,
-        )}
-        {...props}
-      >
+      <div ref={ref} className={cn("gds-article-row", className)} {...props}>
         {items.map((child, index) => (
           <React.Fragment key={index}>
             {index > 0 && (
               <AriaSeparator
                 orientation="vertical"
-                className="hidden lg:block w-0 self-stretch border-0 outline outline-offset-[-0.50px] outline-brand-black/40"
+                className="gds-article-row__separator"
               />
             )}
-            <div className="min-w-0 flex-1">{child}</div>
+            <div className="gds-article-row__item">{child}</div>
           </React.Fragment>
         ))}
       </div>

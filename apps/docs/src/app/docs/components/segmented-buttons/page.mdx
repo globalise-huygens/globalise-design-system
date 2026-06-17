@@ -6,6 +6,7 @@ import {
   DocumentDetailSegmentedToggleItem,
   IconScan,
   IconTranscription,
+  segmentedButtonsCss,
 } from "@globalise/design-system";
 
 # Segmented Buttons
@@ -14,16 +15,16 @@ Material 3-style React Aria toggle groups for compact viewer mode choices.
 
 ## Preview
 
-<ComponentPreview className="bg-neutral-900">
+<ComponentPreview>
   <DocumentDetailSegmentedToggleGroup
     aria-label="Viewer visibility"
     selectionMode="multiple"
     defaultSelectedKeys={["scan", "text"]}
   >
-    <DocumentDetailSegmentedToggleItem id="scan" icon={<IconScan className="h-s16 w-s16" />}>
+    <DocumentDetailSegmentedToggleItem id="scan" icon={<IconScan />}>
       Scan
     </DocumentDetailSegmentedToggleItem>
-    <DocumentDetailSegmentedToggleItem id="text" icon={<IconTranscription className="h-s16 w-s16" />}>
+    <DocumentDetailSegmentedToggleItem id="text" icon={<IconTranscription />}>
       Text
     </DocumentDetailSegmentedToggleItem>
   </DocumentDetailSegmentedToggleGroup>
@@ -31,7 +32,8 @@ Material 3-style React Aria toggle groups for compact viewer mode choices.
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailSegmentedToggleGroup
+<CodeBlock
+  code={`<DocumentDetailSegmentedToggleGroup
   aria-label="Viewer visibility"
   selectionMode="multiple"
   selectedKeys={selectedKeys}
@@ -43,7 +45,12 @@ Material 3-style React Aria toggle groups for compact viewer mode choices.
   <DocumentDetailSegmentedToggleItem id="text" icon={<IconTranscription />}>
     Text
   </DocumentDetailSegmentedToggleItem>
-</DocumentDetailSegmentedToggleGroup>`} />
+</DocumentDetailSegmentedToggleGroup>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={segmentedButtonsCss} language="css" />
 
 ## Props
 

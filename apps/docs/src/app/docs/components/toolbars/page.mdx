@@ -1,6 +1,7 @@
 import { CodeBlock } from "@/components/CodeBlock";
 import { ComponentPreview } from "@/components/ComponentPreview";
 import {
+  documentPreviewCss,
   DocumentDetailBarGroup,
   DocumentDetailBottomBar,
   DocumentDetailFloatingToolbar,
@@ -10,6 +11,7 @@ import {
   IconDownload,
   IconZoomIn,
   IconZoomOut,
+  toolbarCss,
 } from "@globalise/design-system";
 
 # Toolbars
@@ -18,30 +20,42 @@ Top bar, bottom bar, and floating toolbar primitives for document-viewer control
 
 ## Preview
 
-<ComponentPreview className="p-0! items-stretch!">
-  <div className="w-full bg-brand-black text-brand-white">
+<ComponentPreview className="docs-preview-edge">
+  <div className="docs-preview-surface">
     <DocumentDetailTopBar>
-      <DocumentDetailBarGroup className="px-s16">
-        <DocumentDetailToolButton aria-label="Copy" icon={<IconCopy className="h-s16 w-s16" />} />
-        <DocumentDetailToolButton aria-label="Download" icon={<IconDownload className="h-s16 w-s16" />} />
+      <DocumentDetailBarGroup>
+        <DocumentDetailToolButton aria-label="Copy" icon={<IconCopy />} />
+        <DocumentDetailToolButton
+          aria-label="Download"
+          icon={<IconDownload />}
+        />
       </DocumentDetailBarGroup>
     </DocumentDetailTopBar>
-    <div className="relative h-40">
+    <div className="docs-preview-stage">
       <DocumentDetailFloatingToolbar>
-        <DocumentDetailToolButton aria-label="Zoom out" icon={<IconZoomOut className="h-s16 w-s16" />} />
-        <DocumentDetailToolButton aria-label="Zoom in" icon={<IconZoomIn className="h-s16 w-s16" />} />
+        <DocumentDetailToolButton
+          aria-label="Zoom out"
+          icon={<IconZoomOut />}
+        />
+        <DocumentDetailToolButton aria-label="Zoom in" icon={<IconZoomIn />} />
       </DocumentDetailFloatingToolbar>
     </div>
     <DocumentDetailBottomBar>
-      <DocumentDetailBarGroup className="px-s16 text-xs">Scan 23 of 156</DocumentDetailBarGroup>
+      <DocumentDetailBarGroup>Scan 23 of 156</DocumentDetailBarGroup>
     </DocumentDetailBottomBar>
   </div>
 </ComponentPreview>
 
 ## Usage
 
-<CodeBlock code={`<DocumentDetailTopBar>
+<CodeBlock
+  code={`<DocumentDetailTopBar>
   <DocumentDetailBarGroup>
     <DocumentDetailToolButton aria-label="Download" icon={<IconDownload />} />
   </DocumentDetailBarGroup>
-</DocumentDetailTopBar>`} />
+</DocumentDetailTopBar>`}
+/>
+
+## CSS Recipe
+
+<CodeBlock code={`${documentPreviewCss}\n\n${toolbarCss}`} language="css" />

@@ -1,31 +1,20 @@
 import { cn } from "@/lib/utils";
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Link as AriaLink } from "react-aria-components";
 import { Button } from "./Button";
 
-const cardGlanceVariants = cva(
-  "flex flex-1 min-w-0 flex-col justify-between p-panel-pad",
-  {
-    variants: {
-      color: {
-        turquoise: "bg-brand-turquoise text-brand-black",
-        vermilion: "bg-brand-vermilion text-brand-black",
-        mint: "bg-brand-mint text-brand-black",
-        parchment: "bg-brand-parchment text-brand-black",
-      },
-    },
-    defaultVariants: {
-      color: "turquoise",
-    },
-  },
-);
+type CardGlanceColor = "turquoise" | "vermilion" | "mint" | "parchment";
 
-interface CardGlanceBaseProps extends VariantProps<typeof cardGlanceVariants> {
+function cardGlanceVariants({ className }: { className?: string } = {}) {
+  return cn("gds-card-glance", className);
+}
+
+interface CardGlanceBaseProps {
   heading: string;
   subtitle: string;
   description: string;
   cta: string;
+  color?: CardGlanceColor;
   className?: string;
 }
 
@@ -46,25 +35,15 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
     const href = "href" in props ? props.href : undefined;
     const content = (
       <>
-        <div className="flex min-h-s96 flex-col gap-s8">
-          <span className="font-serif font-medium text-3xl sm:text-4xl leading-tight">
-            {heading}
-          </span>
-          <span className="text-base sm:text-lg font-medium font-serif leading-6">
-            {subtitle}
-          </span>
+        <div className="gds-card-glance__header">
+          <span className="gds-card-glance__heading">{heading}</span>
+          <span className="gds-card-glance__subtitle">{subtitle}</span>
         </div>
-        <div className="mt-s24 flex-1">
-          <span className="text-xs font-medium font-sans leading-4">
-            {description}
-          </span>
+        <div className="gds-card-glance__body">
+          <span className="gds-card-glance__description">{description}</span>
         </div>
-        <div className="mt-s24">
-          <Button
-            variant="link"
-            as="span"
-            className="p-0 h-auto justify-start items-end whitespace-normal text-xs sm:text-sm"
-          >
+        <div className="gds-card-glance__footer">
+          <Button variant="link" as="span" className="gds-card-glance__cta">
             {cta}
           </Button>
         </div>
@@ -76,11 +55,8 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
         <AriaLink
           href={href}
           ref={ref as React.Ref<HTMLAnchorElement>}
-          className={cn(
-            "group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--brand-black)",
-            cardGlanceVariants({ color }),
-            className,
-          )}
+          className={cardGlanceVariants({ className })}
+          data-color={color ?? "turquoise"}
         >
           {content}
         </AriaLink>
@@ -90,7 +66,8 @@ const CardGlance = React.forwardRef<HTMLElement, CardGlanceProps>(
     return (
       <div
         ref={ref as React.Ref<HTMLDivElement>}
-        className={cn("group", cardGlanceVariants({ color }), className)}
+        className={cardGlanceVariants({ className })}
+        data-color={color ?? "turquoise"}
         {...(rest as React.HTMLAttributes<HTMLDivElement>)}
       >
         {content}
