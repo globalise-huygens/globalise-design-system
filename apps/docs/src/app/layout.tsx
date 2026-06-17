@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
 import { ClientProviders } from "./provider";
 
+const docsBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const notoSans = Noto_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,6 +25,9 @@ export const metadata: Metadata = {
   title: "Globalise Design System",
   description:
     "Documentation and component library for the Globalise design system",
+  icons: {
+    icon: `${docsBasePath}/favicon.svg`,
+  },
 };
 
 export default function RootLayout({
@@ -32,9 +37,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-      </head>
       <body
         className={`${notoSans.variable} ${notoSerif.variable} bg-brand-black text-brand-white min-h-screen font-sans antialiased`}
       >

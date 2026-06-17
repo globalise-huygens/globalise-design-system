@@ -2,8 +2,11 @@ name: Deploy Docs to GitHub Pages
 
 on:
   push:
-    branches: [main, fix/pr-release-blockers, feat/document-detail-overlay-large-grid]
+    branches: [main]
   workflow_dispatch:
+
+env:
+  NEXT_PUBLIC_BASE_PATH: /globalise-design-system
 
 permissions:
   contents: read
@@ -37,6 +40,9 @@ jobs:
 
       - name: Build docs
         run: pnpm --filter docs build
+
+      - name: Ensure Pages serves Next static assets
+        run: touch apps/docs/out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

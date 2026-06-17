@@ -3,10 +3,18 @@ import type { NextConfig } from "next";
 import remarkGfm from "remark-gfm";
 
 const isProd = process.env.NODE_ENV === "production";
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
+const basePath =
+  configuredBasePath !== undefined
+    ? configuredBasePath.replace(/\/$/, "")
+    : isProd
+      ? "/globalise-design-system"
+      : "";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: isProd ? "/globalise-design-system" : "",
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : undefined,
   trailingSlash: true,
   images: {
     unoptimized: true,
