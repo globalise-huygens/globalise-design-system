@@ -794,7 +794,7 @@
     justify-content: center;
     overflow: hidden;
     padding: var(--overlay-object-card-inset-top)
-      var(--overlay-object-card-inset-x) 0;
+      var(--overlay-object-card-inset-x) var(--overlay-object-card-inset-bottom);
   }
 
   .gds-object-card-overlay__frame {
@@ -897,25 +897,34 @@
     border-bottom: 1px solid rgb(255 255 255 / 0.2);
     background: var(--color-neutral-800);
     padding: var(--panel-pad);
+    padding-right: calc(var(--panel-pad) + var(--control) + var(--s16));
   }
 
   .gds-object-card__close {
     position: absolute;
-    top: var(--panel-pad);
-    right: var(--panel-pad);
+    top: var(--s16);
+    right: var(--s16);
     display: flex;
     width: var(--control);
     height: var(--control);
     align-items: center;
     justify-content: center;
-    border: 0;
-    background: transparent;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(255 255 255 / 0.06);
     color: var(--color-brand-white);
-    transition: opacity 150ms ease;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      opacity 150ms ease;
   }
 
   .gds-object-card__close[data-hovered] {
-    opacity: 0.8;
+    border-color: rgb(255 255 255 / 0.28);
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .gds-object-card__close[data-pressed] {
+    opacity: 0.72;
   }
 
   .gds-object-card__close[data-focus-visible] {
@@ -924,8 +933,8 @@
   }
 
   .gds-object-card__close-icon {
-    width: var(--s12);
-    height: var(--s12);
+    width: var(--s16);
+    height: var(--s16);
   }
 
   .gds-object-card__stats {

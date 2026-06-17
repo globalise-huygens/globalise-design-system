@@ -292,7 +292,8 @@
       var(--overlay-object-card-frame-max-width)
     );
     --overlay-object-card-frame-height: calc(
-      100vh - var(--overlay-object-card-inset-top)
+      100vh - var(--overlay-object-card-inset-top) -
+        var(--overlay-object-card-inset-bottom)
     );
 
     /* ── Font families ─────────────────────────────── */
