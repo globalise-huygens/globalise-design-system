@@ -107,16 +107,16 @@ function MiniWindowFrame({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pointer-events-none absolute bottom-s16 right-s16 z-20 w-[132px] overflow-hidden border border-brand-black/30 bg-brand-white shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
+    <div className="pointer-events-none absolute bottom-s16 right-s16 z-20 w-33 overflow-hidden border border-brand-black/30 bg-brand-white shadow-[0_8px_18px_rgba(0,0,0,0.22)]">
       <div className="flex h-s16 items-center justify-between border-b border-brand-black/10 bg-brand-white px-s6">
-        <span className="font-sans text-[8px] uppercase leading-[8px] text-neutral-500">
+        <span className="font-sans text-[8px] uppercase leading-2 text-neutral-500">
           {label}
         </span>
-        <span className="font-sans text-[8px] uppercase leading-[8px] text-brand-mint">
+        <span className="font-sans text-[8px] uppercase leading-2 text-brand-mint">
           Mini
         </span>
       </div>
-      <div className="relative h-[92px] bg-brand-white">{children}</div>
+      <div className="relative h-23 bg-brand-white">{children}</div>
     </div>
   );
 }
@@ -124,18 +124,18 @@ function MiniWindowFrame({
 function MiniTranscriptWindow() {
   return (
     <MiniWindowFrame label="Transcription">
-      <div className="flex h-full flex-col gap-[5px] px-s8 py-s8">
+      <div className="flex h-full flex-col gap-1.25 px-s8 py-s8">
         {Array.from({ length: 9 }, (_, index) => (
           <span
             key={index}
             className={cn(
-              "block h-[2px] rounded-full bg-neutral-200",
+              "block h-0.5 rounded-full bg-neutral-200",
               index === 5 ? "w-[86%]" : index % 3 === 0 ? "w-[78%]" : "w-full",
             )}
           />
         ))}
       </div>
-      <div className="absolute bottom-s8 right-s8 h-[22px] w-[40px] border border-brand-mint/65 bg-brand-white/95" />
+      <div className="absolute bottom-s8 right-s8 h-5.5 w-10 border border-brand-mint/65 bg-brand-white/95" />
     </MiniWindowFrame>
   );
 }
@@ -144,7 +144,7 @@ function MiniScanWindow() {
   return (
     <MiniWindowFrame label="Scan">
       <DemoScanPage label="Mini scan preview" className="h-full w-full" />
-      <div className="absolute left-[34px] top-[20px] h-[32px] w-[46px] border border-brand-mint/75 bg-brand-mint/12" />
+      <div className="absolute left-8.5 top-5 h-8 w-11.5 border border-brand-mint/75 bg-brand-mint/12" />
     </MiniWindowFrame>
   );
 }

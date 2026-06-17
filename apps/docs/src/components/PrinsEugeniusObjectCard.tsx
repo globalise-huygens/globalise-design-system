@@ -236,7 +236,7 @@ export function PrinsEugeniusObjectCard({
 
       <ObjectCardBody>
         <ObjectCardPanel side="left">
-          <ObjectCardSection sticky>
+          <ObjectCardSection>
             <ObjectCardPropertyList>
               <ObjectCardProperty
                 label="Built"
@@ -272,7 +272,7 @@ export function PrinsEugeniusObjectCard({
             </ObjectCardPropertyList>
           </ObjectCardSection>
 
-          <ObjectCardSection title="Voyages (7)" scrollable>
+          <ObjectCardSection title="Voyages (7)" scrollable sticky>
             <div className="overflow-hidden border-t border-brand-white/20">
               {voyages.map((voyage, index) => (
                 <ReferencePanelItem

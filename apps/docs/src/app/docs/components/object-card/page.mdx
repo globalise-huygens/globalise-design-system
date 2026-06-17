@@ -16,7 +16,7 @@ import {
 
 # Object Card
 
-A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, etc). All sub-components are pre-styled — consumers compose them without writing any CSS.
+A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, etc). All sub-components are pre-styled — consumers compose them without writing any CSS. On smaller screens, panels stack into one continuous scroll below the sticky header; on larger screens, panels sit side-by-side and scroll independently.
 
 ## Preview
 
@@ -97,7 +97,7 @@ A composable card built on React Aria Components for displaying entity detail ov
           </ObjectCardPropertyList>
         </ObjectCardSection>
 
-        <ObjectCardSection title="Voyages (7)">
+        <ObjectCardSection title="Voyages (7)" sticky>
           <ObjectCardListItem>
             <span>19 Jan 1710 – 8 Aug 1710</span>
           </ObjectCardListItem>
@@ -365,6 +365,20 @@ RAC `Group` with `aria-labelledby` linked to a level-3 heading. Screen readers a
       name: "children",
       type: "ReactNode",
       description: "Section content.",
+    },
+    {
+      name: "sticky",
+      type: "boolean",
+      default: "false",
+      description:
+        "Keeps the title heading pinned while its panel scrolls on larger screens. Has no effect when no title is rendered.",
+    },
+    {
+      name: "scrollable",
+      type: "boolean",
+      default: "false",
+      description:
+        "Wraps section contents in a min-height-aware container for long lists.",
     },
   ]}
 />

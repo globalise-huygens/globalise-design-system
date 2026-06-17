@@ -1036,28 +1036,30 @@
   .gds-object-card__body {
     display: grid;
     min-height: 0;
-    flex: 1 1 0%;
+    flex: 1 1 auto;
     grid-template-columns: 1fr;
-    overflow: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--neutral-500) transparent;
+    scrollbar-width: thin;
   }
 
   @media (min-width: 1024px) {
     .gds-object-card__body {
+      flex: 1 1 0%;
       grid-template-columns: repeat(12, minmax(0, 1fr));
+      overflow: hidden;
     }
   }
 
   .gds-object-card__panel {
     display: flex;
     width: 100%;
-    min-height: 0;
+    min-height: auto;
     flex-direction: column;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    overflow: visible;
     background: var(--color-neutral-800);
-    padding: 0 var(--panel-pad) var(--panel-pad);
-    scrollbar-color: var(--neutral-500) transparent;
-    scrollbar-width: thin;
+    padding: var(--panel-pad);
   }
 
   .gds-object-card__panel[data-side="left"] {
@@ -1068,6 +1070,11 @@
   @media (min-width: 1024px) {
     .gds-object-card__panel {
       grid-column: span 6 / span 6;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-color: var(--neutral-500) transparent;
+      scrollbar-width: thin;
     }
 
     .gds-object-card__panel[data-side="left"] {
@@ -1082,22 +1089,24 @@
     gap: var(--row-gap);
   }
 
-  .gds-object-card__section[data-sticky="true"] {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: var(--color-neutral-800);
-    margin: calc(var(--panel-pad) * -1);
-    margin-bottom: 0;
-    padding: var(--panel-pad) var(--panel-pad) var(--row-gap);
-  }
-
   .gds-object-card__section-heading {
     color: var(--color-brand-white);
     font-family: var(--font-serif);
     font-size: var(--text-lg);
     font-weight: 500;
     line-height: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    .gds-object-card__section[data-sticky="true"]
+      > .gds-object-card__section-heading {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-inline: calc(var(--panel-pad) * -1);
+      background: var(--color-neutral-800);
+      padding: var(--s12) var(--panel-pad) var(--row-gap);
+    }
   }
 
   .gds-object-card__section-scroll {

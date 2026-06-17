@@ -561,13 +561,18 @@
   }
 
   .gds-reference-panel-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
     margin-top: calc(var(--panel-pad) * -1);
     margin-inline: calc(var(--panel-pad) * -1);
     background: var(--color-neutral-800);
     padding: var(--panel-pad) var(--panel-pad) var(--row-gap);
+  }
+
+  @media (min-width: 1024px) {
+    .gds-reference-panel-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
   }
 
   .gds-reference-panel-header__heading {
