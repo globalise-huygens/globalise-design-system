@@ -51,25 +51,34 @@ function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
 export interface ObjectCardHeaderProps {
   onClose?: () => void;
   className?: string;
+  actions?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 function ObjectCardHeader({
   className,
   onClose,
+  actions,
   children,
 }: ObjectCardHeaderProps) {
+  const hasActions = Boolean(actions || onClose);
+
   return (
     <header className={cn("gds-object-card__header", className)}>
-      {children}
-      {onClose && (
-        <AriaButton
-          onPress={onClose}
-          aria-label="Close"
-          className="gds-object-card__close"
-        >
-          <IconClose className="gds-object-card__close-icon" />
-        </AriaButton>
+      <div className="gds-object-card__header-main">{children}</div>
+      {hasActions && (
+        <div className="gds-object-card__header-actions">
+          {actions}
+          {onClose && (
+            <AriaButton
+              onPress={onClose}
+              aria-label="Close"
+              className="gds-object-card__close"
+            >
+              <IconClose className="gds-object-card__close-icon" />
+            </AriaButton>
+          )}
+        </div>
       )}
     </header>
   );
@@ -293,17 +302,22 @@ export interface ObjectCardActionProps extends Omit<
 const ObjectCardAction = React.forwardRef<
   HTMLButtonElement,
   ObjectCardActionProps
->(({ className, variant, icon, children, ...props }, ref) => (
-  <AriaButton
-    ref={ref}
-    className={objectCardActionVariants({ className })}
-    data-variant={variant ?? "default"}
-    {...props}
-  >
-    {icon && <span className="gds-object-card__action-icon">{icon}</span>}
-    <span>{children}</span>
-  </AriaButton>
-));
+>(({ className, variant, icon, children, ...props }, ref) => {
+  const isIconOnly = !children;
+
+  return (
+    <AriaButton
+      ref={ref}
+      className={objectCardActionVariants({ className })}
+      data-icon-only={isIconOnly ? "true" : "false"}
+      data-variant={variant ?? "default"}
+      {...props}
+    >
+      {icon && <span className="gds-object-card__action-icon">{icon}</span>}
+      {children && <span>{children}</span>}
+    </AriaButton>
+  );
+});
 ObjectCardAction.displayName = "ObjectCardAction";
 
 export {

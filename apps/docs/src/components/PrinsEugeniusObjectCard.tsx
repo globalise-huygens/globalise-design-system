@@ -2,7 +2,6 @@
 
 import {
   EntityBadge,
-  IconShowMore,
   IconCopy,
   IconDownload,
   IconEntityShip,
@@ -10,7 +9,6 @@ import {
   ObjectCardAction,
   ObjectCardBody,
   ObjectCardExternalLink,
-  ObjectCardFooter,
   ObjectCardHeader,
   ObjectCardPanel,
   ObjectCardProperty,
@@ -19,12 +17,11 @@ import {
   ObjectCardStat,
   ObjectCardStats,
   ObjectCardTitle,
-  type ReferencePanelItemData,
   ReferencePanel,
   ReferencePanelItem,
+  type ReferencePanelItemData,
 } from "@globalise/design-system";
 import Image from "next/image";
-import { useState } from "react";
 
 const voyages = [
   {
@@ -70,8 +67,6 @@ const voyages = [
     crew: "~205 crew",
   },
 ];
-
-const INITIAL_VOYAGE_COUNT = 3;
 
 function ManuscriptScan() {
   return (
@@ -207,15 +202,23 @@ export function PrinsEugeniusObjectCard({
   onClose,
   className,
 }: PrinsEugeniusObjectCardProps) {
-  const [showAllVoyages, setShowAllVoyages] = useState(false);
-  const visibleVoyages = showAllVoyages
-    ? voyages
-    : voyages.slice(0, INITIAL_VOYAGE_COUNT);
-  const hiddenCount = voyages.length - INITIAL_VOYAGE_COUNT;
-
   return (
     <ObjectCard className={className}>
-      <ObjectCardHeader onClose={onClose}>
+      <ObjectCardHeader
+        onClose={onClose}
+        actions={
+          <>
+            <ObjectCardAction
+              aria-label="Copy URI"
+              icon={<IconCopy className="h-s16 w-s16" />}
+            />
+            <ObjectCardAction
+              aria-label="Download RDF/JSON-LD"
+              icon={<IconDownload className="h-s16 w-s16" />}
+            />
+          </>
+        }
+      >
         <EntityBadge
           type="ship"
           icon={<IconEntityShip className="h-s12 w-s12" />}
@@ -243,7 +246,7 @@ export function PrinsEugeniusObjectCard({
 
           <ObjectCardSection title="Voyages (7)" scrollable>
             <div className="overflow-hidden border-t border-brand-white/20">
-              {visibleVoyages.map((voyage, index) => (
+              {voyages.map((voyage, index) => (
                 <ReferencePanelItem
                   key={index}
                   title={voyage.route}
@@ -263,14 +266,6 @@ export function PrinsEugeniusObjectCard({
             </div>
           </ObjectCardSection>
 
-          <ObjectCardAction
-            variant="more"
-            icon={<IconShowMore className="h-s12 w-s12" />}
-            onPress={() => setShowAllVoyages((isShowingAll) => !isShowingAll)}
-          >
-            {showAllVoyages ? "Show less" : `More Voyages (${hiddenCount})`}
-          </ObjectCardAction>
-
           <ObjectCardSection title="External Identifiers">
             <div className="flex flex-col gap-s12">
               <ObjectCardExternalLink href="https://example.com">
@@ -281,15 +276,6 @@ export function PrinsEugeniusObjectCard({
               </ObjectCardExternalLink>
             </div>
           </ObjectCardSection>
-
-          <ObjectCardFooter>
-            <ObjectCardAction icon={<IconCopy className="h-s12 w-s12" />}>
-              Copy URI
-            </ObjectCardAction>
-            <ObjectCardAction icon={<IconDownload className="h-s12 w-s12" />}>
-              Export RDF/JSON-LD
-            </ObjectCardAction>
-          </ObjectCardFooter>
         </ObjectCardPanel>
 
         <ReferencePanel title="References (1,234)" items={references} />
