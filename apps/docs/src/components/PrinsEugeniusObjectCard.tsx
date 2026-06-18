@@ -101,10 +101,10 @@ function ManuscriptScan() {
 const references: ReferencePanelItemData[] = [
   {
     id: "1764-0054-264",
-    title: "1764 · 0054 · p.264",
+    title: "1764 · Doc 0054 · Scan 264",
     snippet:
       "in 't geheel p:r de prins Eugenius en de taxisboom na Batavia gesonden...",
-    metadata: "NL-HaNA 1.04.02 · 10070",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10070",
     href: "#",
     hrefLabel: "Open reference 1764 0054 page 264",
     uri: "https://example.com/reference/1764-0054-264",
@@ -112,10 +112,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1764-0054-265",
-    title: "1764 · 0054 · p.265",
+    title: "1764 · Doc 0054 · Scan 265",
     snippet:
       "de prins Eugenius heeft op de reise verscheijde schepen ontmoet en...",
-    metadata: "NL-HaNA 1.04.02 · 10070",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10070",
     href: "#",
     hrefLabel: "Open reference 1764 0054 page 265",
     uri: "https://example.com/reference/1764-0054-265",
@@ -123,10 +123,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1764-0054-266",
-    title: "1764 · 0054 · p.266",
+    title: "1764 · Doc 0054 · Scan 266",
     snippet:
       "aangaande het schip de prins Eugenius gerapporteerd dat hetzelve in...",
-    metadata: "NL-HaNA 1.04.02 · 10070",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10070",
     href: "#",
     hrefLabel: "Open reference 1764 0054 page 266",
     uri: "https://example.com/reference/1764-0054-266",
@@ -134,10 +134,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1764-0061-14",
-    title: "1764 · 0061 · p.14",
+    title: "1764 · Doc 0061 · Scan 14",
     snippet:
       "den schipper van de prins Eugenius verklaart dat het schip behouden...",
-    metadata: "NL-HaNA 1.04.02 · 10070",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10070",
     href: "#",
     hrefLabel: "Open reference 1764 0061 page 14",
     uri: "https://example.com/reference/1764-0061-14",
@@ -145,10 +145,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1765-0012-91",
-    title: "1765 · 0012 · p.91",
+    title: "1765 · Doc 0012 · Scan 91",
     snippet:
       "de goederen op de prins Eugenius zijn in goede staat te Batavia aangekomen...",
-    metadata: "NL-HaNA 1.04.02 · 10071",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10071",
     href: "#",
     hrefLabel: "Open reference 1765 0012 page 91",
     uri: "https://example.com/reference/1765-0012-91",
@@ -156,10 +156,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1765-0012-92",
-    title: "1765 · 0012 · p.92",
+    title: "1765 · Doc 0012 · Scan 92",
     snippet:
       "met het schip prins Eugenius zijn diverse kisten zijde overgebracht...",
-    metadata: "NL-HaNA 1.04.02 · 10071",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10071",
     href: "#",
     hrefLabel: "Open reference 1765 0012 page 92",
     uri: "https://example.com/reference/1765-0012-92",
@@ -167,10 +167,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1766-0027-11",
-    title: "1766 · 0027 · p.11",
+    title: "1766 · Doc 0027 · Scan 11",
     snippet:
       "rapport van de equipage omtrent schade aan mast en tuigage op zee...",
-    metadata: "NL-HaNA 1.04.02 · 10073",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10073",
     href: "#",
     hrefLabel: "Open reference 1766 0027 page 11",
     uri: "https://example.com/reference/1766-0027-11",
@@ -178,10 +178,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1766-0027-12",
-    title: "1766 · 0027 · p.12",
+    title: "1766 · Doc 0027 · Scan 12",
     snippet:
       "de kamer Amsterdam verzoekt nadere opgave van lading en bemanning...",
-    metadata: "NL-HaNA 1.04.02 · 10073",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10073",
     href: "#",
     hrefLabel: "Open reference 1766 0027 page 12",
     uri: "https://example.com/reference/1766-0027-12",
@@ -189,10 +189,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1767-0048-203",
-    title: "1767 · 0048 · p.203",
+    title: "1767 · Doc 0048 · Scan 203",
     snippet:
       "uittreksel betreffende de reis van Texel naar Batavia met vertraging...",
-    metadata: "NL-HaNA 1.04.02 · 10076",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10076",
     href: "#",
     hrefLabel: "Open reference 1767 0048 page 203",
     uri: "https://example.com/reference/1767-0048-203",
@@ -200,10 +200,10 @@ const references: ReferencePanelItemData[] = [
   },
   {
     id: "1767-0048-204",
-    title: "1767 · 0048 · p.204",
+    title: "1767 · Doc 0048 · Scan 204",
     snippet:
       "verklaring van de stuurman over verlies van proviand gedurende storm...",
-    metadata: "NL-HaNA 1.04.02 · 10076",
+    metadata: "Archive: NL-HaNA 1.04.02 · Inventory 10076",
     href: "#",
     hrefLabel: "Open reference 1767 0048 page 204",
     uri: "https://example.com/reference/1767-0048-204",

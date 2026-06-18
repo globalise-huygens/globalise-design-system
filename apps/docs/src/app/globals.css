@@ -315,3 +315,11 @@
   scrollbar-color: var(--neutral-500) transparent;
   scrollbar-width: thin;
 }
+
+.docs-object-card
+  .docs-object-card__references
+  .gds-reference-panel-item__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
