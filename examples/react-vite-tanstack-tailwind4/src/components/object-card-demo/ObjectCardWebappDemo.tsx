@@ -93,10 +93,12 @@ export function ObjectCardWebappDemo({
                   key={index}
                   title={voyage.route}
                   metadata={
-                    <span className="flex flex-wrap items-center justify-between gap-x-s12 gap-y-s4">
+                    <span className="flex flex-col gap-y-s4">
                       <span>{voyage.dates}</span>
-                      <span>{voyage.captain}</span>
-                      <span>{voyage.crew}</span>
+                      <span className="flex items-center justify-between gap-x-s12">
+                        <span className="min-w-0">{voyage.captain}</span>
+                        <span className="shrink-0">{voyage.crew}</span>
+                      </span>
                     </span>
                   }
                   href="#"
