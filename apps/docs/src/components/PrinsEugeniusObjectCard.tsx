@@ -24,6 +24,7 @@ import {
   type ReferencePanelItemData,
 } from "@globalise/design-system";
 import Image from "next/image";
+import * as React from "react";
 
 const voyages = [
   {
@@ -70,6 +71,43 @@ const voyages = [
   },
 ];
 
+const shipProperties: Array<{ label: string; value: React.ReactNode }> = [
+  {
+    label: "Built",
+    value: (
+      <>
+        1703,{" "}
+        <EntityTag type="place" href="#">
+          Amsterdam
+        </EntityTag>
+      </>
+    ),
+  },
+  {
+    label: "Laid up",
+    value: (
+      <>
+        1727,{" "}
+        <EntityTag type="place" href="#">
+          Batavia
+        </EntityTag>
+      </>
+    ),
+  },
+  {
+    label: "Weight",
+    value: "874 tons",
+  },
+  {
+    label: "Ship type",
+    value: (
+      <EntityTag type="ship" href="#">
+        Ship
+      </EntityTag>
+    ),
+  },
+];
+
 function renderVoyageRoute(route: string) {
   const [from, to] = route.split("->").map((part) => part.trim());
 
@@ -98,7 +136,7 @@ function ManuscriptScan() {
   );
 }
 
-const references: ReferencePanelItemData[] = [
+const referenceSeeds: ReferencePanelItemData[] = [
   {
     id: "1764-0054-264",
     title: "1764 · Doc 0054 · Scan 264",
@@ -211,6 +249,26 @@ const references: ReferencePanelItemData[] = [
   },
 ];
 
+const referenceCount = 1234;
+
+const references: ReferencePanelItemData[] = Array.from(
+  { length: referenceCount },
+  (_, index) => {
+    const seed = referenceSeeds[index % referenceSeeds.length];
+    const scanNumber = 264 + index;
+    const year = 1764 + Math.floor(index / 250);
+    const documentNumber = String(50 + (index % 75)).padStart(4, "0");
+    return {
+      ...seed,
+      id: `${year}-${documentNumber}-${scanNumber}`,
+      title: `${year} · Doc ${documentNumber} · Scan ${scanNumber}`,
+      hrefLabel: `Open reference ${year} ${documentNumber} page ${scanNumber}`,
+      uri: `https://example.com/reference/${year}-${documentNumber}-${scanNumber}`,
+      metadata: `NL-HaNA 1.04.02 · Inventory ${10070 + (index % 16)}`,
+    };
+  },
+);
+
 export interface PrinsEugeniusObjectCardProps {
   onClose?: () => void;
   className?: string;
@@ -220,6 +278,14 @@ export function PrinsEugeniusObjectCard({
   onClose,
   className,
 }: PrinsEugeniusObjectCardProps) {
+  const [activeMobilePanel, setActiveMobilePanel] = React.useState<
+    "voyages" | "references"
+  >("voyages");
+  const [propertiesExpanded, setPropertiesExpanded] = React.useState(false);
+
+  const isVoyagesPanelActive = activeMobilePanel === "voyages";
+  const isReferencesPanelActive = activeMobilePanel === "references";
+
   return (
     <ObjectCard className={className}>
       <ObjectCardHeader
@@ -244,13 +310,13 @@ export function PrinsEugeniusObjectCard({
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
-        <div className="flex flex-wrap items-center justify-between gap-x-s16 gap-y-s8">
+        <div className="flex flex-wrap items-center gap-x-s16 gap-y-s8">
           <ObjectCardStats>
             <ObjectCardStat>7 Voyages</ObjectCardStat>
-            <ObjectCardStat>1,234 References</ObjectCardStat>
+            <ObjectCardStat>{references.length.toLocaleString()} References</ObjectCardStat>
             <ObjectCardStat>Chamber: Amsterdam</ObjectCardStat>
           </ObjectCardStats>
-          <div className="ml-auto flex flex-wrap items-center justify-end gap-x-s16 gap-y-s4">
+          <div className="docs-object-card__external-links">
             <ObjectCardExternalLink href="https://example.com">
               DAS ship1203
             </ObjectCardExternalLink>
@@ -262,40 +328,83 @@ export function PrinsEugeniusObjectCard({
       </ObjectCardHeader>
 
       <ObjectCardBody>
-        <ObjectCardPanel side="left">
-          <ObjectCardSection>
+        <ObjectCardPanel side="left" className="docs-object-card__properties-panel">
+          <ObjectCardSection
+            className={`docs-object-card__properties ${propertiesExpanded ? "docs-object-card__properties--expanded" : ""}`}
+          >
             <ObjectCardPropertyList>
-              <ObjectCardProperty
-                label="Built"
-                value={
-                  <>
-                    1703,{" "}
-                    <EntityTag type="place" href="#">
-                      Amsterdam
-                    </EntityTag>
-                  </>
-                }
-              />
-              <ObjectCardProperty
-                label="Laid up"
-                value={
-                  <>
-                    1727,{" "}
-                    <EntityTag type="place" href="#">
-                      Batavia
-                    </EntityTag>
-                  </>
-                }
-              />
-              <ObjectCardProperty label="Weight" value="874 tons" />
-              <ObjectCardProperty
-                label="Ship type"
-                value={
-                  <EntityTag type="ship" href="#">
-                    Ship
-                  </EntityTag>
-                }
-              />
+              {shipProperties.map((property, index) => (
+                <ObjectCardProperty
+                  key={property.label}
+                  className={
+                    index > 1
+                      ? "docs-object-card__property-extra"
+                      : undefined
+                  }
+                  label={property.label}
+                  value={property.value}
+                />
+              ))}
+            </ObjectCardPropertyList>
+
+            <button
+              type="button"
+              className="docs-object-card__properties-toggle"
+              aria-expanded={propertiesExpanded}
+              onClick={() => setPropertiesExpanded((current) => !current)}
+            >
+              {propertiesExpanded ? "Show fewer properties" : "Show all properties"}
+            </button>
+          </ObjectCardSection>
+        </ObjectCardPanel>
+
+        <div
+          className="docs-object-card__mobile-segments"
+          role="tablist"
+          aria-label="Object card sections"
+        >
+          <button
+            type="button"
+            role="tab"
+            id="object-card-tab-voyages"
+            aria-selected={isVoyagesPanelActive}
+            aria-controls="object-card-panel-voyages"
+            className="docs-object-card__mobile-segment"
+            data-active={isVoyagesPanelActive ? "true" : "false"}
+            onClick={() => setActiveMobilePanel("voyages")}
+          >
+            Voyages ({voyages.length})
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="object-card-tab-references"
+            aria-selected={isReferencesPanelActive}
+            aria-controls="object-card-panel-references"
+            className="docs-object-card__mobile-segment"
+            data-active={isReferencesPanelActive ? "true" : "false"}
+            onClick={() => setActiveMobilePanel("references")}
+          >
+            References ({references.length.toLocaleString()})
+          </button>
+        </div>
+
+        <ObjectCardPanel
+          side="left"
+          id="object-card-panel-voyages"
+          role="tabpanel"
+          aria-labelledby="object-card-tab-voyages"
+          className={`docs-object-card__mobile-tab-panel docs-object-card__mobile-tab-panel--voyages ${isVoyagesPanelActive ? "docs-object-card__mobile-tab-panel--active" : ""}`}
+        >
+          <ObjectCardSection className="docs-object-card__properties docs-object-card__properties--desktop">
+            <ObjectCardPropertyList>
+              {shipProperties.map((property) => (
+                <ObjectCardProperty
+                  key={`desktop-${property.label}`}
+                  label={property.label}
+                  value={property.value}
+                />
+              ))}
             </ObjectCardPropertyList>
           </ObjectCardSection>
 
@@ -329,9 +438,16 @@ export function PrinsEugeniusObjectCard({
         </ObjectCardPanel>
 
         <ReferencePanel
-          className="docs-object-card__references"
-          title="References (1,234)"
+          id="object-card-panel-references"
+          role="tabpanel"
+          aria-labelledby="object-card-tab-references"
+          className={`docs-object-card__references docs-object-card__mobile-tab-panel docs-object-card__mobile-tab-panel--references ${isReferencesPanelActive ? "docs-object-card__mobile-tab-panel--active" : ""}`}
+          title={`References (${references.length.toLocaleString()})`}
           items={references}
+          progressiveLoading
+          initialVisibleCount={24}
+          loadMoreStep={24}
+          autoLoadMore
         />
       </ObjectCardBody>
     </ObjectCard>

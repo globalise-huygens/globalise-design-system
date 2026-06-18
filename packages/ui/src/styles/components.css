@@ -1179,8 +1179,11 @@
 
   .gds-object-card__external-link {
     display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: var(--s4);
     color: var(--color-brand-turquoise);
     font-family: var(--font-sans);
     font-size: var(--text-sm);
@@ -1201,7 +1204,12 @@
   .gds-object-card__external-link-icon {
     width: var(--s12);
     height: var(--s12);
+    flex-shrink: 0;
     color: var(--color-brand-turquoise);
+  }
+
+  .gds-object-card__external-link-label {
+    min-width: 0;
   }
 
   .gds-object-card__list-item {

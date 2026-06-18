@@ -254,7 +254,7 @@ const ObjectCardExternalLink = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const content = (
     <>
-      <span>{children}</span>
+      <span className="gds-object-card__external-link-label">{children}</span>
       <IconExternalLink className="gds-object-card__external-link-icon" />
     </>
   );

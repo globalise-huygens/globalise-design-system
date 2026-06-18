@@ -191,11 +191,17 @@ function ReferencePanelHeader({
 
 export interface ReferencePanelListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function ReferencePanelList({ className, ...props }: ReferencePanelListProps) {
-  return (
-    <div className={cn("gds-reference-panel-list", className)} {...props} />
-  );
-}
+const ReferencePanelList = React.forwardRef<
+  HTMLDivElement,
+  ReferencePanelListProps
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("gds-reference-panel-list", className)}
+    {...props}
+  />
+));
+ReferencePanelList.displayName = "ReferencePanelList";
 
 export interface ReferencePanelItemData {
   id?: string;
@@ -221,6 +227,11 @@ export interface ReferencePanelProps extends Omit<
   children?: React.ReactNode;
   emptyState?: React.ReactNode;
   onCopyUri?: (uri: string) => void;
+  progressiveLoading?: boolean;
+  initialVisibleCount?: number;
+  loadMoreStep?: number;
+  loadMoreLabel?: string;
+  autoLoadMore?: boolean;
 }
 
 function ReferencePanel({
@@ -230,10 +241,101 @@ function ReferencePanel({
   children,
   emptyState,
   onCopyUri,
+  progressiveLoading = false,
+  initialVisibleCount = 24,
+  loadMoreStep = 24,
+  loadMoreLabel = "Load more",
+  autoLoadMore = false,
   ...props
 }: ReferencePanelProps) {
   const headingId = React.useId();
+  const liveRegionId = React.useId();
+  const listRef = React.useRef<HTMLDivElement>(null);
+  const loadMoreSentinelRef = React.useRef<HTMLDivElement>(null);
   const hasItems = items && items.length > 0;
+  const clampedInitialVisibleCount = Math.max(1, initialVisibleCount);
+  const clampedLoadMoreStep = Math.max(1, loadMoreStep);
+  const [visibleCount, setVisibleCount] = React.useState(
+    clampedInitialVisibleCount,
+  );
+  const [liveMessage, setLiveMessage] = React.useState("");
+
+  React.useEffect(() => {
+    setVisibleCount(clampedInitialVisibleCount);
+    setLiveMessage("");
+  }, [items, clampedInitialVisibleCount]);
+
+  const visibleItems = React.useMemo(() => {
+    if (!items) {
+      return [];
+    }
+
+    if (!progressiveLoading) {
+      return items;
+    }
+
+    return items.slice(0, visibleCount);
+  }, [items, progressiveLoading, visibleCount]);
+
+  const canLoadMore = Boolean(
+    progressiveLoading &&
+    items &&
+    items.length > 0 &&
+    visibleCount < items.length,
+  );
+
+  const handleLoadMore = React.useCallback(() => {
+    if (!items || items.length === 0) {
+      return;
+    }
+
+    const nextVisibleCount = Math.min(
+      items.length,
+      visibleCount + clampedLoadMoreStep,
+    );
+
+    if (nextVisibleCount === visibleCount) {
+      return;
+    }
+
+    setVisibleCount(nextVisibleCount);
+    setLiveMessage(`Loaded ${nextVisibleCount} of ${items.length} references.`);
+  }, [items, visibleCount, clampedLoadMoreStep]);
+
+  React.useEffect(() => {
+    if (!autoLoadMore || !canLoadMore) {
+      return;
+    }
+
+    const root = listRef.current;
+    const target = loadMoreSentinelRef.current;
+
+    if (!root || !target) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          handleLoadMore();
+        }
+      },
+      {
+        root,
+        rootMargin: "120px",
+      },
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [autoLoadMore, canLoadMore, handleLoadMore]);
+
+  const handleLoadMorePress: AriaButtonProps["onPress"] = () => {
+    handleLoadMore();
+  };
 
   return (
     <ObjectCardPanel side="right" className={className} {...props}>
@@ -241,15 +343,52 @@ function ReferencePanel({
         <ReferencePanelHeader title={title} headingId={headingId} />
         {children}
         {hasItems ? (
-          <ReferencePanelList>
-            {items.map((item, index) => (
+          <>
+            <div
+              id={liveRegionId}
+              aria-live="polite"
+              aria-atomic="true"
+              className="gds-reference-panel__live-region"
+            >
+              {liveMessage}
+            </div>
+
+            <ReferencePanelList ref={listRef}>
+              {visibleItems.map((item, index) => (
+                <ReferencePanelItem
+                  key={item.id ?? `${String(item.title)}-${index}`}
+                  onCopyUri={onCopyUri}
+                  {...item}
+                />
+              ))}
+
+              {autoLoadMore && canLoadMore && (
+                <div
+                  ref={loadMoreSentinelRef}
+                  aria-hidden="true"
+                  className="gds-reference-panel__infinite-sentinel"
+                />
+              )}
+            </ReferencePanelList>
+
+            {!autoLoadMore && canLoadMore && items && (
               <ReferencePanelItem
-                key={item.id ?? `${String(item.title)}-${index}`}
-                onCopyUri={onCopyUri}
-                {...item}
+                className="gds-reference-panel__load-more-item"
+                title={
+                  <AriaButton
+                    onPress={handleLoadMorePress}
+                    aria-controls={liveRegionId}
+                    className="gds-reference-panel__load-more"
+                  >
+                    {loadMoreLabel}
+                    <span className="gds-reference-panel__load-more-count">
+                      ({visibleItems.length}/{items.length})
+                    </span>
+                  </AriaButton>
+                }
               />
-            ))}
-          </ReferencePanelList>
+            )}
+          </>
         ) : (
           !children && emptyState
         )}
