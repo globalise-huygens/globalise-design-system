@@ -157,6 +157,7 @@ function ObjectCardSection({
     <Group
       aria-labelledby={title ? headingId : undefined}
       className={cn("gds-object-card__section", className)}
+      data-has-title={title ? "true" : "false"}
       data-sticky={sticky ? "true" : undefined}
     >
       {title && (

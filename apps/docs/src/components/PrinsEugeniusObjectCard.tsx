@@ -227,11 +227,21 @@ export function PrinsEugeniusObjectCard({
           Ship
         </EntityBadge>
         <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
-        <ObjectCardStats>
-          <ObjectCardStat>7 Voyages</ObjectCardStat>
-          <ObjectCardStat>1,234 References</ObjectCardStat>
-          <ObjectCardStat>Chamber: Amsterdam</ObjectCardStat>
-        </ObjectCardStats>
+        <div className="flex flex-wrap items-center justify-between gap-x-s16 gap-y-s8">
+          <ObjectCardStats>
+            <ObjectCardStat>7 Voyages</ObjectCardStat>
+            <ObjectCardStat>1,234 References</ObjectCardStat>
+            <ObjectCardStat>Chamber: Amsterdam</ObjectCardStat>
+          </ObjectCardStats>
+          <div className="ml-auto flex flex-wrap items-center justify-end gap-x-s16 gap-y-s4">
+            <ObjectCardExternalLink href="https://example.com">
+              DAS ship1203
+            </ObjectCardExternalLink>
+            <ObjectCardExternalLink href="https://example.com">
+              vocsite.nl/schepen/10327
+            </ObjectCardExternalLink>
+          </div>
+        </div>
       </ObjectCardHeader>
 
       <ObjectCardBody>
@@ -272,7 +282,11 @@ export function PrinsEugeniusObjectCard({
             </ObjectCardPropertyList>
           </ObjectCardSection>
 
-          <ObjectCardSection title="Voyages (7)" scrollable sticky>
+          <ObjectCardSection
+            title="Voyages (7)"
+            scrollable
+            className="docs-object-card__voyages"
+          >
             <div className="overflow-hidden border-t border-brand-white/20">
               {voyages.map((voyage, index) => (
                 <ReferencePanelItem
@@ -293,20 +307,13 @@ export function PrinsEugeniusObjectCard({
               ))}
             </div>
           </ObjectCardSection>
-
-          <ObjectCardSection title="External Identifiers">
-            <div className="flex flex-col gap-s12">
-              <ObjectCardExternalLink href="https://example.com">
-                DAS ship1203
-              </ObjectCardExternalLink>
-              <ObjectCardExternalLink href="https://example.com">
-                vocsite.nl/schepen/10327
-              </ObjectCardExternalLink>
-            </div>
-          </ObjectCardSection>
         </ObjectCardPanel>
 
-        <ReferencePanel title="References (1,234)" items={references} />
+        <ReferencePanel
+          className="docs-object-card__references"
+          title="References (1,234)"
+          items={references}
+        />
       </ObjectCardBody>
     </ObjectCard>
   );

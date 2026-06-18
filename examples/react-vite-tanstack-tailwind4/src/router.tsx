@@ -18,6 +18,8 @@ import {
   createRouter,
   Outlet,
 } from "@tanstack/react-router";
+import { ObjectCardWebappDemo } from "./components/object-card-demo/ObjectCardWebappDemo";
+import { ObjectCardWebappOverlayDemo } from "./components/object-card-demo/ObjectCardWebappOverlayDemo";
 
 function ShellLayout() {
   return (
@@ -84,6 +86,34 @@ function HomePage() {
               It provides a copy-friendly starter that can be moved directly
               into the Globalise Research Portal repository.
             </Typography>
+          </div>
+
+          <div className="slot-content-band mt-6">
+            <Typography variant="h4" className="text-white">
+              ObjectCard as an in-page webapp card
+            </Typography>
+            <Typography variant="small" className="mt-2 text-white/70">
+              Structured as a dedicated demo module with separate data, similar
+              to the DocumentDetailOverlay demo setup.
+            </Typography>
+
+            <div className="mt-4">
+              <ObjectCardWebappDemo />
+            </div>
+          </div>
+
+          <div className="slot-content-band mt-6">
+            <Typography variant="h4" className="text-white">
+              ObjectCard as a webapp modal overlay
+            </Typography>
+            <Typography variant="small" className="mt-2 text-white/70">
+              Uses the same ObjectCard demo component in an ObjectCardOverlay,
+              including scroll containers for Voyages and References.
+            </Typography>
+
+            <div className="mt-4">
+              <ObjectCardWebappOverlayDemo />
+            </div>
           </div>
         </Grid>
       </Container>

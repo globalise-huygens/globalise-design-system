@@ -208,3 +208,109 @@
   background: var(--color-neutral-900);
   padding: var(--s24);
 }
+
+.docs-object-card {
+  width: 100%;
+}
+
+.docs-object-card--embedded {
+  overflow: hidden;
+}
+
+.docs-object-card--embedded .gds-object-card__body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card--embedded .gds-object-card__panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card-overlay--app {
+  overflow: hidden;
+}
+
+.docs-object-card-overlay--app .gds-object-card-overlay__modal {
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.docs-object-card-overlay--app .gds-object-card-overlay__frame {
+  height: var(--overlay-object-card-frame-height);
+  overflow: hidden;
+}
+
+.docs-object-card-overlay--app .gds-object-card-overlay__content {
+  min-height: 0;
+}
+
+.docs-object-card--overlay {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.docs-object-card--overlay .gds-object-card__body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card--overlay .gds-object-card__panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card .docs-object-card__voyages {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.docs-object-card--embedded .docs-object-card__voyages {
+  min-height: clamp(10rem, 22vh, 15rem);
+}
+
+.docs-object-card .docs-object-card__voyages .gds-object-card__section-heading {
+  flex-shrink: 0;
+}
+
+.docs-object-card .docs-object-card__voyages .gds-object-card__section-scroll {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}
+
+.docs-object-card--embedded
+  .docs-object-card__voyages
+  .gds-object-card__section-scroll {
+  min-height: 9.5rem;
+}
+
+.docs-object-card .docs-object-card__references {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card .docs-object-card__references .gds-reference-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.docs-object-card .docs-object-card__references .gds-reference-panel-header {
+  flex-shrink: 0;
+}
+
+.docs-object-card .docs-object-card__references .gds-reference-panel-list {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}

@@ -95,12 +95,13 @@ export function ObjectCardExampleOverlay() {
         </section>
       </div>
       <ObjectCardOverlay
+        className="docs-object-card-overlay--app"
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         contentClassName="slot-content-band"
       >
         <PrinsEugeniusObjectCard
-          className="max-w-none"
+          className="docs-object-card docs-object-card--overlay max-w-none"
           onClose={() => setIsOpen(false)}
         />
       </ObjectCardOverlay>

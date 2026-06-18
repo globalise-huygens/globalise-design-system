@@ -258,14 +258,6 @@ export const referencePanelCss = `.reference-panel {
   padding: var(--panel-pad) var(--panel-pad) var(--row-gap);
 }
 
-@media (min-width: 1024px) {
-  .reference-panel__header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-  }
-}
-
 .reference-panel__item {
   position: relative;
   border-bottom: 1px solid rgb(255 255 255 / 0.2);
