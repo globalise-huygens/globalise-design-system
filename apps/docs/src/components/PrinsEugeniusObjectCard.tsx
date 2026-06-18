@@ -3,6 +3,7 @@
 import {
   EntityBadge,
   EntityTag,
+  IconArrowRight,
   IconCopy,
   IconDownload,
   IconEntityShip,
@@ -68,6 +69,22 @@ const voyages = [
     crew: "~205 crew",
   },
 ];
+
+function renderVoyageRoute(route: string) {
+  const [from, to] = route.split("->").map((part) => part.trim());
+
+  if (!from || !to) {
+    return route;
+  }
+
+  return (
+    <span className="inline-flex items-center gap-s8">
+      <span>{from}</span>
+      <IconArrowRight className="h-s12 w-s12 text-brand-white/70" />
+      <span>{to}</span>
+    </span>
+  );
+}
 
 function ManuscriptScan() {
   return (
@@ -291,7 +308,7 @@ export function PrinsEugeniusObjectCard({
               {voyages.map((voyage, index) => (
                 <ReferencePanelItem
                   key={index}
-                  title={voyage.route}
+                  title={renderVoyageRoute(voyage.route)}
                   metadata={
                     <span className="flex flex-col gap-y-s4">
                       <span>{voyage.dates}</span>
