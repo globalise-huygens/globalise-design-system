@@ -309,6 +309,7 @@
 .docs-object-card .docs-object-card__references .gds-reference-panel-list {
   min-height: 0;
   flex: 1 1 auto;
+  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-color: var(--neutral-500) transparent;

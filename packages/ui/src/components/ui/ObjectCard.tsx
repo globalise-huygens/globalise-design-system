@@ -55,6 +55,32 @@ export interface ObjectCardHeaderProps {
   children?: React.ReactNode;
 }
 
+interface ObjectCardActionTooltipProps {
+  label?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+function ObjectCardActionTooltip({
+  label,
+  children,
+}: ObjectCardActionTooltipProps) {
+  if (!label) {
+    return <>{children}</>;
+  }
+
+  return (
+    <span className="gds-object-card__action-with-tooltip">
+      {children}
+      <span
+        aria-hidden="true"
+        className="gds-object-card__action-tooltip gds-document-detail-tooltip"
+      >
+        {label}
+      </span>
+    </span>
+  );
+}
+
 function ObjectCardHeader({
   className,
   onClose,
@@ -70,13 +96,15 @@ function ObjectCardHeader({
         <div className="gds-object-card__header-actions">
           {actions}
           {onClose && (
-            <AriaButton
-              onPress={onClose}
-              aria-label="Close"
-              className="gds-object-card__close"
-            >
-              <IconClose className="gds-object-card__close-icon" />
-            </AriaButton>
+            <ObjectCardActionTooltip label="Close">
+              <AriaButton
+                onPress={onClose}
+                aria-label="Close"
+                className="gds-object-card__close"
+              >
+                <IconClose className="gds-object-card__close-icon" />
+              </AriaButton>
+            </ObjectCardActionTooltip>
           )}
         </div>
       )}
@@ -297,16 +325,19 @@ export interface ObjectCardActionProps extends Omit<
   className?: string;
   variant?: ObjectCardActionVariant;
   icon?: React.ReactNode;
+  tooltipLabel?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 const ObjectCardAction = React.forwardRef<
   HTMLButtonElement,
   ObjectCardActionProps
->(({ className, variant, icon, children, ...props }, ref) => {
+>(({ className, variant, icon, children, tooltipLabel, ...props }, ref) => {
   const isIconOnly = !children;
+  const resolvedTooltipLabel =
+    tooltipLabel ?? (isIconOnly ? props["aria-label"] : undefined);
 
-  return (
+  const button = (
     <AriaButton
       ref={ref}
       className={objectCardActionVariants({ className })}
@@ -317,6 +348,12 @@ const ObjectCardAction = React.forwardRef<
       {icon && <span className="gds-object-card__action-icon">{icon}</span>}
       {children && <span>{children}</span>}
     </AriaButton>
+  );
+
+  return (
+    <ObjectCardActionTooltip label={resolvedTooltipLabel}>
+      {button}
+    </ObjectCardActionTooltip>
   );
 });
 ObjectCardAction.displayName = "ObjectCardAction";

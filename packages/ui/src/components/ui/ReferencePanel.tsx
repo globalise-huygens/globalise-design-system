@@ -1,7 +1,7 @@
 "use client";
 
-import { IconCopy } from "@/components/icons/IconCopy";
 import { IconArrowTopRight } from "@/components/icons/IconArrowTopRight";
+import { IconCopy } from "@/components/icons/IconCopy";
 import { IconExternalLink } from "@/components/icons/IconExternalLink";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -12,6 +12,28 @@ import {
   Link as AriaLink,
 } from "react-aria-components";
 import { ObjectCardPanel, type ObjectCardPanelProps } from "./ObjectCard";
+
+interface ReferencePanelActionTooltipProps {
+  label: React.ReactNode;
+  children: React.ReactNode;
+}
+
+function ReferencePanelActionTooltip({
+  label,
+  children,
+}: ReferencePanelActionTooltipProps) {
+  return (
+    <span className="gds-reference-panel-item__action-with-tooltip">
+      {children}
+      <span
+        aria-hidden="true"
+        className="gds-reference-panel-item__action-tooltip gds-document-detail-tooltip"
+      >
+        {label}
+      </span>
+    </span>
+  );
+}
 
 export interface ReferencePanelItemProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -80,33 +102,39 @@ function ReferencePanelItem({
             <div className="gds-reference-panel-item__actions">
               {actions}
               {uri && (
-                <AriaButton
-                  aria-label={copyLabel}
-                  onPress={handleCopyUri}
-                  className="gds-reference-panel-item__action"
-                >
-                  <IconCopy className="gds-reference-panel-item__action-icon" />
-                </AriaButton>
+                <ReferencePanelActionTooltip label={copyLabel}>
+                  <AriaButton
+                    aria-label={copyLabel}
+                    onPress={handleCopyUri}
+                    className="gds-reference-panel-item__action"
+                  >
+                    <IconCopy className="gds-reference-panel-item__action-icon" />
+                  </AriaButton>
+                </ReferencePanelActionTooltip>
               )}
               {href && hrefType === "external" && (
-                <AriaLink
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={hrefLabel}
-                  className="gds-reference-panel-item__action"
-                >
-                  <IconExternalLink className="gds-reference-panel-item__action-icon" />
-                </AriaLink>
+                <ReferencePanelActionTooltip label={hrefLabel}>
+                  <AriaLink
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={hrefLabel}
+                    className="gds-reference-panel-item__action"
+                  >
+                    <IconExternalLink className="gds-reference-panel-item__action-icon" />
+                  </AriaLink>
+                </ReferencePanelActionTooltip>
               )}
               {href && hrefType === "internal" && (
-                <AriaLink
-                  href={href}
-                  aria-label={hrefLabel}
-                  className="gds-reference-panel-item__action"
-                >
-                  <IconArrowTopRight className="gds-reference-panel-item__action-icon" />
-                </AriaLink>
+                <ReferencePanelActionTooltip label={hrefLabel}>
+                  <AriaLink
+                    href={href}
+                    aria-label={hrefLabel}
+                    className="gds-reference-panel-item__action"
+                  >
+                    <IconArrowTopRight className="gds-reference-panel-item__action-icon" />
+                  </AriaLink>
+                </ReferencePanelActionTooltip>
               )}
             </div>
           </div>

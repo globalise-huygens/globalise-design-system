@@ -982,6 +982,48 @@
     gap: var(--s4);
   }
 
+  .gds-object-card__action-with-tooltip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .gds-object-card__action-tooltip {
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--s8));
+    z-index: 70;
+    width: max-content;
+    max-width: 240px;
+    transform: translateY(-4px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 75ms ease-out,
+      transform 75ms ease-out;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: left;
+  }
+
+  .gds-object-card__action-with-tooltip:hover .gds-object-card__action-tooltip,
+  .gds-object-card__action-with-tooltip:focus-within
+    .gds-object-card__action-tooltip,
+  .gds-object-card__action-with-tooltip
+    .gds-object-card__action[data-hovered]
+    + .gds-object-card__action-tooltip,
+  .gds-object-card__action-with-tooltip
+    .gds-object-card__action[data-focus-visible]
+    + .gds-object-card__action-tooltip,
+  .gds-object-card__action-with-tooltip
+    .gds-object-card__close[data-hovered]
+    + .gds-object-card__action-tooltip,
+  .gds-object-card__action-with-tooltip
+    .gds-object-card__close[data-focus-visible]
+    + .gds-object-card__action-tooltip {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
   .gds-object-card__close {
     display: inline-flex;
     min-width: var(--s36);
