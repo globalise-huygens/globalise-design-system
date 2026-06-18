@@ -289,6 +289,10 @@
     .gds-reference-panel-header {
     display: none;
   }
+
+  .docs-object-card .docs-object-card__voyages {
+    gap: 0;
+  }
 }
 
 .docs-object-card .docs-object-card__properties-toggle {
