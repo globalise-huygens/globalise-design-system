@@ -107,7 +107,7 @@ export function ObjectCardWebappDemo({
             <div className="overflow-hidden border-t border-brand-white/20">
               {OBJECT_CARD_VOYAGES.map((voyage, index) => (
                 <ReferencePanelItem
-                  key={index}
+                  key={`${voyage.route}-${voyage.dates}`}
                   title={renderVoyageRoute(voyage.route)}
                   metadata={
                     <span className="flex flex-col gap-y-s4">

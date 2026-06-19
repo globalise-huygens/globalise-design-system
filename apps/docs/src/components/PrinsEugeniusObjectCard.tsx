@@ -278,6 +278,11 @@ export function PrinsEugeniusObjectCard({
   onClose,
   className,
 }: PrinsEugeniusObjectCardProps) {
+  const tabIdPrefix = React.useId();
+  const voyagesTabId = `${tabIdPrefix}-tab-voyages`;
+  const referencesTabId = `${tabIdPrefix}-tab-references`;
+  const voyagesPanelId = `${tabIdPrefix}-panel-voyages`;
+  const referencesPanelId = `${tabIdPrefix}-panel-references`;
   const [activeMobilePanel, setActiveMobilePanel] = React.useState<
     "voyages" | "references"
   >("voyages");
@@ -313,7 +318,9 @@ export function PrinsEugeniusObjectCard({
         <div className="flex flex-wrap items-center gap-x-s16 gap-y-s8">
           <ObjectCardStats>
             <ObjectCardStat>7 Voyages</ObjectCardStat>
-            <ObjectCardStat>{references.length.toLocaleString()} References</ObjectCardStat>
+            <ObjectCardStat>
+              {references.length.toLocaleString()} References
+            </ObjectCardStat>
             <ObjectCardStat>Chamber: Amsterdam</ObjectCardStat>
           </ObjectCardStats>
           <div className="docs-object-card__external-links">
@@ -328,7 +335,10 @@ export function PrinsEugeniusObjectCard({
       </ObjectCardHeader>
 
       <ObjectCardBody>
-        <ObjectCardPanel side="left" className="docs-object-card__properties-panel">
+        <ObjectCardPanel
+          side="left"
+          className="docs-object-card__properties-panel"
+        >
           <ObjectCardSection
             className={`docs-object-card__properties ${propertiesExpanded ? "docs-object-card__properties--expanded" : ""}`}
           >
@@ -337,9 +347,7 @@ export function PrinsEugeniusObjectCard({
                 <ObjectCardProperty
                   key={property.label}
                   className={
-                    index > 1
-                      ? "docs-object-card__property-extra"
-                      : undefined
+                    index > 1 ? "docs-object-card__property-extra" : undefined
                   }
                   label={property.label}
                   value={property.value}
@@ -353,7 +361,9 @@ export function PrinsEugeniusObjectCard({
               aria-expanded={propertiesExpanded}
               onClick={() => setPropertiesExpanded((current) => !current)}
             >
-              {propertiesExpanded ? "Show fewer properties" : "Show all properties"}
+              {propertiesExpanded
+                ? "Show fewer properties"
+                : "Show all properties"}
             </button>
           </ObjectCardSection>
         </ObjectCardPanel>
@@ -366,9 +376,9 @@ export function PrinsEugeniusObjectCard({
           <button
             type="button"
             role="tab"
-            id="object-card-tab-voyages"
+            id={voyagesTabId}
             aria-selected={isVoyagesPanelActive}
-            aria-controls="object-card-panel-voyages"
+            aria-controls={voyagesPanelId}
             className="docs-object-card__mobile-segment"
             data-active={isVoyagesPanelActive ? "true" : "false"}
             onClick={() => setActiveMobilePanel("voyages")}
@@ -378,9 +388,9 @@ export function PrinsEugeniusObjectCard({
           <button
             type="button"
             role="tab"
-            id="object-card-tab-references"
+            id={referencesTabId}
             aria-selected={isReferencesPanelActive}
-            aria-controls="object-card-panel-references"
+            aria-controls={referencesPanelId}
             className="docs-object-card__mobile-segment"
             data-active={isReferencesPanelActive ? "true" : "false"}
             onClick={() => setActiveMobilePanel("references")}
@@ -391,9 +401,9 @@ export function PrinsEugeniusObjectCard({
 
         <ObjectCardPanel
           side="left"
-          id="object-card-panel-voyages"
+          id={voyagesPanelId}
           role="tabpanel"
-          aria-labelledby="object-card-tab-voyages"
+          aria-labelledby={voyagesTabId}
           className={`docs-object-card__mobile-tab-panel docs-object-card__mobile-tab-panel--voyages ${isVoyagesPanelActive ? "docs-object-card__mobile-tab-panel--active" : ""}`}
         >
           <ObjectCardSection className="docs-object-card__properties docs-object-card__properties--desktop">
@@ -409,14 +419,14 @@ export function PrinsEugeniusObjectCard({
           </ObjectCardSection>
 
           <ObjectCardSection
-            title="Voyages (7)"
+            title={`Voyages (${voyages.length})`}
             scrollable
             className="docs-object-card__voyages"
           >
             <div className="overflow-hidden border-t border-brand-white/20">
               {voyages.map((voyage, index) => (
                 <ReferencePanelItem
-                  key={index}
+                  key={`${voyage.route}-${voyage.dates}`}
                   title={renderVoyageRoute(voyage.route)}
                   metadata={
                     <span className="flex flex-col gap-y-s4">
@@ -438,9 +448,9 @@ export function PrinsEugeniusObjectCard({
         </ObjectCardPanel>
 
         <ReferencePanel
-          id="object-card-panel-references"
+          id={referencesPanelId}
           role="tabpanel"
-          aria-labelledby="object-card-tab-references"
+          aria-labelledby={referencesTabId}
           className={`docs-object-card__references docs-object-card__mobile-tab-panel docs-object-card__mobile-tab-panel--references ${isReferencesPanelActive ? "docs-object-card__mobile-tab-panel--active" : ""}`}
           title={`References (${references.length.toLocaleString()})`}
           items={references}
