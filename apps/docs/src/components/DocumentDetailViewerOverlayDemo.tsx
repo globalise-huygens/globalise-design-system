@@ -611,9 +611,11 @@ function TableOfContentsScanCard({
 function TableOfContentsPanel({
   selectedScan,
   onSelectScan,
+  searchQuery,
 }: {
   selectedScan: SelectedScanReference;
   onSelectScan: (scan: SelectedScanReference) => void;
+  searchQuery: string;
 }) {
   const [searchHitsOnly, setSearchHitsOnly] = React.useState(false);
   const [expandedDocumentIds, setExpandedDocumentIds] = React.useState<
@@ -743,7 +745,7 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <DocumentDetailTooltip label="Show search hits only">
+        <span className="group/hits-only relative inline-flex">
           <DocumentDetailCheckbox
             aria-label="Show only documents and scans with search hits"
             isSelected={searchHitsOnly}
@@ -751,7 +753,13 @@ function TableOfContentsPanel({
           >
             Hits only
           </DocumentDetailCheckbox>
-        </DocumentDetailTooltip>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/hits-only:translate-y-0 group-focus-within/hits-only:opacity-100 group-hover/hits-only:translate-y-0 group-hover/hits-only:opacity-100 motion-reduce:transition-none"
+          >
+            {`Show search hits only for "${searchQuery}"`}
+          </span>
+        </span>
 
         <div
           aria-label="Jump to current selection"
@@ -1191,6 +1199,7 @@ function ExpandedMetadataSidebar({
   onSelectTagTarget,
   selectedScan,
   onSelectScan,
+  searchQuery,
 }: {
   expandedSections: Set<string>;
   onToggleSection: (sectionId: string) => void;
@@ -1198,6 +1207,7 @@ function ExpandedMetadataSidebar({
   onSelectTagTarget: (target: TagNavigationTarget) => void;
   selectedScan: SelectedScanReference;
   onSelectScan: (scan: SelectedScanReference) => void;
+  searchQuery: string;
 }) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
@@ -1223,6 +1233,7 @@ function ExpandedMetadataSidebar({
             <TableOfContentsPanel
               selectedScan={selectedScan}
               onSelectScan={onSelectScan}
+              searchQuery={searchQuery}
             />
           )}
           {item.id === "identified" && (
@@ -1268,6 +1279,7 @@ export function DocumentDetailViewerOverlayDemo() {
   const [activeTagTarget, setActiveTagTarget] =
     React.useState<TagNavigationTarget>();
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
+  const activeSearchQuery = "prins Eugenius";
 
   const maxSearchHit = SEARCH_HITS.length;
   const entityHighlightCategories = React.useMemo(
@@ -1533,6 +1545,7 @@ export function DocumentDetailViewerOverlayDemo() {
               onSelectTagTarget={selectTagTarget}
               selectedScan={selectedScanReference}
               onSelectScan={selectViewerScan}
+              searchQuery={activeSearchQuery}
             />
           ) : (
             <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
@@ -1867,7 +1880,7 @@ export function DocumentDetailViewerOverlayDemo() {
           <DocumentDetailBarGroup className="gap-s24">
             <TooltipIconButton
               aria-label="Previous search hit"
-              tooltip="Go to previous search hit"
+              tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
               tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
@@ -1882,13 +1895,13 @@ export function DocumentDetailViewerOverlayDemo() {
                 value={currentSearchHit}
                 max={maxSearchHit}
                 onChange={goToSearchHit}
-                tooltip="Type a search hit number"
+                tooltip={`Type a search hit number for "${activeSearchQuery}"`}
               />
               of {maxSearchHit}
             </span>
             <TooltipIconButton
               aria-label="Next search hit"
-              tooltip="Go to next search hit"
+              tooltip={`Go to next search hit for "${activeSearchQuery}"`}
               tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
