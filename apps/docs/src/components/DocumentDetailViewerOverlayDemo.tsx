@@ -1888,6 +1888,7 @@ export function DocumentDetailViewerOverlayDemo() {
               onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
+          <span className="font-sans text-xs text-brand-white/45">|</span>
           {isSearchHitNavigationVisible ? (
             <DocumentDetailBarGroup className="gap-s24">
               <TooltipIconButton
@@ -1918,6 +1919,14 @@ export function DocumentDetailViewerOverlayDemo() {
                 </span>
               </span>
               <TooltipIconButton
+                aria-label="Hide search hit navigation"
+                tooltip="Hide search hit navigation"
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconClose className="h-s16 w-s16" />}
+                onPress={() => setIsSearchHitNavigationVisible(false)}
+              />
+              <TooltipIconButton
                 aria-label="Next search hit"
                 tooltip={`Go to next search hit for "${activeSearchQuery}"`}
                 tooltipPlacement="top"
@@ -1926,14 +1935,6 @@ export function DocumentDetailViewerOverlayDemo() {
                 onPress={() => {
                   goToSearchHit(currentSearchHit + 1);
                 }}
-              />
-              <TooltipIconButton
-                aria-label="Hide search hit navigation"
-                tooltip="Hide search hit navigation"
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconClose className="h-s16 w-s16" />}
-                onPress={() => setIsSearchHitNavigationVisible(false)}
               />
             </DocumentDetailBarGroup>
           ) : (
@@ -1949,6 +1950,8 @@ export function DocumentDetailViewerOverlayDemo() {
             </DocumentDetailBarGroup>
           )}
           {activeTagTarget && (
+            <>
+              <span className="font-sans text-xs text-brand-white/45">|</span>
             <DocumentDetailBarGroup className="gap-s24">
               <TooltipIconButton
                 aria-label={`Previous ${activeTagTarget.label} occurrence`}
@@ -1972,14 +1975,6 @@ export function DocumentDetailViewerOverlayDemo() {
                 of {activeTagTarget.occurrences}
               </span>
               <TooltipIconButton
-                aria-label={`Next ${activeTagTarget.label} occurrence`}
-                tooltip={`Go to next ${activeTagTarget.label} occurrence`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconRight className="h-s16 w-s16" />}
-                onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
-              />
-              <TooltipIconButton
                 aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
                 tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
                 tooltipPlacement="top"
@@ -1990,7 +1985,16 @@ export function DocumentDetailViewerOverlayDemo() {
                   setCurrentTagOccurrence(1);
                 }}
               />
+              <TooltipIconButton
+                aria-label={`Next ${activeTagTarget.label} occurrence`}
+                tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconRight className="h-s16 w-s16" />}
+                onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+              />
             </DocumentDetailBarGroup>
+            </>
           )}
         </DocumentDetailBottomBar>
       </DocumentDetailOverlay>
