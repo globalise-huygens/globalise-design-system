@@ -1,5 +1,6 @@
 "use client";
 
+import { DemoScanPage } from "@/components/document-detail-overlay-demo/DemoScanPage";
 import {
   DocumentDetailCheckbox,
   DocumentDetailNumberField,
@@ -13,7 +14,6 @@ import {
   IconTranscription,
 } from "@globalise/design-system";
 import * as React from "react";
-import { DemoScanPage } from "@/components/document-detail-overlay-demo/DemoScanPage";
 
 export function DocumentDetailControlsDemo() {
   const [visibleViewers, setVisibleViewers] = React.useState(
@@ -93,7 +93,7 @@ export function DocumentDetailControlsDemo() {
         </span>
       </div>
 
-      <div className="max-w-128">
+      <div className="max-w-lg">
         <DocumentDetailReferenceCard
           isSelected
           thumbnail={<DemoScanPage label="Scan thumbnail placeholder" />}

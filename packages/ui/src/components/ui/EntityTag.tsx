@@ -15,9 +15,6 @@ import {
 
 export type EntityTagType =
   | "ship"
-  | "concept"
-  | "voyage"
-  | "letter"
   | "person"
   | "place"
   | "commodity"
@@ -35,13 +32,11 @@ function getEntityTagIcon(type: EntityTagType) {
 
   switch (type) {
     case "ship":
-    case "voyage":
       return <IconEntityShip className={iconClassName} />;
     case "person":
       return <IconEntityPerson className={iconClassName} />;
     case "place":
       return <IconEntityPlace className={iconClassName} />;
-    case "concept":
     case "commodity":
       return <IconEntityCommodity className={iconClassName} />;
     case "dimensions":
@@ -50,7 +45,6 @@ function getEntityTagIcon(type: EntityTagType) {
       return <IconEntityOrganisation className={iconClassName} />;
     case "date":
       return <IconEntityDate className={iconClassName} />;
-    case "letter":
     case "document":
       return <IconEntityDocument className={iconClassName} />;
     default:
@@ -70,7 +64,7 @@ export interface EntityTagProps extends Omit<
 
 function EntityTag({
   className,
-  type = "concept",
+  type = "document",
   icon,
   children,
   href,
