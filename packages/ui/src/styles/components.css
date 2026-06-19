@@ -715,21 +715,18 @@
     outline-color: var(--color-turquoise-700);
   }
 
-  .gds-entity-badge[data-type="concept"],
   .gds-entity-badge[data-type="place"] {
     background: var(--color-mint-900);
     color: var(--color-mint-200);
     outline-color: var(--color-mint-700);
   }
 
-  .gds-entity-badge[data-type="voyage"],
   .gds-entity-badge[data-type="person"] {
     background: var(--color-vermilion-900);
     color: var(--color-vermilion-200);
     outline-color: var(--color-vermilion-700);
   }
 
-  .gds-entity-badge[data-type="letter"],
   .gds-entity-badge[data-type="commodity"],
   .gds-entity-badge[data-type="date"] {
     background: var(--color-parchment-900);

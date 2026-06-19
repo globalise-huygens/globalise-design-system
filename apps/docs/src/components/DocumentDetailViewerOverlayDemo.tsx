@@ -499,7 +499,7 @@ function TableOfContentsMetadataRow({
               label === "Location"
                 ? "place"
                 : label === "Type"
-                  ? "concept"
+                  ? "document"
                   : "organisation"
             }
             href="#"
