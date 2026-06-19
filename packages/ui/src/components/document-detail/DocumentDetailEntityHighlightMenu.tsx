@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import { IconExpandSection } from "../icons/IconExpandSection";
 import {
   DocumentDetailCheckbox,
   DocumentDetailToolButton,
@@ -210,7 +211,6 @@ function DocumentDetailEntityHighlightMenu({
                 isSelected={areAllHighlightsSelected}
                 isIndeterminate={areHighlightsPartiallySelected}
                 onChange={(nextSelected) => setAllHighlights(nextSelected)}
-                className="gds-entity-highlight-menu__checkbox-all"
               />
             </div>
 
@@ -276,7 +276,13 @@ function DocumentDetailEntityHighlightMenu({
                             )}
                             onClick={() => toggleExpandedGroup(category.id)}
                           >
-                            {isExpanded ? "-" : "+"}
+                            <IconExpandSection
+                              aria-hidden="true"
+                              className={cn(
+                                "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
+                                isExpanded && "rotate-180",
+                              )}
+                            />
                           </button>
                         )}
                         <DocumentDetailCheckbox
@@ -287,7 +293,6 @@ function DocumentDetailEntityHighlightMenu({
                           onChange={(nextSelected) =>
                             toggleCategory(category, nextSelected)
                           }
-                          className="gds-entity-highlight-menu__checkbox-row"
                         />
                       </div>
                     </div>
@@ -328,7 +333,6 @@ function DocumentDetailEntityHighlightMenu({
                                 onChange={(nextSelected) =>
                                   toggleLeafKey(leafKey, nextSelected)
                                 }
-                                className="gds-entity-highlight-menu__checkbox-row"
                               />
                             </div>
                           );

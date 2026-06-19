@@ -57,6 +57,7 @@ import {
   ACTIVE_TOC_DOCUMENT_ID,
   ACTIVE_TOC_SCAN,
   CLASSIFIED_ENTITY_TAG_GROUPS,
+  getDocumentIndex,
   getDocumentUri,
   getNaIdentifierUrl,
   getScanReference,
@@ -155,54 +156,80 @@ const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
     rowClassName: string;
     subRowClassName: string;
     textClassName: string;
+    transcriptHighlightClassName: string;
   }
 > = {
   Persons: {
-    rowClassName: "border-rose-300/35 bg-rose-300/10",
-    subRowClassName: "border-rose-300/25 bg-rose-300/6",
+    rowClassName: "bg-rose-300/10",
+    subRowClassName: "bg-rose-300/6",
     textClassName: "text-rose-200",
+    transcriptHighlightClassName:
+      "bg-rose-300/25 ring-1 ring-inset ring-rose-300/35",
   },
   Places: {
-    rowClassName: "border-green-300/35 bg-green-300/10",
-    subRowClassName: "border-lime-300/30 bg-lime-300/8",
+    rowClassName: "bg-green-300/10",
+    subRowClassName: "bg-lime-300/8",
     textClassName: "text-green-200",
+    transcriptHighlightClassName:
+      "bg-green-300/25 ring-1 ring-inset ring-green-300/35",
   },
   Commodities: {
-    rowClassName: "border-orange-300/35 bg-orange-300/10",
-    subRowClassName: "border-amber-300/30 bg-amber-300/8",
+    rowClassName: "bg-orange-300/10",
+    subRowClassName: "bg-amber-300/8",
     textClassName: "text-orange-200",
+    transcriptHighlightClassName:
+      "bg-orange-300/25 ring-1 ring-inset ring-orange-300/35",
   },
   Documents: {
-    rowClassName: "border-amber-300/35 bg-amber-300/10",
-    subRowClassName: "border-amber-300/30 bg-amber-300/8",
+    rowClassName: "bg-amber-300/10",
+    subRowClassName: "bg-amber-300/8",
     textClassName: "text-amber-200",
+    transcriptHighlightClassName:
+      "bg-amber-300/25 ring-1 ring-inset ring-amber-300/35",
   },
   Dates: {
-    rowClassName: "border-sky-300/35 bg-sky-300/10",
-    subRowClassName: "border-sky-300/30 bg-sky-300/8",
+    rowClassName: "bg-sky-300/10",
+    subRowClassName: "bg-sky-300/8",
     textClassName: "text-sky-200",
+    transcriptHighlightClassName:
+      "bg-sky-300/25 ring-1 ring-inset ring-sky-300/35",
   },
   Ships: {
-    rowClassName: "border-stone-300/35 bg-stone-300/10",
-    subRowClassName: "border-slate-300/30 bg-slate-300/8",
+    rowClassName: "bg-stone-300/10",
+    subRowClassName: "bg-slate-300/8",
     textClassName: "text-stone-200",
+    transcriptHighlightClassName:
+      "bg-stone-300/25 ring-1 ring-inset ring-stone-300/35",
   },
   Organisations: {
-    rowClassName: "border-purple-300/35 bg-purple-300/10",
-    subRowClassName: "border-blue-300/30 bg-blue-300/8",
+    rowClassName: "bg-purple-300/10",
+    subRowClassName: "bg-blue-300/8",
     textClassName: "text-purple-200",
+    transcriptHighlightClassName:
+      "bg-purple-300/25 ring-1 ring-inset ring-purple-300/35",
   },
   Polities: {
-    rowClassName: "border-neutral-400/30 bg-neutral-400/8",
-    subRowClassName: "border-neutral-400/25 bg-neutral-400/6",
+    rowClassName: "bg-neutral-400/8",
+    subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
+    transcriptHighlightClassName:
+      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
   },
   Quantity: {
-    rowClassName: "border-neutral-400/30 bg-neutral-400/8",
-    subRowClassName: "border-neutral-400/25 bg-neutral-400/6",
+    rowClassName: "bg-neutral-400/8",
+    subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
+    transcriptHighlightClassName:
+      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
   },
 };
+
+const ENTITY_HIGHLIGHT_TEXT_CLASSES = Object.fromEntries(
+  Object.entries(ENTITY_HIGHLIGHT_COLOR_SCHEMES).map(([category, scheme]) => [
+    category,
+    scheme.transcriptHighlightClassName,
+  ]),
+);
 
 function getEntityHighlightCategories() {
   return CLASSIFIED_ENTITY_TAG_GROUPS.map((group) => {
@@ -357,7 +384,7 @@ function InventoryHierarchyRow({
             </span>
             <CopyUriButton
               uri={INVENTORY_URI}
-              label={`Copy inventory ${label} URI`}
+              ariaLabel={`Copy inventory ${label} URI`}
               className="h-s20 w-s20"
             />
           </span>
@@ -565,7 +592,7 @@ function TableOfContentsScanCard({
           </button>
           <CopyUriButton
             uri={getScanUri(scan.archiveScan)}
-            label={`Copy archive scan ${scan.archiveScan} URI`}
+            ariaLabel={`Copy archive scan ${scan.archiveScan} URI`}
             className="h-s20 w-s20"
           />
         </div>
@@ -610,9 +637,11 @@ function TableOfContentsScanCard({
 function TableOfContentsPanel({
   selectedScan,
   onSelectScan,
+  searchQuery,
 }: {
   selectedScan: SelectedScanReference;
   onSelectScan: (scan: SelectedScanReference) => void;
+  searchQuery: string;
 }) {
   const [searchHitsOnly, setSearchHitsOnly] = React.useState(false);
   const [expandedDocumentIds, setExpandedDocumentIds] = React.useState<
@@ -742,7 +771,7 @@ function TableOfContentsPanel({
   return (
     <div className="flex w-full flex-col font-sans">
       <div className="sticky top-0 z-20 flex items-center justify-between gap-s8 border-b border-brand-white/10 bg-neutral-800 px-s24 py-s12">
-        <DocumentDetailTooltip label="Show search hits only">
+        <span className="group/hits-only relative inline-flex">
           <DocumentDetailCheckbox
             aria-label="Show only documents and scans with search hits"
             isSelected={searchHitsOnly}
@@ -750,7 +779,13 @@ function TableOfContentsPanel({
           >
             Hits only
           </DocumentDetailCheckbox>
-        </DocumentDetailTooltip>
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/hits-only:translate-y-0 group-focus-within/hits-only:opacity-100 group-hover/hits-only:translate-y-0 group-hover/hits-only:opacity-100 motion-reduce:transition-none"
+          >
+            {`Show search hits only for "${searchQuery}"`}
+          </span>
+        </span>
 
         <div
           aria-label="Jump to current selection"
@@ -760,7 +795,7 @@ function TableOfContentsPanel({
             Go to
           </span>
           <div className="flex items-center gap-s8">
-            <DocumentDetailTooltip label="Go to current document">
+            <span className="group/jump-doc relative inline-flex">
               <button
                 type="button"
                 aria-label="Jump to selected document"
@@ -770,10 +805,14 @@ function TableOfContentsPanel({
                 <IconEntityDocument className="h-s12 w-s12" />
                 Doc
               </button>
-            </DocumentDetailTooltip>
-            <DocumentDetailTooltip
-              label={`Go to current scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
-            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute right-0 top-[calc(100%+var(--s8))] z-70 w-60 max-w-72 translate-x-2 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 text-left font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/jump-doc:translate-y-0 group-focus-within/jump-doc:opacity-100 group-hover/jump-doc:translate-y-0 group-hover/jump-doc:opacity-100 motion-reduce:transition-none"
+              >
+                Jump to current document in Table of Contents
+              </span>
+            </span>
+            <span className="group/jump-scan relative inline-flex">
               <button
                 type="button"
                 aria-label={`Jump to selected document scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
@@ -783,7 +822,13 @@ function TableOfContentsPanel({
                 <IconScan className="h-s12 w-s12" />
                 Scan {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
               </button>
-            </DocumentDetailTooltip>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute right-0 top-[calc(100%+var(--s8))] z-70 w-60 max-w-72 translate-x-2 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 text-left font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/jump-scan:translate-y-0 group-focus-within/jump-scan:opacity-100 group-hover/jump-scan:translate-y-0 group-hover/jump-scan:opacity-100 motion-reduce:transition-none"
+              >
+                {`Jump to current scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN} in Table of Contents`}
+              </span>
+            </span>
           </div>
         </div>
       </div>
@@ -812,7 +857,6 @@ function TableOfContentsPanel({
                         ? SELECTED_DOCUMENT_URI
                         : getDocumentUri(document.id)
                     }
-                    label="Copy URI"
                   />
                 }
               />
@@ -1191,6 +1235,7 @@ function ExpandedMetadataSidebar({
   onSelectTagTarget,
   selectedScan,
   onSelectScan,
+  searchQuery,
 }: {
   expandedSections: Set<string>;
   onToggleSection: (sectionId: string) => void;
@@ -1198,6 +1243,7 @@ function ExpandedMetadataSidebar({
   onSelectTagTarget: (target: TagNavigationTarget) => void;
   selectedScan: SelectedScanReference;
   onSelectScan: (scan: SelectedScanReference) => void;
+  searchQuery: string;
 }) {
   return (
     <DocumentDetailMetadataSidebar className="w-full overflow-hidden border-r-0">
@@ -1223,6 +1269,7 @@ function ExpandedMetadataSidebar({
             <TableOfContentsPanel
               selectedScan={selectedScan}
               onSelectScan={onSelectScan}
+              searchQuery={searchQuery}
             />
           )}
           {item.id === "identified" && (
@@ -1265,9 +1312,12 @@ export function DocumentDetailViewerOverlayDemo() {
   const [currentSearchHit, setCurrentSearchHit] = React.useState(
     () => getSearchHitIndexByArchiveScan(ACTIVE_TOC_ARCHIVE_SCAN) ?? 1,
   );
+  const [isSearchHitNavigationVisible, setIsSearchHitNavigationVisible] =
+    React.useState(true);
   const [activeTagTarget, setActiveTagTarget] =
     React.useState<TagNavigationTarget>();
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
+  const activeSearchQuery = "prins Eugenius";
 
   const maxSearchHit = SEARCH_HITS.length;
   const entityHighlightCategories = React.useMemo(
@@ -1307,6 +1357,15 @@ export function DocumentDetailViewerOverlayDemo() {
       selectViewerScan,
     ],
   );
+
+  const currentDocumentIndex = React.useMemo(
+    () => getDocumentIndex(currentArchiveScan, currentDocumentScanTotal),
+    [currentArchiveScan, currentDocumentScanTotal],
+  );
+  const isAtFirstScan = currentScan === 1;
+  const isAtLastScan = currentScan === currentDocumentScanTotal;
+  const prevDocument = TABLE_OF_CONTENTS_DOCUMENTS[currentDocumentIndex - 1];
+  const nextDocument = TABLE_OF_CONTENTS_DOCUMENTS[currentDocumentIndex + 1];
 
   const toggleSidebarSection = React.useCallback((sectionId: string) => {
     setExpandedSections((current) => {
@@ -1487,6 +1546,8 @@ export function DocumentDetailViewerOverlayDemo() {
         currentDocumentScan={currentScan}
         pairedArchiveScan={pairedScanReference?.archiveScan}
         pairedDocumentScan={pairedScanReference?.documentScan}
+        selectedEntityHighlightKeys={selectedEntityHighlightKeys}
+        entityHighlightClassesByCategory={ENTITY_HIGHLIGHT_TEXT_CLASSES}
       />
       {isMiniWindowEnabled && <MiniScanWindow />}
     </DocumentDetailViewerPane>
@@ -1524,6 +1585,7 @@ export function DocumentDetailViewerOverlayDemo() {
               onSelectTagTarget={selectTagTarget}
               selectedScan={selectedScanReference}
               onSelectScan={selectViewerScan}
+              searchQuery={activeSearchQuery}
             />
           ) : (
             <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
@@ -1697,6 +1759,7 @@ export function DocumentDetailViewerOverlayDemo() {
               onSelectedKeysChange={setSelectedEntityHighlightKeys}
               triggerIcon={<IconEntities className="h-s16 w-s16" />}
               triggerClassName={TOP_BAR_ICON_BUTTON_CLASS}
+              allDescription="Toggle entity classes to preview matching highlights in the transcription text"
             />
             <TooltipIconButton
               aria-label={
@@ -1764,33 +1827,49 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "h-s36! justify-center border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
-            activeTagTarget ? "gap-s48" : "gap-s96",
+            "h-auto min-h-s36! flex-wrap content-start justify-center gap-x-s8 gap-y-s4 border-t-0 bg-neutral-900 py-1.5 pr-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none 2xl:h-(--overlay-document-viewer-bottom-bar-height) 2xl:flex-nowrap 2xl:items-center 2xl:gap-y-0 2xl:py-s4 2xl:pr-s8 2xl:gap-s24",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
           ].join(" ")}
         >
-          <DocumentDetailBarGroup className="gap-s24">
+          <DocumentDetailBarGroup className="w-full min-w-0 flex-wrap justify-center gap-s8 2xl:w-auto 2xl:shrink-0 2xl:flex-nowrap 2xl:gap-s24">
             <TooltipIconButton
               aria-label="First scan"
               tooltip="Go to first scan"
               tooltipPlacement="top"
+              isDisabled={isAtFirstScan}
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeftFirst className="h-s16 w-s16" />}
               onPress={() => setViewerScan(1)}
             />
             <TooltipIconButton
               aria-label="Previous scan"
-              tooltip="Go to previous scan"
+              tooltip={
+                isAtFirstScan && prevDocument
+                  ? "Previous document"
+                  : "Go to previous scan"
+              }
               tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+              className={cn(
+                BOTTOM_BAR_ICON_BUTTON_CLASS,
+                isAtFirstScan && prevDocument && "text-brand-white",
+              )}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
-                setViewerScan((current) => Math.max(current - 1, 1));
+                if (isAtFirstScan && prevDocument) {
+                  selectViewerScan(
+                    getScanReference(
+                      prevDocument,
+                      prevDocument.scans[prevDocument.scans.length - 1],
+                    ),
+                  );
+                } else {
+                  setViewerScan((current) => Math.max(current - 1, 1));
+                }
               }}
             />
-            <span className="inline-flex items-baseline gap-s8 leading-4">
+            <span className="min-w-0 inline-flex items-baseline gap-s8 leading-4">
               <span>Scan {currentArchiveScan}</span>
               <span className="text-neutral-500">|</span>
               <span>in doc.</span>
@@ -1805,90 +1884,150 @@ export function DocumentDetailViewerOverlayDemo() {
             </span>
             <TooltipIconButton
               aria-label="Next scan"
-              tooltip="Go to next scan"
+              tooltip={
+                isAtLastScan && nextDocument
+                  ? "Next document"
+                  : "Go to next scan"
+              }
               tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+              className={cn(
+                BOTTOM_BAR_ICON_BUTTON_CLASS,
+                isAtLastScan && nextDocument && "text-brand-white",
+              )}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
-                setViewerScan((current) =>
-                  Math.min(current + 1, currentDocumentScanTotal),
-                );
+                if (isAtLastScan && nextDocument) {
+                  selectViewerScan(
+                    getScanReference(nextDocument, nextDocument.scans[0]),
+                  );
+                } else {
+                  setViewerScan((current) =>
+                    Math.min(current + 1, currentDocumentScanTotal),
+                  );
+                }
               }}
             />
             <TooltipIconButton
               aria-label="Last scan"
               tooltip="Go to last scan"
               tooltipPlacement="top"
+              isDisabled={isAtLastScan}
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRightLast className="h-s16 w-s16" />}
               onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
-          <DocumentDetailBarGroup className="gap-s24">
-            <TooltipIconButton
-              aria-label="Previous search hit"
-              tooltip="Go to previous search hit"
-              tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconLeft className="h-s16 w-s16" />}
-              onPress={() => {
-                goToSearchHit(currentSearchHit - 1);
-              }}
-            />
-            <span className="inline-flex items-baseline leading-4">
-              search hits
-              <NumericJumpField
-                ariaLabel="Go to search hit"
-                value={currentSearchHit}
-                max={maxSearchHit}
-                onChange={goToSearchHit}
-                tooltip="Type a search hit number"
-              />
-              of {maxSearchHit}
-            </span>
-            <TooltipIconButton
-              aria-label="Next search hit"
-              tooltip="Go to next search hit"
-              tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconRight className="h-s16 w-s16" />}
-              onPress={() => {
-                goToSearchHit(currentSearchHit + 1);
-              }}
-            />
-          </DocumentDetailBarGroup>
-          {activeTagTarget && (
-            <DocumentDetailBarGroup className="gap-s24">
+          <span className="hidden shrink-0 font-sans text-xs text-brand-white/45 2xl:inline">
+            |
+          </span>
+          {isSearchHitNavigationVisible ? (
+            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
               <TooltipIconButton
-                aria-label={`Previous ${activeTagTarget.label} occurrence`}
-                tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                aria-label="Previous search hit"
+                tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
                 tooltipPlacement="top"
                 className={BOTTOM_BAR_ICON_BUTTON_CLASS}
                 icon={<IconLeft className="h-s16 w-s16" />}
-                onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
+                onPress={() => {
+                  goToSearchHit(currentSearchHit - 1);
+                }}
               />
-              <span className="inline-flex max-w-55 items-baseline leading-4">
-                <span className="mr-s4 truncate text-parchment-500">
-                  {activeTagTarget.label}
-                </span>
+              <span className="group/search-hit-summary relative min-w-0 inline-flex items-baseline leading-4">
+                search hits
                 <NumericJumpField
-                  ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
-                  value={currentTagOccurrence}
-                  max={activeTagTarget.occurrences}
-                  onChange={goToTagOccurrence}
-                  tooltip={`Type a ${activeTagTarget.label} occurrence number`}
+                  ariaLabel="Go to search hit"
+                  value={currentSearchHit}
+                  max={maxSearchHit}
+                  onChange={goToSearchHit}
+                  tooltip={`Type a search hit number for "${activeSearchQuery}"`}
                 />
-                of {activeTagTarget.occurrences}
+                of {maxSearchHit}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-[calc(100%+var(--s8))] left-1/2 z-70 w-max max-w-60 -translate-x-1/2 translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/search-hit-summary:translate-y-0 group-focus-within/search-hit-summary:opacity-100 group-hover/search-hit-summary:translate-y-0 group-hover/search-hit-summary:opacity-100 motion-reduce:transition-none"
+                >
+                  {`Search hits for "${activeSearchQuery}"`}
+                </span>
               </span>
               <TooltipIconButton
-                aria-label={`Next ${activeTagTarget.label} occurrence`}
-                tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                aria-label="Hide search hit navigation"
+                tooltip="Hide search hit navigation"
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconClose className="h-s16 w-s16" />}
+                onPress={() => setIsSearchHitNavigationVisible(false)}
+              />
+              <TooltipIconButton
+                aria-label="Next search hit"
+                tooltip={`Go to next search hit for "${activeSearchQuery}"`}
                 tooltipPlacement="top"
                 className={BOTTOM_BAR_ICON_BUTTON_CLASS}
                 icon={<IconRight className="h-s16 w-s16" />}
-                onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+                onPress={() => {
+                  goToSearchHit(currentSearchHit + 1);
+                }}
               />
             </DocumentDetailBarGroup>
+          ) : (
+            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+              <TooltipIconButton
+                aria-label="Show search hit navigation"
+                tooltip={`Show search hits for "${activeSearchQuery}"`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconSearch className="h-s16 w-s16" />}
+                onPress={() => setIsSearchHitNavigationVisible(true)}
+              />
+            </DocumentDetailBarGroup>
+          )}
+          {activeTagTarget && (
+            <>
+              <span className="shrink-0 font-sans text-xs text-brand-white/45">
+                |
+              </span>
+              <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+                <TooltipIconButton
+                  aria-label={`Previous ${activeTagTarget.label} occurrence`}
+                  tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconLeft className="h-s16 w-s16" />}
+                  onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
+                />
+                <span className="min-w-0 inline-flex max-w-55 items-baseline leading-4">
+                  <span className="mr-s4 truncate text-parchment-500">
+                    {activeTagTarget.label}
+                  </span>
+                  <NumericJumpField
+                    ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
+                    value={currentTagOccurrence}
+                    max={activeTagTarget.occurrences}
+                    onChange={goToTagOccurrence}
+                    tooltip={`Type a ${activeTagTarget.label} occurrence number`}
+                  />
+                  of {activeTagTarget.occurrences}
+                </span>
+                <TooltipIconButton
+                  aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
+                  tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconClose className="h-s16 w-s16" />}
+                  onPress={() => {
+                    setActiveTagTarget(undefined);
+                    setCurrentTagOccurrence(1);
+                  }}
+                />
+                <TooltipIconButton
+                  aria-label={`Next ${activeTagTarget.label} occurrence`}
+                  tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconRight className="h-s16 w-s16" />}
+                  onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+                />
+              </DocumentDetailBarGroup>
+            </>
           )}
         </DocumentDetailBottomBar>
       </DocumentDetailOverlay>

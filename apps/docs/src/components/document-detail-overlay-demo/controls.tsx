@@ -33,6 +33,7 @@ import {
   IconZoomOut,
 } from "@globalise/design-system";
 import * as React from "react";
+import { Button as AriaButton } from "react-aria-components";
 import { DemoScanPage } from "./DemoScanPage";
 
 const TRANSCRIPT_NORMALIZED_LINES = [
@@ -128,7 +129,7 @@ const TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS = [
   {
     block: "page-number",
     label: "page-number",
-    className: "text-[34px] font-medium",
+    className: "text-[18px]",
   },
   {
     block: "paragraph-1",
@@ -138,7 +139,7 @@ const TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS = [
   {
     block: "signature",
     label: "signature",
-    className: "text-[24px]",
+    className: "text-[18px]",
   },
 ] as const;
 
@@ -195,6 +196,197 @@ const DIPLOMATIC_FRAGMENTS = [
 const CONTENT_WARNING_TEXT =
   "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
 
+interface TranscriptEntityExampleDefinition {
+  phrase: string;
+  key: string;
+  category: string;
+}
+
+interface TranscriptEntitySpan extends TranscriptEntityExampleDefinition {
+  start: number;
+  end: number;
+}
+
+const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
+  number,
+  TranscriptEntityExampleDefinition[]
+> = {
+  12: [
+    {
+      phrase: "Fredrik willem van Blijdenberg",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  17: [
+    {
+      phrase: "Maccasser",
+      key: "Places::by Name",
+      category: "Places",
+    },
+    {
+      phrase: "April 17871",
+      key: "Dates",
+      category: "Dates",
+    },
+  ],
+  18: [
+    {
+      phrase: "C: Craane",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  23: [
+    {
+      phrase: "Barend Reijke",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  24: [
+    {
+      phrase: "Celeber",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+};
+
+const DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES: Record<
+  string,
+  TranscriptEntityExampleDefinition[]
+> = {
+  "paragraph-main": [
+    {
+      phrase: "Fredrik willem van Blijdenberg",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "Maccasser",
+      key: "Places::by Name",
+      category: "Places",
+    },
+    {
+      phrase: "April 17871",
+      key: "Dates",
+      category: "Dates",
+    },
+    {
+      phrase: "C: Craane",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "vlaardingen",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+  "signature-block": [
+    {
+      phrase: "Barend Reijke",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "Celeber",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+};
+
+function getEntityExampleSpans(
+  text: string,
+  examples: TranscriptEntityExampleDefinition[],
+) {
+  return examples
+    .map((example) => {
+      const start = text.toLowerCase().indexOf(example.phrase.toLowerCase());
+
+      if (start < 0) {
+        return undefined;
+      }
+
+      return {
+        ...example,
+        start,
+        end: start + example.phrase.length,
+      } satisfies TranscriptEntitySpan;
+    })
+    .filter((span): span is TranscriptEntitySpan => Boolean(span))
+    .sort((first, second) => first.start - second.start);
+}
+
+function renderTranscriptTextWithHighlights({
+  text,
+  examples,
+  selectedEntityHighlightKeys,
+  entityHighlightClassesByCategory,
+  keyPrefix,
+}: {
+  text: string;
+  examples: TranscriptEntityExampleDefinition[];
+  selectedEntityHighlightKeys: Set<string>;
+  entityHighlightClassesByCategory: Record<string, string>;
+  keyPrefix: string;
+}) {
+  const spans = getEntityExampleSpans(text, examples);
+
+  if (spans.length === 0) {
+    return text;
+  }
+
+  const nodes: React.ReactNode[] = [];
+  let cursor = 0;
+
+  spans.forEach((span, index) => {
+    if (span.start < cursor) {
+      return;
+    }
+
+    if (span.start > cursor) {
+      nodes.push(
+        <React.Fragment key={`${keyPrefix}-text-${index}`}>
+          {text.slice(cursor, span.start)}
+        </React.Fragment>,
+      );
+    }
+
+    const isActive =
+      selectedEntityHighlightKeys.has(span.key) ||
+      selectedEntityHighlightKeys.has(span.category);
+
+    nodes.push(
+      <span
+        key={`${keyPrefix}-entity-${span.key}-${index}`}
+        className={cn(
+          "box-decoration-clone rounded-xs px-0.5",
+          isActive &&
+            (entityHighlightClassesByCategory[span.category] ??
+              "bg-brand-white/15 ring-1 ring-inset ring-brand-white/25"),
+        )}
+      >
+        {text.slice(span.start, span.end)}
+      </span>,
+    );
+
+    cursor = span.end;
+  });
+
+  if (cursor < text.length) {
+    nodes.push(
+      <React.Fragment key={`${keyPrefix}-text-tail`}>
+        {text.slice(cursor)}
+      </React.Fragment>,
+    );
+  }
+
+  return nodes;
+}
+
 export const FLOATING_TOOLBAR_REVEAL_CLASS =
   "bg-brand-black/65 text-brand-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.16)] transition-[background-color,box-shadow,color] duration-100 ease-out hover:bg-brand-black/90 hover:text-brand-white hover:shadow-[0_6px_20px_rgba(0,0,0,0.22)] focus-within:bg-brand-black/90 focus-within:text-brand-white focus-within:shadow-[0_6px_20px_rgba(0,0,0,0.22)] motion-reduce:transition-none";
 
@@ -202,7 +394,7 @@ export const TOP_BAR_ICON_BUTTON_CLASS =
   "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
 export const BOTTOM_BAR_ICON_BUTTON_CLASS =
-  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
+  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 data-disabled:opacity-40 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
 
 export const SEGMENTED_SURFACE_COMPACT_CLASS =
   "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
@@ -307,18 +499,20 @@ export function ContentWarningTopBarControl({
 
 export function CopyUriButton({
   uri,
-  label,
+  label = "Copy URI",
+  ariaLabel,
+  tooltip,
   className,
 }: {
   uri: string;
-  label: string;
+  label?: string;
+  ariaLabel?: string;
+  tooltip?: React.ReactNode;
   className?: string;
 }) {
   const [hasCopied, setHasCopied] = React.useState(false);
 
-  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
+  const handleCopy = async () => {
     const uriToCopy =
       typeof window === "undefined" || uri.startsWith("http")
         ? uri
@@ -333,14 +527,14 @@ export function CopyUriButton({
     }
   };
 
-  const accessibleLabel = hasCopied ? "Copied URI" : label;
+  const tooltipLabel = hasCopied ? "Copied URI" : (tooltip ?? label);
+  const accessibleLabel = hasCopied ? "Copied URI" : (ariaLabel ?? label);
 
   return (
-    <DocumentDetailTooltip label={accessibleLabel}>
-      <button
-        type="button"
+    <span className="group/copy-uri relative inline-flex">
+      <AriaButton
         aria-label={accessibleLabel}
-        onClick={handleCopy}
+        onPress={handleCopy}
         className={cn(
           "inline-flex h-s20 w-s20 shrink-0 items-center justify-center rounded-xs text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
           hasCopied && "text-brand-white",
@@ -348,8 +542,14 @@ export function CopyUriButton({
         )}
       >
         <IconCopy className="h-s12 w-s12" />
-      </button>
-    </DocumentDetailTooltip>
+      </AriaButton>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/copy-uri:translate-y-0 group-focus-within/copy-uri:opacity-100 group-hover/copy-uri:translate-y-0 group-hover/copy-uri:opacity-100 motion-reduce:transition-none"
+      >
+        {tooltipLabel}
+      </span>
+    </span>
   );
 }
 
@@ -896,6 +1096,8 @@ export function TranscriptCanvas({
   transcriptMode,
   areLayoutElementsHighlighted = false,
   isPairedPageView = false,
+  selectedEntityHighlightKeys,
+  entityHighlightClassesByCategory,
   currentArchiveScan: _currentArchiveScan,
   currentDocumentScan,
   pairedArchiveScan: _pairedArchiveScan,
@@ -905,6 +1107,8 @@ export function TranscriptCanvas({
   transcriptMode: "n" | "d";
   areLayoutElementsHighlighted?: boolean;
   isPairedPageView?: boolean;
+  selectedEntityHighlightKeys: Set<string>;
+  entityHighlightClassesByCategory: Record<string, string>;
   currentArchiveScan: number;
   currentDocumentScan: number;
   pairedArchiveScan?: number;
@@ -1017,7 +1221,14 @@ export function TranscriptCanvas({
                 </span>
               </>
             ) : null}
-            {fragment.text}
+            {renderTranscriptTextWithHighlights({
+              text: fragment.text,
+              examples:
+                DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES[fragment.id] ?? [],
+              selectedEntityHighlightKeys,
+              entityHighlightClassesByCategory,
+              keyPrefix: `diplomatic-${fragment.id}`,
+            })}
           </div>
         ))}
       </div>
@@ -1026,9 +1237,11 @@ export function TranscriptCanvas({
       annotationLabelClassName,
       annotationLineClassName,
       areLayoutElementsHighlighted,
+      selectedEntityHighlightKeys,
       transcriptLetterSpacing,
       transcriptLineHeight,
       transcriptTypographyClassName,
+      entityHighlightClassesByCategory,
     ],
   );
 
@@ -1044,30 +1257,27 @@ export function TranscriptCanvas({
                 <span className={annotationLabelClassName}>
                   {section.label}
                 </span>
-                <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
-                  <div className="grid gap-s10 pt-0.5">
-                    {sectionLines.map((line) => (
+                <div className="grid gap-s10">
+                  {sectionLines.map((line) => (
+                    <div
+                      key={`${section.block}-${line.lineNumber}`}
+                      className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12"
+                    >
                       <span
-                        key={`${section.block}-${line.lineNumber}-line-number`}
                         className={cn(
-                          "min-w-s24 text-right",
+                          "min-w-s24 pt-0.5 text-right",
                           annotationLineClassName,
                         )}
                       >
                         {line.lineNumber}
                       </span>
-                    ))}
-                  </div>
-                  <div
-                    className={cn(
-                      "min-h-full",
-                      transcriptViewerTone.annotationRuleClassName,
-                    )}
-                  />
-                  <div className="grid gap-s10">
-                    {sectionLines.map((line) => (
+                      <div
+                        className={cn(
+                          "h-full min-h-[1.25em]",
+                          transcriptViewerTone.annotationRuleClassName,
+                        )}
+                      />
                       <p
-                        key={`${section.block}-${line.lineNumber}`}
                         className={cn(
                           section.className,
                           "leading-[inherit]",
@@ -1078,10 +1288,19 @@ export function TranscriptCanvas({
                           lineHeight: `${transcriptLineHeight}%`,
                         }}
                       >
-                        {line.text}
+                        {renderTranscriptTextWithHighlights({
+                          text: line.text,
+                          examples:
+                            NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES[
+                              line.lineNumber
+                            ] ?? [],
+                          selectedEntityHighlightKeys,
+                          entityHighlightClassesByCategory,
+                          keyPrefix: `normalized-annotated-${line.lineNumber}`,
+                        })}
                       </p>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </section>
             );
@@ -1096,11 +1315,7 @@ export function TranscriptCanvas({
             >
               <p
                 className={cn(
-                  line.block === "page-number"
-                    ? "text-[34px] font-medium leading-[1.2]"
-                    : line.block === "signature"
-                      ? "text-[24px] leading-[inherit]"
-                      : "text-[18px] leading-[inherit]",
+                  "text-[18px] leading-[inherit]",
                   transcriptTypographyClassName,
                 )}
                 style={{
@@ -1108,7 +1323,15 @@ export function TranscriptCanvas({
                   lineHeight: `${transcriptLineHeight}%`,
                 }}
               >
-                {line.text}
+                {renderTranscriptTextWithHighlights({
+                  text: line.text,
+                  examples:
+                    NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES[line.lineNumber] ??
+                    [],
+                  selectedEntityHighlightKeys,
+                  entityHighlightClassesByCategory,
+                  keyPrefix: `normalized-${line.lineNumber}`,
+                })}
               </p>
             </div>
           ))}
@@ -1119,9 +1342,11 @@ export function TranscriptCanvas({
       annotationLineClassName,
       areLayoutElementsHighlighted,
       normalizedLinesByBlock,
+      selectedEntityHighlightKeys,
       transcriptLetterSpacing,
       transcriptLineHeight,
       transcriptTypographyClassName,
+      entityHighlightClassesByCategory,
       transcriptViewerTone.annotationRuleClassName,
     ],
   );

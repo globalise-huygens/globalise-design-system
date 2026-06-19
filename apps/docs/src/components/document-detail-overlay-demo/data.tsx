@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  IconEvents,
+  IconEntities,
   IconEntityCommodity,
   IconEntityDate,
   IconEntityDocument,
-  IconInventory,
-  IconTableOfContent,
   IconEntityOrganisation,
   IconEntityPerson,
   IconEntityPlace,
   IconEntityShip,
-  IconEntities,
+  IconEvents,
+  IconInventory,
+  IconTableOfContent,
 } from "@globalise/design-system";
 import * as React from "react";
 
@@ -475,6 +475,14 @@ function getDocumentByArchiveScan(
       (document) => document.scans.length === documentScanTotal,
     ) ?? matchingDocuments[0]
   );
+}
+
+export function getDocumentIndex(
+  archiveScan: number,
+  documentScanTotal?: number,
+): number {
+  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
+  return document ? TABLE_OF_CONTENTS_DOCUMENTS.indexOf(document) : -1;
 }
 
 export function getScanReferenceByArchiveScan(
