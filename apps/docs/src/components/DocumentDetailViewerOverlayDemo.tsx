@@ -164,49 +164,49 @@ const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
     subRowClassName: "bg-rose-300/6",
     textClassName: "text-rose-200",
     transcriptHighlightClassName:
-      "bg-rose-300/10 ring-1 ring-inset ring-rose-200/35",
+      "bg-rose-300/25 ring-1 ring-inset ring-rose-300/35",
   },
   Places: {
     rowClassName: "bg-green-300/10",
     subRowClassName: "bg-lime-300/8",
     textClassName: "text-green-200",
     transcriptHighlightClassName:
-      "bg-green-300/10 ring-1 ring-inset ring-green-200/35",
+      "bg-green-300/25 ring-1 ring-inset ring-green-300/35",
   },
   Commodities: {
     rowClassName: "bg-orange-300/10",
     subRowClassName: "bg-amber-300/8",
     textClassName: "text-orange-200",
     transcriptHighlightClassName:
-      "bg-orange-300/10 ring-1 ring-inset ring-orange-200/35",
+      "bg-orange-300/25 ring-1 ring-inset ring-orange-300/35",
   },
   Documents: {
     rowClassName: "bg-amber-300/10",
     subRowClassName: "bg-amber-300/8",
     textClassName: "text-amber-200",
     transcriptHighlightClassName:
-      "bg-amber-300/10 ring-1 ring-inset ring-amber-200/35",
+      "bg-amber-300/25 ring-1 ring-inset ring-amber-300/35",
   },
   Dates: {
     rowClassName: "bg-sky-300/10",
     subRowClassName: "bg-sky-300/8",
     textClassName: "text-sky-200",
     transcriptHighlightClassName:
-      "bg-sky-300/10 ring-1 ring-inset ring-sky-200/35",
+      "bg-sky-300/25 ring-1 ring-inset ring-sky-300/35",
   },
   Ships: {
     rowClassName: "bg-stone-300/10",
     subRowClassName: "bg-slate-300/8",
     textClassName: "text-stone-200",
     transcriptHighlightClassName:
-      "bg-stone-300/10 ring-1 ring-inset ring-stone-200/35",
+      "bg-stone-300/25 ring-1 ring-inset ring-stone-300/35",
   },
   Organisations: {
     rowClassName: "bg-purple-300/10",
     subRowClassName: "bg-blue-300/8",
     textClassName: "text-purple-200",
     transcriptHighlightClassName:
-      "bg-purple-300/10 ring-1 ring-inset ring-purple-200/35",
+      "bg-purple-300/25 ring-1 ring-inset ring-purple-300/35",
   },
   Polities: {
     rowClassName: "bg-neutral-400/8",

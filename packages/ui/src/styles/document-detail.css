@@ -1009,7 +1009,7 @@
   }
 
   .gds-entity-preview-card {
-    width: min(272px, calc(100vw - var(--s24)));
+    width: min(296px, calc(100vw - var(--s24)));
     background: var(--color-neutral-700);
     border-color: rgb(255 255 255 / 0.1) !important;
     box-shadow:
@@ -1018,12 +1018,12 @@
       0 56px 34px rgb(0 0 0 / 0.13),
       0 100px 40px rgb(0 0 0 / 0.04),
       0 156px 44px rgb(0 0 0 / 0);
-    padding: var(--s12);
+    padding: var(--s12) var(--s12) var(--s10);
   }
 
   .gds-entity-preview-card .gds-document-detail-popover-surface__body {
     display: grid;
-    gap: var(--s10);
+    gap: var(--s12);
     font-size: inherit;
     line-height: inherit;
   }
@@ -1031,13 +1031,13 @@
   .gds-entity-preview-card__header {
     display: flex;
     justify-content: space-between;
-    gap: var(--s8);
+    gap: var(--s10);
     align-items: flex-start;
   }
 
   .gds-entity-preview-card__identity {
     display: grid;
-    gap: var(--s6);
+    gap: var(--s8);
     min-width: 0;
     flex: 1;
   }
@@ -1045,7 +1045,7 @@
   .gds-entity-preview-card__leading-row {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s6);
+    gap: var(--s4);
     align-items: center;
     min-width: 0;
   }
@@ -1071,8 +1071,9 @@
     font-family: var(--font-sans);
     font-size: var(--text-base);
     font-weight: 500;
-    line-height: var(--s16);
+    line-height: 1.1;
     max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .gds-entity-preview-card__icon-action {
@@ -1098,15 +1099,14 @@
   .gds-entity-preview-card__properties {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s8) var(--s12);
+    gap: var(--s10) var(--s16);
     margin: 0;
   }
 
   .gds-entity-preview-card__property {
-    display: flex;
-    flex-direction: row;
-    gap: var(--s4);
-    align-items: flex-end;
+    display: grid;
+    gap: var(--s2);
+    align-content: start;
     min-width: 0;
   }
 
@@ -1116,6 +1116,7 @@
     font-size: 0.625rem;
     font-weight: 400;
     line-height: 0.625rem;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
   }
 
@@ -1125,7 +1126,7 @@
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 500;
-    line-height: 0.9rem;
+    line-height: 1rem;
     min-width: 0;
     overflow-wrap: anywhere;
   }

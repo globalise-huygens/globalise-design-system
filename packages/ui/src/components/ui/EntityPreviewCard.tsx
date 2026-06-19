@@ -294,8 +294,8 @@ function EntityPreviewCard({ data, className }: EntityPreviewCardProps) {
                 {badge.toUpperCase()}
               </EntityBadge>
             ))}
-            <div className="gds-entity-preview-card__title">{data.title}</div>
           </div>
+          <div className="gds-entity-preview-card__title">{data.title}</div>
         </div>
 
         <a
