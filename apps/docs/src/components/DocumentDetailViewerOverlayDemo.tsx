@@ -1286,6 +1286,8 @@ export function DocumentDetailViewerOverlayDemo() {
   const [currentSearchHit, setCurrentSearchHit] = React.useState(
     () => getSearchHitIndexByArchiveScan(ACTIVE_TOC_ARCHIVE_SCAN) ?? 1,
   );
+  const [isSearchHitNavigationVisible, setIsSearchHitNavigationVisible] =
+    React.useState(true);
   const [activeTagTarget, setActiveTagTarget] =
     React.useState<TagNavigationTarget>();
   const [currentTagOccurrence, setCurrentTagOccurrence] = React.useState(1);
@@ -1796,8 +1798,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "h-s36! justify-center border-t-0 bg-neutral-900 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
-            activeTagTarget ? "gap-s48" : "gap-s96",
+            "min-h-s36! justify-start gap-s16 border-t-0 bg-neutral-900 py-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none xl:gap-s48",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
@@ -1887,45 +1888,66 @@ export function DocumentDetailViewerOverlayDemo() {
               onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
-          <DocumentDetailBarGroup className="gap-s24">
-            <TooltipIconButton
-              aria-label="Previous search hit"
-              tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
-              tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconLeft className="h-s16 w-s16" />}
-              onPress={() => {
-                goToSearchHit(currentSearchHit - 1);
-              }}
-            />
-            <span className="group/search-hit-summary relative inline-flex items-baseline leading-4">
-              search hits
-              <NumericJumpField
-                ariaLabel="Go to search hit"
-                value={currentSearchHit}
-                max={maxSearchHit}
-                onChange={goToSearchHit}
-                tooltip={`Type a search hit number for "${activeSearchQuery}"`}
+          {isSearchHitNavigationVisible ? (
+            <DocumentDetailBarGroup className="gap-s24">
+              <TooltipIconButton
+                aria-label="Previous search hit"
+                tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconLeft className="h-s16 w-s16" />}
+                onPress={() => {
+                  goToSearchHit(currentSearchHit - 1);
+                }}
               />
-              of {maxSearchHit}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-[calc(100%+var(--s8))] left-1/2 z-70 w-max max-w-60 -translate-x-1/2 translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/search-hit-summary:translate-y-0 group-focus-within/search-hit-summary:opacity-100 group-hover/search-hit-summary:translate-y-0 group-hover/search-hit-summary:opacity-100 motion-reduce:transition-none"
-              >
-                {`Search hits for "${activeSearchQuery}"`}
+              <span className="group/search-hit-summary relative inline-flex items-baseline leading-4">
+                search hits
+                <NumericJumpField
+                  ariaLabel="Go to search hit"
+                  value={currentSearchHit}
+                  max={maxSearchHit}
+                  onChange={goToSearchHit}
+                  tooltip={`Type a search hit number for "${activeSearchQuery}"`}
+                />
+                of {maxSearchHit}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-[calc(100%+var(--s8))] left-1/2 z-70 w-max max-w-60 -translate-x-1/2 translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/search-hit-summary:translate-y-0 group-focus-within/search-hit-summary:opacity-100 group-hover/search-hit-summary:translate-y-0 group-hover/search-hit-summary:opacity-100 motion-reduce:transition-none"
+                >
+                  {`Search hits for "${activeSearchQuery}"`}
+                </span>
               </span>
-            </span>
-            <TooltipIconButton
-              aria-label="Next search hit"
-              tooltip={`Go to next search hit for "${activeSearchQuery}"`}
-              tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconRight className="h-s16 w-s16" />}
-              onPress={() => {
-                goToSearchHit(currentSearchHit + 1);
-              }}
-            />
-          </DocumentDetailBarGroup>
+              <TooltipIconButton
+                aria-label="Next search hit"
+                tooltip={`Go to next search hit for "${activeSearchQuery}"`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconRight className="h-s16 w-s16" />}
+                onPress={() => {
+                  goToSearchHit(currentSearchHit + 1);
+                }}
+              />
+              <TooltipIconButton
+                aria-label="Hide search hit navigation"
+                tooltip="Hide search hit navigation"
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconClose className="h-s16 w-s16" />}
+                onPress={() => setIsSearchHitNavigationVisible(false)}
+              />
+            </DocumentDetailBarGroup>
+          ) : (
+            <DocumentDetailBarGroup className="gap-s24">
+              <TooltipIconButton
+                aria-label="Show search hit navigation"
+                tooltip={`Show search hits for "${activeSearchQuery}"`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconSearch className="h-s16 w-s16" />}
+                onPress={() => setIsSearchHitNavigationVisible(true)}
+              />
+            </DocumentDetailBarGroup>
+          )}
           {activeTagTarget && (
             <DocumentDetailBarGroup className="gap-s24">
               <TooltipIconButton
@@ -1956,6 +1978,17 @@ export function DocumentDetailViewerOverlayDemo() {
                 className={BOTTOM_BAR_ICON_BUTTON_CLASS}
                 icon={<IconRight className="h-s16 w-s16" />}
                 onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+              />
+              <TooltipIconButton
+                aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
+                tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
+                tooltipPlacement="top"
+                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                icon={<IconClose className="h-s16 w-s16" />}
+                onPress={() => {
+                  setActiveTagTarget(undefined);
+                  setCurrentTagOccurrence(1);
+                }}
               />
             </DocumentDetailBarGroup>
           )}
