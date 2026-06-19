@@ -1,17 +1,17 @@
 "use client";
 
 import {
-  IconEvents,
+  IconEntities,
   IconEntityCommodity,
   IconEntityDate,
   IconEntityDocument,
-  IconInventory,
-  IconTableOfContent,
   IconEntityOrganisation,
   IconEntityPerson,
   IconEntityPlace,
   IconEntityShip,
-  IconEntities,
+  IconEvents,
+  IconInventory,
+  IconTableOfContent,
 } from "@globalise/design-system";
 import * as React from "react";
 
