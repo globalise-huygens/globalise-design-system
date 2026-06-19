@@ -1257,30 +1257,27 @@ export function TranscriptCanvas({
                 <span className={annotationLabelClassName}>
                   {section.label}
                 </span>
-                <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
-                  <div className="grid gap-s10 pt-0.5">
-                    {sectionLines.map((line) => (
+                <div className="grid gap-s10">
+                  {sectionLines.map((line) => (
+                    <div
+                      key={`${section.block}-${line.lineNumber}`}
+                      className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12"
+                    >
                       <span
-                        key={`${section.block}-${line.lineNumber}-line-number`}
                         className={cn(
-                          "min-w-s24 text-right",
+                          "min-w-s24 pt-0.5 text-right",
                           annotationLineClassName,
                         )}
                       >
                         {line.lineNumber}
                       </span>
-                    ))}
-                  </div>
-                  <div
-                    className={cn(
-                      "min-h-full",
-                      transcriptViewerTone.annotationRuleClassName,
-                    )}
-                  />
-                  <div className="grid gap-s10">
-                    {sectionLines.map((line) => (
+                      <div
+                        className={cn(
+                          "h-full min-h-[1.25em]",
+                          transcriptViewerTone.annotationRuleClassName,
+                        )}
+                      />
                       <p
-                        key={`${section.block}-${line.lineNumber}`}
                         className={cn(
                           section.className,
                           "leading-[inherit]",
@@ -1302,8 +1299,8 @@ export function TranscriptCanvas({
                           keyPrefix: `normalized-annotated-${line.lineNumber}`,
                         })}
                       </p>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </section>
             );
