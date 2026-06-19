@@ -769,7 +769,7 @@ function TableOfContentsPanel({
             Go to
           </span>
           <div className="flex items-center gap-s8">
-            <DocumentDetailTooltip label="Go to current document">
+            <span className="group/jump-doc relative inline-flex">
               <button
                 type="button"
                 aria-label="Jump to selected document"
@@ -779,10 +779,14 @@ function TableOfContentsPanel({
                 <IconEntityDocument className="h-s12 w-s12" />
                 Doc
               </button>
-            </DocumentDetailTooltip>
-            <DocumentDetailTooltip
-              label={`Go to current scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
-            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-x-1/2 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/jump-doc:translate-y-0 group-focus-within/jump-doc:opacity-100 group-hover/jump-doc:translate-y-0 group-hover/jump-doc:opacity-100 motion-reduce:transition-none"
+              >
+                Jump to current document in Table of Contents
+              </span>
+            </span>
+            <span className="group/jump-scan relative inline-flex">
               <button
                 type="button"
                 aria-label={`Jump to selected document scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}`}
@@ -792,7 +796,13 @@ function TableOfContentsPanel({
                 <IconScan className="h-s12 w-s12" />
                 Scan {selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN}
               </button>
-            </DocumentDetailTooltip>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-x-1/2 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/jump-scan:translate-y-0 group-focus-within/jump-scan:opacity-100 group-hover/jump-scan:translate-y-0 group-hover/jump-scan:opacity-100 motion-reduce:transition-none"
+              >
+                {`Jump to current scan ${selectedTocScan?.documentScan ?? ACTIVE_TOC_SCAN} in Table of Contents`}
+              </span>
+            </span>
           </div>
         </div>
       </div>
