@@ -1008,6 +1008,130 @@
     margin-top: var(--s12);
   }
 
+  .gds-entity-preview-card {
+    width: min(320px, calc(100vw - var(--s24)));
+    background: var(--color-neutral-700);
+    border-color: rgb(255 255 255 / 0.1) !important;
+    box-shadow:
+      0 6px 14px rgb(0 0 0 / 0.25),
+      0 25px 25px rgb(0 0 0 / 0.22),
+      0 56px 34px rgb(0 0 0 / 0.13),
+      0 100px 40px rgb(0 0 0 / 0.04),
+      0 156px 44px rgb(0 0 0 / 0);
+    padding: var(--s16);
+  }
+
+  .gds-entity-preview-card .gds-document-detail-popover-surface__body {
+    display: grid;
+    gap: var(--s16);
+    font-size: inherit;
+    line-height: inherit;
+    padding: var(--s8);
+  }
+
+  .gds-entity-preview-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s8);
+    align-items: flex-start;
+  }
+
+  .gds-entity-preview-card__identity {
+    display: grid;
+    gap: var(--s8);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .gds-entity-preview-card__leading-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s8);
+    align-items: center;
+    min-width: 0;
+  }
+
+  .gds-entity-preview-card__entity-badge {
+    max-width: 100%;
+    height: var(--s20);
+    background: rgb(23 37 84);
+    color: rgb(191 219 254);
+    outline-color: rgb(21 94 117);
+    padding-inline: var(--s8);
+  }
+
+  .gds-entity-preview-card__automation-badge {
+    flex-shrink: 0;
+    color: rgb(214 211 209);
+    outline-color: rgb(255 255 255 / 0.3);
+  }
+
+  .gds-entity-preview-card__title {
+    min-width: 0;
+    color: var(--color-brand-white);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: 1.1;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .gds-entity-preview-card__icon-action {
+    display: inline-flex;
+    width: var(--s16);
+    height: var(--s16);
+    align-items: center;
+    justify-content: center;
+    color: var(--color-brand-white);
+    transition:
+      color 150ms ease,
+      opacity 150ms ease;
+  }
+
+  .gds-entity-preview-card__icon-action:hover {
+    color: var(--color-brand-mint);
+  }
+
+  .gds-entity-preview-card__icon-action--disabled {
+    opacity: 0.5;
+  }
+
+  .gds-entity-preview-card__properties {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s8) var(--s16);
+    margin: 0;
+  }
+
+  .gds-entity-preview-card__property {
+    display: grid;
+    gap: var(--s4);
+    align-content: start;
+    min-width: 0;
+  }
+
+  .gds-entity-preview-card__property-label {
+    color: var(--color-neutral-400);
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: 0.625rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .gds-entity-preview-card__property-value {
+    margin: 0;
+    color: var(--color-brand-white);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .gds-document-detail-tooltip {
     z-index: 50;
     max-width: 240px;

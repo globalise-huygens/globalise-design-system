@@ -163,64 +163,55 @@ const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
     rowClassName: "bg-rose-300/10",
     subRowClassName: "bg-rose-300/6",
     textClassName: "text-rose-200",
-    transcriptHighlightClassName:
-      "bg-rose-300/25 ring-1 ring-inset ring-rose-300/35",
+    transcriptHighlightClassName: "bg-rose-300/25 text-rose-200",
   },
   Places: {
     rowClassName: "bg-green-300/10",
     subRowClassName: "bg-lime-300/8",
     textClassName: "text-green-200",
-    transcriptHighlightClassName:
-      "bg-green-300/25 ring-1 ring-inset ring-green-300/35",
+    transcriptHighlightClassName: "bg-green-300/25 text-green-200",
   },
   Commodities: {
     rowClassName: "bg-orange-300/10",
     subRowClassName: "bg-amber-300/8",
     textClassName: "text-orange-200",
-    transcriptHighlightClassName:
-      "bg-orange-300/25 ring-1 ring-inset ring-orange-300/35",
+    transcriptHighlightClassName: "bg-orange-300/25 text-orange-200",
   },
   Documents: {
     rowClassName: "bg-amber-300/10",
     subRowClassName: "bg-amber-300/8",
     textClassName: "text-amber-200",
-    transcriptHighlightClassName:
-      "bg-amber-300/25 ring-1 ring-inset ring-amber-300/35",
+    transcriptHighlightClassName: "bg-amber-300/25 text-amber-200",
   },
   Dates: {
     rowClassName: "bg-sky-300/10",
     subRowClassName: "bg-sky-300/8",
     textClassName: "text-sky-200",
-    transcriptHighlightClassName:
-      "bg-sky-300/25 ring-1 ring-inset ring-sky-300/35",
+    transcriptHighlightClassName: "bg-sky-300/25 text-sky-200",
   },
   Ships: {
     rowClassName: "bg-stone-300/10",
     subRowClassName: "bg-slate-300/8",
     textClassName: "text-stone-200",
-    transcriptHighlightClassName:
-      "bg-stone-300/25 ring-1 ring-inset ring-stone-300/35",
+    transcriptHighlightClassName: "bg-stone-300/25 text-stone-200",
   },
   Organisations: {
     rowClassName: "bg-purple-300/10",
     subRowClassName: "bg-blue-300/8",
     textClassName: "text-purple-200",
-    transcriptHighlightClassName:
-      "bg-purple-300/25 ring-1 ring-inset ring-purple-300/35",
+    transcriptHighlightClassName: "bg-purple-300/25 text-purple-200",
   },
   Polities: {
     rowClassName: "bg-neutral-400/8",
     subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
-    transcriptHighlightClassName:
-      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
+    transcriptHighlightClassName: "bg-neutral-300/20 text-neutral-300",
   },
   Quantity: {
     rowClassName: "bg-neutral-400/8",
     subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
-    transcriptHighlightClassName:
-      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
+    transcriptHighlightClassName: "bg-neutral-300/20 text-neutral-300",
   },
 };
 

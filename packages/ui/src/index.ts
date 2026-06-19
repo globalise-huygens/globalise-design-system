@@ -66,7 +66,29 @@ export { NewsletterSignup } from "./components/ui/NewsletterSignup";
 export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 
 export { EntityBadge, entityBadgeVariants } from "./components/ui/EntityBadge";
-export type { EntityBadgeProps } from "./components/ui/EntityBadge";
+export type {
+  EntityBadgeProps,
+  EntityBadgeType,
+} from "./components/ui/EntityBadge";
+
+export { EntityPreviewCard } from "./components/ui/EntityPreviewCard";
+export type {
+  EntityPreviewCardAutomationBadge,
+  EntityPreviewCardBaseData,
+  EntityPreviewCardCommodityData,
+  EntityPreviewCardData,
+  EntityPreviewCardDateData,
+  EntityPreviewCardDimensionsData,
+  EntityPreviewCardDocumentData,
+  EntityPreviewCardKind,
+  EntityPreviewCardOrganisationData,
+  EntityPreviewCardPersonData,
+  EntityPreviewCardPlaceData,
+  EntityPreviewCardPolityData,
+  EntityPreviewCardProps,
+  EntityPreviewCardQuantityData,
+  EntityPreviewCardShipData,
+} from "./components/ui/EntityPreviewCard";
 
 export { EntityTag, entityTagVariants } from "./components/ui/EntityTag";
 export type { EntityTagProps, EntityTagType } from "./components/ui/EntityTag";
