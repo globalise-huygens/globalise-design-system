@@ -1799,7 +1799,10 @@ export function DocumentDetailViewerOverlayDemo() {
                   : "Go to previous scan"
               }
               tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+              className={cn(
+                BOTTOM_BAR_ICON_BUTTON_CLASS,
+                isAtFirstScan && prevDocument && "text-brand-white",
+              )}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
                 if (isAtFirstScan && prevDocument) {
@@ -1835,7 +1838,10 @@ export function DocumentDetailViewerOverlayDemo() {
                   : "Go to next scan"
               }
               tooltipPlacement="top"
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+              className={cn(
+                BOTTOM_BAR_ICON_BUTTON_CLASS,
+                isAtLastScan && nextDocument && "text-brand-white",
+              )}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
                 if (isAtLastScan && nextDocument) {
