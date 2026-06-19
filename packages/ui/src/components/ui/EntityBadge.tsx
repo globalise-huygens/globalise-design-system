@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
-type EntityBadgeType =
+export type EntityBadgeType =
   | "ship"
   | "person"
   | "place"
@@ -9,7 +9,9 @@ type EntityBadgeType =
   | "dimensions"
   | "organisation"
   | "date"
-  | "document";
+  | "document"
+  | "ner"
+  | "lin";
 
 export function entityBadgeVariants({
   className,

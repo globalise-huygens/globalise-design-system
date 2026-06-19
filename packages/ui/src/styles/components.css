@@ -734,6 +734,35 @@
     outline-color: var(--color-parchment-700);
   }
 
+  .gds-entity-badge[data-type="document"],
+  .gds-entity-badge[data-type="dimensions"] {
+    background: var(--color-neutral-700);
+    color: var(--color-neutral-200);
+    outline-color: var(--color-neutral-500);
+  }
+
+  .gds-entity-badge[data-type="ner"] {
+    height: var(--s16);
+    background: transparent;
+    color: var(--color-neutral-200);
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: var(--s12);
+    outline-color: rgb(255 255 255 / 0.3);
+    padding-inline: var(--s4);
+  }
+
+  .gds-entity-badge[data-type="lin"] {
+    height: var(--s16);
+    background: transparent;
+    color: var(--color-brand-white);
+    font-size: 0.625rem;
+    font-weight: 400;
+    line-height: var(--s12);
+    outline-color: rgb(41 191 204 / 0.45);
+    padding-inline: var(--s4);
+  }
+
   .gds-entity-badge__icon {
     display: flex;
     width: var(--s16);

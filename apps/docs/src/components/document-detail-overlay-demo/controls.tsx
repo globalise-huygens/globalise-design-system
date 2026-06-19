@@ -12,6 +12,7 @@ import {
   DocumentDetailToolButton,
   DocumentDetailTooltip,
   DocumentDetailTranscriptCanvas,
+  EntityPreviewCard,
   IconBrightness,
   IconContentWarning,
   IconContrast,
@@ -34,6 +35,8 @@ import {
 } from "@globalise/design-system";
 import * as React from "react";
 import { Button as AriaButton } from "react-aria-components";
+import { createPortal } from "react-dom";
+import { ENTITY_PREVIEW_CARD_DATA, type EntityPreviewCardId } from "./data";
 import { DemoScanPage } from "./DemoScanPage";
 
 const TRANSCRIPT_NORMALIZED_LINES = [
@@ -200,6 +203,7 @@ interface TranscriptEntityExampleDefinition {
   phrase: string;
   key: string;
   category: string;
+  previewId?: EntityPreviewCardId;
 }
 
 interface TranscriptEntitySpan extends TranscriptEntityExampleDefinition {
@@ -216,6 +220,7 @@ const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Fredrik willem van Blijdenberg",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "fredrikWillemVanBlijdenberg",
     },
   ],
   17: [
@@ -223,11 +228,13 @@ const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Maccasser",
       key: "Places::by Name",
       category: "Places",
+      previewId: "maccasser",
     },
     {
       phrase: "April 17871",
       key: "Dates",
       category: "Dates",
+      previewId: "april17871",
     },
   ],
   18: [
@@ -235,6 +242,7 @@ const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "C: Craane",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "cCraane",
     },
   ],
   23: [
@@ -242,6 +250,7 @@ const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Barend Reijke",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "barendReijke",
     },
   ],
   24: [
@@ -249,6 +258,7 @@ const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Celeber",
       key: "Places::by Location Form",
       category: "Places",
+      previewId: "celeber",
     },
   ],
 };
@@ -262,21 +272,25 @@ const DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Fredrik willem van Blijdenberg",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "fredrikWillemVanBlijdenberg",
     },
     {
       phrase: "Maccasser",
       key: "Places::by Name",
       category: "Places",
+      previewId: "maccasser",
     },
     {
       phrase: "April 17871",
       key: "Dates",
       category: "Dates",
+      previewId: "april17871",
     },
     {
       phrase: "C: Craane",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "cCraane",
     },
     {
       phrase: "vlaardingen",
@@ -289,11 +303,13 @@ const DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES: Record<
       phrase: "Barend Reijke",
       key: "Persons::by Name",
       category: "Persons",
+      previewId: "barendReijke",
     },
     {
       phrase: "Celeber",
       key: "Places::by Location Form",
       category: "Places",
+      previewId: "celeber",
     },
   ],
 };
@@ -318,6 +334,155 @@ function getEntityExampleSpans(
     })
     .filter((span): span is TranscriptEntitySpan => Boolean(span))
     .sort((first, second) => first.start - second.start);
+}
+
+function TranscriptEntityPreviewTrigger({
+  children,
+  className,
+  previewId,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  previewId: EntityPreviewCardId;
+}) {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [hasFocusWithin, setHasFocusWithin] = React.useState(false);
+  const [isPinned, setIsPinned] = React.useState(false);
+  const rootRef = React.useRef<HTMLSpanElement>(null);
+  const popoverRef = React.useRef<HTMLSpanElement>(null);
+  const [popoverPosition, setPopoverPosition] = React.useState(() => ({
+    top: 0,
+    left: 0,
+  }));
+  const isOpen = isHovered || hasFocusWithin || isPinned;
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const updatePosition = () => {
+      const anchor = rootRef.current;
+
+      if (!anchor) {
+        return;
+      }
+
+      const rect = anchor.getBoundingClientRect();
+      const viewportPadding = 16;
+      const assumedCardWidth = 260;
+      const minLeft = viewportPadding + assumedCardWidth / 2;
+      const maxLeft =
+        window.innerWidth - viewportPadding - assumedCardWidth / 2;
+      const unclampedLeft = rect.left + rect.width / 2;
+      const left = Math.min(Math.max(unclampedLeft, minLeft), maxLeft);
+
+      setPopoverPosition({
+        top: rect.bottom + 8,
+        left,
+      });
+    };
+
+    updatePosition();
+
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      const isInsideAnchor = rootRef.current?.contains(target);
+      const isInsidePopover = popoverRef.current?.contains(target);
+
+      if (!isInsideAnchor && !isInsidePopover) {
+        setIsPinned(false);
+        setIsHovered(false);
+        setHasFocusWithin(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsPinned(false);
+        setIsHovered(false);
+        setHasFocusWithin(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  return (
+    <span
+      ref={rootRef}
+      className="relative inline align-baseline"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setHasFocusWithin(true)}
+      onBlur={(event) => {
+        const nextFocusedElement = event.relatedTarget;
+
+        if (
+          !(nextFocusedElement instanceof Node) ||
+          !event.currentTarget.contains(nextFocusedElement)
+        ) {
+          setHasFocusWithin(false);
+        }
+      }}
+    >
+      <span
+        role="button"
+        tabIndex={0}
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
+        className={cn(
+          "inline cursor-pointer bg-transparent p-0 text-inherit focus-visible:outline-none",
+          className,
+        )}
+        onClick={() => setIsPinned((current) => !current)}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setIsPinned((current) => !current);
+          }
+        }}
+      >
+        {children}
+      </span>
+
+      {isOpen &&
+        createPortal(
+          <span
+            ref={popoverRef}
+            className="fixed -translate-x-1/2"
+            style={{
+              top: `${popoverPosition.top}px`,
+              left: `${popoverPosition.left}px`,
+              zIndex: 80,
+            }}
+          >
+            <EntityPreviewCard data={ENTITY_PREVIEW_CARD_DATA[previewId]} />
+          </span>,
+          document.body,
+        )}
+    </span>
+  );
 }
 
 function renderTranscriptTextWithHighlights({
@@ -359,18 +524,30 @@ function renderTranscriptTextWithHighlights({
       selectedEntityHighlightKeys.has(span.key) ||
       selectedEntityHighlightKeys.has(span.category);
 
+    const highlightClassName = cn(
+      "box-decoration-clone rounded-xs px-0.5",
+      isActive &&
+        (entityHighlightClassesByCategory[span.category] ??
+          "bg-brand-white/15 ring-1 ring-inset ring-brand-white/25"),
+    );
+
     nodes.push(
-      <span
-        key={`${keyPrefix}-entity-${span.key}-${index}`}
-        className={cn(
-          "box-decoration-clone rounded-xs px-0.5",
-          isActive &&
-            (entityHighlightClassesByCategory[span.category] ??
-              "bg-brand-white/15 ring-1 ring-inset ring-brand-white/25"),
-        )}
-      >
-        {text.slice(span.start, span.end)}
-      </span>,
+      span.previewId && isActive ? (
+        <TranscriptEntityPreviewTrigger
+          key={`${keyPrefix}-entity-${span.key}-${index}`}
+          previewId={span.previewId}
+          className={highlightClassName}
+        >
+          {text.slice(span.start, span.end)}
+        </TranscriptEntityPreviewTrigger>
+      ) : (
+        <span
+          key={`${keyPrefix}-entity-${span.key}-${index}`}
+          className={highlightClassName}
+        >
+          {text.slice(span.start, span.end)}
+        </span>
+      ),
     );
 
     cursor = span.end;
