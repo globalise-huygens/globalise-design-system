@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import {
   DocumentDetailEntityHighlightMenu,
   IconEntities,
   IconEntityPerson,
   IconEntityPlace,
 } from "@globalise/design-system";
+import * as React from "react";
 
 const categories = [
   {

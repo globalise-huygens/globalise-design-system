@@ -15,7 +15,7 @@ import {
 
 # Entity Badge
 
-A reusable badge for marking entity types in transcription text, headers, and entity summaries.
+A reusable badge for marking entity types in transcription text, headers, and entity summaries. Use EntityTag when the text itself is a linked entity value.
 
 ## Preview
 
@@ -80,8 +80,8 @@ A reusable badge for marking entity types in transcription text, headers, and en
   props={[
     {
       name: "type",
-      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
-      default: '"ship"',
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document"',
+      default: '"document"',
       description: "Entity type, determines badge color and outline style.",
     },
     {

@@ -3,7 +3,6 @@ import { SiteNavbar } from "@/components/SiteNavbar";
 import { Container } from "@globalise/design-system";
 import type { Metadata } from "next";
 import { Noto_Sans, Noto_Serif } from "next/font/google";
-import { ClientProviders } from "./provider";
 
 const docsBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -40,18 +39,16 @@ export default function RootLayout({
       <body
         className={`${notoSans.variable} ${notoSerif.variable} bg-brand-black text-brand-white min-h-screen font-sans antialiased`}
       >
-        <ClientProviders>
-          <SiteNavbar />
-          <main>{children}</main>
-          <footer className="bg-brand-black py-8">
-            <Container>
-              <p className="text-sm text-brand-white/50 font-sans">
-                &copy; {new Date().getFullYear()} Globalise / Huygens Institute
-                / KNAW
-              </p>
-            </Container>
-          </footer>
-        </ClientProviders>
+        <SiteNavbar />
+        <main>{children}</main>
+        <footer className="bg-brand-black py-8">
+          <Container>
+            <p className="text-sm text-brand-white/50 font-sans">
+              &copy; {new Date().getFullYear()} Globalise / Huygens Institute /
+              KNAW
+            </p>
+          </Container>
+        </footer>
       </body>
     </html>
   );

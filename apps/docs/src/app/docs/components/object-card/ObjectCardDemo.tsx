@@ -6,7 +6,7 @@ export function ObjectCardDemo() {
   return (
     <PrinsEugeniusObjectCard
       onClose={() => {}}
-      className="h-[72vh] max-h-[72vh] lg:h-[70vh] lg:max-h-[70vh]"
+      className="docs-object-card docs-object-card--embedded h-[78vh] max-h-[78vh] lg:h-[76vh] lg:max-h-[76vh]"
     />
   );
 }

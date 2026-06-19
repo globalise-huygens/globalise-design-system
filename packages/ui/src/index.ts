@@ -68,6 +68,9 @@ export type { NewsletterSignupProps } from "./components/ui/NewsletterSignup";
 export { EntityBadge, entityBadgeVariants } from "./components/ui/EntityBadge";
 export type { EntityBadgeProps } from "./components/ui/EntityBadge";
 
+export { EntityTag, entityTagVariants } from "./components/ui/EntityTag";
+export type { EntityTagProps, EntityTagType } from "./components/ui/EntityTag";
+
 export { ObjectCardOverlay } from "./components/ui/ObjectCardOverlay";
 export type { ObjectCardOverlayProps } from "./components/ui/ObjectCardOverlay";
 
@@ -113,10 +116,10 @@ export {
   ReferencePanelList,
 } from "./components/ui/ReferencePanel";
 export type {
-  ReferencePanelItemProps,
-  ReferencePanelItemData,
-  ReferencePanelListProps,
   ReferencePanelHeaderProps,
+  ReferencePanelItemData,
+  ReferencePanelItemProps,
+  ReferencePanelListProps,
   ReferencePanelProps,
 } from "./components/ui/ReferencePanel";
 
@@ -141,17 +144,17 @@ export {
   DocumentDetailRailButton,
   DocumentDetailReferenceCard,
   DocumentDetailSegment,
+  DocumentDetailSegmentedControl,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
-  DocumentDetailSegmentedControl,
   DocumentDetailSidebarSection,
   DocumentDetailSidePanel,
   DocumentDetailSplitViewer,
   DocumentDetailTitle,
   DocumentDetailToolbar,
   DocumentDetailToolButton,
-  DocumentDetailTopBar,
   DocumentDetailTooltip,
+  DocumentDetailTopBar,
   DocumentDetailTranscriptCanvas,
   DocumentDetailTranscriptLine,
   DocumentDetailViewer,
@@ -195,8 +198,8 @@ export type {
   DocumentDetailTitleProps,
   DocumentDetailToolbarProps,
   DocumentDetailToolButtonProps,
-  DocumentDetailTopBarProps,
   DocumentDetailTooltipProps,
+  DocumentDetailTopBarProps,
   DocumentDetailTranscriptCanvasProps,
   DocumentDetailTranscriptLineProps,
   DocumentDetailViewerPaneProps,

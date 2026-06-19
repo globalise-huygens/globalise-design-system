@@ -13,18 +13,18 @@ import {
   DocumentDetailTooltip,
   DocumentDetailTranscriptCanvas,
   IconBrightness,
+  IconContentWarning,
   IconContrast,
   IconCopy,
-  IconContentWarning,
   IconDownload,
   IconInvert,
   IconModeDark,
   IconModeLight,
   IconModeSepia,
+  IconReset,
   IconRotate,
   IconSaturation,
   IconSetting,
-  IconReset,
   IconTextLine,
   IconTextSpacing,
   IconTextType,
@@ -342,7 +342,7 @@ export function CopyUriButton({
         aria-label={accessibleLabel}
         onClick={handleCopy}
         className={cn(
-          "inline-flex h-s20 w-s20 shrink-0 items-center justify-center rounded-[2px] text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
+          "inline-flex h-s20 w-s20 shrink-0 items-center justify-center rounded-xs text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
           hasCopied && "text-brand-white",
           className,
         )}
@@ -508,7 +508,7 @@ function ScanSettingsSlider({
           aria-label={tooltip}
           className="flex h-s24 w-s24 items-center justify-center text-brand-white/80 transition-colors duration-75 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-white/60"
         >
-          <span className="flex h-[14px] w-[14px] items-center justify-center">
+          <span className="flex h-3.5 w-3.5 items-center justify-center">
             {icon}
           </span>
         </button>
@@ -520,7 +520,7 @@ function ScanSettingsSlider({
         step={1}
         value={value}
         onChange={(event) => onChange(Number(event.currentTarget.value))}
-        className="h-s16 w-full appearance-none bg-transparent accent-brand-white focus:outline-none [&::-moz-range-thumb]:h-s12 [&::-moz-range-thumb]:w-s12 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-brand-white [&::-moz-range-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)] [&::-moz-range-track]:h-[2px] [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-brand-white/20 [&::-webkit-slider-runnable-track]:h-[2px] [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-brand-white/20 [&::-webkit-slider-thumb]:mt-[-5px] [&::-webkit-slider-thumb]:h-s12 [&::-webkit-slider-thumb]:w-s12 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-white [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)]"
+        className="h-s16 w-full appearance-none bg-transparent accent-brand-white focus:outline-none [&::-moz-range-thumb]:h-s12 [&::-moz-range-thumb]:w-s12 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-brand-white [&::-moz-range-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)] [&::-moz-range-track]:h-0.5 [&::-moz-range-track]:rounded-full [&::-moz-range-track]:bg-brand-white/20 [&::-webkit-slider-runnable-track]:h-0.5 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-brand-white/20 [&::-webkit-slider-thumb]:-mt-1.25 [&::-webkit-slider-thumb]:h-s12 [&::-webkit-slider-thumb]:w-s12 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-white [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,0.22)]"
         aria-label={tooltip}
         aria-valuetext={valueText}
       />
@@ -566,24 +566,24 @@ function ScanSettingsPopover({
         tooltip="Adjust scan brightness"
         value={brightness}
         onChange={onBrightnessChange}
-        icon={<IconBrightness className="h-[14px] w-[14px]" />}
+        icon={<IconBrightness className="h-3.5 w-3.5" />}
       />
       <ScanSettingsSlider
         tooltip="Adjust scan contrast"
         value={contrast}
         onChange={onContrastChange}
-        icon={<IconContrast className="h-[14px] w-[14px]" />}
+        icon={<IconContrast className="h-3.5 w-3.5" />}
       />
       <ScanSettingsSlider
         tooltip="Adjust scan saturation"
         value={saturation}
         onChange={onSaturationChange}
-        icon={<IconSaturation className="h-[14px] w-[14px]" />}
+        icon={<IconSaturation className="h-3.5 w-3.5" />}
       />
       <div className="grid grid-cols-[24px_minmax(0,1fr)] items-center gap-s8">
         <span className="flex h-s24 w-s24 items-center justify-center text-brand-white/80">
-          <span className="flex h-[14px] w-[14px] items-center justify-center">
-            <IconInvert className="h-[14px] w-[14px]" />
+          <span className="flex h-3.5 w-3.5 items-center justify-center">
+            <IconInvert className="h-3.5 w-3.5" />
           </span>
         </span>
         <DocumentDetailTooltip label="Invert scan colours" placement="left">
@@ -623,7 +623,7 @@ function TranscriptModeOption({
           isActive && "text-brand-white",
         )}
       >
-        <span className="flex h-[14px] w-[14px] items-center justify-center">
+        <span className="flex h-3.5 w-3.5 items-center justify-center">
           {icon}
         </span>
       </button>
@@ -648,19 +648,19 @@ function TranscriptModePopover({
       <div className="flex flex-col items-start gap-s8">
         <TranscriptModeOption
           tooltip="Light viewing mode"
-          icon={<IconModeLight className="h-[14px] w-[14px]" />}
+          icon={<IconModeLight className="h-3.5 w-3.5" />}
           isActive={mode === "light"}
           onPress={() => onModeChange("light")}
         />
         <TranscriptModeOption
           tooltip="Sepia viewing mode"
-          icon={<IconModeSepia className="h-[14px] w-[14px]" />}
+          icon={<IconModeSepia className="h-3.5 w-3.5" />}
           isActive={mode === "sepia"}
           onPress={() => onModeChange("sepia")}
         />
         <TranscriptModeOption
           tooltip="Dark viewing mode"
-          icon={<IconModeDark className="h-[14px] w-[14px]" />}
+          icon={<IconModeDark className="h-3.5 w-3.5" />}
           isActive={mode === "dark"}
           onPress={() => onModeChange("dark")}
         />
@@ -687,8 +687,8 @@ function TranscriptSettingType({
           aria-label="Switch between Noto Sans and Noto Serif"
           className="flex h-s24 w-s24 items-center justify-center text-brand-white/80 transition-colors duration-75 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-white/60"
         >
-          <span className="flex h-[14px] w-[14px] items-center justify-center">
-            <IconTextType className="h-[14px] w-[14px]" />
+          <span className="flex h-3.5 w-3.5 items-center justify-center">
+            <IconTextType className="h-3.5 w-3.5" />
           </span>
         </button>
       </DocumentDetailTooltip>
@@ -742,13 +742,13 @@ function TranscriptSettingsPopover({
         tooltip="Adjust letter spacing"
         value={letterSpacing}
         onChange={onLetterSpacingChange}
-        icon={<IconTextSpacing className="h-[14px] w-[14px]" />}
+        icon={<IconTextSpacing className="h-3.5 w-3.5" />}
       />
       <ScanSettingsSlider
         tooltip="Adjust line height"
         value={lineHeight}
         onChange={onLineHeightChange}
-        icon={<IconTextLine className="h-[14px] w-[14px]" />}
+        icon={<IconTextLine className="h-3.5 w-3.5" />}
       />
     </DocumentDetailPopoverSurface>
   );
@@ -980,7 +980,7 @@ export function TranscriptCanvas({
 
   const renderDiplomaticTranscriptPage = React.useCallback(
     () => (
-      <div className="relative min-h-[1120px] px-s24 py-s24">
+      <div className="relative min-h-280 px-s24 py-s24">
         {DIPLOMATIC_FRAGMENTS.map((fragment) => (
           <div
             key={fragment.id}
@@ -1001,7 +1001,7 @@ export function TranscriptCanvas({
               <>
                 <span
                   className={cn(
-                    "absolute left-[-28px] top-[3px] min-w-s20 text-right",
+                    "absolute -left-7 top-0.75 min-w-s20 text-right",
                     annotationLineClassName,
                   )}
                 >
@@ -1009,7 +1009,7 @@ export function TranscriptCanvas({
                 </span>
                 <span
                   className={cn(
-                    "absolute left-0 top-[-14px]",
+                    "absolute left-0 -top-3.5",
                     annotationLabelClassName,
                   )}
                 >
@@ -1045,7 +1045,7 @@ export function TranscriptCanvas({
                   {section.label}
                 </span>
                 <div className="grid grid-cols-[var(--s24)_1px_minmax(0,1fr)] items-start gap-s12">
-                  <div className="grid gap-s10 pt-[2px]">
+                  <div className="grid gap-s10 pt-0.5">
                     {sectionLines.map((line) => (
                       <span
                         key={`${section.block}-${line.lineNumber}-line-number`}

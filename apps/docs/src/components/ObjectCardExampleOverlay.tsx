@@ -9,7 +9,7 @@ function EntityMention({ onPress }: { onPress: () => void }) {
   return (
     <AriaButton
       onPress={onPress}
-      className="inline bg-brand-turquoise px-s4 py-s4 font-serif text-base font-medium italic leading-(--s16) text-brand-black transition-colors data-hovered:bg-mint-300 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-brand-black"
+      className="mx-px inline-flex min-h-s24 items-center border border-brand-turquoise/60 bg-brand-turquoise px-s8 py-0.5 align-baseline font-serif text-base font-medium italic leading-none text-brand-black transition-colors data-hovered:border-mint-300 data-hovered:bg-mint-300 pressed:bg-mint-400 data-focus-visible:outline-none data-focus-visible:ring-2 data-focus-visible:ring-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-brand-black"
     >
       prins Eugenius
     </AriaButton>
@@ -95,12 +95,13 @@ export function ObjectCardExampleOverlay() {
         </section>
       </div>
       <ObjectCardOverlay
+        className="docs-object-card-overlay--app"
         isOpen={isOpen}
         onOpenChange={setIsOpen}
         contentClassName="slot-content-band"
       >
         <PrinsEugeniusObjectCard
-          className="max-w-none"
+          className="docs-object-card docs-object-card--overlay max-w-none"
           onClose={() => setIsOpen(false)}
         />
       </ObjectCardOverlay>

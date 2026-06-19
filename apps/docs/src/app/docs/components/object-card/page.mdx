@@ -16,25 +16,25 @@ import {
 
 # Object Card
 
-A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, etc). All sub-components are pre-styled — consumers compose them without writing any CSS.
+A composable card built on React Aria Components for displaying entity detail overlays (Ship, Person, etc). All sub-components are pre-styled — consumers compose them without writing any CSS. On smaller screens, panels stack into one continuous scroll below the sticky header; on larger screens, panels sit side-by-side and scroll independently.
 
 ## Preview
 
-<ComponentPreview className="!min-h-[43.75rem] !p-4 !items-start">
+<ComponentPreview className="min-h-175! p-4! items-start!">
   <ObjectCardDemo />
 </ComponentPreview>
 
 ## Usage
 
 <CodeBlock code={`import {
-  IconShowMore,
   IconCopy,
+  IconDownload,
   ObjectCard,
   ObjectCardAction,
   EntityBadge,
+  EntityTag,
   ObjectCardBody,
   ObjectCardExternalLink,
-  ObjectCardFooter,
   ObjectCardHeader,
   ObjectCardListItem,
   ObjectCardOverlay,
@@ -50,7 +50,21 @@ A composable card built on React Aria Components for displaying entity detail ov
 
 <ObjectCardOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
   <ObjectCard>
-    <ObjectCardHeader onClose={() => {}}>
+    <ObjectCardHeader
+      onClose={() => {}}
+      actions={
+        <>
+          <ObjectCardAction
+            aria-label="Copy URI"
+            icon={<IconCopy className="h-s16 w-s16" />}
+          />
+          <ObjectCardAction
+            aria-label="Download RDF/JSON-LD"
+            icon={<IconDownload className="h-s16 w-s16" />}
+          />
+        </>
+      }
+    >
       <EntityBadge type="ship">Ship</EntityBadge>
       <ObjectCardTitle>Prins Eugenius</ObjectCardTitle>
       <ObjectCardStats>
@@ -63,25 +77,31 @@ A composable card built on React Aria Components for displaying entity detail ov
       <ObjectCardPanel side="left" className="gap-s48">
         <ObjectCardSection title="General Properties">
           <ObjectCardPropertyList>
-            <ObjectCardProperty label="Built" value="1703, Amsterdam" />
+            <ObjectCardProperty
+              label="Built"
+              value={
+                <>
+                  1703, <EntityTag type="place" href="#">Amsterdam</EntityTag>
+                </>
+              }
+            />
             <ObjectCardProperty label="Weight" value="874 tons" />
+            <ObjectCardProperty
+              label="Ship type"
+              value={
+                <EntityTag type="ship" href="#">
+                  Ship
+                </EntityTag>
+              }
+            />
           </ObjectCardPropertyList>
         </ObjectCardSection>
 
-        <ObjectCardSection title="Voyages (7)">
+        <ObjectCardSection title="Voyages (7)" sticky>
           <ObjectCardListItem>
             <span>19 Jan 1710 – 8 Aug 1710</span>
           </ObjectCardListItem>
-          <ObjectCardAction variant="more" icon={<IconShowMore />}>
-            View more
-          </ObjectCardAction>
         </ObjectCardSection>
-
-        <ObjectCardFooter>
-          <ObjectCardAction icon={<IconCopy className="h-s16 w-s16" />}>
-            Copy URI
-          </ObjectCardAction>
-        </ObjectCardFooter>
       </ObjectCardPanel>
 
       <ReferencePanel
@@ -156,8 +176,8 @@ Reusable badge for marking entity types in transcription text, headers, and enti
   props={[
     {
       name: "type",
-      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document" | "voyage"',
-      default: '"ship"',
+      type: '"ship" | "person" | "place" | "commodity" | "dimensions" | "organisation" | "date" | "document"',
+      default: '"document"',
       description: "Entity type, determines badge color and outline style.",
     },
     {
@@ -269,9 +289,15 @@ Pre-styled header with optional close button (RAC `Button`).
       description: "Close callback. If omitted, no close button is rendered.",
     },
     {
+      name: "actions",
+      type: "ReactNode",
+      description:
+        "Optional header action controls rendered before the close button.",
+    },
+    {
       name: "children",
       type: "ReactNode",
-      description: "Badge, title, stats.",
+      description: "Badge, title, stats, and other header content.",
     },
   ]}
 />
@@ -339,6 +365,20 @@ RAC `Group` with `aria-labelledby` linked to a level-3 heading. Screen readers a
       name: "children",
       type: "ReactNode",
       description: "Section content.",
+    },
+    {
+      name: "sticky",
+      type: "boolean",
+      default: "false",
+      description:
+        "Keeps the title heading pinned while its panel scrolls on larger screens. Has no effect when no title is rendered.",
+    },
+    {
+      name: "scrollable",
+      type: "boolean",
+      default: "false",
+      description:
+        "Wraps section contents in a min-height-aware container for long lists.",
     },
   ]}
 />
@@ -452,11 +492,11 @@ RAC `Link` — opens in a new tab with an external-link icon.
 
 ### ObjectCardFooter
 
-Pre-styled footer with RAC `Separator` divider line and action row.
+Pre-styled footer with RAC `Separator` divider line and action row. Prefer header actions for primary object-level controls such as copy and download.
 
 ### ObjectCardAction
 
-RAC `Button` with CVA variants. Use for footer actions and "view more" buttons.
+RAC `Button` with shared ObjectCard action styling. Use icon-only actions in the ObjectCard header for compact object-level controls.
 
 <PropsTable
   props={[
@@ -465,7 +505,7 @@ RAC `Button` with CVA variants. Use for footer actions and "view more" buttons.
       type: '"default" | "more"',
       default: '"default"',
       description:
-        '"default" for small footer actions, "more" for view-more style.',
+        '"default" for header/tool actions; "more" is retained for secondary expanded actions.',
     },
     {
       name: "icon",

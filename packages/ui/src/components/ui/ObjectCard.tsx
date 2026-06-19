@@ -51,25 +51,62 @@ function ObjectCardTitle({ className, ...props }: ObjectCardTitleProps) {
 export interface ObjectCardHeaderProps {
   onClose?: () => void;
   className?: string;
+  actions?: React.ReactNode;
   children?: React.ReactNode;
+}
+
+interface ObjectCardActionTooltipProps {
+  label?: React.ReactNode;
+  children: React.ReactNode;
+}
+
+function ObjectCardActionTooltip({
+  label,
+  children,
+}: ObjectCardActionTooltipProps) {
+  if (!label) {
+    return <>{children}</>;
+  }
+
+  return (
+    <span className="gds-object-card__action-with-tooltip">
+      {children}
+      <span
+        aria-hidden="true"
+        className="gds-object-card__action-tooltip gds-document-detail-tooltip"
+      >
+        {label}
+      </span>
+    </span>
+  );
 }
 
 function ObjectCardHeader({
   className,
   onClose,
+  actions,
   children,
 }: ObjectCardHeaderProps) {
+  const hasActions = Boolean(actions || onClose);
+
   return (
     <header className={cn("gds-object-card__header", className)}>
-      {children}
-      {onClose && (
-        <AriaButton
-          onPress={onClose}
-          aria-label="Close"
-          className="gds-object-card__close"
-        >
-          <IconClose className="gds-object-card__close-icon" />
-        </AriaButton>
+      <div className="gds-object-card__header-main">{children}</div>
+      {hasActions && (
+        <div className="gds-object-card__header-actions">
+          {actions}
+          {onClose && (
+            <ObjectCardActionTooltip label="Close">
+              <AriaButton
+                onPress={onClose}
+                aria-label="Close"
+                className="gds-object-card__close"
+              >
+                <IconClose className="gds-object-card__close-icon" />
+              </AriaButton>
+            </ObjectCardActionTooltip>
+          )}
+        </div>
       )}
     </header>
   );
@@ -148,6 +185,7 @@ function ObjectCardSection({
     <Group
       aria-labelledby={title ? headingId : undefined}
       className={cn("gds-object-card__section", className)}
+      data-has-title={title ? "true" : "false"}
       data-sticky={sticky ? "true" : undefined}
     >
       {title && (
@@ -216,7 +254,7 @@ const ObjectCardExternalLink = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const content = (
     <>
-      <span>{children}</span>
+      <span className="gds-object-card__external-link-label">{children}</span>
       <IconExternalLink className="gds-object-card__external-link-icon" />
     </>
   );
@@ -287,23 +325,37 @@ export interface ObjectCardActionProps extends Omit<
   className?: string;
   variant?: ObjectCardActionVariant;
   icon?: React.ReactNode;
+  tooltipLabel?: React.ReactNode;
   children?: React.ReactNode;
 }
 
 const ObjectCardAction = React.forwardRef<
   HTMLButtonElement,
   ObjectCardActionProps
->(({ className, variant, icon, children, ...props }, ref) => (
-  <AriaButton
-    ref={ref}
-    className={objectCardActionVariants({ className })}
-    data-variant={variant ?? "default"}
-    {...props}
-  >
-    {icon && <span className="gds-object-card__action-icon">{icon}</span>}
-    <span>{children}</span>
-  </AriaButton>
-));
+>(({ className, variant, icon, children, tooltipLabel, ...props }, ref) => {
+  const isIconOnly = !children;
+  const resolvedTooltipLabel =
+    tooltipLabel ?? (isIconOnly ? props["aria-label"] : undefined);
+
+  const button = (
+    <AriaButton
+      ref={ref}
+      className={objectCardActionVariants({ className })}
+      data-icon-only={isIconOnly ? "true" : "false"}
+      data-variant={variant ?? "default"}
+      {...props}
+    >
+      {icon && <span className="gds-object-card__action-icon">{icon}</span>}
+      {children && <span>{children}</span>}
+    </AriaButton>
+  );
+
+  return (
+    <ObjectCardActionTooltip label={resolvedTooltipLabel}>
+      {button}
+    </ObjectCardActionTooltip>
+  );
+});
 ObjectCardAction.displayName = "ObjectCardAction";
 
 export {

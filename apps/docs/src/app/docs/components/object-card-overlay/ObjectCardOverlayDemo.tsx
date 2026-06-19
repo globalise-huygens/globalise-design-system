@@ -16,7 +16,9 @@ export function ObjectCardOverlayDemo() {
 
   return (
     <>
-      <Button onPress={() => setIsOpen(true)}>Open modal shell</Button>
+      <Button size="sm" onPress={() => setIsOpen(true)}>
+        Open object card
+      </Button>
       <ObjectCardOverlay isOpen={isOpen} onOpenChange={setIsOpen}>
         <ObjectCard>
           <ObjectCardHeader onClose={() => setIsOpen(false)}>

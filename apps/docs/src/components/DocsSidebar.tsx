@@ -32,6 +32,7 @@ const navigation = [
       { title: "Card Featured", href: "/docs/components/card-featured" },
       { title: "Card Glance", href: "/docs/components/card-glance" },
       { title: "Entity Badge", href: "/docs/components/entity-badge" },
+      { title: "Entity Tag", href: "/docs/components/entity-tag" },
       { title: "Object Card", href: "/docs/components/object-card" },
       {
         title: "Object Card Overlay",

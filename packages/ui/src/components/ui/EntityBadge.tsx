@@ -3,9 +3,6 @@ import * as React from "react";
 
 type EntityBadgeType =
   | "ship"
-  | "concept"
-  | "voyage"
-  | "letter"
   | "person"
   | "place"
   | "commodity"

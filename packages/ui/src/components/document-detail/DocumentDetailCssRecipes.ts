@@ -254,9 +254,6 @@ export const referencePanelCss = `.reference-panel {
 }
 
 .reference-panel__header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
   background: var(--color-neutral-800);
   padding: var(--panel-pad) var(--panel-pad) var(--row-gap);
 }
