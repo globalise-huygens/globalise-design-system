@@ -1009,7 +1009,7 @@
   }
 
   .gds-entity-preview-card {
-    width: min(296px, calc(100vw - var(--s24)));
+    width: min(320px, calc(100vw - var(--s24)));
     background: var(--color-neutral-700);
     border-color: rgb(255 255 255 / 0.1) !important;
     box-shadow:
@@ -1018,21 +1018,21 @@
       0 56px 34px rgb(0 0 0 / 0.13),
       0 100px 40px rgb(0 0 0 / 0.04),
       0 156px 44px rgb(0 0 0 / 0);
-    padding: var(--s12) var(--s12) var(--s10);
+    padding: var(--s16);
   }
 
   .gds-entity-preview-card .gds-document-detail-popover-surface__body {
     display: grid;
-    gap: var(--s12);
+    gap: var(--s16);
     font-size: inherit;
     line-height: inherit;
-    padding: var(--s4);
+    padding: var(--s8);
   }
 
   .gds-entity-preview-card__header {
     display: flex;
     justify-content: space-between;
-    gap: var(--s10);
+    gap: var(--s8);
     align-items: flex-start;
   }
 
@@ -1046,7 +1046,7 @@
   .gds-entity-preview-card__leading-row {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s4);
+    gap: var(--s8);
     align-items: center;
     min-width: 0;
   }
@@ -1100,13 +1100,13 @@
   .gds-entity-preview-card__properties {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s10) var(--s16);
+    gap: var(--s8) var(--s16);
     margin: 0;
   }
 
   .gds-entity-preview-card__property {
     display: grid;
-    gap: var(--s2);
+    gap: var(--s4);
     align-content: start;
     min-width: 0;
   }
