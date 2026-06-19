@@ -452,7 +452,7 @@ function TranscriptEntityPreviewTrigger({
         aria-expanded={isOpen}
         aria-haspopup="dialog"
         className={cn(
-          "inline cursor-pointer bg-transparent p-0 text-inherit focus-visible:outline-none",
+          "inline cursor-pointer p-0 focus-visible:outline-none",
           className,
         )}
         onClick={() => setIsPinned((current) => !current)}
