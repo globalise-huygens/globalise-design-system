@@ -57,6 +57,7 @@ import {
   ACTIVE_TOC_DOCUMENT_ID,
   ACTIVE_TOC_SCAN,
   CLASSIFIED_ENTITY_TAG_GROUPS,
+  getDocumentIndex,
   getDocumentUri,
   getNaIdentifierUrl,
   getScanReference,
@@ -1308,6 +1309,15 @@ export function DocumentDetailViewerOverlayDemo() {
     ],
   );
 
+  const currentDocumentIndex = React.useMemo(
+    () => getDocumentIndex(currentArchiveScan, currentDocumentScanTotal),
+    [currentArchiveScan, currentDocumentScanTotal],
+  );
+  const isAtFirstScan = currentScan === 1;
+  const isAtLastScan = currentScan === currentDocumentScanTotal;
+  const prevDocument = TABLE_OF_CONTENTS_DOCUMENTS[currentDocumentIndex - 1];
+  const nextDocument = TABLE_OF_CONTENTS_DOCUMENTS[currentDocumentIndex + 1];
+
   const toggleSidebarSection = React.useCallback((sectionId: string) => {
     setExpandedSections((current) => {
       const next = new Set(current);
@@ -1782,12 +1792,25 @@ export function DocumentDetailViewerOverlayDemo() {
             />
             <TooltipIconButton
               aria-label="Previous scan"
-              tooltip="Go to previous scan"
+              tooltip={
+                isAtFirstScan && prevDocument
+                  ? `Go to previous document: ${prevDocument.title}`
+                  : "Go to previous scan"
+              }
               tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeft className="h-s16 w-s16" />}
               onPress={() => {
-                setViewerScan((current) => Math.max(current - 1, 1));
+                if (isAtFirstScan && prevDocument) {
+                  selectViewerScan(
+                    getScanReference(
+                      prevDocument,
+                      prevDocument.scans[prevDocument.scans.length - 1],
+                    ),
+                  );
+                } else {
+                  setViewerScan((current) => Math.max(current - 1, 1));
+                }
               }}
             />
             <span className="inline-flex items-baseline gap-s8 leading-4">
@@ -1805,14 +1828,24 @@ export function DocumentDetailViewerOverlayDemo() {
             </span>
             <TooltipIconButton
               aria-label="Next scan"
-              tooltip="Go to next scan"
+              tooltip={
+                isAtLastScan && nextDocument
+                  ? `Go to next document: ${nextDocument.title}`
+                  : "Go to next scan"
+              }
               tooltipPlacement="top"
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRight className="h-s16 w-s16" />}
               onPress={() => {
-                setViewerScan((current) =>
-                  Math.min(current + 1, currentDocumentScanTotal),
-                );
+                if (isAtLastScan && nextDocument) {
+                  selectViewerScan(
+                    getScanReference(nextDocument, nextDocument.scans[0]),
+                  );
+                } else {
+                  setViewerScan((current) =>
+                    Math.min(current + 1, currentDocumentScanTotal),
+                  );
+                }
               }}
             />
             <TooltipIconButton

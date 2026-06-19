@@ -477,6 +477,14 @@ function getDocumentByArchiveScan(
   );
 }
 
+export function getDocumentIndex(
+  archiveScan: number,
+  documentScanTotal?: number,
+): number {
+  const document = getDocumentByArchiveScan(archiveScan, documentScanTotal);
+  return document ? TABLE_OF_CONTENTS_DOCUMENTS.indexOf(document) : -1;
+}
+
 export function getScanReferenceByArchiveScan(
   archiveScan: number,
   documentScanTotal?: number,
