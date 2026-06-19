@@ -307,11 +307,15 @@ export function ContentWarningTopBarControl({
 
 export function CopyUriButton({
   uri,
-  label,
+  label = "Copy URI",
+  ariaLabel,
+  tooltip,
   className,
 }: {
   uri: string;
-  label: string;
+  label?: string;
+  ariaLabel?: string;
+  tooltip?: React.ReactNode;
   className?: string;
 }) {
   const [hasCopied, setHasCopied] = React.useState(false);
@@ -333,10 +337,11 @@ export function CopyUriButton({
     }
   };
 
-  const accessibleLabel = hasCopied ? "Copied URI" : label;
+  const tooltipLabel = hasCopied ? "Copied URI" : (tooltip ?? label);
+  const accessibleLabel = hasCopied ? "Copied URI" : (ariaLabel ?? label);
 
   return (
-    <DocumentDetailTooltip label={accessibleLabel}>
+    <DocumentDetailTooltip label={tooltipLabel}>
       <button
         type="button"
         aria-label={accessibleLabel}

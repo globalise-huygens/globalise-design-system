@@ -358,7 +358,7 @@ function InventoryHierarchyRow({
             </span>
             <CopyUriButton
               uri={INVENTORY_URI}
-              label={`Copy inventory ${label} URI`}
+              ariaLabel={`Copy inventory ${label} URI`}
               className="h-s20 w-s20"
             />
           </span>
@@ -566,7 +566,7 @@ function TableOfContentsScanCard({
           </button>
           <CopyUriButton
             uri={getScanUri(scan.archiveScan)}
-            label={`Copy archive scan ${scan.archiveScan} URI`}
+            ariaLabel={`Copy archive scan ${scan.archiveScan} URI`}
             className="h-s20 w-s20"
           />
         </div>
@@ -813,7 +813,6 @@ function TableOfContentsPanel({
                         ? SELECTED_DOCUMENT_URI
                         : getDocumentUri(document.id)
                     }
-                    label="Copy URI"
                   />
                 }
               />
