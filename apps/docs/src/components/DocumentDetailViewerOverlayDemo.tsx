@@ -1798,13 +1798,13 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "min-h-s36! justify-start gap-s16 border-t-0 bg-neutral-900 py-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none xl:gap-s48",
+            "h-auto min-h-s36! flex-wrap content-start justify-center gap-x-s8 gap-y-s4 border-t-0 bg-neutral-900 py-[6px] pr-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none 2xl:h-[var(--overlay-document-viewer-bottom-bar-height)] 2xl:flex-nowrap 2xl:items-center 2xl:gap-y-0 2xl:py-s4 2xl:pr-s8 2xl:gap-s24",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",
           ].join(" ")}
         >
-          <DocumentDetailBarGroup className="gap-s24">
+          <DocumentDetailBarGroup className="w-full min-w-0 flex-wrap justify-center gap-s8 2xl:w-auto 2xl:shrink-0 2xl:flex-nowrap 2xl:gap-s24">
             <TooltipIconButton
               aria-label="First scan"
               tooltip="Go to first scan"
@@ -1840,7 +1840,7 @@ export function DocumentDetailViewerOverlayDemo() {
                 }
               }}
             />
-            <span className="inline-flex items-baseline gap-s8 leading-4">
+            <span className="min-w-0 inline-flex items-baseline gap-s8 leading-4">
               <span>Scan {currentArchiveScan}</span>
               <span className="text-neutral-500">|</span>
               <span>in doc.</span>
@@ -1888,9 +1888,11 @@ export function DocumentDetailViewerOverlayDemo() {
               onPress={() => setViewerScan(currentDocumentScanTotal)}
             />
           </DocumentDetailBarGroup>
-          <span className="font-sans text-xs text-brand-white/45">|</span>
+          <span className="hidden shrink-0 font-sans text-xs text-brand-white/45 2xl:inline">
+            |
+          </span>
           {isSearchHitNavigationVisible ? (
-            <DocumentDetailBarGroup className="gap-s24">
+            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
               <TooltipIconButton
                 aria-label="Previous search hit"
                 tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
@@ -1901,7 +1903,7 @@ export function DocumentDetailViewerOverlayDemo() {
                   goToSearchHit(currentSearchHit - 1);
                 }}
               />
-              <span className="group/search-hit-summary relative inline-flex items-baseline leading-4">
+              <span className="group/search-hit-summary relative min-w-0 inline-flex items-baseline leading-4">
                 search hits
                 <NumericJumpField
                   ariaLabel="Go to search hit"
@@ -1938,7 +1940,7 @@ export function DocumentDetailViewerOverlayDemo() {
               />
             </DocumentDetailBarGroup>
           ) : (
-            <DocumentDetailBarGroup className="gap-s24">
+            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
               <TooltipIconButton
                 aria-label="Show search hit navigation"
                 tooltip={`Show search hits for "${activeSearchQuery}"`}
@@ -1951,49 +1953,51 @@ export function DocumentDetailViewerOverlayDemo() {
           )}
           {activeTagTarget && (
             <>
-              <span className="font-sans text-xs text-brand-white/45">|</span>
-            <DocumentDetailBarGroup className="gap-s24">
-              <TooltipIconButton
-                aria-label={`Previous ${activeTagTarget.label} occurrence`}
-                tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconLeft className="h-s16 w-s16" />}
-                onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
-              />
-              <span className="inline-flex max-w-55 items-baseline leading-4">
-                <span className="mr-s4 truncate text-parchment-500">
-                  {activeTagTarget.label}
-                </span>
-                <NumericJumpField
-                  ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
-                  value={currentTagOccurrence}
-                  max={activeTagTarget.occurrences}
-                  onChange={goToTagOccurrence}
-                  tooltip={`Type a ${activeTagTarget.label} occurrence number`}
-                />
-                of {activeTagTarget.occurrences}
+              <span className="shrink-0 font-sans text-xs text-brand-white/45">
+                |
               </span>
-              <TooltipIconButton
-                aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
-                tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconClose className="h-s16 w-s16" />}
-                onPress={() => {
-                  setActiveTagTarget(undefined);
-                  setCurrentTagOccurrence(1);
-                }}
-              />
-              <TooltipIconButton
-                aria-label={`Next ${activeTagTarget.label} occurrence`}
-                tooltip={`Go to next ${activeTagTarget.label} occurrence`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconRight className="h-s16 w-s16" />}
-                onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
-              />
-            </DocumentDetailBarGroup>
+              <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+                <TooltipIconButton
+                  aria-label={`Previous ${activeTagTarget.label} occurrence`}
+                  tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconLeft className="h-s16 w-s16" />}
+                  onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
+                />
+                <span className="min-w-0 inline-flex max-w-55 items-baseline leading-4">
+                  <span className="mr-s4 truncate text-parchment-500">
+                    {activeTagTarget.label}
+                  </span>
+                  <NumericJumpField
+                    ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
+                    value={currentTagOccurrence}
+                    max={activeTagTarget.occurrences}
+                    onChange={goToTagOccurrence}
+                    tooltip={`Type a ${activeTagTarget.label} occurrence number`}
+                  />
+                  of {activeTagTarget.occurrences}
+                </span>
+                <TooltipIconButton
+                  aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
+                  tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconClose className="h-s16 w-s16" />}
+                  onPress={() => {
+                    setActiveTagTarget(undefined);
+                    setCurrentTagOccurrence(1);
+                  }}
+                />
+                <TooltipIconButton
+                  aria-label={`Next ${activeTagTarget.label} occurrence`}
+                  tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                  tooltipPlacement="top"
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconRight className="h-s16 w-s16" />}
+                  onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+                />
+              </DocumentDetailBarGroup>
             </>
           )}
         </DocumentDetailBottomBar>
