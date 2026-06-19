@@ -156,54 +156,80 @@ const ENTITY_HIGHLIGHT_COLOR_SCHEMES: Record<
     rowClassName: string;
     subRowClassName: string;
     textClassName: string;
+    transcriptHighlightClassName: string;
   }
 > = {
   Persons: {
-    rowClassName: "border-rose-300/35 bg-rose-300/10",
-    subRowClassName: "border-rose-300/25 bg-rose-300/6",
+    rowClassName: "bg-rose-300/10",
+    subRowClassName: "bg-rose-300/6",
     textClassName: "text-rose-200",
+    transcriptHighlightClassName:
+      "bg-rose-300/25 ring-1 ring-inset ring-rose-300/35",
   },
   Places: {
-    rowClassName: "border-green-300/35 bg-green-300/10",
-    subRowClassName: "border-lime-300/30 bg-lime-300/8",
+    rowClassName: "bg-green-300/10",
+    subRowClassName: "bg-lime-300/8",
     textClassName: "text-green-200",
+    transcriptHighlightClassName:
+      "bg-green-300/25 ring-1 ring-inset ring-green-300/35",
   },
   Commodities: {
-    rowClassName: "border-orange-300/35 bg-orange-300/10",
-    subRowClassName: "border-amber-300/30 bg-amber-300/8",
+    rowClassName: "bg-orange-300/10",
+    subRowClassName: "bg-amber-300/8",
     textClassName: "text-orange-200",
+    transcriptHighlightClassName:
+      "bg-orange-300/25 ring-1 ring-inset ring-orange-300/35",
   },
   Documents: {
-    rowClassName: "border-amber-300/35 bg-amber-300/10",
-    subRowClassName: "border-amber-300/30 bg-amber-300/8",
+    rowClassName: "bg-amber-300/10",
+    subRowClassName: "bg-amber-300/8",
     textClassName: "text-amber-200",
+    transcriptHighlightClassName:
+      "bg-amber-300/25 ring-1 ring-inset ring-amber-300/35",
   },
   Dates: {
-    rowClassName: "border-sky-300/35 bg-sky-300/10",
-    subRowClassName: "border-sky-300/30 bg-sky-300/8",
+    rowClassName: "bg-sky-300/10",
+    subRowClassName: "bg-sky-300/8",
     textClassName: "text-sky-200",
+    transcriptHighlightClassName:
+      "bg-sky-300/25 ring-1 ring-inset ring-sky-300/35",
   },
   Ships: {
-    rowClassName: "border-stone-300/35 bg-stone-300/10",
-    subRowClassName: "border-slate-300/30 bg-slate-300/8",
+    rowClassName: "bg-stone-300/10",
+    subRowClassName: "bg-slate-300/8",
     textClassName: "text-stone-200",
+    transcriptHighlightClassName:
+      "bg-stone-300/25 ring-1 ring-inset ring-stone-300/35",
   },
   Organisations: {
-    rowClassName: "border-purple-300/35 bg-purple-300/10",
-    subRowClassName: "border-blue-300/30 bg-blue-300/8",
+    rowClassName: "bg-purple-300/10",
+    subRowClassName: "bg-blue-300/8",
     textClassName: "text-purple-200",
+    transcriptHighlightClassName:
+      "bg-purple-300/25 ring-1 ring-inset ring-purple-300/35",
   },
   Polities: {
-    rowClassName: "border-neutral-400/30 bg-neutral-400/8",
-    subRowClassName: "border-neutral-400/25 bg-neutral-400/6",
+    rowClassName: "bg-neutral-400/8",
+    subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
+    transcriptHighlightClassName:
+      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
   },
   Quantity: {
-    rowClassName: "border-neutral-400/30 bg-neutral-400/8",
-    subRowClassName: "border-neutral-400/25 bg-neutral-400/6",
+    rowClassName: "bg-neutral-400/8",
+    subRowClassName: "bg-neutral-400/6",
     textClassName: "text-neutral-300",
+    transcriptHighlightClassName:
+      "bg-neutral-300/20 ring-1 ring-inset ring-neutral-300/30",
   },
 };
+
+const ENTITY_HIGHLIGHT_TEXT_CLASSES = Object.fromEntries(
+  Object.entries(ENTITY_HIGHLIGHT_COLOR_SCHEMES).map(([category, scheme]) => [
+    category,
+    scheme.transcriptHighlightClassName,
+  ]),
+);
 
 function getEntityHighlightCategories() {
   return CLASSIFIED_ENTITY_TAG_GROUPS.map((group) => {
@@ -1520,6 +1546,8 @@ export function DocumentDetailViewerOverlayDemo() {
         currentDocumentScan={currentScan}
         pairedArchiveScan={pairedScanReference?.archiveScan}
         pairedDocumentScan={pairedScanReference?.documentScan}
+        selectedEntityHighlightKeys={selectedEntityHighlightKeys}
+        entityHighlightClassesByCategory={ENTITY_HIGHLIGHT_TEXT_CLASSES}
       />
       {isMiniWindowEnabled && <MiniScanWindow />}
     </DocumentDetailViewerPane>
@@ -1731,6 +1759,7 @@ export function DocumentDetailViewerOverlayDemo() {
               onSelectedKeysChange={setSelectedEntityHighlightKeys}
               triggerIcon={<IconEntities className="h-s16 w-s16" />}
               triggerClassName={TOP_BAR_ICON_BUTTON_CLASS}
+              allDescription="Toggle entity classes to preview matching highlights in the transcription text"
             />
             <TooltipIconButton
               aria-label={
@@ -1798,7 +1827,7 @@ export function DocumentDetailViewerOverlayDemo() {
 
         <DocumentDetailBottomBar
           className={[
-            "h-auto min-h-s36! flex-wrap content-start justify-center gap-x-s8 gap-y-s4 border-t-0 bg-neutral-900 py-[6px] pr-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none 2xl:h-[var(--overlay-document-viewer-bottom-bar-height)] 2xl:flex-nowrap 2xl:items-center 2xl:gap-y-0 2xl:py-s4 2xl:pr-s8 2xl:gap-s24",
+            "h-auto min-h-s36! flex-wrap content-start justify-center gap-x-s8 gap-y-s4 border-t-0 bg-neutral-900 py-1.5 pr-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none 2xl:h-(--overlay-document-viewer-bottom-bar-height) 2xl:flex-nowrap 2xl:items-center 2xl:gap-y-0 2xl:py-s4 2xl:pr-s8 2xl:gap-s24",
             isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
               : "pl-overlay-document-viewer-rail-width",

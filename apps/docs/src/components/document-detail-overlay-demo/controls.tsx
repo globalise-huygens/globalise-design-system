@@ -196,6 +196,197 @@ const DIPLOMATIC_FRAGMENTS = [
 const CONTENT_WARNING_TEXT =
   "The Dutch East India Company archives (and consequently their transcriptions) and its document descriptions bear harmful and discriminatory language. They also record a wide range of events, intentions and perspectives that are violent and can cause distress.";
 
+interface TranscriptEntityExampleDefinition {
+  phrase: string;
+  key: string;
+  category: string;
+}
+
+interface TranscriptEntitySpan extends TranscriptEntityExampleDefinition {
+  start: number;
+  end: number;
+}
+
+const NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES: Record<
+  number,
+  TranscriptEntityExampleDefinition[]
+> = {
+  12: [
+    {
+      phrase: "Fredrik willem van Blijdenberg",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  17: [
+    {
+      phrase: "Maccasser",
+      key: "Places::by Name",
+      category: "Places",
+    },
+    {
+      phrase: "April 17871",
+      key: "Dates",
+      category: "Dates",
+    },
+  ],
+  18: [
+    {
+      phrase: "C: Craane",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  23: [
+    {
+      phrase: "Barend Reijke",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+  ],
+  24: [
+    {
+      phrase: "Celeber",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+};
+
+const DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES: Record<
+  string,
+  TranscriptEntityExampleDefinition[]
+> = {
+  "paragraph-main": [
+    {
+      phrase: "Fredrik willem van Blijdenberg",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "Maccasser",
+      key: "Places::by Name",
+      category: "Places",
+    },
+    {
+      phrase: "April 17871",
+      key: "Dates",
+      category: "Dates",
+    },
+    {
+      phrase: "C: Craane",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "vlaardingen",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+  "signature-block": [
+    {
+      phrase: "Barend Reijke",
+      key: "Persons::by Name",
+      category: "Persons",
+    },
+    {
+      phrase: "Celeber",
+      key: "Places::by Location Form",
+      category: "Places",
+    },
+  ],
+};
+
+function getEntityExampleSpans(
+  text: string,
+  examples: TranscriptEntityExampleDefinition[],
+) {
+  return examples
+    .map((example) => {
+      const start = text.toLowerCase().indexOf(example.phrase.toLowerCase());
+
+      if (start < 0) {
+        return undefined;
+      }
+
+      return {
+        ...example,
+        start,
+        end: start + example.phrase.length,
+      } satisfies TranscriptEntitySpan;
+    })
+    .filter((span): span is TranscriptEntitySpan => Boolean(span))
+    .sort((first, second) => first.start - second.start);
+}
+
+function renderTranscriptTextWithHighlights({
+  text,
+  examples,
+  selectedEntityHighlightKeys,
+  entityHighlightClassesByCategory,
+  keyPrefix,
+}: {
+  text: string;
+  examples: TranscriptEntityExampleDefinition[];
+  selectedEntityHighlightKeys: Set<string>;
+  entityHighlightClassesByCategory: Record<string, string>;
+  keyPrefix: string;
+}) {
+  const spans = getEntityExampleSpans(text, examples);
+
+  if (spans.length === 0) {
+    return text;
+  }
+
+  const nodes: React.ReactNode[] = [];
+  let cursor = 0;
+
+  spans.forEach((span, index) => {
+    if (span.start < cursor) {
+      return;
+    }
+
+    if (span.start > cursor) {
+      nodes.push(
+        <React.Fragment key={`${keyPrefix}-text-${index}`}>
+          {text.slice(cursor, span.start)}
+        </React.Fragment>,
+      );
+    }
+
+    const isActive =
+      selectedEntityHighlightKeys.has(span.key) ||
+      selectedEntityHighlightKeys.has(span.category);
+
+    nodes.push(
+      <span
+        key={`${keyPrefix}-entity-${span.key}-${index}`}
+        className={cn(
+          "box-decoration-clone rounded-xs px-0.5",
+          isActive &&
+            (entityHighlightClassesByCategory[span.category] ??
+              "bg-brand-white/15 ring-1 ring-inset ring-brand-white/25"),
+        )}
+      >
+        {text.slice(span.start, span.end)}
+      </span>,
+    );
+
+    cursor = span.end;
+  });
+
+  if (cursor < text.length) {
+    nodes.push(
+      <React.Fragment key={`${keyPrefix}-text-tail`}>
+        {text.slice(cursor)}
+      </React.Fragment>,
+    );
+  }
+
+  return nodes;
+}
+
 export const FLOATING_TOOLBAR_REVEAL_CLASS =
   "bg-brand-black/65 text-brand-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.16)] transition-[background-color,box-shadow,color] duration-100 ease-out hover:bg-brand-black/90 hover:text-brand-white hover:shadow-[0_6px_20px_rgba(0,0,0,0.22)] focus-within:bg-brand-black/90 focus-within:text-brand-white focus-within:shadow-[0_6px_20px_rgba(0,0,0,0.22)] motion-reduce:transition-none";
 
@@ -905,6 +1096,8 @@ export function TranscriptCanvas({
   transcriptMode,
   areLayoutElementsHighlighted = false,
   isPairedPageView = false,
+  selectedEntityHighlightKeys,
+  entityHighlightClassesByCategory,
   currentArchiveScan: _currentArchiveScan,
   currentDocumentScan,
   pairedArchiveScan: _pairedArchiveScan,
@@ -914,6 +1107,8 @@ export function TranscriptCanvas({
   transcriptMode: "n" | "d";
   areLayoutElementsHighlighted?: boolean;
   isPairedPageView?: boolean;
+  selectedEntityHighlightKeys: Set<string>;
+  entityHighlightClassesByCategory: Record<string, string>;
   currentArchiveScan: number;
   currentDocumentScan: number;
   pairedArchiveScan?: number;
@@ -1026,7 +1221,14 @@ export function TranscriptCanvas({
                 </span>
               </>
             ) : null}
-            {fragment.text}
+            {renderTranscriptTextWithHighlights({
+              text: fragment.text,
+              examples:
+                DIPLOMATIC_TRANSCRIPT_ENTITY_EXAMPLES[fragment.id] ?? [],
+              selectedEntityHighlightKeys,
+              entityHighlightClassesByCategory,
+              keyPrefix: `diplomatic-${fragment.id}`,
+            })}
           </div>
         ))}
       </div>
@@ -1035,9 +1237,11 @@ export function TranscriptCanvas({
       annotationLabelClassName,
       annotationLineClassName,
       areLayoutElementsHighlighted,
+      selectedEntityHighlightKeys,
       transcriptLetterSpacing,
       transcriptLineHeight,
       transcriptTypographyClassName,
+      entityHighlightClassesByCategory,
     ],
   );
 
@@ -1087,7 +1291,16 @@ export function TranscriptCanvas({
                           lineHeight: `${transcriptLineHeight}%`,
                         }}
                       >
-                        {line.text}
+                        {renderTranscriptTextWithHighlights({
+                          text: line.text,
+                          examples:
+                            NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES[
+                              line.lineNumber
+                            ] ?? [],
+                          selectedEntityHighlightKeys,
+                          entityHighlightClassesByCategory,
+                          keyPrefix: `normalized-annotated-${line.lineNumber}`,
+                        })}
                       </p>
                     ))}
                   </div>
@@ -1117,7 +1330,15 @@ export function TranscriptCanvas({
                   lineHeight: `${transcriptLineHeight}%`,
                 }}
               >
-                {line.text}
+                {renderTranscriptTextWithHighlights({
+                  text: line.text,
+                  examples:
+                    NORMALIZED_TRANSCRIPT_ENTITY_EXAMPLES[line.lineNumber] ??
+                    [],
+                  selectedEntityHighlightKeys,
+                  entityHighlightClassesByCategory,
+                  keyPrefix: `normalized-${line.lineNumber}`,
+                })}
               </p>
             </div>
           ))}
@@ -1128,9 +1349,11 @@ export function TranscriptCanvas({
       annotationLineClassName,
       areLayoutElementsHighlighted,
       normalizedLinesByBlock,
+      selectedEntityHighlightKeys,
       transcriptLetterSpacing,
       transcriptLineHeight,
       transcriptTypographyClassName,
+      entityHighlightClassesByCategory,
       transcriptViewerTone.annotationRuleClassName,
     ],
   );

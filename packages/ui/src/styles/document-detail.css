@@ -1140,13 +1140,13 @@
     display: grid;
     align-items: center;
     gap: var(--s8);
-    border: 1px solid rgb(255 255 255 / 0.1);
+    border: 0;
     padding: var(--s8);
   }
 
   .gds-entity-highlight-menu__all {
     grid-template-columns: minmax(0, 1fr) auto;
-    background: rgb(255 255 255 / 0.05);
+    background: rgb(255 255 255 / 0.035);
   }
 
   .gds-entity-highlight-menu__all-copy {
@@ -1210,8 +1210,7 @@
     height: var(--s20);
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    line-height: 1;
+    border-radius: 2px;
     transition: background-color 75ms ease-out;
   }
 
@@ -1231,18 +1230,6 @@
   .gds-entity-highlight-menu__icon,
   .gds-document-detail-icon {
     flex-shrink: 0;
-  }
-
-  .gds-entity-highlight-menu__checkbox-all {
-    height: var(--s24);
-    gap: 0;
-    padding-inline: 0;
-  }
-
-  .gds-entity-highlight-menu__checkbox-row {
-    height: var(--s20);
-    gap: 0;
-    padding-inline: 0;
   }
 
   .gds-document-detail-rail-button__label {
