@@ -33,6 +33,7 @@ import {
   IconZoomOut,
 } from "@globalise/design-system";
 import * as React from "react";
+import { Button as AriaButton } from "react-aria-components";
 import { DemoScanPage } from "./DemoScanPage";
 
 const TRANSCRIPT_NORMALIZED_LINES = [
@@ -320,9 +321,7 @@ export function CopyUriButton({
 }) {
   const [hasCopied, setHasCopied] = React.useState(false);
 
-  const handleCopy = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-
+  const handleCopy = async () => {
     const uriToCopy =
       typeof window === "undefined" || uri.startsWith("http")
         ? uri
@@ -341,11 +340,10 @@ export function CopyUriButton({
   const accessibleLabel = hasCopied ? "Copied URI" : (ariaLabel ?? label);
 
   return (
-    <DocumentDetailTooltip label={tooltipLabel}>
-      <button
-        type="button"
+    <span className="group/copy-uri relative inline-flex">
+      <AriaButton
         aria-label={accessibleLabel}
-        onClick={handleCopy}
+        onPress={handleCopy}
         className={cn(
           "inline-flex h-s20 w-s20 shrink-0 items-center justify-center rounded-xs text-brand-white/45 transition-colors duration-75 ease-out hover:bg-brand-white/8 hover:text-brand-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring motion-reduce:transition-none",
           hasCopied && "text-brand-white",
@@ -353,8 +351,14 @@ export function CopyUriButton({
         )}
       >
         <IconCopy className="h-s12 w-s12" />
-      </button>
-    </DocumentDetailTooltip>
+      </AriaButton>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute right-0 top-[calc(100%+var(--s8))] z-70 w-max max-w-60 -translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/copy-uri:translate-y-0 group-focus-within/copy-uri:opacity-100 group-hover/copy-uri:translate-y-0 group-hover/copy-uri:opacity-100 motion-reduce:transition-none"
+      >
+        {tooltipLabel}
+      </span>
+    </span>
   );
 }
 
