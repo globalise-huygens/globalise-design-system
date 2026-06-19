@@ -129,7 +129,7 @@ const TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS = [
   {
     block: "page-number",
     label: "page-number",
-    className: "text-[34px] font-medium",
+    className: "text-[18px]",
   },
   {
     block: "paragraph-1",
@@ -139,7 +139,7 @@ const TRANSCRIPT_NORMALIZED_LAYOUT_BLOCKS = [
   {
     block: "signature",
     label: "signature",
-    className: "text-[24px]",
+    className: "text-[18px]",
   },
 ] as const;
 
@@ -1318,11 +1318,7 @@ export function TranscriptCanvas({
             >
               <p
                 className={cn(
-                  line.block === "page-number"
-                    ? "text-[34px] font-medium leading-[1.2]"
-                    : line.block === "signature"
-                      ? "text-[24px] leading-[inherit]"
-                      : "text-[18px] leading-[inherit]",
+                  "text-[18px] leading-[inherit]",
                   transcriptTypographyClassName,
                 )}
                 style={{
