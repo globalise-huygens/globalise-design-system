@@ -1794,7 +1794,7 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-label="Previous scan"
               tooltip={
                 isAtFirstScan && prevDocument
-                  ? `Go to previous document: ${prevDocument.title}`
+                  ? "Previous document"
                   : "Go to previous scan"
               }
               tooltipPlacement="top"
@@ -1830,7 +1830,7 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-label="Next scan"
               tooltip={
                 isAtLastScan && nextDocument
-                  ? `Go to next document: ${nextDocument.title}`
+                  ? "Next document"
                   : "Go to next scan"
               }
               tooltipPlacement="top"
