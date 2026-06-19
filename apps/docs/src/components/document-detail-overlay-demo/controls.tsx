@@ -202,7 +202,7 @@ export const TOP_BAR_ICON_BUTTON_CLASS =
   "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
 export const BOTTOM_BAR_ICON_BUTTON_CLASS =
-  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
+  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 data-disabled:opacity-40 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
 
 export const SEGMENTED_SURFACE_COMPACT_CLASS =
   "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";

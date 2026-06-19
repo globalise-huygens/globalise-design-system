@@ -1786,6 +1786,7 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-label="First scan"
               tooltip="Go to first scan"
               tooltipPlacement="top"
+              isDisabled={isAtFirstScan}
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconLeftFirst className="h-s16 w-s16" />}
               onPress={() => setViewerScan(1)}
@@ -1852,6 +1853,7 @@ export function DocumentDetailViewerOverlayDemo() {
               aria-label="Last scan"
               tooltip="Go to last scan"
               tooltipPlacement="top"
+              isDisabled={isAtLastScan}
               className={BOTTOM_BAR_ICON_BUTTON_CLASS}
               icon={<IconRightLast className="h-s16 w-s16" />}
               onPress={() => setViewerScan(currentDocumentScanTotal)}
