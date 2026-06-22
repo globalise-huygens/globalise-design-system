@@ -347,7 +347,7 @@ function ExpandedSidebarSection({
           role="region"
           aria-label={`${label} details`}
           className={cn(
-            "min-h-0 flex-1 overflow-y-auto overflow-x-hidden border-b border-brand-white/10 [scrollbar-width:thin]",
+            "min-h-0 flex-1 overflow-y-auto overflow-x-hidden border-b border-brand-white/10 scrollbar-thin",
             variant === "warning"
               ? "bg-neutral-800 text-vermilion-500 [scrollbar-color:var(--vermilion-600)_transparent]"
               : "bg-neutral-800 text-brand-white [scrollbar-color:var(--neutral-600)_transparent]",
