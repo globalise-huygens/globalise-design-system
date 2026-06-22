@@ -18,6 +18,7 @@ import {
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
   DocumentDetailSplitViewer,
+  DocumentDetailToolButton,
   DocumentDetailTooltip,
   DocumentDetailTopBar,
   DocumentDetailViewerPane,
@@ -243,6 +244,30 @@ function getEntityHighlightCategories() {
       })),
     };
   });
+}
+
+function useIsMobileDocumentDetail() {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const update = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    update();
+    mediaQuery.addEventListener("change", update);
+
+    return () => {
+      mediaQuery.removeEventListener("change", update);
+    };
+  }, []);
+
+  return isMobile;
 }
 
 interface CollapsedMetadataRailProps {
@@ -1277,8 +1302,17 @@ function ExpandedMetadataSidebar({
 }
 
 export function DocumentDetailViewerOverlayDemo() {
+  const isMobileViewport = useIsMobileDocumentDetail();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = React.useState(false);
+  const [isMobileTopActionsOpen, setIsMobileTopActionsOpen] =
+    React.useState(false);
+  const [isMobileBottomActionsOpen, setIsMobileBottomActionsOpen] =
+    React.useState(false);
+  const [mobileViewerTab, setMobileViewerTab] = React.useState<"scan" | "text">(
+    "scan",
+  );
   const [isScanVisible, setIsScanVisible] = React.useState(true);
   const [isTextVisible, setIsTextVisible] = React.useState(true);
   const [isViewerOrderSwapped, setIsViewerOrderSwapped] = React.useState(false);
@@ -1469,6 +1503,37 @@ export function DocumentDetailViewerOverlayDemo() {
   }, []);
 
   React.useEffect(() => {
+    if (isOpen) {
+      return;
+    }
+
+    setIsMobileSidebarOpen(false);
+    setIsMobileTopActionsOpen(false);
+    setIsMobileBottomActionsOpen(false);
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    if (!isMobileViewport) {
+      return;
+    }
+
+    setIsScanVisible(mobileViewerTab === "scan");
+    setIsTextVisible(mobileViewerTab === "text");
+  }, [isMobileViewport, mobileViewerTab]);
+
+  React.useEffect(() => {
+    if (!isMobileViewport) {
+      return;
+    }
+
+    if (isScanVisible && !isTextVisible) {
+      setMobileViewerTab("scan");
+    } else if (!isScanVisible && isTextVisible) {
+      setMobileViewerTab("text");
+    }
+  }, [isMobileViewport, isScanVisible, isTextVisible]);
+
+  React.useEffect(() => {
     if (isScanVisible && isTextVisible) {
       setIsPairedPageView(false);
     }
@@ -1544,9 +1609,13 @@ export function DocumentDetailViewerOverlayDemo() {
     </DocumentDetailViewerPane>
   ) : null;
 
-  const viewerPanes = isViewerOrderSwapped
+  const desktopViewerPanes = isViewerOrderSwapped
     ? [textPane, scanPane]
     : [scanPane, textPane];
+  const mobileViewerPane = mobileViewerTab === "scan" ? scanPane : textPane;
+  const viewerPanes = isMobileViewport
+    ? [mobileViewerPane]
+    : desktopViewerPanes;
 
   return (
     <>
@@ -1559,255 +1628,460 @@ export function DocumentDetailViewerOverlayDemo() {
         onOpenChange={setIsOpen}
         dialogClassName="relative bg-background-fixed-card shadow-[0_56px_96px_rgba(0,0,0,0.36)]"
       >
-        <div
-          id="document-detail-sidebar"
-          className={[
-            "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-150 ease-out motion-reduce:transition-none",
-            isSidebarExpanded
-              ? "w-overlay-document-viewer-sidebar-width"
-              : "w-overlay-document-viewer-rail-width",
-          ].join(" ")}
-        >
-          {isSidebarExpanded ? (
-            <ExpandedMetadataSidebar
-              expandedSections={expandedSections}
-              onToggleSection={toggleSidebarSection}
-              activeTagTargetId={activeTagTarget?.id}
-              onSelectTagTarget={selectTagTarget}
-              selectedScan={selectedScanReference}
-              onSelectScan={selectViewerScan}
-              searchQuery={activeSearchQuery}
-            />
-          ) : (
-            <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
-          )}
-        </div>
+        {isMobileViewport ? (
+          isMobileSidebarOpen && (
+            <div
+              id="document-detail-sidebar"
+              className="absolute inset-0 z-40 flex flex-col bg-neutral-900"
+            >
+              <div className="flex h-s56 shrink-0 items-center justify-between border-b border-brand-white/10 px-s12 text-brand-white">
+                <span className="font-sans text-sm leading-5">Metadata</span>
+                <DocumentDetailToolButton
+                  aria-label="Close metadata sheet"
+                  icon={<IconClose className="h-s16 w-s16" />}
+                  onPress={() => setIsMobileSidebarOpen(false)}
+                />
+              </div>
+              <div className="min-h-0 flex-1">
+                <ExpandedMetadataSidebar
+                  expandedSections={expandedSections}
+                  onToggleSection={toggleSidebarSection}
+                  activeTagTargetId={activeTagTarget?.id}
+                  onSelectTagTarget={selectTagTarget}
+                  selectedScan={selectedScanReference}
+                  onSelectScan={selectViewerScan}
+                  searchQuery={activeSearchQuery}
+                />
+              </div>
+            </div>
+          )
+        ) : (
+          <div
+            id="document-detail-sidebar"
+            className={[
+              "absolute bottom-0 left-0 top-0 z-10 overflow-hidden transition-[width] duration-150 ease-out motion-reduce:transition-none",
+              isSidebarExpanded
+                ? "w-overlay-document-viewer-sidebar-width"
+                : "w-overlay-document-viewer-rail-width",
+            ].join(" ")}
+          >
+            {isSidebarExpanded ? (
+              <ExpandedMetadataSidebar
+                expandedSections={expandedSections}
+                onToggleSection={toggleSidebarSection}
+                activeTagTargetId={activeTagTarget?.id}
+                onSelectTagTarget={selectTagTarget}
+                selectedScan={selectedScanReference}
+                onSelectScan={selectViewerScan}
+                searchQuery={activeSearchQuery}
+              />
+            ) : (
+              <CollapsedMetadataRail onExpandSection={expandSidebarSection} />
+            )}
+          </div>
+        )}
 
         <DocumentDetailTopBar
           className={[
             "relative grid h-s64 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center border-b-0 bg-neutral-900 pr-s24 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
-            isSidebarExpanded
+            !isMobileViewport && isSidebarExpanded
               ? "pl-[calc(var(--overlay-document-viewer-sidebar-width)+var(--s16))]"
-              : "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]",
+              : !isMobileViewport
+                ? "pl-[calc(var(--overlay-document-viewer-rail-width)+var(--s16))]"
+                : "pl-s8 pr-s8",
           ].join(" ")}
         >
           <DocumentDetailBarGroup className="min-w-0 justify-self-start gap-s8">
             <TooltipIconButton
               aria-controls="document-detail-sidebar"
-              aria-expanded={isSidebarExpanded}
-              aria-label={isSidebarExpanded ? "Close sidebar" : "Open sidebar"}
-              tooltip={isSidebarExpanded ? "Closes sidebar" : "Opens sidebar"}
-              isActive={isSidebarExpanded}
+              aria-expanded={
+                isMobileViewport ? isMobileSidebarOpen : isSidebarExpanded
+              }
+              aria-label={
+                isMobileViewport
+                  ? isMobileSidebarOpen
+                    ? "Close metadata sheet"
+                    : "Open metadata sheet"
+                  : isSidebarExpanded
+                    ? "Close sidebar"
+                    : "Open sidebar"
+              }
+              tooltip={
+                isMobileViewport
+                  ? isMobileSidebarOpen
+                    ? "Closes metadata sheet"
+                    : "Opens metadata sheet"
+                  : isSidebarExpanded
+                    ? "Closes sidebar"
+                    : "Opens sidebar"
+              }
+              isActive={
+                isMobileViewport ? isMobileSidebarOpen : isSidebarExpanded
+              }
               className={TOP_BAR_ICON_BUTTON_CLASS}
               icon={<IconSidebar className="h-s16 w-s16" />}
-              onPress={() => setIsSidebarExpanded((current) => !current)}
-            />
-            <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailSegmentedToggleGroup
-              aria-label="Primary viewer mode controls"
-              selectionMode="multiple"
-              selectedKeys={
-                new Set([
-                  ...(isScanVisible ? ["scan"] : []),
-                  ...(isTextVisible ? ["text"] : []),
-                ])
-              }
-              onSelectionChange={(keys) => {
-                const nextKeys = new Set(Array.from(keys).map(String));
-
-                if (nextKeys.size === 0) {
+              onPress={() => {
+                if (isMobileViewport) {
+                  setIsMobileSidebarOpen((current) => !current);
                   return;
                 }
 
-                setIsScanVisible(nextKeys.has("scan"));
-                setIsTextVisible(nextKeys.has("text"));
+                setIsSidebarExpanded((current) => !current);
               }}
-            >
-              <DocumentDetailTooltip
-                label={
-                  isScanVisible ? "Closes scan viewer" : "Opens scan viewer"
-                }
+            />
+            <span className="font-sans text-xs text-brand-white/70">|</span>
+            {isMobileViewport ? (
+              <DocumentDetailSegmentedToggleGroup
+                aria-label="Viewer tabs"
+                selectionMode="single"
+                disallowEmptySelection
+                selectedKeys={new Set([mobileViewerTab])}
+                onSelectionChange={(keys) => {
+                  const [nextTab] = Array.from(keys).map(String);
+
+                  if (nextTab === "scan" || nextTab === "text") {
+                    setMobileViewerTab(nextTab);
+                  }
+                }}
               >
                 <DocumentDetailSegmentedToggleItem
                   id="scan"
-                  aria-label={
-                    isScanVisible ? "Close scan viewer" : "Open scan viewer"
-                  }
+                  aria-label="Show scan viewer"
                   icon={<IconScan className="h-4.5 w-4.5" />}
                 >
                   Scan
                 </DocumentDetailSegmentedToggleItem>
-              </DocumentDetailTooltip>
-              <DocumentDetailTooltip
-                label={
-                  isTextVisible
-                    ? "Closes transcription viewer"
-                    : "Opens transcription viewer"
-                }
-              >
                 <DocumentDetailSegmentedToggleItem
                   id="text"
-                  aria-label={
-                    isTextVisible
-                      ? "Close transcription viewer"
-                      : "Open transcription viewer"
-                  }
+                  aria-label="Show transcription viewer"
                   icon={<IconTranscription className="h-4.5 w-4.5" />}
                 >
                   Text
                 </DocumentDetailSegmentedToggleItem>
-              </DocumentDetailTooltip>
-            </DocumentDetailSegmentedToggleGroup>
+              </DocumentDetailSegmentedToggleGroup>
+            ) : (
+              <DocumentDetailSegmentedToggleGroup
+                aria-label="Primary viewer mode controls"
+                selectionMode="multiple"
+                selectedKeys={
+                  new Set([
+                    ...(isScanVisible ? ["scan"] : []),
+                    ...(isTextVisible ? ["text"] : []),
+                  ])
+                }
+                onSelectionChange={(keys) => {
+                  const nextKeys = new Set(Array.from(keys).map(String));
+
+                  if (nextKeys.size === 0) {
+                    return;
+                  }
+
+                  setIsScanVisible(nextKeys.has("scan"));
+                  setIsTextVisible(nextKeys.has("text"));
+                }}
+              >
+                <DocumentDetailTooltip
+                  label={
+                    isScanVisible ? "Closes scan viewer" : "Opens scan viewer"
+                  }
+                >
+                  <DocumentDetailSegmentedToggleItem
+                    id="scan"
+                    aria-label={
+                      isScanVisible ? "Close scan viewer" : "Open scan viewer"
+                    }
+                    icon={<IconScan className="h-4.5 w-4.5" />}
+                  >
+                    Scan
+                  </DocumentDetailSegmentedToggleItem>
+                </DocumentDetailTooltip>
+                <DocumentDetailTooltip
+                  label={
+                    isTextVisible
+                      ? "Closes transcription viewer"
+                      : "Opens transcription viewer"
+                  }
+                >
+                  <DocumentDetailSegmentedToggleItem
+                    id="text"
+                    aria-label={
+                      isTextVisible
+                        ? "Close transcription viewer"
+                        : "Open transcription viewer"
+                    }
+                    icon={<IconTranscription className="h-4.5 w-4.5" />}
+                  >
+                    Text
+                  </DocumentDetailSegmentedToggleItem>
+                </DocumentDetailTooltip>
+              </DocumentDetailSegmentedToggleGroup>
+            )}
           </DocumentDetailBarGroup>
 
           <ContentWarningTopBarControl className="z-40 justify-self-center" />
 
-          <DocumentDetailBarGroup className="min-w-0 justify-self-end gap-s8">
-            <TooltipIconButton
-              aria-disabled={!canSwapViewers}
-              aria-label={
-                canSwapViewers ? "Swap panes" : "Swapping panes unavailable"
-              }
-              tooltip={
-                canSwapViewers
-                  ? "Swaps scan and transcription viewer"
-                  : "Swapping is only available when both viewers are open"
-              }
-              className={cn(
-                TOP_BAR_ICON_BUTTON_CLASS,
-                !canSwapViewers &&
-                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
-              )}
-              icon={<IconSwap className="h-s16 w-s16" />}
-              onPress={
-                canSwapViewers
-                  ? () => setIsViewerOrderSwapped((current) => !current)
-                  : undefined
-              }
-            />
-            <TooltipIconButton
-              aria-disabled={!canUseMiniWindow}
-              aria-label={
-                canUseMiniWindow
-                  ? isMiniWindowEnabled
-                    ? "Disable mini window"
-                    : "Enable mini window"
-                  : "Mini window unavailable"
-              }
-              tooltip={
-                canUseMiniWindow
-                  ? isMiniWindowEnabled
-                    ? "Closes mini window"
-                    : "Opens not active viewer in a small window"
-                  : "Mini window is only available when one viewer is open"
-              }
-              className={cn(
-                TOP_BAR_ICON_BUTTON_CLASS,
-                !canUseMiniWindow &&
-                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
-              )}
-              icon={<IconPictureInPicture className="h-s16 w-s16" />}
-              isActive={isMiniWindowEnabled}
-              onPress={
-                canUseMiniWindow
-                  ? () => setIsMiniWindowEnabled((current) => !current)
-                  : undefined
-              }
-            />
-            <TooltipIconButton
-              aria-disabled={!canUsePairedPageView}
-              aria-label={
-                canUsePairedPageView
-                  ? isPairedPageView
-                    ? "Disable paired page view"
-                    : "Enable paired page view"
-                  : "Paired page view unavailable"
-              }
-              tooltip={
-                canUsePairedPageView
-                  ? isPairedPageView
-                    ? "Disables paired page view"
-                    : "Enables paired page view"
-                  : "Paired page view is only available when one viewer is open"
-              }
-              className={cn(
-                TOP_BAR_ICON_BUTTON_CLASS,
-                !canUsePairedPageView &&
-                  "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
-              )}
-              icon={<IconPairedPage className="h-s16 w-s16" />}
-              isActive={isPairedPageView}
-              onPress={
-                canUsePairedPageView
-                  ? () => setIsPairedPageView((current) => !current)
-                  : undefined
-              }
-            />
-            <span className="font-sans text-xs text-brand-white/70">|</span>
-            <DocumentDetailEntityHighlightMenu
-              categories={entityHighlightCategories}
-              selectedKeys={selectedEntityHighlightKeys}
-              onSelectedKeysChange={setSelectedEntityHighlightKeys}
-              triggerIcon={<IconEntities className="h-s16 w-s16" />}
-              triggerClassName={TOP_BAR_ICON_BUTTON_CLASS}
-              allDescription="Toggle entity classes to preview matching highlights in the transcription text"
-            />
-            <TooltipIconButton
-              aria-label={
-                areEventTagsHighlighted
-                  ? "Hide event tags"
-                  : "Highlight event tags"
-              }
-              tooltip={
-                areEventTagsHighlighted
-                  ? "Hide event tags"
-                  : "Highlight event tags"
-              }
-              isActive={areEventTagsHighlighted}
-              className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconEvents className="h-s16 w-s16" />}
-              onPress={() => setAreEventTagsHighlighted((current) => !current)}
-            />
-            <TooltipIconButton
-              aria-label={
-                areLayoutElementsHighlighted
-                  ? "Hide layout elements"
-                  : "Highlight layout elements and show line numbers"
-              }
-              tooltip={
-                areLayoutElementsHighlighted
-                  ? "Hide layout elements"
-                  : "Highlight layout elements and show line numbers"
-              }
-              isActive={areLayoutElementsHighlighted}
-              className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconLayoutElements className="h-s16 w-s16" />}
-              onPress={() =>
-                setAreLayoutElementsHighlighted((current) => !current)
-              }
-            />
-            <span className="font-sans text-xs text-brand-white/70">|</span>
-            <TooltipIconButton
-              aria-label="Close document detail viewer"
-              tooltip="Close window"
-              className={TOP_BAR_ICON_BUTTON_CLASS}
-              icon={<IconClose className="h-s16 w-s16" />}
-              onPress={() => setIsOpen(false)}
-            />
+          <DocumentDetailBarGroup className="relative min-w-0 justify-self-end gap-s8">
+            {isMobileViewport ? (
+              <>
+                <TooltipIconButton
+                  aria-label={
+                    isMobileTopActionsOpen
+                      ? "Hide top actions"
+                      : "Show top actions"
+                  }
+                  tooltip={
+                    isMobileTopActionsOpen
+                      ? "Hide top actions"
+                      : "Show top actions"
+                  }
+                  className={TOP_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconExpandSection className="h-s16 w-s16" />}
+                  isActive={isMobileTopActionsOpen}
+                  onPress={() =>
+                    setIsMobileTopActionsOpen((current) => !current)
+                  }
+                />
+                <TooltipIconButton
+                  aria-label="Close document detail viewer"
+                  tooltip="Close window"
+                  className={TOP_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconClose className="h-s16 w-s16" />}
+                  onPress={() => setIsOpen(false)}
+                />
+                {isMobileTopActionsOpen && (
+                  <div className="absolute right-0 top-[calc(100%+var(--s8))] z-50 flex min-w-56 flex-col gap-s4 border border-brand-white/10 bg-neutral-800 p-s8 shadow-[0_12px_28px_rgba(0,0,0,0.34)]">
+                    <DocumentDetailToolButton
+                      aria-disabled={!canSwapViewers}
+                      className="justify-start px-s12"
+                      icon={<IconSwap className="h-s16 w-s16" />}
+                      onPress={
+                        canSwapViewers
+                          ? () => setIsViewerOrderSwapped((current) => !current)
+                          : undefined
+                      }
+                    >
+                      Swap panes
+                    </DocumentDetailToolButton>
+                    <DocumentDetailToolButton
+                      aria-disabled={!canUseMiniWindow}
+                      className="justify-start px-s12"
+                      icon={<IconPictureInPicture className="h-s16 w-s16" />}
+                      isActive={isMiniWindowEnabled}
+                      onPress={
+                        canUseMiniWindow
+                          ? () => setIsMiniWindowEnabled((current) => !current)
+                          : undefined
+                      }
+                    >
+                      Mini window
+                    </DocumentDetailToolButton>
+                    <DocumentDetailToolButton
+                      aria-disabled={!canUsePairedPageView}
+                      className="justify-start px-s12"
+                      icon={<IconPairedPage className="h-s16 w-s16" />}
+                      isActive={isPairedPageView}
+                      onPress={
+                        canUsePairedPageView
+                          ? () => setIsPairedPageView((current) => !current)
+                          : undefined
+                      }
+                    >
+                      Paired view
+                    </DocumentDetailToolButton>
+                    <DocumentDetailEntityHighlightMenu
+                      categories={entityHighlightCategories}
+                      selectedKeys={selectedEntityHighlightKeys}
+                      onSelectedKeysChange={setSelectedEntityHighlightKeys}
+                      triggerIcon={<IconEntities className="h-s16 w-s16" />}
+                      triggerClassName="h-s44 w-full justify-start px-s12"
+                      allDescription="Toggle entity classes to preview matching highlights in the transcription text"
+                    />
+                    <DocumentDetailToolButton
+                      aria-label={
+                        areEventTagsHighlighted
+                          ? "Hide event tags"
+                          : "Highlight event tags"
+                      }
+                      className="justify-start px-s12"
+                      icon={<IconEvents className="h-s16 w-s16" />}
+                      isActive={areEventTagsHighlighted}
+                      onPress={() =>
+                        setAreEventTagsHighlighted((current) => !current)
+                      }
+                    >
+                      Event tags
+                    </DocumentDetailToolButton>
+                    <DocumentDetailToolButton
+                      aria-label={
+                        areLayoutElementsHighlighted
+                          ? "Hide layout elements"
+                          : "Highlight layout elements"
+                      }
+                      className="justify-start px-s12"
+                      icon={<IconLayoutElements className="h-s16 w-s16" />}
+                      isActive={areLayoutElementsHighlighted}
+                      onPress={() =>
+                        setAreLayoutElementsHighlighted((current) => !current)
+                      }
+                    >
+                      Layout elements
+                    </DocumentDetailToolButton>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <TooltipIconButton
+                  aria-disabled={!canSwapViewers}
+                  aria-label={
+                    canSwapViewers ? "Swap panes" : "Swapping panes unavailable"
+                  }
+                  tooltip={
+                    canSwapViewers
+                      ? "Swaps scan and transcription viewer"
+                      : "Swapping is only available when both viewers are open"
+                  }
+                  className={cn(
+                    TOP_BAR_ICON_BUTTON_CLASS,
+                    !canSwapViewers &&
+                      "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+                  )}
+                  icon={<IconSwap className="h-s16 w-s16" />}
+                  onPress={
+                    canSwapViewers
+                      ? () => setIsViewerOrderSwapped((current) => !current)
+                      : undefined
+                  }
+                />
+                <TooltipIconButton
+                  aria-disabled={!canUseMiniWindow}
+                  aria-label={
+                    canUseMiniWindow
+                      ? isMiniWindowEnabled
+                        ? "Disable mini window"
+                        : "Enable mini window"
+                      : "Mini window unavailable"
+                  }
+                  tooltip={
+                    canUseMiniWindow
+                      ? isMiniWindowEnabled
+                        ? "Closes mini window"
+                        : "Opens not active viewer in a small window"
+                      : "Mini window is only available when one viewer is open"
+                  }
+                  className={cn(
+                    TOP_BAR_ICON_BUTTON_CLASS,
+                    !canUseMiniWindow &&
+                      "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+                  )}
+                  icon={<IconPictureInPicture className="h-s16 w-s16" />}
+                  isActive={isMiniWindowEnabled}
+                  onPress={
+                    canUseMiniWindow
+                      ? () => setIsMiniWindowEnabled((current) => !current)
+                      : undefined
+                  }
+                />
+                <TooltipIconButton
+                  aria-disabled={!canUsePairedPageView}
+                  aria-label={
+                    canUsePairedPageView
+                      ? isPairedPageView
+                        ? "Disable paired page view"
+                        : "Enable paired page view"
+                      : "Paired page view unavailable"
+                  }
+                  tooltip={
+                    canUsePairedPageView
+                      ? isPairedPageView
+                        ? "Disables paired page view"
+                        : "Enables paired page view"
+                      : "Paired page view is only available when one viewer is open"
+                  }
+                  className={cn(
+                    TOP_BAR_ICON_BUTTON_CLASS,
+                    !canUsePairedPageView &&
+                      "cursor-not-allowed text-brand-white/30 data-hovered:bg-transparent",
+                  )}
+                  icon={<IconPairedPage className="h-s16 w-s16" />}
+                  isActive={isPairedPageView}
+                  onPress={
+                    canUsePairedPageView
+                      ? () => setIsPairedPageView((current) => !current)
+                      : undefined
+                  }
+                />
+                <span className="font-sans text-xs text-brand-white/70">|</span>
+                <DocumentDetailEntityHighlightMenu
+                  categories={entityHighlightCategories}
+                  selectedKeys={selectedEntityHighlightKeys}
+                  onSelectedKeysChange={setSelectedEntityHighlightKeys}
+                  triggerIcon={<IconEntities className="h-s16 w-s16" />}
+                  triggerClassName={TOP_BAR_ICON_BUTTON_CLASS}
+                  allDescription="Toggle entity classes to preview matching highlights in the transcription text"
+                />
+                <TooltipIconButton
+                  aria-label={
+                    areEventTagsHighlighted
+                      ? "Hide event tags"
+                      : "Highlight event tags"
+                  }
+                  tooltip={
+                    areEventTagsHighlighted
+                      ? "Hide event tags"
+                      : "Highlight event tags"
+                  }
+                  isActive={areEventTagsHighlighted}
+                  className={TOP_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconEvents className="h-s16 w-s16" />}
+                  onPress={() =>
+                    setAreEventTagsHighlighted((current) => !current)
+                  }
+                />
+                <TooltipIconButton
+                  aria-label={
+                    areLayoutElementsHighlighted
+                      ? "Hide layout elements"
+                      : "Highlight layout elements and show line numbers"
+                  }
+                  tooltip={
+                    areLayoutElementsHighlighted
+                      ? "Hide layout elements"
+                      : "Highlight layout elements and show line numbers"
+                  }
+                  isActive={areLayoutElementsHighlighted}
+                  className={TOP_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconLayoutElements className="h-s16 w-s16" />}
+                  onPress={() =>
+                    setAreLayoutElementsHighlighted((current) => !current)
+                  }
+                />
+                <span className="font-sans text-xs text-brand-white/70">|</span>
+                <TooltipIconButton
+                  aria-label="Close document detail viewer"
+                  tooltip="Close window"
+                  className={TOP_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconClose className="h-s16 w-s16" />}
+                  onPress={() => setIsOpen(false)}
+                />
+              </>
+            )}
           </DocumentDetailBarGroup>
         </DocumentDetailTopBar>
 
         <DocumentDetailBody
           className={[
             "transition-[padding-left] duration-150 ease-out motion-reduce:transition-none",
-            isSidebarExpanded
+            !isMobileViewport && isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
-              : "pl-overlay-document-viewer-rail-width",
+              : !isMobileViewport
+                ? "pl-overlay-document-viewer-rail-width"
+                : "pl-0",
           ].join(" ")}
         >
           <DocumentDetailSplitViewer
             className={cn(
-              isScanVisible && isTextVisible
+              !isMobileViewport && isScanVisible && isTextVisible
                 ? "lg:grid-cols-2"
                 : "lg:grid-cols-1",
             )}
@@ -1819,205 +2093,371 @@ export function DocumentDetailViewerOverlayDemo() {
         <DocumentDetailBottomBar
           className={[
             "h-auto min-h-s36! flex-wrap content-start justify-center gap-x-s8 gap-y-s4 border-t-0 bg-neutral-900 py-1.5 pr-s4 text-xs text-neutral-300 transition-[padding-left] duration-150 ease-out motion-reduce:transition-none 2xl:h-(--overlay-document-viewer-bottom-bar-height) 2xl:flex-nowrap 2xl:items-center 2xl:gap-y-0 2xl:py-s4 2xl:pr-s8 2xl:gap-s24",
-            isSidebarExpanded
+            !isMobileViewport && isSidebarExpanded
               ? "pl-overlay-document-viewer-sidebar-width"
-              : "pl-overlay-document-viewer-rail-width",
+              : !isMobileViewport
+                ? "pl-overlay-document-viewer-rail-width"
+                : "pl-s8 pr-s8 py-s8",
           ].join(" ")}
         >
-          <DocumentDetailBarGroup className="w-full min-w-0 flex-wrap justify-center gap-s8 2xl:w-auto 2xl:shrink-0 2xl:flex-nowrap 2xl:gap-s24">
-            <TooltipIconButton
-              aria-label="First scan"
-              tooltip="Go to first scan"
-              tooltipPlacement="top"
-              isDisabled={isAtFirstScan}
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconLeftFirst className="h-s16 w-s16" />}
-              onPress={() => setViewerScan(1)}
-            />
-            <TooltipIconButton
-              aria-label="Previous scan"
-              tooltip={
-                isAtFirstScan && prevDocument
-                  ? "Previous document"
-                  : "Go to previous scan"
-              }
-              tooltipPlacement="top"
-              className={cn(
-                BOTTOM_BAR_ICON_BUTTON_CLASS,
-                isAtFirstScan && prevDocument && "text-brand-white",
-              )}
-              icon={<IconLeft className="h-s16 w-s16" />}
-              onPress={() => {
-                if (isAtFirstScan && prevDocument) {
-                  selectViewerScan(
-                    getScanReference(
-                      prevDocument,
-                      prevDocument.scans[prevDocument.scans.length - 1],
-                    ),
-                  );
-                } else {
-                  setViewerScan((current) => Math.max(current - 1, 1));
-                }
-              }}
-            />
-            <span className="min-w-0 inline-flex items-baseline gap-s8 leading-4">
-              <span>Scan {currentArchiveScan}</span>
-              <span className="text-neutral-500">|</span>
-              <span>in doc.</span>
-              <NumericJumpField
-                ariaLabel="Go to document scan"
-                value={currentScan}
-                max={currentDocumentScanTotal}
-                onChange={setViewerScan}
-                tooltip="Type a scan number in this document"
-              />
-              of {currentDocumentScanTotal}
-            </span>
-            <TooltipIconButton
-              aria-label="Next scan"
-              tooltip={
-                isAtLastScan && nextDocument
-                  ? "Next document"
-                  : "Go to next scan"
-              }
-              tooltipPlacement="top"
-              className={cn(
-                BOTTOM_BAR_ICON_BUTTON_CLASS,
-                isAtLastScan && nextDocument && "text-brand-white",
-              )}
-              icon={<IconRight className="h-s16 w-s16" />}
-              onPress={() => {
-                if (isAtLastScan && nextDocument) {
-                  selectViewerScan(
-                    getScanReference(nextDocument, nextDocument.scans[0]),
-                  );
-                } else {
-                  setViewerScan((current) =>
-                    Math.min(current + 1, currentDocumentScanTotal),
-                  );
-                }
-              }}
-            />
-            <TooltipIconButton
-              aria-label="Last scan"
-              tooltip="Go to last scan"
-              tooltipPlacement="top"
-              isDisabled={isAtLastScan}
-              className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-              icon={<IconRightLast className="h-s16 w-s16" />}
-              onPress={() => setViewerScan(currentDocumentScanTotal)}
-            />
-          </DocumentDetailBarGroup>
-          <span className="hidden shrink-0 font-sans text-xs text-brand-white/45 2xl:inline">
-            |
-          </span>
-          {isSearchHitNavigationVisible ? (
-            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
-              <TooltipIconButton
-                aria-label="Previous search hit"
-                tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconLeft className="h-s16 w-s16" />}
-                onPress={() => {
-                  goToSearchHit(currentSearchHit - 1);
-                }}
-              />
-              <span className="group/search-hit-summary relative min-w-0 inline-flex items-baseline leading-4">
-                search hits
-                <NumericJumpField
-                  ariaLabel="Go to search hit"
-                  value={currentSearchHit}
-                  max={maxSearchHit}
-                  onChange={goToSearchHit}
-                  tooltip={`Type a search hit number for "${activeSearchQuery}"`}
-                />
-                of {maxSearchHit}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute bottom-[calc(100%+var(--s8))] left-1/2 z-70 w-max max-w-60 -translate-x-1/2 translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/search-hit-summary:translate-y-0 group-focus-within/search-hit-summary:opacity-100 group-hover/search-hit-summary:translate-y-0 group-hover/search-hit-summary:opacity-100 motion-reduce:transition-none"
-                >
-                  {`Search hits for "${activeSearchQuery}"`}
-                </span>
-              </span>
-              <TooltipIconButton
-                aria-label="Hide search hit navigation"
-                tooltip="Hide search hit navigation"
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconClose className="h-s16 w-s16" />}
-                onPress={() => setIsSearchHitNavigationVisible(false)}
-              />
-              <TooltipIconButton
-                aria-label="Next search hit"
-                tooltip={`Go to next search hit for "${activeSearchQuery}"`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconRight className="h-s16 w-s16" />}
-                onPress={() => {
-                  goToSearchHit(currentSearchHit + 1);
-                }}
-              />
-            </DocumentDetailBarGroup>
-          ) : (
-            <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
-              <TooltipIconButton
-                aria-label="Show search hit navigation"
-                tooltip={`Show search hits for "${activeSearchQuery}"`}
-                tooltipPlacement="top"
-                className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                icon={<IconSearch className="h-s16 w-s16" />}
-                onPress={() => setIsSearchHitNavigationVisible(true)}
-              />
-            </DocumentDetailBarGroup>
-          )}
-          {activeTagTarget && (
+          {isMobileViewport ? (
             <>
-              <span className="shrink-0 font-sans text-xs text-brand-white/45">
-                |
-              </span>
-              <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+              <DocumentDetailBarGroup className="w-full justify-between gap-s8">
+                <div className="inline-flex items-center gap-s8">
+                  <TooltipIconButton
+                    aria-label="Previous scan"
+                    tooltip="Go to previous scan"
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconLeft className="h-s16 w-s16" />}
+                    onPress={() => {
+                      if (isAtFirstScan && prevDocument) {
+                        selectViewerScan(
+                          getScanReference(
+                            prevDocument,
+                            prevDocument.scans[prevDocument.scans.length - 1],
+                          ),
+                        );
+                      } else {
+                        setViewerScan((current) => Math.max(current - 1, 1));
+                      }
+                    }}
+                  />
+                  <span className="inline-flex items-baseline gap-s4 text-xs leading-4">
+                    <span>Scan {currentArchiveScan}</span>
+                    <span className="text-neutral-500">|</span>
+                    <NumericJumpField
+                      ariaLabel="Go to document scan"
+                      value={currentScan}
+                      max={currentDocumentScanTotal}
+                      onChange={setViewerScan}
+                      tooltip="Type a scan number in this document"
+                    />
+                    <span>of {currentDocumentScanTotal}</span>
+                  </span>
+                  <TooltipIconButton
+                    aria-label="Next scan"
+                    tooltip="Go to next scan"
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconRight className="h-s16 w-s16" />}
+                    onPress={() => {
+                      if (isAtLastScan && nextDocument) {
+                        selectViewerScan(
+                          getScanReference(nextDocument, nextDocument.scans[0]),
+                        );
+                      } else {
+                        setViewerScan((current) =>
+                          Math.min(current + 1, currentDocumentScanTotal),
+                        );
+                      }
+                    }}
+                  />
+                </div>
+
                 <TooltipIconButton
-                  aria-label={`Previous ${activeTagTarget.label} occurrence`}
-                  tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                  aria-label={
+                    isMobileBottomActionsOpen
+                      ? "Hide more actions"
+                      : "Show more actions"
+                  }
+                  tooltip={
+                    isMobileBottomActionsOpen
+                      ? "Hide more actions"
+                      : "Show more actions"
+                  }
                   tooltipPlacement="top"
                   className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                  icon={<IconLeft className="h-s16 w-s16" />}
-                  onPress={() => goToTagOccurrence(currentTagOccurrence - 1)}
+                  icon={<IconExpandSection className="h-s16 w-s16" />}
+                  isActive={isMobileBottomActionsOpen}
+                  onPress={() =>
+                    setIsMobileBottomActionsOpen((current) => !current)
+                  }
                 />
-                <span className="min-w-0 inline-flex max-w-55 items-baseline leading-4">
-                  <span className="mr-s4 truncate text-parchment-500">
-                    {activeTagTarget.label}
-                  </span>
+              </DocumentDetailBarGroup>
+
+              {isMobileBottomActionsOpen && (
+                <div className="flex w-full flex-col gap-s6 border-t border-brand-white/10 pt-s8">
+                  <DocumentDetailBarGroup className="w-full justify-between gap-s8">
+                    <TooltipIconButton
+                      aria-label="First scan"
+                      tooltip="Go to first scan"
+                      tooltipPlacement="top"
+                      isDisabled={isAtFirstScan}
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconLeftFirst className="h-s16 w-s16" />}
+                      onPress={() => setViewerScan(1)}
+                    />
+                    <TooltipIconButton
+                      aria-label="Last scan"
+                      tooltip="Go to last scan"
+                      tooltipPlacement="top"
+                      isDisabled={isAtLastScan}
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconRightLast className="h-s16 w-s16" />}
+                      onPress={() => setViewerScan(currentDocumentScanTotal)}
+                    />
+                    <TooltipIconButton
+                      aria-label={
+                        isSearchHitNavigationVisible
+                          ? "Hide search hit navigation"
+                          : "Show search hit navigation"
+                      }
+                      tooltip={
+                        isSearchHitNavigationVisible
+                          ? "Hide search hit navigation"
+                          : "Show search hit navigation"
+                      }
+                      tooltipPlacement="top"
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconSearch className="h-s16 w-s16" />}
+                      isActive={isSearchHitNavigationVisible}
+                      onPress={() =>
+                        setIsSearchHitNavigationVisible((current) => !current)
+                      }
+                    />
+                  </DocumentDetailBarGroup>
+
+                  {isSearchHitNavigationVisible && (
+                    <DocumentDetailBarGroup className="w-full justify-between gap-s8">
+                      <TooltipIconButton
+                        aria-label="Previous search hit"
+                        tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
+                        tooltipPlacement="top"
+                        className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                        icon={<IconLeft className="h-s16 w-s16" />}
+                        onPress={() => {
+                          goToSearchHit(currentSearchHit - 1);
+                        }}
+                      />
+                      <span className="inline-flex items-baseline gap-s4 text-xs leading-4">
+                        <span>hits</span>
+                        <NumericJumpField
+                          ariaLabel="Go to search hit"
+                          value={currentSearchHit}
+                          max={maxSearchHit}
+                          onChange={goToSearchHit}
+                          tooltip={`Type a search hit number for "${activeSearchQuery}"`}
+                        />
+                        <span>of {maxSearchHit}</span>
+                      </span>
+                      <TooltipIconButton
+                        aria-label="Next search hit"
+                        tooltip={`Go to next search hit for "${activeSearchQuery}"`}
+                        tooltipPlacement="top"
+                        className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                        icon={<IconRight className="h-s16 w-s16" />}
+                        onPress={() => {
+                          goToSearchHit(currentSearchHit + 1);
+                        }}
+                      />
+                    </DocumentDetailBarGroup>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <DocumentDetailBarGroup className="w-full min-w-0 flex-wrap justify-center gap-s8 2xl:w-auto 2xl:shrink-0 2xl:flex-nowrap 2xl:gap-s24">
+                <TooltipIconButton
+                  aria-label="First scan"
+                  tooltip="Go to first scan"
+                  tooltipPlacement="top"
+                  isDisabled={isAtFirstScan}
+                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                  icon={<IconLeftFirst className="h-s16 w-s16" />}
+                  onPress={() => setViewerScan(1)}
+                />
+                <TooltipIconButton
+                  aria-label="Previous scan"
+                  tooltip={
+                    isAtFirstScan && prevDocument
+                      ? "Previous document"
+                      : "Go to previous scan"
+                  }
+                  tooltipPlacement="top"
+                  className={cn(
+                    BOTTOM_BAR_ICON_BUTTON_CLASS,
+                    isAtFirstScan && prevDocument && "text-brand-white",
+                  )}
+                  icon={<IconLeft className="h-s16 w-s16" />}
+                  onPress={() => {
+                    if (isAtFirstScan && prevDocument) {
+                      selectViewerScan(
+                        getScanReference(
+                          prevDocument,
+                          prevDocument.scans[prevDocument.scans.length - 1],
+                        ),
+                      );
+                    } else {
+                      setViewerScan((current) => Math.max(current - 1, 1));
+                    }
+                  }}
+                />
+                <span className="min-w-0 inline-flex items-baseline gap-s8 leading-4">
+                  <span>Scan {currentArchiveScan}</span>
+                  <span className="text-neutral-500">|</span>
+                  <span>in doc.</span>
                   <NumericJumpField
-                    ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
-                    value={currentTagOccurrence}
-                    max={activeTagTarget.occurrences}
-                    onChange={goToTagOccurrence}
-                    tooltip={`Type a ${activeTagTarget.label} occurrence number`}
+                    ariaLabel="Go to document scan"
+                    value={currentScan}
+                    max={currentDocumentScanTotal}
+                    onChange={setViewerScan}
+                    tooltip="Type a scan number in this document"
                   />
-                  of {activeTagTarget.occurrences}
+                  of {currentDocumentScanTotal}
                 </span>
                 <TooltipIconButton
-                  aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
-                  tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
+                  aria-label="Next scan"
+                  tooltip={
+                    isAtLastScan && nextDocument
+                      ? "Next document"
+                      : "Go to next scan"
+                  }
                   tooltipPlacement="top"
-                  className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                  icon={<IconClose className="h-s16 w-s16" />}
+                  className={cn(
+                    BOTTOM_BAR_ICON_BUTTON_CLASS,
+                    isAtLastScan && nextDocument && "text-brand-white",
+                  )}
+                  icon={<IconRight className="h-s16 w-s16" />}
                   onPress={() => {
-                    setActiveTagTarget(undefined);
-                    setCurrentTagOccurrence(1);
+                    if (isAtLastScan && nextDocument) {
+                      selectViewerScan(
+                        getScanReference(nextDocument, nextDocument.scans[0]),
+                      );
+                    } else {
+                      setViewerScan((current) =>
+                        Math.min(current + 1, currentDocumentScanTotal),
+                      );
+                    }
                   }}
                 />
                 <TooltipIconButton
-                  aria-label={`Next ${activeTagTarget.label} occurrence`}
-                  tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                  aria-label="Last scan"
+                  tooltip="Go to last scan"
                   tooltipPlacement="top"
+                  isDisabled={isAtLastScan}
                   className={BOTTOM_BAR_ICON_BUTTON_CLASS}
-                  icon={<IconRight className="h-s16 w-s16" />}
-                  onPress={() => goToTagOccurrence(currentTagOccurrence + 1)}
+                  icon={<IconRightLast className="h-s16 w-s16" />}
+                  onPress={() => setViewerScan(currentDocumentScanTotal)}
                 />
               </DocumentDetailBarGroup>
+              <span className="hidden shrink-0 font-sans text-xs text-brand-white/45 2xl:inline">
+                |
+              </span>
+              {isSearchHitNavigationVisible ? (
+                <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+                  <TooltipIconButton
+                    aria-label="Previous search hit"
+                    tooltip={`Go to previous search hit for "${activeSearchQuery}"`}
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconLeft className="h-s16 w-s16" />}
+                    onPress={() => {
+                      goToSearchHit(currentSearchHit - 1);
+                    }}
+                  />
+                  <span className="group/search-hit-summary relative min-w-0 inline-flex items-baseline leading-4">
+                    search hits
+                    <NumericJumpField
+                      ariaLabel="Go to search hit"
+                      value={currentSearchHit}
+                      max={maxSearchHit}
+                      onChange={goToSearchHit}
+                      tooltip={`Type a search hit number for "${activeSearchQuery}"`}
+                    />
+                    of {maxSearchHit}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute bottom-[calc(100%+var(--s8))] left-1/2 z-70 w-max max-w-60 -translate-x-1/2 translate-y-1 overflow-hidden border border-brand-white/10 bg-neutral-700 p-s12 font-sans text-[10px] leading-3 text-brand-white opacity-0 shadow-[0_6px_14px_rgba(0,0,0,0.25),0_25px_25px_rgba(0,0,0,0.22),0_56px_34px_rgba(0,0,0,0.13),0_100px_40px_rgba(0,0,0,0.04)] transition-[opacity,transform] duration-75 ease-out group-focus-within/search-hit-summary:translate-y-0 group-focus-within/search-hit-summary:opacity-100 group-hover/search-hit-summary:translate-y-0 group-hover/search-hit-summary:opacity-100 motion-reduce:transition-none"
+                    >
+                      {`Search hits for "${activeSearchQuery}"`}
+                    </span>
+                  </span>
+                  <TooltipIconButton
+                    aria-label="Hide search hit navigation"
+                    tooltip="Hide search hit navigation"
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconClose className="h-s16 w-s16" />}
+                    onPress={() => setIsSearchHitNavigationVisible(false)}
+                  />
+                  <TooltipIconButton
+                    aria-label="Next search hit"
+                    tooltip={`Go to next search hit for "${activeSearchQuery}"`}
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconRight className="h-s16 w-s16" />}
+                    onPress={() => {
+                      goToSearchHit(currentSearchHit + 1);
+                    }}
+                  />
+                </DocumentDetailBarGroup>
+              ) : (
+                <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+                  <TooltipIconButton
+                    aria-label="Show search hit navigation"
+                    tooltip={`Show search hits for "${activeSearchQuery}"`}
+                    tooltipPlacement="top"
+                    className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                    icon={<IconSearch className="h-s16 w-s16" />}
+                    onPress={() => setIsSearchHitNavigationVisible(true)}
+                  />
+                </DocumentDetailBarGroup>
+              )}
+              {activeTagTarget && (
+                <>
+                  <span className="shrink-0 font-sans text-xs text-brand-white/45">
+                    |
+                  </span>
+                  <DocumentDetailBarGroup className="min-w-0 shrink-0 gap-s8 2xl:w-auto 2xl:gap-s24">
+                    <TooltipIconButton
+                      aria-label={`Previous ${activeTagTarget.label} occurrence`}
+                      tooltip={`Go to previous ${activeTagTarget.label} occurrence`}
+                      tooltipPlacement="top"
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconLeft className="h-s16 w-s16" />}
+                      onPress={() =>
+                        goToTagOccurrence(currentTagOccurrence - 1)
+                      }
+                    />
+                    <span className="min-w-0 inline-flex max-w-55 items-baseline leading-4">
+                      <span className="mr-s4 truncate text-parchment-500">
+                        {activeTagTarget.label}
+                      </span>
+                      <NumericJumpField
+                        ariaLabel={`Go to ${activeTagTarget.label} occurrence`}
+                        value={currentTagOccurrence}
+                        max={activeTagTarget.occurrences}
+                        onChange={goToTagOccurrence}
+                        tooltip={`Type a ${activeTagTarget.label} occurrence number`}
+                      />
+                      of {activeTagTarget.occurrences}
+                    </span>
+                    <TooltipIconButton
+                      aria-label={`Hide ${activeTagTarget.label} occurrence navigation`}
+                      tooltip={`Hide ${activeTagTarget.label} occurrence navigation`}
+                      tooltipPlacement="top"
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconClose className="h-s16 w-s16" />}
+                      onPress={() => {
+                        setActiveTagTarget(undefined);
+                        setCurrentTagOccurrence(1);
+                      }}
+                    />
+                    <TooltipIconButton
+                      aria-label={`Next ${activeTagTarget.label} occurrence`}
+                      tooltip={`Go to next ${activeTagTarget.label} occurrence`}
+                      tooltipPlacement="top"
+                      className={BOTTOM_BAR_ICON_BUTTON_CLASS}
+                      icon={<IconRight className="h-s16 w-s16" />}
+                      onPress={() =>
+                        goToTagOccurrence(currentTagOccurrence + 1)
+                      }
+                    />
+                  </DocumentDetailBarGroup>
+                </>
+              )}
             </>
           )}
         </DocumentDetailBottomBar>

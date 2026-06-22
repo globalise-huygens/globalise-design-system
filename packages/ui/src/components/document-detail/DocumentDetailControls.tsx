@@ -63,23 +63,30 @@ export interface DocumentDetailToolButtonProps extends Omit<
   className?: string;
   icon?: React.ReactNode;
   isActive?: boolean;
+  size?: "compact" | "regular" | "touch";
   children?: React.ReactNode;
 }
 
 const DocumentDetailToolButton = React.forwardRef<
   HTMLButtonElement,
   DocumentDetailToolButtonProps
->(({ className, icon, isActive = false, children, ...props }, ref) => (
-  <AriaButton
-    ref={ref}
-    className={cn("gds-document-detail-tool-button", className)}
-    data-active={isActive ? "true" : "false"}
-    {...props}
-  >
-    {icon}
-    {children && <span>{children}</span>}
-  </AriaButton>
-));
+>(
+  (
+    { className, icon, isActive = false, size = "regular", children, ...props },
+    ref,
+  ) => (
+    <AriaButton
+      ref={ref}
+      className={cn("gds-document-detail-tool-button", className)}
+      data-active={isActive ? "true" : "false"}
+      data-size={size}
+      {...props}
+    >
+      {icon}
+      {children && <span>{children}</span>}
+    </AriaButton>
+  ),
+);
 DocumentDetailToolButton.displayName = "DocumentDetailToolButton";
 
 export interface DocumentDetailSegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {}
