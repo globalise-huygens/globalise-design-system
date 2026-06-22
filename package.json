@@ -7,6 +7,10 @@
     "url": "https://github.com/globalise-huygens/globalise-design-system.git"
   },
   "license": "MIT",
+  "packageManager": "pnpm@10.19.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "build": "pnpm --filter @globalise/design-system build",
     "build:docs": "pnpm --filter @globalise/design-system build && pnpm --filter docs build",
@@ -19,6 +23,6 @@
   },
   "devDependencies": {
     "@upleveled/eslint-config-upleveled": "^4.0.10",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.4"
   }
 }
