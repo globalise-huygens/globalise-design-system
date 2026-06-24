@@ -1,6 +1,5 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
-import remarkGfm from "remark-gfm";
 
 const isProd = process.env.NODE_ENV === "production";
 const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
@@ -25,7 +24,9 @@ const nextConfig: NextConfig = {
 
 const withMDX = createMDX({
   options: {
-    remarkPlugins: [remarkGfm],
+    // Turbopack requires loader options to be serializable.
+    // Use plugin names instead of imported function references.
+    remarkPlugins: ["remark-gfm"],
   },
 });
 
