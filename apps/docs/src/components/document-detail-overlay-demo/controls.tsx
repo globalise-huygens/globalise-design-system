@@ -570,10 +570,10 @@ export const FLOATING_TOOLBAR_REVEAL_CLASS =
   "bg-brand-black/65 text-brand-white/70 shadow-[0_4px_16px_rgba(0,0,0,0.16)] transition-[background-color,box-shadow,color] duration-100 ease-out hover:bg-brand-black/90 hover:text-brand-white hover:shadow-[0_6px_20px_rgba(0,0,0,0.22)] focus-within:bg-brand-black/90 focus-within:text-brand-white focus-within:shadow-[0_6px_20px_rgba(0,0,0,0.22)] motion-reduce:transition-none";
 
 export const TOP_BAR_ICON_BUTTON_CLASS =
-  "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none [&>svg]:h-[18px] [&>svg]:w-[18px]";
+  "h-s36 min-w-s36 px-0 duration-100 ease-out motion-reduce:transition-none max-md:h-s44 max-md:min-w-s44 [&>svg]:h-[18px] [&>svg]:w-[18px]";
 
 export const BOTTOM_BAR_ICON_BUTTON_CLASS =
-  "h-s24 min-w-s24 rounded-[3px] px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 data-disabled:opacity-40 motion-reduce:transition-none [&>svg]:h-s16 [&>svg]:w-s16";
+  "h-s24 min-w-s24 px-s4 text-neutral-300 duration-100 ease-out data-hovered:bg-brand-white/8 pressed:bg-brand-white/12 data-focus-visible:ring-1 data-disabled:opacity-40 motion-reduce:transition-none max-md:h-s44 max-md:min-w-s44 [&>svg]:h-s16 [&>svg]:w-s16";
 
 export const SEGMENTED_SURFACE_COMPACT_CLASS =
   "inline-flex h-s28 shrink-0 items-center gap-0 overflow-hidden rounded-[4px] bg-brand-white/10 p-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]";
