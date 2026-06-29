@@ -29,6 +29,8 @@ import {
   IconTextLine,
   IconTextSpacing,
   IconTextType,
+  IconTranscriptionDiplomatic,
+  IconTranscriptionNormalised,
   IconViewModeMenu,
   IconZoomIn,
   IconZoomOut,
@@ -1553,21 +1555,20 @@ export function TranscriptCanvas({
           <DocumentDetailTooltip
             label={
               transcriptMode === "n"
-                ? "Currently viewing the transcription normalized"
-                : "Switch to showing the transcription normalized"
+                ? "Currently viewing the transcription normalised"
+                : "Switch to showing the transcription normalised"
             }
           >
             <DocumentDetailSegmentedToggleItem
               id="n"
               size="compact"
+              icon={<IconTranscriptionNormalised aria-hidden="true" />}
               aria-label={
                 transcriptMode === "n"
-                  ? "Currently viewing the transcription normalized"
-                  : "Switch to showing the transcription normalized"
+                  ? "Currently viewing the transcription normalised"
+                  : "Switch to showing the transcription normalised"
               }
-            >
-              N
-            </DocumentDetailSegmentedToggleItem>
+            />
           </DocumentDetailTooltip>
           <DocumentDetailTooltip
             label={
@@ -1579,14 +1580,13 @@ export function TranscriptCanvas({
             <DocumentDetailSegmentedToggleItem
               id="d"
               size="compact"
+              icon={<IconTranscriptionDiplomatic aria-hidden="true" />}
               aria-label={
                 transcriptMode === "d"
                   ? "Currently viewing the transcription diplomatic"
                   : "Switch to showing the transcription diplomatic"
               }
-            >
-              D
-            </DocumentDetailSegmentedToggleItem>
+            />
           </DocumentDetailTooltip>
         </DocumentDetailSegmentedToggleGroup>
         <ViewerZoomControl

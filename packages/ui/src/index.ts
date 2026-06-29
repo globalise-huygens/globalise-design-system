@@ -283,6 +283,8 @@ export { IconTextLine } from "./components/icons/IconTextLine";
 export { IconTextSpacing } from "./components/icons/IconTextSpacing";
 export { IconTextType } from "./components/icons/IconTextType";
 export { IconTranscription } from "./components/icons/IconTranscription";
+export { IconTranscriptionDiplomatic } from "./components/icons/IconTranscriptionDiplomatic";
+export { IconTranscriptionNormalised } from "./components/icons/IconTranscriptionNormalised";
 export { IconViewModeMenu } from "./components/icons/IconViewModeMenu";
 export { IconZoomIn } from "./components/icons/IconZoomIn";
 export { IconZoomOut } from "./components/icons/IconZoomOut";

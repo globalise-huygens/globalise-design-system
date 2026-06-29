@@ -12,6 +12,8 @@ import {
   IconExternalLink,
   IconScan,
   IconTranscription,
+  IconTranscriptionDiplomatic,
+  IconTranscriptionNormalised,
 } from "@globalise/design-system";
 import * as React from "react";
 
@@ -60,12 +62,18 @@ export function DocumentDetailControlsDemo() {
             setTranscriptionMode(new Set(Array.from(keys).map(String)))
           }
         >
-          <DocumentDetailSegmentedToggleItem id="n" size="compact">
-            N
-          </DocumentDetailSegmentedToggleItem>
-          <DocumentDetailSegmentedToggleItem id="d" size="compact">
-            D
-          </DocumentDetailSegmentedToggleItem>
+          <DocumentDetailSegmentedToggleItem
+            id="n"
+            size="compact"
+            icon={<IconTranscriptionNormalised aria-hidden="true" />}
+            aria-label="Show normalised transcription"
+          />
+          <DocumentDetailSegmentedToggleItem
+            id="d"
+            size="compact"
+            icon={<IconTranscriptionDiplomatic aria-hidden="true" />}
+            aria-label="Show diplomatic transcription"
+          />
         </DocumentDetailSegmentedToggleGroup>
 
         <DocumentDetailTooltip label="Show search hits only">
