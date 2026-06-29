@@ -1656,7 +1656,7 @@ export function TranscriptCanvas({
         />
       </DocumentDetailFloatingToolbar>
 
-      <div className="h-full overflow-y-auto [scrollbar-width:thin] [scrollbar-color:var(--neutral-600)_transparent]">
+      <div className="h-full overflow-y-auto scrollbar-thin [scrollbar-color:var(--neutral-600)_transparent]">
         <div
           className="min-h-full origin-top transition-transform duration-100 ease-out motion-reduce:transition-none"
           style={{ transform: `scale(${transcriptZoom / 100})` }}
