@@ -876,6 +876,12 @@
       color 100ms ease-out;
   }
 
+  .gds-document-detail-segmented-toggle-item > svg {
+    width: var(--s16);
+    height: var(--s16);
+    flex-shrink: 0;
+  }
+
   .gds-document-detail-segmented-toggle-item:last-child {
     border-right: 0;
   }

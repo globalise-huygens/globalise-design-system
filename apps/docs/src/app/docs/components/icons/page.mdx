@@ -50,6 +50,8 @@ import {
   IconTextSpacing,
   IconTextType,
   IconTranscription,
+  IconTranscriptionDiplomatic,
+  IconTranscriptionNormalised,
   IconViewModeMenu,
   IconZoomIn,
   IconZoomOut,
@@ -147,6 +149,14 @@ A set of SVG icon components that inherit `currentColor` and accept all standard
       {
         name: "Transcription",
         icon: <IconTranscription className="w-6 h-6" />,
+      },
+      {
+        name: "TranscriptionDiplomatic",
+        icon: <IconTranscriptionDiplomatic className="w-6 h-6" />,
+      },
+      {
+        name: "TranscriptionNormalised",
+        icon: <IconTranscriptionNormalised className="w-6 h-6" />,
       },
       {
         name: "ViewModeMenu",
@@ -436,6 +446,16 @@ Icons use `currentColor` by default, so they inherit the text colour of their pa
       name: "IconTranscription",
       type: "SVGSVGElement",
       description: "Text or transcription view mode icon.",
+    },
+    {
+      name: "IconTranscriptionDiplomatic",
+      type: "SVGSVGElement",
+      description: "Diplomatic transcription mode icon.",
+    },
+    {
+      name: "IconTranscriptionNormalised",
+      type: "SVGSVGElement",
+      description: "Normalised transcription mode icon.",
     },
     {
       name: "IconViewModeMenu",

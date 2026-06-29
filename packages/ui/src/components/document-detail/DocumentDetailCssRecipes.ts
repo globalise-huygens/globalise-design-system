@@ -153,6 +153,12 @@ export const segmentedButtonsCss = `.gds-document-detail-segmented-toggle-group 
   border-right: 0;
 }
 
+.gds-document-detail-segmented-toggle-group button > svg {
+  width: var(--s16);
+  height: var(--s16);
+  flex-shrink: 0;
+}
+
 .gds-document-detail-segmented-toggle-item[data-selected],
 .gds-document-detail-segmented-toggle-item[aria-pressed="true"] {
   background: var(--color-brand-white);

@@ -46,6 +46,8 @@ export { IconTextLine } from "./IconTextLine";
 export { IconTextSpacing } from "./IconTextSpacing";
 export { IconTextType } from "./IconTextType";
 export { IconTranscription } from "./IconTranscription";
+export { IconTranscriptionDiplomatic } from "./IconTranscriptionDiplomatic";
+export { IconTranscriptionNormalised } from "./IconTranscriptionNormalised";
 export { IconViewModeMenu } from "./IconViewModeMenu";
 export { IconZoomIn } from "./IconZoomIn";
 export { IconZoomOut } from "./IconZoomOut";
