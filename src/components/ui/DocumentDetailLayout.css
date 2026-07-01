@@ -187,6 +187,10 @@
     border-right: 1px solid rgb(255 255 255 / 0.1);
   }
 
+  .gds-document-detail-viewer-pane[hidden] {
+    display: none;
+  }
+
   .gds-document-detail-viewer-pane:last-child {
     border-right: 0;
   }

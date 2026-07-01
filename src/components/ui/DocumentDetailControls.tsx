@@ -384,8 +384,20 @@ export function ContentWarningControl({
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
 }) {
+  const [isHoverPreviewOpen, setIsHoverPreviewOpen] = React.useState(false);
+  const isPopoverOpen = isOpen || isHoverPreviewOpen;
+
   return (
-    <>
+    <div
+      onMouseEnter={() => setIsHoverPreviewOpen(true)}
+      onMouseLeave={() => setIsHoverPreviewOpen(false)}
+      onFocus={() => setIsHoverPreviewOpen(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setIsHoverPreviewOpen(false);
+        }
+      }}
+    >
       <DocumentDetailToolButton
         aria-label={isOpen ? "Hide content warning" : "Show content warning"}
         className="document-detail-overlay-warning-button"
@@ -398,7 +410,7 @@ export function ContentWarningControl({
       >
         {warning.title}
       </DocumentDetailToolButton>
-      {isOpen && (
+      {isPopoverOpen && (
         <div
           className="document-detail-overlay-warning-popover"
           role="dialog"
@@ -408,7 +420,7 @@ export function ContentWarningControl({
           <a href="#">{warning.linkLabel}</a>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

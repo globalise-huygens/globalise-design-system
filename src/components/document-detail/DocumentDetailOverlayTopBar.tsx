@@ -12,7 +12,8 @@ import {
 import {
   ContentWarningControl,
   DocumentDetailIconButton,
-  DocumentDetailToolButton,
+  DocumentDetailSegmentedToggleGroup,
+  DocumentDetailSegmentedToggleItem,
 } from "../ui/DocumentDetailControls";
 import {
   DocumentDetailBarGroup,
@@ -64,30 +65,60 @@ export function DocumentDetailTopBar({
           onPress={onSidebarToggle}
         />
         <span aria-hidden="true" className="document-detail-overlay-divider" />
-        <DocumentDetailToolButton
-          className="document-detail-overlay-mode-button"
-          icon={<IconScan className="document-detail-overlay-icon" />}
-          aria-label={isScanVisible ? "Hide scan viewer" : "Show scan viewer"}
-          isActive={isScanVisible}
-          onPress={() => onPaneToggle("scan")}
-          size="compact"
-        >
-          Scan
-        </DocumentDetailToolButton>
-        <DocumentDetailToolButton
-          className="document-detail-overlay-mode-button"
-          icon={<IconTranscription className="document-detail-overlay-icon" />}
-          aria-label={
-            isTextVisible
-              ? "Hide transcription viewer"
-              : "Show transcription viewer"
+        <DocumentDetailSegmentedToggleGroup
+          aria-label="Primary viewer mode controls"
+          selectionMode="multiple"
+          disallowEmptySelection
+          selectedKeys={
+            new Set([
+              ...(isScanVisible ? ["scan"] : []),
+              ...(isTextVisible ? ["text"] : []),
+            ])
           }
-          isActive={isTextVisible}
-          onPress={() => onPaneToggle("text")}
-          size="compact"
+          onSelectionChange={(keys) => {
+            const nextSelection = new Set(
+              Array.from(keys, (key) => String(key)),
+            );
+
+            if (nextSelection.size === 0) {
+              return;
+            }
+
+            const shouldShowScan = nextSelection.has("scan");
+            const shouldShowText = nextSelection.has("text");
+
+            if (shouldShowScan !== isScanVisible) {
+              onPaneToggle("scan");
+            }
+
+            if (shouldShowText !== isTextVisible) {
+              onPaneToggle("text");
+            }
+          }}
         >
-          Text
-        </DocumentDetailToolButton>
+          <DocumentDetailSegmentedToggleItem
+            id="scan"
+            aria-label={
+              isScanVisible ? "Close scan viewer" : "Open scan viewer"
+            }
+            size="regular"
+          >
+            <IconScan className="document-detail-overlay-icon" />
+            <span>Scan</span>
+          </DocumentDetailSegmentedToggleItem>
+          <DocumentDetailSegmentedToggleItem
+            id="text"
+            aria-label={
+              isTextVisible
+                ? "Close transcription viewer"
+                : "Open transcription viewer"
+            }
+            size="regular"
+          >
+            <IconTranscription className="document-detail-overlay-icon" />
+            <span>Text</span>
+          </DocumentDetailSegmentedToggleItem>
+        </DocumentDetailSegmentedToggleGroup>
       </DocumentDetailBarGroup>
 
       <DocumentDetailBarGroup className="document-detail-overlay-warning">
