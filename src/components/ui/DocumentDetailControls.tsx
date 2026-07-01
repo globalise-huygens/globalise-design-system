@@ -328,6 +328,7 @@ export interface DocumentDetailIconButtonProps {
   tooltip?: React.ReactNode;
   icon: React.ReactNode;
   isActive?: boolean;
+  isDisabled?: boolean;
   onPress?: () => void;
   variant?: "chrome" | "quiet";
 }
@@ -337,6 +338,7 @@ function DocumentDetailIconButton({
   tooltip,
   icon,
   isActive,
+  isDisabled,
   onPress,
   variant = "chrome",
 }: DocumentDetailIconButtonProps) {
@@ -349,6 +351,7 @@ function DocumentDetailIconButton({
       )}
       icon={icon}
       isActive={isActive}
+      isDisabled={isDisabled}
       onPress={onPress}
       size="compact"
     />

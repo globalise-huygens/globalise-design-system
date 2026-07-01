@@ -1,14 +1,24 @@
 import {
   IconClose,
+  IconEntities,
+  IconEntityCommodity,
+  IconEntityDate,
+  IconEntityDocument,
+  IconEntityOrganisation,
+  IconEntityPerson,
+  IconEntityPlace,
+  IconEntityShip,
+  IconEvents,
   IconLayoutElements,
   IconPairedPage,
   IconPictureInPicture,
   IconScan,
   IconSidebar,
   IconSwap,
+  IconTableOfContent,
   IconTranscription,
-  IconViewModeMenu,
 } from "@/index";
+import * as React from "react";
 import {
   ContentWarningControl,
   DocumentDetailIconButton,
@@ -16,10 +26,95 @@ import {
   DocumentDetailSegmentedToggleItem,
 } from "../ui/DocumentDetailControls";
 import {
+  type DocumentDetailEntityHighlightCategory,
+  DocumentDetailEntityHighlightMenu,
+} from "../ui/DocumentDetailEntityHighlightMenu";
+import {
   DocumentDetailBarGroup,
   DocumentDetailTopBar as DocumentDetailTopBarPrimitive,
 } from "../ui/DocumentDetailLayout";
-import type { DocumentDetailOverlayContent } from "./DocumentDetailOverlayTypes";
+import type {
+  DocumentDetailOverlayContent,
+  DocumentDetailOverlayTagGroup,
+} from "./DocumentDetailOverlayTypes";
+
+function getEntityIcon(icon: DocumentDetailOverlayTagGroup["icon"]) {
+  const className = "document-detail-overlay-icon";
+
+  switch (icon) {
+    case "person":
+      return <IconEntityPerson className={className} />;
+    case "organisation":
+      return <IconEntityOrganisation className={className} />;
+    case "ship":
+      return <IconEntityShip className={className} />;
+    case "commodity":
+      return <IconEntityCommodity className={className} />;
+    case "date":
+      return <IconEntityDate className={className} />;
+    case "place":
+      return <IconEntityPlace className={className} />;
+    case "document":
+      return <IconEntityDocument className={className} />;
+    case "quantity":
+      return <IconTableOfContent className={className} />;
+  }
+}
+
+function getEntityHighlightToneClasses(
+  icon: DocumentDetailOverlayTagGroup["icon"],
+) {
+  switch (icon) {
+    case "person":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-person",
+        subRowClassName: "gds-entity-highlight-menu__tone-person",
+        textClassName: "gds-entity-highlight-menu__tone-text-person",
+      };
+    case "organisation":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-organisation",
+        subRowClassName: "gds-entity-highlight-menu__tone-organisation",
+        textClassName: "gds-entity-highlight-menu__tone-text-organisation",
+      };
+    case "ship":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-ship",
+        subRowClassName: "gds-entity-highlight-menu__tone-ship",
+        textClassName: "gds-entity-highlight-menu__tone-text-ship",
+      };
+    case "commodity":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-commodity",
+        subRowClassName: "gds-entity-highlight-menu__tone-commodity",
+        textClassName: "gds-entity-highlight-menu__tone-text-commodity",
+      };
+    case "date":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-date",
+        subRowClassName: "gds-entity-highlight-menu__tone-date",
+        textClassName: "gds-entity-highlight-menu__tone-text-date",
+      };
+    case "place":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-place",
+        subRowClassName: "gds-entity-highlight-menu__tone-place",
+        textClassName: "gds-entity-highlight-menu__tone-text-place",
+      };
+    case "document":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-document",
+        subRowClassName: "gds-entity-highlight-menu__tone-document",
+        textClassName: "gds-entity-highlight-menu__tone-text-document",
+      };
+    case "quantity":
+      return {
+        rowClassName: "gds-entity-highlight-menu__tone-quantity",
+        subRowClassName: "gds-entity-highlight-menu__tone-quantity",
+        textClassName: "gds-entity-highlight-menu__tone-text-quantity",
+      };
+  }
+}
 
 export function DocumentDetailTopBar({
   content,
@@ -54,6 +149,36 @@ export function DocumentDetailTopBar({
   onMiniWindowToggle: () => void;
   onClose: () => void;
 }) {
+  const [entityHighlightKeys, setEntityHighlightKeys] = React.useState<
+    Set<string>
+  >(() => new Set());
+  const [isEventHighlightingEnabled, setIsEventHighlightingEnabled] =
+    React.useState(false);
+  const [isLayoutHighlightingEnabled, setIsLayoutHighlightingEnabled] =
+    React.useState(false);
+  const areBothPanesVisible = isScanVisible && isTextVisible;
+
+  const entityHighlightCategories = React.useMemo<
+    DocumentDetailEntityHighlightCategory[]
+  >(
+    () =>
+      (content.entityGroups ?? [])
+        .filter((group) => group.kind === "Classified")
+        .map((group) => ({
+          id: group.id,
+          label: group.label,
+          count: group.count,
+          icon: getEntityIcon(group.icon),
+          ...getEntityHighlightToneClasses(group.icon),
+          subcategories: group.subcategories?.map((subcategory) => ({
+            id: subcategory.id,
+            label: subcategory.label,
+            count: subcategory.count,
+          })),
+        })),
+    [content.entityGroups],
+  );
+
   return (
     <DocumentDetailTopBarPrimitive className="document-detail-overlay-rich-top-bar">
       <DocumentDetailBarGroup className="document-detail-overlay-mode-group">
@@ -144,7 +269,8 @@ export function DocumentDetailTopBar({
           icon={
             <IconPictureInPicture className="document-detail-overlay-icon" />
           }
-          isActive={isMiniWindowEnabled}
+          isActive={isMiniWindowEnabled && !areBothPanesVisible}
+          isDisabled={areBothPanesVisible}
           onPress={onMiniWindowToggle}
           variant="quiet"
         />
@@ -152,21 +278,39 @@ export function DocumentDetailTopBar({
           aria-label="Toggle paired page"
           tooltip="Toggle paired page"
           icon={<IconPairedPage className="document-detail-overlay-icon" />}
-          isActive={isPairedPageView}
+          isActive={isPairedPageView && !areBothPanesVisible}
+          isDisabled={areBothPanesVisible}
           onPress={onPairedPageToggle}
           variant="quiet"
         />
         <span aria-hidden="true" className="document-detail-overlay-divider" />
+        <DocumentDetailEntityHighlightMenu
+          categories={entityHighlightCategories}
+          selectedKeys={entityHighlightKeys}
+          onSelectedKeysChange={setEntityHighlightKeys}
+          triggerIcon={
+            <IconEntities className="document-detail-overlay-icon" />
+          }
+          triggerClassName="document-detail-overlay-icon-button document-detail-overlay-icon-button--quiet"
+          triggerLabel="Entity highlights"
+          title="Entity highlights"
+          allLabel="All entity highlights"
+          allDescription="Toggle entity classes to preview matching highlights in the transcription text"
+        />
         <DocumentDetailIconButton
-          aria-label="View mode"
-          tooltip="View mode"
-          icon={<IconViewModeMenu className="document-detail-overlay-icon" />}
+          aria-label="Highlight event tags"
+          tooltip="Highlight event tags"
+          icon={<IconEvents className="document-detail-overlay-icon" />}
+          isActive={isEventHighlightingEnabled}
+          onPress={() => setIsEventHighlightingEnabled((current) => !current)}
           variant="quiet"
         />
         <DocumentDetailIconButton
-          aria-label="Toggle layout elements"
-          tooltip="Toggle layout elements"
+          aria-label="Highlight layout elements"
+          tooltip="Highlight layout elements and show line numbers"
           icon={<IconLayoutElements className="document-detail-overlay-icon" />}
+          isActive={isLayoutHighlightingEnabled}
+          onPress={() => setIsLayoutHighlightingEnabled((current) => !current)}
           variant="quiet"
         />
         <span aria-hidden="true" className="document-detail-overlay-divider" />

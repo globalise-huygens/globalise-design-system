@@ -610,7 +610,13 @@
     height: var(--s20);
     align-items: center;
     justify-content: center;
+    border: 0;
     border-radius: 2px;
+    background: transparent;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
     transition: background-color 75ms ease-out;
   }
 
@@ -626,6 +632,70 @@
 
   .gds-entity-highlight-menu__subcategories {
     margin-left: var(--s16);
+  }
+
+  .gds-entity-highlight-menu__tone-person {
+    background: rgb(255 210 220 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-organisation {
+    background: rgb(210 190 255 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-ship {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .gds-entity-highlight-menu__tone-commodity {
+    background: rgb(255 215 160 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-date {
+    background: rgb(180 230 255 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-place {
+    background: rgb(178 255 210 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-document {
+    background: rgb(255 230 140 / 0.16);
+  }
+
+  .gds-entity-highlight-menu__tone-quantity {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  .gds-entity-highlight-menu__tone-text-person {
+    color: rgb(255 210 220 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-organisation {
+    color: rgb(220 205 255 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-ship {
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  .gds-entity-highlight-menu__tone-text-commodity {
+    color: rgb(255 220 170 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-date {
+    color: rgb(190 235 255 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-place {
+    color: rgb(190 255 220 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-document {
+    color: rgb(255 235 150 / 0.95);
+  }
+
+  .gds-entity-highlight-menu__tone-text-quantity {
+    color: rgb(255 255 255 / 0.75);
   }
 
   .gds-entity-highlight-menu__icon,

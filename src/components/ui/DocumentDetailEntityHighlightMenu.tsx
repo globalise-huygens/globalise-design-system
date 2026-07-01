@@ -277,9 +277,10 @@ function DocumentDetailEntityHighlightMenu({
                             <IconExpandSection
                               aria-hidden="true"
                               className={cn(
-                                "h-s16 w-s16 transition-transform duration-100 ease-out motion-reduce:transition-none",
-                                isExpanded && "rotate-180",
+                                "document-detail-overlay-chevron document-detail-overlay-icon",
+                                category.textClassName,
                               )}
+                              data-expanded={isExpanded ? "true" : "false"}
                             />
                           </button>
                         )}
