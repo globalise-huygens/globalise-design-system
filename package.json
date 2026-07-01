@@ -1,7 +1,9 @@
 {
   "name": "globalise-design-system",
   "private": true,
-  "description": "Globalise design system monorepo",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Globalise design system React showcase",
   "repository": {
     "type": "git",
     "url": "https://github.com/globalise-huygens/globalise-design-system.git"
@@ -12,17 +14,34 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "build": "pnpm --filter @globalise/design-system build",
-    "build:docs": "pnpm --filter @globalise/design-system build && pnpm --filter docs build",
-    "dev": "pnpm --filter @globalise/design-system dev",
-    "dev:docs": "pnpm --filter @globalise/design-system build && pnpm --filter docs dev",
-    "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "typecheck": "tsc -b",
     "format": "prettier --write \"**/*.{ts,tsx,css,json,md,mdx}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,css,json,md,mdx}\""
   },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "^19.2.7",
+    "react-aria-components": "^1.19.0",
+    "react-dom": "^19.2.7"
+  },
   "devDependencies": {
-    "@upleveled/eslint-config-upleveled": "^4.0.10",
-    "prettier": "^3.8.4"
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^26.0.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
+    "@vitejs/plugin-react": "^6.0.2",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vite": "^8.0.16"
   }
 }
