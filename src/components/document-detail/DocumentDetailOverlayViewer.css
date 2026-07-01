@@ -1285,6 +1285,17 @@
     var(--panel-pad);
 }
 
+.document-detail-overlay-rich-transcript-canvas
+  .document-detail-overlay-floating-toolbar {
+  left: auto;
+  right: var(--panel-pad);
+  width: fit-content;
+  max-width: calc(100% - (var(--panel-pad) * 2));
+  justify-content: flex-start;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 .document-detail-overlay-mini-window {
   position: absolute;
   right: var(--s16);

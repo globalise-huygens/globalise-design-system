@@ -179,6 +179,7 @@
 
   .gds-document-detail-viewer-pane {
     display: flex;
+    min-width: 0;
     min-height: 0;
     flex: 1 1 0%;
     flex-direction: column;
@@ -195,6 +196,7 @@
   }
 
   .gds-document-detail-viewer-pane__content {
+    min-width: 0;
     min-height: 0;
     flex: 1 1 0%;
     overflow: hidden;
