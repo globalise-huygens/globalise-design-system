@@ -282,8 +282,9 @@
   }
 
   .gds-reference-panel-item__action[data-focus-visible] {
-    outline: 1px solid var(--color-ring);
-    outline-offset: 1px;
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
   }
 
   .gds-reference-panel-header {
@@ -326,8 +327,9 @@
   }
 
   .gds-reference-panel__load-more[data-focus-visible] {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
   }
 
   .gds-reference-panel__load-more-count {
@@ -615,8 +617,9 @@
   }
 
   .gds-entity-highlight-menu__expand-button:focus-visible {
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
   }
 
   .gds-entity-highlight-menu__subcategories {

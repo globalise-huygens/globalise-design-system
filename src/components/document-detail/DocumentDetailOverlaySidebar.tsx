@@ -443,15 +443,18 @@ function sortIdentifiedEntities(
 export function CollapsedMetadataRail({
   content,
   onExpand,
+  activeSection,
 }: {
   content: DocumentDetailOverlayContent;
   onExpand: (section?: SidebarSectionId) => void;
+  activeSection?: SidebarSectionId;
 }) {
   return (
     <DocumentDetailIconRail className="document-detail-overlay-collapsed-rail">
       <DocumentDetailRailButton
         aria-label="Open inventory metadata"
         icon={<IconInventory className="document-detail-overlay-icon" />}
+        isActive={activeSection === "inventory"}
         onPress={() => onExpand("inventory")}
       >
         {content.inventory.year}
@@ -459,11 +462,13 @@ export function CollapsedMetadataRail({
       <DocumentDetailRailButton
         aria-label="Open table of contents"
         icon={<IconTableOfContent className="document-detail-overlay-icon" />}
+        isActive={activeSection === "contents"}
         onPress={() => onExpand("contents")}
       />
       <DocumentDetailRailButton
         aria-label="Open entity tags"
         icon={<IconEntities className="document-detail-overlay-icon" />}
+        isActive={activeSection === "entities"}
         onPress={() => onExpand("entities")}
       >
         {content.tags.entityCount}
@@ -471,6 +476,7 @@ export function CollapsedMetadataRail({
       <DocumentDetailRailButton
         aria-label="Open event tags"
         icon={<IconEvents className="document-detail-overlay-icon" />}
+        isActive={activeSection === "events"}
         onPress={() => onExpand("events")}
       >
         {content.tags.eventCount}

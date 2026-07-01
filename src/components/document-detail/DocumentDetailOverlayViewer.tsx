@@ -110,7 +110,10 @@ export function DocumentDetailOverlayViewer({
     entities: false,
     events: false,
   });
+  const [lastOpenedSection, setLastOpenedSection] =
+    React.useState<DocumentDetailOverlaySidebarSectionId>("inventory");
   const allScans = React.useMemo(() => getAllScans(content), [content]);
+  const collapsedRailActiveSection = lastOpenedSection;
   const documentScanTotal = getDocumentScanTotal(content, currentScan);
 
   React.useEffect(() => {
@@ -123,6 +126,10 @@ export function DocumentDetailOverlayViewer({
     section: DocumentDetailOverlaySidebarSectionId,
     isExpanded: boolean,
   ) => {
+    if (isExpanded) {
+      setLastOpenedSection(section);
+    }
+
     setExpandedSections((current) => ({ ...current, [section]: isExpanded }));
   };
 
@@ -130,6 +137,7 @@ export function DocumentDetailOverlayViewer({
     setIsSidebarOpen(true);
 
     if (section) {
+      setLastOpenedSection(section);
       setSectionExpanded(section, true);
     }
   };
@@ -194,7 +202,7 @@ export function DocumentDetailOverlayViewer({
       dialogClassName={`document-detail-overlay-rich-dialog${
         isSidebarOpen
           ? " document-detail-overlay-rich-dialog--sidebar-open"
-          : ""
+          : " document-detail-overlay-rich-dialog--sidebar-collapsed"
       }`}
     >
       {isSidebarOpen ? (
@@ -204,6 +212,14 @@ export function DocumentDetailOverlayViewer({
           expandedSections={expandedSections}
           onSectionChange={setSectionExpanded}
           onSelectScan={setCurrentScan}
+        />
+      ) : null}
+
+      {!isSidebarOpen ? (
+        <CollapsedMetadataRail
+          content={content}
+          onExpand={expandSidebar}
+          activeSection={collapsedRailActiveSection}
         />
       ) : null}
 
@@ -234,9 +250,6 @@ export function DocumentDetailOverlayViewer({
             : ""
         }`}
       >
-        {!isSidebarOpen ? (
-          <CollapsedMetadataRail content={content} onExpand={expandSidebar} />
-        ) : null}
         <DocumentDetailSplitViewer
           className="document-detail-overlay-rich-split-viewer"
           data-layout={

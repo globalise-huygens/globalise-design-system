@@ -4,8 +4,11 @@
   .gds-document-detail-segment,
   .gds-document-detail-rail-button {
     display: inline-flex;
+    border: 0;
     align-items: center;
     justify-content: center;
+    appearance: none;
+    -webkit-appearance: none;
     font-family: var(--font-sans);
     transition:
       background-color 75ms ease-out,
@@ -58,8 +61,9 @@
   .gds-document-detail-segmented-toggle-item:focus-visible,
   .gds-document-detail-checkbox:focus-visible,
   .gds-document-detail-rail-button:focus-visible {
-    outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
+    outline: none;
+    outline-offset: 0;
+    box-shadow: none;
   }
 
   .gds-document-detail-control {
@@ -122,6 +126,11 @@
     background: rgb(255 255 255 / 0.1);
   }
 
+  .gds-document-detail-tool-button[data-active="false"] {
+    background: transparent;
+    color: var(--color-brand-white);
+  }
+
   .gds-document-detail-tool-button[data-pressed] {
     background: rgb(255 255 255 / 0.15);
   }
@@ -129,7 +138,7 @@
   .gds-document-detail-tool-button[data-active="true"] {
     background: var(--color-brand-white);
     color: var(--color-brand-black);
-    box-shadow: 0 1px 1px rgb(0 0 0 / 0.12);
+    box-shadow: none;
   }
 
   .gds-document-detail-segmented-control,
