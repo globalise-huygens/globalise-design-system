@@ -1,0 +1,484 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap");
+
+@import "./styles/globals.css";
+@import "./components/ui/ui.css";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--brand-black);
+}
+
+.showcase-logo {
+  width: auto;
+  height: 2.5rem;
+  color: var(--color-brand-white);
+}
+
+.showcase-main {
+  padding-bottom: 4rem;
+}
+
+.showcase-grid {
+  row-gap: var(--s32);
+}
+
+.showcase-section {
+  margin-top: var(--s24);
+}
+
+.showcase-heading {
+  color: var(--color-brand-white);
+}
+
+.showcase-demo {
+  margin-top: var(--s16);
+}
+
+.showcase-icon {
+  width: var(--s16);
+  height: var(--s16);
+}
+
+.showcase-icon-small {
+  width: var(--s12);
+  height: var(--s12);
+}
+
+.showcase-icon-medium {
+  width: var(--s20);
+  height: var(--s20);
+}
+
+.webapp-object-card {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.webapp-object-card--overlay {
+  width: 100%;
+}
+
+.webapp-object-card .gds-object-card__stats {
+  column-gap: var(--s32);
+  row-gap: var(--s12);
+}
+
+.webapp-object-card__header-meta {
+  display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s8) var(--s16);
+}
+
+.webapp-object-card__external-links {
+  display: flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--s4) var(--s16);
+}
+
+.webapp-object-card__property-entity {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.webapp-object-card .webapp-object-card__mobile-segments {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.2);
+  padding: 0 var(--panel-pad);
+}
+
+.webapp-object-card .webapp-object-card__mobile-segment {
+  display: inline-flex;
+  flex: 1 1 0%;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-brand-white);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--s16);
+  opacity: 0.75;
+  padding: var(--s12) var(--s8);
+  transition:
+    opacity 150ms ease,
+    border-color 150ms ease;
+}
+
+.webapp-object-card .webapp-object-card__mobile-segment[data-active="true"] {
+  border-color: var(--color-brand-turquoise);
+  opacity: 1;
+}
+
+.webapp-object-card .webapp-object-card__mobile-segment:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.webapp-object-card .webapp-object-card__properties-panel {
+  border-bottom: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.webapp-object-card .webapp-object-card__properties-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand-turquoise);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1rem;
+  margin-top: var(--s8);
+  padding: 0;
+}
+
+.webapp-object-card .webapp-object-card__properties--desktop {
+  display: none;
+}
+
+.webapp-object-card
+  .webapp-object-card__properties:not(.webapp-object-card__properties--expanded)
+  .webapp-object-card__property-extra {
+  display: none;
+}
+
+.webapp-object-card__voyage-route-icon {
+  width: var(--s12);
+  height: var(--s12);
+  flex-shrink: 0;
+  color: var(--color-neutral-300);
+}
+
+.webapp-object-card__voyage-list {
+  border-top: 1px solid rgb(255 255 255 / 0.2);
+}
+
+.webapp-object-card__voyage-item {
+  padding: var(--s16) var(--s20);
+}
+
+.webapp-object-card__voyage-title {
+  display: inline-flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s8);
+}
+
+.webapp-object-card__voyage-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.webapp-object-card__voyage-metadata-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s12);
+}
+
+.webapp-object-card__voyage-captain {
+  min-width: 0;
+}
+
+.webapp-object-card__voyage-crew {
+  flex-shrink: 0;
+}
+
+.webapp-object-card__scan-thumbnail {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-700);
+  color: var(--color-neutral-500);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.webapp-object-card-overlay--app {
+  overflow: hidden;
+}
+
+.webapp-object-card-overlay--app .gds-object-card-overlay__modal {
+  box-sizing: border-box;
+  height: 100dvh;
+  min-height: 0;
+  align-items: center;
+  overflow: hidden;
+}
+
+.webapp-object-card-overlay--app .gds-object-card-overlay__frame {
+  height: var(--overlay-object-card-frame-height);
+  max-height: var(--overlay-object-card-frame-height);
+  overflow: hidden;
+}
+
+.webapp-object-card-overlay--app .gds-object-card-overlay__grid {
+  height: 100%;
+}
+
+.webapp-object-card-overlay--app .gds-object-card-overlay__content {
+  height: 100%;
+  min-height: 0;
+}
+
+.webapp-object-card--overlay {
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.webapp-object-card--overlay .gds-object-card__body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.webapp-object-card--overlay .gds-object-card__panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.webapp-object-card .webapp-object-card__voyages {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.webapp-object-card
+  .webapp-object-card__voyages
+  .gds-object-card__section-heading {
+  flex-shrink: 0;
+}
+
+.webapp-object-card--overlay .webapp-object-card__voyages {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.webapp-object-card--overlay
+  .webapp-object-card__voyages
+  .gds-object-card__section-scroll {
+  min-height: 0;
+  max-height: none;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}
+
+.webapp-object-card--overlay .webapp-object-card__references {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.webapp-object-card .webapp-object-card__references {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.webapp-object-card
+  .webapp-object-card__references
+  .gds-reference-panel-header {
+  flex-shrink: 0;
+}
+
+.webapp-object-card--overlay
+  .webapp-object-card__references
+  .gds-reference-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.webapp-object-card--overlay
+  .webapp-object-card__references
+  .gds-reference-panel-list {
+  min-height: 0;
+  max-height: none;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: var(--s16);
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}
+
+.webapp-object-card__voyages .gds-object-card__section-scroll {
+  max-height: 20rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}
+
+.webapp-object-card__references .gds-reference-panel-list {
+  max-height: 24rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: var(--s16);
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--neutral-500) transparent;
+  scrollbar-width: thin;
+}
+
+.webapp-object-card__voyages
+  .gds-object-card__section-scroll::-webkit-scrollbar,
+.webapp-object-card__references .gds-reference-panel-list::-webkit-scrollbar {
+  width: var(--s12);
+}
+
+.webapp-object-card__voyages
+  .gds-object-card__section-scroll::-webkit-scrollbar-track,
+.webapp-object-card__references
+  .gds-reference-panel-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.webapp-object-card__voyages
+  .gds-object-card__section-scroll::-webkit-scrollbar-thumb,
+.webapp-object-card__references
+  .gds-reference-panel-list::-webkit-scrollbar-thumb {
+  border: 4px solid transparent;
+  border-radius: 999px;
+  background-color: var(--neutral-500);
+  background-clip: content-box;
+}
+
+.webapp-object-card
+  .webapp-object-card__references
+  .gds-reference-panel-item__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.webapp-object-card .gds-reference-panel-item__action {
+  width: var(--s24);
+  height: var(--s24);
+  color: rgb(255 255 255 / 0.62);
+}
+
+.webapp-object-card .gds-reference-panel-item__action-icon {
+  width: var(--s16);
+  height: var(--s16);
+}
+
+.webapp-object-card__references
+  .gds-reference-panel-item__layout[data-has-thumbnail="true"] {
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: var(--s24);
+}
+
+.webapp-object-card__references .gds-reference-panel-item__thumbnail {
+  width: 6rem;
+  height: var(--s80);
+}
+
+.webapp-object-card__references .gds-reference-panel-item__title {
+  font-size: var(--text-base);
+  line-height: var(--s20);
+}
+
+.webapp-object-card__references .gds-reference-panel-item__snippet-text {
+  font-size: var(--text-sm);
+  line-height: var(--s20);
+}
+
+@media (min-width: 1024px) {
+  .webapp-object-card .webapp-object-card__mobile-segments {
+    display: none;
+  }
+
+  .webapp-object-card .webapp-object-card__mobile-tab-panel {
+    display: flex;
+  }
+
+  .webapp-object-card .webapp-object-card__properties-panel {
+    display: none;
+  }
+
+  .webapp-object-card .webapp-object-card__properties--desktop {
+    display: flex;
+  }
+
+  .webapp-object-card .webapp-object-card__properties-toggle {
+    display: none;
+  }
+
+  .webapp-object-card
+    .webapp-object-card__properties
+    .webapp-object-card__property-extra {
+    display: grid;
+  }
+
+  .webapp-object-card__voyages .gds-object-card__section-scroll {
+    max-height: 22rem;
+  }
+
+  .webapp-object-card__references .gds-reference-panel-list {
+    max-height: 30rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .webapp-object-card
+    .webapp-object-card__mobile-tab-panel.webapp-object-card__mobile-tab-panel--voyages {
+    display: none;
+  }
+
+  .webapp-object-card
+    .webapp-object-card__mobile-tab-panel.webapp-object-card__mobile-tab-panel--references {
+    display: none;
+  }
+
+  .webapp-object-card
+    .webapp-object-card__mobile-tab-panel.webapp-object-card__mobile-tab-panel--active {
+    display: flex;
+  }
+
+  .webapp-object-card
+    .webapp-object-card__mobile-tab-panel
+    .gds-object-card__section-heading {
+    display: none;
+  }
+
+  .webapp-object-card
+    .webapp-object-card__mobile-tab-panel
+    .gds-reference-panel-header {
+    display: none;
+  }
+
+  .webapp-object-card .webapp-object-card__voyages {
+    gap: 0;
+  }
+}
