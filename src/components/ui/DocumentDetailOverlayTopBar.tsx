@@ -24,15 +24,15 @@ import {
   DocumentDetailIconButton,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
-} from "../ui/DocumentDetailControls";
+} from "./DocumentDetailControls";
 import {
   type DocumentDetailEntityHighlightCategory,
   DocumentDetailEntityHighlightMenu,
-} from "../ui/DocumentDetailEntityHighlightMenu";
+} from "./DocumentDetailEntityHighlightMenu";
 import {
   DocumentDetailBarGroup,
   DocumentDetailTopBar as DocumentDetailTopBarPrimitive,
-} from "../ui/DocumentDetailLayout";
+} from "./DocumentDetailLayout";
 import type {
   DocumentDetailOverlayContent,
   DocumentDetailOverlayTagGroup,

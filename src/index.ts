@@ -189,7 +189,8 @@ export {
   toolbarCss,
   tooltipCss,
 } from "./components/ui/DocumentDetailOverlay";
-export { DocumentDetailOverlayViewer } from "./components/document-detail/DocumentDetailOverlayViewer";
+export { DocumentDetailOverlayViewer } from "./components/ui/DocumentDetailOverlayViewer";
+export type { DocumentDetailOverlayViewerProps } from "./components/ui/DocumentDetailOverlayViewer";
 export type {
   DocumentDetailBarGroupProps,
   DocumentDetailBodyProps,
@@ -236,11 +237,13 @@ export type {
   DocumentDetailOverlayInventoryMetadataItem,
   DocumentDetailOverlayPaneKey,
   DocumentDetailOverlayScan,
+  DocumentDetailOverlayScanRenderArgs,
+  DocumentDetailOverlayScanRenderer,
   DocumentDetailOverlaySidebarSectionId,
   DocumentDetailOverlayTagGroup,
   DocumentDetailOverlayTagSubcategory,
   DocumentDetailOverlayTocMetadata,
-} from "./components/document-detail/DocumentDetailOverlayTypes";
+} from "./components/ui/DocumentDetailOverlayTypes";
 
 export { SearchBar, searchBarVariants } from "./components/ui/SearchBar";
 export type { SearchBarProps } from "./components/ui/SearchBar";

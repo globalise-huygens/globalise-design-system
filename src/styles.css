@@ -2,7 +2,6 @@
 
 @import "./styles/globals.css";
 @import "./components/ui/ui.css";
-@import "./components/document-detail/document-detail.css";
 
 :root {
   color-scheme: dark;

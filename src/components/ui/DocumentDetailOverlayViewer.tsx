@@ -3,8 +3,8 @@ import * as React from "react";
 import {
   DocumentDetailBody,
   DocumentDetailSplitViewer,
-} from "../ui/DocumentDetailLayout";
-import { DocumentDetailOverlay } from "../ui/DocumentDetailOverlay";
+} from "./DocumentDetailLayout";
+import { DocumentDetailOverlay } from "./DocumentDetailOverlay";
 import { DocumentDetailBottomBar } from "./DocumentDetailOverlayBottomBar";
 import {
   CollapsedMetadataRail,
@@ -15,6 +15,7 @@ import type {
   DocumentDetailOverlayContent,
   DocumentDetailOverlayPaneKey,
   DocumentDetailOverlayScan,
+  DocumentDetailOverlayScanRenderer,
   DocumentDetailOverlaySidebarSectionId,
 } from "./DocumentDetailOverlayTypes";
 import {
@@ -27,6 +28,8 @@ export interface DocumentDetailOverlayViewerProps {
   content: DocumentDetailOverlayContent;
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
+  renderScanPage?: DocumentDetailOverlayScanRenderer;
+  renderScanThumbnail?: DocumentDetailOverlayScanRenderer;
 }
 
 function getInitialScan(content: DocumentDetailOverlayContent) {
@@ -80,10 +83,27 @@ function getDocumentScanTotal(
   return currentDocument?.scans.length ?? content.currentScan.documentScanTotal;
 }
 
+function renderDefaultScanPage({
+  className,
+  label,
+}: Parameters<DocumentDetailOverlayScanRenderer>[0]) {
+  return (
+    <div
+      role="img"
+      aria-label={label}
+      className={`document-detail-overlay-scan-page${className ? ` ${className}` : ""}`}
+    >
+      <span>{label}</span>
+    </div>
+  );
+}
+
 export function DocumentDetailOverlayViewer({
   content,
   isOpen,
   onOpenChange,
+  renderScanPage,
+  renderScanThumbnail,
 }: DocumentDetailOverlayViewerProps) {
   const [isWarningOpen, setIsWarningOpen] = React.useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
@@ -115,6 +135,9 @@ export function DocumentDetailOverlayViewer({
   const allScans = React.useMemo(() => getAllScans(content), [content]);
   const collapsedRailActiveSection = lastOpenedSection;
   const documentScanTotal = getDocumentScanTotal(content, currentScan);
+  const resolvedRenderScanPage = renderScanPage ?? renderDefaultScanPage;
+  const resolvedRenderScanThumbnail =
+    renderScanThumbnail ?? renderScanPage ?? renderDefaultScanPage;
 
   React.useEffect(() => {
     setCurrentScan(getInitialScan(content));
@@ -178,13 +201,17 @@ export function DocumentDetailOverlayViewer({
   const panes = [
     <ManuscriptPane
       key="scan"
+      currentScan={currentScan}
       isVisible={isScanVisible}
+      renderScanPage={resolvedRenderScanPage}
       showMiniTranscript={isMiniWindowEnabled && isTextVisible}
     />,
     <TranscriptPane
       key="text"
+      currentScan={currentScan}
       isVisible={isTextVisible}
       lines={content.transcriptLines}
+      renderScanPage={resolvedRenderScanPage}
       transcriptMode={transcriptMode}
       onTranscriptModeChange={setTranscriptMode}
       showMiniScan={isMiniWindowEnabled && isScanVisible}
@@ -210,6 +237,7 @@ export function DocumentDetailOverlayViewer({
           content={content}
           currentArchiveScan={currentScan.archiveScan}
           expandedSections={expandedSections}
+          renderScanThumbnail={resolvedRenderScanThumbnail}
           onSectionChange={setSectionExpanded}
           onSelectScan={setCurrentScan}
         />

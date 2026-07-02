@@ -23,22 +23,22 @@ import {
   DocumentDetailRailButton,
   DocumentDetailSegmentedToggleGroup,
   DocumentDetailSegmentedToggleItem,
-} from "../ui/DocumentDetailControls";
+} from "./DocumentDetailControls";
 import {
   DocumentDetailIconRail,
   DocumentDetailMetadataSidebar,
   DocumentDetailMetadataSidebarBadge,
-} from "../ui/DocumentDetailLayout";
-import { DocumentDetailReferenceCard } from "../ui/DocumentDetailReferenceCard";
-import { DocumentDetailSidebarSection } from "../ui/DocumentDetailSidebarSection";
+} from "./DocumentDetailLayout";
+import { DocumentDetailReferenceCard } from "./DocumentDetailReferenceCard";
+import { DocumentDetailSidebarSection } from "./DocumentDetailSidebarSection";
 import type {
   DocumentDetailOverlayContent,
   DocumentDetailOverlayDocument,
   DocumentDetailOverlayIdentifiedEntity,
   DocumentDetailOverlayScan,
+  DocumentDetailOverlayScanRenderer,
   DocumentDetailOverlayTagGroup,
 } from "./DocumentDetailOverlayTypes";
-import { DocumentDetailScanPage } from "./DocumentDetailScanPage";
 
 type SidebarSectionId = "inventory" | "contents" | "entities" | "events";
 
@@ -120,24 +120,24 @@ function SidebarDisclosureIcon({ isExpanded }: { isExpanded: boolean }) {
 function SidebarScanCard({
   scan,
   isSelected,
+  renderScanThumbnail,
   onSelect,
 }: {
   scan: DocumentDetailOverlayScan;
   isSelected: boolean;
+  renderScanThumbnail: DocumentDetailOverlayScanRenderer;
   onSelect: () => void;
 }) {
+  const label = `Scan ${scan.archiveScan}`;
+  const pageCount = scan.pages?.length === 2 ? 2 : 1;
+
   return (
     <DocumentDetailReferenceCard
       isSelected={isSelected}
       className="document-detail-overlay-toc-card"
       data-current-scan={isSelected ? "true" : "false"}
       onClick={onSelect}
-      thumbnail={
-        <DocumentDetailScanPage
-          label={`Scan ${scan.archiveScan}`}
-          pageCount={scan.pages?.length === 2 ? 2 : 1}
-        />
-      }
+      thumbnail={renderScanThumbnail({ scan, label, pageCount })}
       heading={
         <span className="document-detail-overlay-toc-heading">
           Scan {scan.archiveScan}
@@ -216,6 +216,7 @@ function DocumentRow({
   currentArchiveScan,
   hitsOnly,
   isExpanded,
+  renderScanThumbnail,
   onToggleExpanded,
   onSelectScan,
 }: {
@@ -223,6 +224,7 @@ function DocumentRow({
   currentArchiveScan: number;
   hitsOnly: boolean;
   isExpanded: boolean;
+  renderScanThumbnail: DocumentDetailOverlayScanRenderer;
   onToggleExpanded: () => void;
   onSelectScan: (scan: DocumentDetailOverlayScan) => void;
 }) {
@@ -289,6 +291,7 @@ function DocumentRow({
               key={scan.archiveScan}
               scan={scan}
               isSelected={scan.archiveScan === currentArchiveScan}
+              renderScanThumbnail={renderScanThumbnail}
               onSelect={() => onSelectScan(scan)}
             />
           ))}
@@ -489,12 +492,14 @@ export function MetadataSidebar({
   content,
   currentArchiveScan,
   expandedSections,
+  renderScanThumbnail,
   onSectionChange,
   onSelectScan,
 }: {
   content: DocumentDetailOverlayContent;
   currentArchiveScan: number;
   expandedSections: Record<SidebarSectionId, boolean>;
+  renderScanThumbnail: DocumentDetailOverlayScanRenderer;
   onSectionChange: (section: SidebarSectionId, isExpanded: boolean) => void;
   onSelectScan: (scan: DocumentDetailOverlayScan) => void;
 }) {
@@ -898,6 +903,7 @@ export function MetadataSidebar({
                 currentArchiveScan={currentArchiveScan}
                 hitsOnly={hitsOnly}
                 isExpanded={expandedDocumentIds.has(document.id)}
+                renderScanThumbnail={renderScanThumbnail}
                 onToggleExpanded={() => toggleDocumentExpanded(document.id)}
                 onSelectScan={onSelectScan}
               />

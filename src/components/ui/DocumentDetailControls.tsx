@@ -13,7 +13,7 @@ import {
   type ToggleButtonGroupProps as AriaToggleButtonGroupProps,
   type ToggleButtonProps as AriaToggleButtonProps,
 } from "react-aria-components";
-import type { DocumentDetailOverlayContent } from "../document-detail/DocumentDetailOverlayTypes";
+import type { DocumentDetailOverlayContent } from "./DocumentDetailOverlayTypes";
 import { IconContentWarning } from "../icons/IconContentWarning";
 import { DocumentDetailTooltip } from "./DocumentDetailSurfaces";
 

@@ -1,5 +1,6 @@
 import { Button, DocumentDetailOverlayViewer } from "@/index";
 import * as React from "react";
+import { DocumentDetailScanPage } from "./DocumentDetailScanPage";
 import { documentDetailDemoContent } from "./documentDetailContent";
 
 export function DocumentDetailShowcase() {
@@ -12,6 +13,12 @@ export function DocumentDetailShowcase() {
         content={documentDetailDemoContent}
         isOpen={isOpen}
         onOpenChange={setIsOpen}
+        renderScanPage={({ label, pageCount }) => (
+          <DocumentDetailScanPage label={label} pageCount={pageCount} />
+        )}
+        renderScanThumbnail={({ label, pageCount }) => (
+          <DocumentDetailScanPage label={label} pageCount={pageCount} />
+        )}
       />
     </>
   );

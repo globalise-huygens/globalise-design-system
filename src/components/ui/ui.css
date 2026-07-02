@@ -3,6 +3,8 @@
 @import "./DocumentDetailLayout.css";
 @import "./DocumentDetailSurfaces.css";
 @import "./DocumentDetailControls.css";
+@import "./DocumentDetailOverlay.css";
+@import "./DocumentDetailOverlayViewer.css";
 
 @layer components {
   .gds-button {

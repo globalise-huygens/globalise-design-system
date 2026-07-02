@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type DocumentDetailOverlayScan = {
   archiveScan: number;
   documentScan: number;
@@ -10,6 +12,17 @@ export type DocumentDetailOverlayScan = {
   hitCount?: number;
   selected?: boolean;
 };
+
+export type DocumentDetailOverlayScanRenderArgs = {
+  scan: DocumentDetailOverlayScan;
+  label: string;
+  pageCount: 1 | 2;
+  className?: string;
+};
+
+export type DocumentDetailOverlayScanRenderer = (
+  args: DocumentDetailOverlayScanRenderArgs,
+) => ReactNode;
 
 export type DocumentDetailOverlayTocMetadata = Array<
   [label: string, value: string, badge?: string]

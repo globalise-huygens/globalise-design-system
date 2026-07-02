@@ -1,8 +1,8 @@
 import {
   DocumentDetailBarGroup,
   DocumentDetailBottomBar as DocumentDetailBottomBarPrimitive,
-} from "../ui/DocumentDetailLayout";
-import { DocumentDetailIconButton } from "../ui/DocumentDetailControls";
+} from "./DocumentDetailLayout";
+import { DocumentDetailIconButton } from "./DocumentDetailControls";
 import {
   IconClose,
   IconLeft,

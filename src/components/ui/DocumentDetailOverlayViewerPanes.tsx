@@ -9,8 +9,11 @@ import {
   IconSearch,
   IconSetting,
   IconTableOfContent,
+  IconTextSpacing,
+  IconTextType,
   IconTranscriptionDiplomatic,
   IconTranscriptionNormalised,
+  IconViewModeMenu,
   IconZoomIn,
   IconZoomOut,
 } from "@/index";
@@ -18,19 +21,33 @@ import { useEffect, useId, useRef, useState } from "react";
 import {
   DocumentDetailCanvas,
   DocumentDetailTranscriptCanvas,
-} from "../ui/DocumentDetailCanvases";
+} from "./DocumentDetailCanvases";
 import {
   DocumentDetailCheckbox,
   DocumentDetailIconButton,
-} from "../ui/DocumentDetailControls";
-import { DocumentDetailViewerPane } from "../ui/DocumentDetailLayout";
+  DocumentDetailSegmentedToggleGroup,
+  DocumentDetailSegmentedToggleItem,
+  DocumentDetailToolButton,
+} from "./DocumentDetailControls";
+import { DocumentDetailViewerPane } from "./DocumentDetailLayout";
 import {
   DocumentDetailFloatingToolbar,
   DocumentDetailPopoverSurface,
-} from "../ui/DocumentDetailSurfaces";
-import { DocumentDetailScanPage } from "./DocumentDetailScanPage";
+} from "./DocumentDetailSurfaces";
+import type {
+  DocumentDetailOverlayScan,
+  DocumentDetailOverlayScanRenderer,
+} from "./DocumentDetailOverlayTypes";
 
 export type TranscriptMode = "normalised" | "diplomatic";
+
+function getScanRenderArgs(scan: DocumentDetailOverlayScan) {
+  return {
+    scan,
+    label: `Scan ${scan.archiveScan}`,
+    pageCount: scan.pages?.length === 2 ? (2 as const) : (1 as const),
+  };
+}
 
 function clampZoomValue(value: number) {
   return Math.min(400, Math.max(10, Math.round(value)));
@@ -45,10 +62,14 @@ function getSliderFillStyle(value: number, min: number, max: number) {
 }
 
 export function ManuscriptPane({
+  currentScan,
   isVisible,
+  renderScanPage,
   showMiniTranscript,
 }: {
+  currentScan: DocumentDetailOverlayScan;
   isVisible: boolean;
+  renderScanPage: DocumentDetailOverlayScanRenderer;
   showMiniTranscript?: boolean;
 }) {
   const [zoomPercent, setZoomPercent] = useState(100);
@@ -345,7 +366,7 @@ export function ManuscriptPane({
               transform: `rotate(${rotation}deg)`,
             }}
           >
-            <DocumentDetailScanPage />
+            {renderScanPage(getScanRenderArgs(currentScan))}
           </div>
         </div>
 
@@ -365,20 +386,41 @@ export function ManuscriptPane({
 }
 
 export function TranscriptPane({
+  currentScan,
   isVisible,
   lines,
+  renderScanPage,
   transcriptMode,
   onTranscriptModeChange,
   showMiniScan,
 }: {
+  currentScan: DocumentDetailOverlayScan;
   isVisible: boolean;
   lines: string[];
+  renderScanPage: DocumentDetailOverlayScanRenderer;
   transcriptMode: TranscriptMode;
   onTranscriptModeChange: (mode: TranscriptMode) => void;
   showMiniScan?: boolean;
 }) {
   const [zoomPercent, setZoomPercent] = useState(100);
   const [zoomInput, setZoomInput] = useState("100");
+  const [isViewModeMenuOpen, setIsViewModeMenuOpen] = useState(false);
+  const [isTranscriptSettingsOpen, setIsTranscriptSettingsOpen] =
+    useState(false);
+  const [transcriptViewMode, setTranscriptViewMode] = useState<
+    "table" | "search"
+  >("table");
+  const [transcriptFontFamily, setTranscriptFontFamily] = useState<
+    "sans" | "serif"
+  >("sans");
+  const [transcriptTextSize, setTranscriptTextSize] = useState(18);
+  const [transcriptLineSpacing, setTranscriptLineSpacing] = useState(1.45);
+  const viewModeMenuId = useId();
+  const transcriptSettingsId = useId();
+  const viewModeTriggerRef = useRef<HTMLDivElement | null>(null);
+  const viewModePanelRef = useRef<HTMLDivElement | null>(null);
+  const transcriptSettingsTriggerRef = useRef<HTMLDivElement | null>(null);
+  const transcriptSettingsPanelRef = useRef<HTMLDivElement | null>(null);
 
   const applyZoomValue = (nextValue: number) => {
     const clamped = clampZoomValue(nextValue);
@@ -398,6 +440,71 @@ export function TranscriptPane({
     applyZoomValue(parsed);
   };
 
+  const closeTranscriptPanels = () => {
+    setIsViewModeMenuOpen(false);
+    setIsTranscriptSettingsOpen(false);
+  };
+
+  const resetTranscriptAdjustments = () => {
+    applyZoomValue(100);
+    onTranscriptModeChange("normalised");
+    setTranscriptViewMode("table");
+    setTranscriptFontFamily("sans");
+    setTranscriptTextSize(18);
+    setTranscriptLineSpacing(1.45);
+    closeTranscriptPanels();
+  };
+
+  const transcriptPageStyle = {
+    fontFamily:
+      transcriptFontFamily === "serif"
+        ? "var(--font-serif)"
+        : "var(--font-sans)",
+    fontSize: `${transcriptTextSize}px`,
+    lineHeight: transcriptLineSpacing,
+  };
+
+  useEffect(() => {
+    if (!isViewModeMenuOpen && !isTranscriptSettingsOpen) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (
+        viewModeTriggerRef.current?.contains(target) ||
+        viewModePanelRef.current?.contains(target) ||
+        transcriptSettingsTriggerRef.current?.contains(target) ||
+        transcriptSettingsPanelRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      closeTranscriptPanels();
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+
+      closeTranscriptPanels();
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isViewModeMenuOpen, isTranscriptSettingsOpen]);
+
   return (
     <DocumentDetailViewerPane hidden={!isVisible}>
       <DocumentDetailTranscriptCanvas className="document-detail-overlay-rich-transcript-canvas">
@@ -405,40 +512,39 @@ export function TranscriptPane({
           align="end"
           className="document-detail-overlay-floating-toolbar"
         >
-          <DocumentDetailIconButton
-            aria-label="Show normalised transcription"
-            tooltip="Normalised transcription"
-            icon={
+          <DocumentDetailSegmentedToggleGroup
+            aria-label="Transcription view mode"
+            className="document-detail-overlay-transcript-mode-group"
+            disallowEmptySelection
+            selectionMode="single"
+            selectedKeys={new Set([transcriptMode])}
+            onSelectionChange={(keys) => {
+              const nextKey = Array.from(keys)[0];
+
+              if (nextKey === "normalised" || nextKey === "diplomatic") {
+                onTranscriptModeChange(nextKey);
+              }
+            }}
+            size="compact"
+          >
+            <DocumentDetailSegmentedToggleItem
+              id="normalised"
+              aria-label="Show normalised transcription"
+              size="compact"
+            >
               <IconTranscriptionNormalised className="document-detail-overlay-icon" />
-            }
-            isActive={transcriptMode === "normalised"}
-            onPress={() => onTranscriptModeChange("normalised")}
-            variant="quiet"
-          />
-          <DocumentDetailIconButton
-            aria-label="Show diplomatic transcription"
-            tooltip="Diplomatic transcription"
-            icon={
+              <span>Normalised</span>
+            </DocumentDetailSegmentedToggleItem>
+            <DocumentDetailSegmentedToggleItem
+              id="diplomatic"
+              aria-label="Show diplomatic transcription"
+              size="compact"
+            >
               <IconTranscriptionDiplomatic className="document-detail-overlay-icon" />
-            }
-            isActive={transcriptMode === "diplomatic"}
-            onPress={() => onTranscriptModeChange("diplomatic")}
-            variant="quiet"
-          />
-          <DocumentDetailIconButton
-            aria-label="Table view"
-            tooltip="Table view"
-            icon={
-              <IconTableOfContent className="document-detail-overlay-icon" />
-            }
-            variant="quiet"
-          />
-          <DocumentDetailIconButton
-            aria-label="Search transcript"
-            tooltip="Search transcript"
-            icon={<IconSearch className="document-detail-overlay-icon" />}
-            variant="quiet"
-          />
+              <span>Diplomatic</span>
+            </DocumentDetailSegmentedToggleItem>
+          </DocumentDetailSegmentedToggleGroup>
+
           <div className="document-detail-overlay-zoom-segmented">
             <DocumentDetailIconButton
               aria-label="Zoom out"
@@ -480,12 +586,211 @@ export function TranscriptPane({
               variant="quiet"
             />
           </div>
+
+          <div
+            ref={viewModeTriggerRef}
+            className="document-detail-overlay-toolbar-dropdown"
+          >
+            <DocumentDetailIconButton
+              aria-controls={viewModeMenuId}
+              aria-expanded={isViewModeMenuOpen}
+              aria-label="Transcript view modes"
+              tooltip="View mode"
+              icon={
+                <IconViewModeMenu className="document-detail-overlay-icon" />
+              }
+              isActive={isViewModeMenuOpen}
+              onPress={() => {
+                setIsTranscriptSettingsOpen(false);
+                setIsViewModeMenuOpen((open) => !open);
+              }}
+              variant="quiet"
+            />
+            {isViewModeMenuOpen && (
+              <div
+                ref={viewModePanelRef}
+                id={viewModeMenuId}
+                className="document-detail-overlay-transcript-menu-panel"
+              >
+                <DocumentDetailPopoverSurface
+                  className="document-detail-overlay-transcript-menu-surface"
+                  size="compact"
+                  variant="default"
+                >
+                  <div className="document-detail-overlay-transcript-menu-items">
+                    <DocumentDetailToolButton
+                      aria-label="Table view"
+                      className="document-detail-overlay-transcript-menu-item"
+                      icon={
+                        <IconTableOfContent className="document-detail-overlay-icon" />
+                      }
+                      isActive={transcriptViewMode === "table"}
+                      onPress={() => {
+                        setTranscriptViewMode("table");
+                        setIsViewModeMenuOpen(false);
+                      }}
+                      size="compact"
+                    >
+                      Table view
+                    </DocumentDetailToolButton>
+                    <DocumentDetailToolButton
+                      aria-label="Search transcript"
+                      className="document-detail-overlay-transcript-menu-item"
+                      icon={
+                        <IconSearch className="document-detail-overlay-icon" />
+                      }
+                      isActive={transcriptViewMode === "search"}
+                      onPress={() => {
+                        setTranscriptViewMode("search");
+                        setIsViewModeMenuOpen(false);
+                      }}
+                      size="compact"
+                    >
+                      Search transcript
+                    </DocumentDetailToolButton>
+                  </div>
+                </DocumentDetailPopoverSurface>
+              </div>
+            )}
+          </div>
+
           <DocumentDetailIconButton
-            aria-label="Transcript settings"
-            tooltip="Transcript settings"
-            icon={<IconSetting className="document-detail-overlay-icon" />}
+            aria-label="Reset transcription"
+            tooltip="Reset transcription"
+            icon={<IconReset className="document-detail-overlay-icon" />}
+            onPress={resetTranscriptAdjustments}
             variant="quiet"
           />
+
+          <div
+            ref={transcriptSettingsTriggerRef}
+            className="document-detail-overlay-toolbar-dropdown"
+          >
+            <DocumentDetailIconButton
+              aria-controls={transcriptSettingsId}
+              aria-expanded={isTranscriptSettingsOpen}
+              aria-label="Transcript settings"
+              tooltip="Transcript settings"
+              icon={<IconSetting className="document-detail-overlay-icon" />}
+              isActive={isTranscriptSettingsOpen}
+              onPress={() => {
+                setIsViewModeMenuOpen(false);
+                setIsTranscriptSettingsOpen((open) => !open);
+              }}
+              variant="quiet"
+            />
+            {isTranscriptSettingsOpen && (
+              <div
+                ref={transcriptSettingsPanelRef}
+                id={transcriptSettingsId}
+                className="document-detail-overlay-transcript-settings-panel"
+              >
+                <DocumentDetailPopoverSurface
+                  className="document-detail-overlay-transcript-settings-surface"
+                  size="default"
+                  variant="default"
+                >
+                  <div className="document-detail-overlay-transcript-settings-controls">
+                    <DocumentDetailSegmentedToggleGroup
+                      aria-label="Transcript typeface"
+                      className="document-detail-overlay-transcript-type-group"
+                      disallowEmptySelection
+                      selectionMode="single"
+                      selectedKeys={new Set([transcriptFontFamily])}
+                      onSelectionChange={(keys) => {
+                        const nextKey = Array.from(keys)[0];
+
+                        if (nextKey === "sans" || nextKey === "serif") {
+                          setTranscriptFontFamily(nextKey);
+                        }
+                      }}
+                      size="compact"
+                    >
+                      <DocumentDetailSegmentedToggleItem
+                        id="sans"
+                        aria-label="Use sans serif"
+                        size="compact"
+                      >
+                        Sans
+                      </DocumentDetailSegmentedToggleItem>
+                      <DocumentDetailSegmentedToggleItem
+                        id="serif"
+                        aria-label="Use serif"
+                        size="compact"
+                      >
+                        Serif
+                      </DocumentDetailSegmentedToggleItem>
+                    </DocumentDetailSegmentedToggleGroup>
+
+                    <div className="document-detail-overlay-transcript-settings-row">
+                      <div className="document-detail-overlay-transcript-settings-label">
+                        <IconTextType className="document-detail-overlay-icon document-detail-overlay-icon-medium" />
+                        <span>Type size</span>
+                      </div>
+                      <input
+                        aria-label="Transcript type size"
+                        className="document-detail-overlay-transcript-settings-slider"
+                        max={24}
+                        min={14}
+                        step={1}
+                        type="range"
+                        value={transcriptTextSize}
+                        style={getSliderFillStyle(transcriptTextSize, 14, 24)}
+                        onInput={(event) => {
+                          setTranscriptTextSize(
+                            Number(event.currentTarget.value),
+                          );
+                        }}
+                        onChange={(event) => {
+                          setTranscriptTextSize(
+                            Number(event.currentTarget.value),
+                          );
+                        }}
+                      />
+                      <span className="document-detail-overlay-transcript-settings-value">
+                        {transcriptTextSize}px
+                      </span>
+                    </div>
+
+                    <div className="document-detail-overlay-transcript-settings-row">
+                      <div className="document-detail-overlay-transcript-settings-label">
+                        <IconTextSpacing className="document-detail-overlay-icon document-detail-overlay-icon-medium" />
+                        <span>Spacing</span>
+                      </div>
+                      <input
+                        aria-label="Transcript spacing"
+                        className="document-detail-overlay-transcript-settings-slider"
+                        max={2}
+                        min={1.2}
+                        step={0.05}
+                        type="range"
+                        value={transcriptLineSpacing}
+                        style={getSliderFillStyle(
+                          transcriptLineSpacing,
+                          1.2,
+                          2,
+                        )}
+                        onInput={(event) => {
+                          setTranscriptLineSpacing(
+                            Number(event.currentTarget.value),
+                          );
+                        }}
+                        onChange={(event) => {
+                          setTranscriptLineSpacing(
+                            Number(event.currentTarget.value),
+                          );
+                        }}
+                      />
+                      <span className="document-detail-overlay-transcript-settings-value">
+                        {transcriptLineSpacing.toFixed(2)}x
+                      </span>
+                    </div>
+                  </div>
+                </DocumentDetailPopoverSurface>
+              </div>
+            )}
+          </div>
+
           <DocumentDetailIconButton
             aria-label="Download transcript"
             tooltip="Download transcript"
@@ -498,6 +803,8 @@ export function TranscriptPane({
           <div
             className="document-detail-overlay-transcript-page"
             data-mode={transcriptMode}
+            data-view-mode={transcriptViewMode}
+            style={transcriptPageStyle}
           >
             {lines.map((line, index) => (
               <p key={`${index}-${line}`}>
@@ -511,7 +818,7 @@ export function TranscriptPane({
         {showMiniScan && (
           <div className="document-detail-overlay-mini-window">
             <span>Scan</span>
-            <DocumentDetailScanPage />
+            {renderScanPage(getScanRenderArgs(currentScan))}
           </div>
         )}
       </DocumentDetailTranscriptCanvas>
