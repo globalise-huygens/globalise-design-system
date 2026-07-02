@@ -30,14 +30,14 @@ import {
   DocumentDetailToolButton,
 } from "./DocumentDetailControls";
 import { DocumentDetailViewerPane } from "./DocumentDetailLayout";
-import {
-  DocumentDetailFloatingToolbar,
-  DocumentDetailPopoverSurface,
-} from "./DocumentDetailSurfaces";
 import type {
   DocumentDetailOverlayScan,
   DocumentDetailOverlayScanRenderer,
 } from "./DocumentDetailOverlayTypes";
+import {
+  DocumentDetailFloatingToolbar,
+  DocumentDetailPopoverSurface,
+} from "./DocumentDetailSurfaces";
 
 export type TranscriptMode = "normalised" | "diplomatic";
 
@@ -533,7 +533,6 @@ export function TranscriptPane({
               size="compact"
             >
               <IconTranscriptionNormalised className="document-detail-overlay-icon" />
-              <span>Normalised</span>
             </DocumentDetailSegmentedToggleItem>
             <DocumentDetailSegmentedToggleItem
               id="diplomatic"
@@ -541,7 +540,6 @@ export function TranscriptPane({
               size="compact"
             >
               <IconTranscriptionDiplomatic className="document-detail-overlay-icon" />
-              <span>Diplomatic</span>
             </DocumentDetailSegmentedToggleItem>
           </DocumentDetailSegmentedToggleGroup>
 
